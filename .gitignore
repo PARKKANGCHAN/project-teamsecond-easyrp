@@ -14,6 +14,9 @@ local.properties
 .loadpath
 .recommenders
 
+# 파일 제외
+dataSource.properties
+
 # External tool builders
 .externalToolBuilders/
 
