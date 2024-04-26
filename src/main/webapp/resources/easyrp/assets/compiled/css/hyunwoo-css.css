@@ -1,0 +1,14 @@
+body {
+   font-family: 'Noto Sans KR', sans-serif !important;
+   font-optical-sizing: auto;
+   font-style: normal;
+}
+
+.no_dot {
+   list-style-type: none;
+}
+
+.top-bottom-margin-1 {
+   margin-top: 1rem;
+   margin-bottom: 1rem;
+}
