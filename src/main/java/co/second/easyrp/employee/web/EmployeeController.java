@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,6 +28,14 @@ public class EmployeeController {
 		
 		modelAndView.addObject("employeeList", employeeList);
 		modelAndView.setViewName("easyrp/basic-information/employeeList");
+		
+		return modelAndView;
+	}
+	
+	// 로그인 기능 구현
+	//(2024년 4월 29일 오전 12시 44분 박현우)
+	@PostMapping("/loginresult")
+	public ModelAndView loginResult(ModelAndView modelAndView) {
 		
 		return modelAndView;
 	}

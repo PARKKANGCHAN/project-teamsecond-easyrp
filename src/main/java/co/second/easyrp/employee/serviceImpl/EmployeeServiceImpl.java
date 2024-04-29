@@ -22,9 +22,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private EmployeeMapper employeeMapper;
 
 	// employee정보(목록)을 구현하기 위한 메서드
+	// (2024년 4월 29일 오후 11시 21분 박현우)
 	@Override
 	public List<EmployeeVO> employeeAllList() {
 		return employeeMapper.employeeAllList();
+	}
+
+	// 로그인 기능 구현을 위한 구현 메서드
+	// (2024년 4월 29일 오후 1시 5분 박현우)
+	@Override
+	public EmployeeVO loginResult(EmployeeVO vo) {
+		return employeeMapper.loginResult(vo);
 	}
 
 }
