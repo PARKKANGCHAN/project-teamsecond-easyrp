@@ -71,7 +71,7 @@
                <!-- 로그인 & 회원가입 START -->
                <div class="d-flex justify-content-between" style="margin-top: 1rem !important">
                   <div class="col-md-12" style="text-align: center !important">
-                     <a href="loginpage" class="btn icon icon-left btn-primary"><i data-feather="key"></i>로그인</a>
+                     <a href="login" class="btn icon icon-left btn-primary"><i data-feather="key"></i>로그인</a>
                   </div>
                </div>
                <!-- 로그인 & 회원가입 END -->
