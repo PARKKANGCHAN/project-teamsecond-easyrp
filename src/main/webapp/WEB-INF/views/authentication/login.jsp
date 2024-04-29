@@ -19,9 +19,9 @@
 
       <!-- API 추가 END (현우 추가)  -->
 
-      <!-- 아이콘 추가 START (현우 추가) -->
-      <script src="https://kit.fontawesome.com/14e995bc13.js" crossorigin="anonymous"></script>
-      <!-- 아이콘 추가 END (현우 추가) -->
+		<!-- 아이콘 추가 START (현우 추가) -->
+		<script src="https://kit.fontawesome.com/14e995bc13.js" crossorigin="anonymous"></script>
+		<!-- 아이콘 추가 END (현우 추가) -->
 
       <!-- CSS 추가 START (현우 추가)  -->
       <link rel="stylesheet" href="resources/easyrp/assets/compiled/css/hyunwoo-css.css" />
@@ -54,24 +54,18 @@
 
                   <form action="loginresult" method="post">
                      <div class="form-group position-relative has-icon-left mb-4">
-                        <input type="text" class="form-control form-control-xl" name="empCod" id="empCod" nameplaceholder="사원번호" />
+                        <input type="text" class="form-control form-control-xl" name="cod" id="cod" placeholder="사원번호" />
                         <div class="form-control-icon">
                            <i class="fa-regular fa-address-card"></i>
                         </div>
                      </div>
                      <div class="form-group position-relative has-icon-left mb-4">
-                        <input type="password" class="form-control form-control-xl" name="empPassword" id="empPassword" placeholder="비밀번호" />
+                        <input type="password" class="form-control form-control-xl" name="password" id="password" placeholder="비밀번호" />
                         <div class="form-control-icon">
                            <i class="bi bi-shield-lock"></i>
                         </div>
                      </div>
-                     <div class="form-check form-check-lg d-flex align-items-end">
-                        <input class="form-check-input me-2" type="checkbox" value="" id="flexCheckDefault" />
-                        <label class="form-check-label text-gray-600" for="flexCheckDefault">
-                           로그인 정보 기억하기</label
-                        >
-                     </div>
-                     <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">로그인</button>
+                     <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-5">로그인</button>
                   </form>
                   <div class="text-center mt-5 text-lg fs-4">
                      <p class="text-gray-600">비밀번호를 잃어 버리셨을 경우, 인사팀에 문의해주세요.</p>

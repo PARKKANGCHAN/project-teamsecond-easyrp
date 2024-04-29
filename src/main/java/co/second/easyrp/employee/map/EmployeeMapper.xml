@@ -15,12 +15,12 @@
 	
 	
 	<!-- 로그인 기능을 위한 쿼리  -->
-	<!-- (2024년 4월 29일 오전 12시 57분 박현우) -->
+	<!-- (2024년 4월 29일 오후 8시 42분 수정 박현우) -->
 	<!-- 이 부분은 모든 VO객체에 값을 담을꺼라 * 사용했습니다.-->
 	<select id="loginResult">
 		SELECT *
 		FROM employee
-		WHERE emp_cod=#{empCod} AND emp_password=#{empPassword};
+		WHERE cod=#{cod} AND password=#{password};
 	</select>
 
 </mapper>

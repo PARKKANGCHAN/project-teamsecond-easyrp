@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
    <head>
@@ -68,15 +69,21 @@
                      <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
                   </div>
                </div>
-               <!-- 로그인 & 회원가입 START -->
+            </div>
+            <!-- 로그인 & 회원가입 START -->
+            <!-- 2024년 4월 29일 오후 9시 13분 수정 박현우  -->
+              <c:if test="${empty empCode}">
                <div class="d-flex justify-content-between" style="margin-top: 1rem !important">
                   <div class="col-md-12" style="text-align: center !important">
                      <a href="login" class="btn icon icon-left btn-primary"><i data-feather="key"></i>로그인</a>
                   </div>
                </div>
-               <!-- 로그인 & 회원가입 END -->
-            </div>
+              </c:if>
+            <!-- 로그인 & 회원가입 END -->
+            
             <!-- 사원 정보 카드 START -->
+            <!-- 2024년 4월 29일 오후 9시 23분 수정 박현우  -->
+            <c:if test="${not empty empCode}">
             <div class="card">
                <div class="card-body px-4">
                   <div class="row" style="align-items: center">
@@ -86,14 +93,16 @@
                         </div>
                      </div>
                      <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                        <h6 class="font-semibold">박현우</h6>
-                        <h6 class="font-semibold">직급 : 사원</h6>
-                        <h6 class="font-semibold">부서 : 영업1팀</h6>
+                        <h6 class="font-semibold">${empName }</h6>
+                        <h6 class="font-semibold">직급 : ${empPosition }</h6>
+                        <h6 class="font-semibold">부서 : ${empDeptCode }</h6>
                      </div>
                   </div>
                </div>
             </div>
+            </c:if>
             <!-- 사원 정보 카드 END -->
+            
             <div class="sidebar-menu">
                <ul class="menu">
                   <!-- 기초 정보 관리 START -->
