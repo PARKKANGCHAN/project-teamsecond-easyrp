@@ -1,7 +1,6 @@
 package co.second.easyrp.employee.service;
 
-import java.sql.Timestamp;
-
+import java.sql.Date;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,14 +11,14 @@ import lombok.ToString;
 @Setter
 @ToString
 public class EmployeeVO {
-	private String empCod;
-	private String empName;
-	private String empPassword;
-	private String deptName;
+	private String cod;
+	private String name;
+	private String password;
+	private String departmentCod;
 	private String empPosition;
-	private Timestamp empRegdate;
-	private String empEmail;
-	private String empTel;
-	private int empAge;
-	private String empGender;
+	private Date regdate;
+	private String email;
+	private String tel;
+	private int age;
+	private String gender;
 }

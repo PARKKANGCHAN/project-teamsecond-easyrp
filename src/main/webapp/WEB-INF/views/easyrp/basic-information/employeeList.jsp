@@ -41,8 +41,7 @@
 						style="display: flex; justify-content: space-between;">
 						<h5 class="card-title">jQuery Datatable</h5>
 						<div>
-							<button type="button">사원등록</button>
-						</div>
+							<a href="employeeregis">사원등록</a>						</div>
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">

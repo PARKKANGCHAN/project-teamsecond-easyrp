@@ -11,5 +11,30 @@
 		SELECT *
 		FROM employee;
 	</select>
-
+	
+	<insert id="employeeRegis">
+		insert into employee(
+			cod,
+			name,
+			password,
+			department_cod,
+			emp_position,
+			regdate,
+			email,
+			tel,
+			age,
+			gender
+		) values(
+			#{cod},
+			#{name},
+			#{password},
+			#{departmentCod},
+			#{empPosition},
+			#{regdate},
+			#{email},
+			#{tel},
+			#{age},
+			#{gender}
+		);
+	</insert>
 </mapper>

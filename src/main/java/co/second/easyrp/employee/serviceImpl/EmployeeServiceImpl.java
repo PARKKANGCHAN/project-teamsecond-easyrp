@@ -27,4 +27,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeMapper.employeeAllList();
 	}
 
+	// 사원을 등록하기위한 메서드
+	@Override
+	public int employeeRegis(EmployeeVO vo) {
+		// TODO Auto-generated method stub
+		return employeeMapper.employeeRegis(vo);
+	}
+
 }
