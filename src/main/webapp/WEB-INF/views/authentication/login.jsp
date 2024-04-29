@@ -19,9 +19,9 @@
 
       <!-- API 추가 END (현우 추가)  -->
 
-		<!-- 아이콘 추가 START (현우 추가) -->
-		<script src="https://kit.fontawesome.com/14e995bc13.js" crossorigin="anonymous"></script>
-		<!-- 아이콘 추가 END (현우 추가) -->
+      <!-- 아이콘 추가 START (현우 추가) -->
+      <script src="https://kit.fontawesome.com/14e995bc13.js" crossorigin="anonymous"></script>
+      <!-- 아이콘 추가 END (현우 추가) -->
 
       <!-- CSS 추가 START (현우 추가)  -->
       <link rel="stylesheet" href="resources/easyrp/assets/compiled/css/hyunwoo-css.css" />
@@ -52,20 +52,36 @@
                   <h1 class="auth-title">로그인</h1>
                   <p class="auth-subtitle mb-5">EasyRP 사용 로그인 페이지 입니다.</p>
 
-                  <form action="loginresult" method="post">
+                  <form>
                      <div class="form-group position-relative has-icon-left mb-4">
-                        <input type="text" class="form-control form-control-xl" name="cod" id="cod" placeholder="사원번호" />
+                        <input
+                           type="text"
+                           class="form-control form-control-xl"
+                           name="cod"
+                           id="cod"
+                           placeholder="사원번호"
+                           required
+                        />
                         <div class="form-control-icon">
                            <i class="fa-regular fa-address-card"></i>
                         </div>
                      </div>
                      <div class="form-group position-relative has-icon-left mb-4">
-                        <input type="password" class="form-control form-control-xl" name="password" id="password" placeholder="비밀번호" />
+                        <input
+                           type="password"
+                           class="form-control form-control-xl"
+                           name="password"
+                           id="password"
+                           placeholder="비밀번호"
+                           required
+                        />
                         <div class="form-control-icon">
                            <i class="bi bi-shield-lock"></i>
                         </div>
                      </div>
-                     <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-5">로그인</button>
+                     <button type="button" id="loginButton" class="btn btn-primary btn-block btn-lg shadow-lg mt-5">
+                        로그인
+                     </button>
                   </form>
                   <div class="text-center mt-5 text-lg fs-4">
                      <p class="text-gray-600">비밀번호를 잃어 버리셨을 경우, 인사팀에 문의해주세요.</p>
@@ -88,10 +104,48 @@
       <script src="resources/easyrp/assets/extensions/sweetalert2/sweetalert2.min.js"></script>
       <script src="resources/easyrp/assets/static/js/pages/sweetalert2.js"></script>
 
+      <!-- 제이쿼리 추가 -->
+      <script src="resources/easyrp/assets/extensions/jquery/jquery.min.js"></script>
+
       <!-- API 추가 END (현우 추가) -->
 
       <!-- Need: Apexcharts -->
       <script src="resources/easyrp/assets/extensions/apexcharts/apexcharts.min.js"></script>
       <script src="resources/easyrp/assets/static/js/pages/dashboard.js"></script>
+
+      <script type="text/javascript">
+         // 로그인 기능 Ajax 구현
+         // 2024년 4월 30일 오전 12시 13분 추가 박현우
+         function sendAjaxLoginRequest() {
+            // input의 값들을 id.val로 받아와 변수에 담는 코드
+            let empCode = $('#cod').val();
+            let empPassword = $('#password').val();
+
+            $.ajax({
+               url: 'loginresult',
+               method: 'POST',
+               data: {
+                  cod: empCode,
+                  password: empPassword,
+               },
+               success: function (response) {
+                  if (response === 'success') {
+                     window.location.href = 'home';
+                  } else {
+                     alert('사원번호나 비밀번호가 틀렸습니다.');
+                  }
+               },
+               error: function (xhr, status, error) {
+                  alert('로그인 중 오류가 발생했습니다. 다시 한번 시도 해주세요.');
+               },
+            });
+         }
+
+         // 버튼에 이벤트 추가 -> 위의 로그인기능 함수 수행
+         // 2024년 4월 30일 오전 12시 13분 추가 박현우
+         $('#loginButton').click(function () {
+            sendAjaxLoginRequest();
+         });
+      </script>
    </body>
 </html>

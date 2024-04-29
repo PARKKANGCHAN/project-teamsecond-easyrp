@@ -227,7 +227,7 @@
                         <span style="font-weight: 800 !important">수금 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">수금 관리</a></li>
+                        <li class="submenu-item"><a href="collectionmanagement" class="submenu-link">수금 관리</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">고객 별 채권 현황</a></li>
                      </ul>
                   </li>
