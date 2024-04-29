@@ -12,15 +12,9 @@ public class HomeController {
 	}
 	
 	// 로그인으로 이동
-	@RequestMapping("/loginpage")
+	@RequestMapping("/login")
 	public String loginPage() {
 		return "authentication/login";
-	}
-	
-	// 로그인으로 이동
-	@RequestMapping("/employeelist")
-	public String employeeListPage() {
-		return "easyrp/basic-information/employeeList";
 	}
 	
 }
