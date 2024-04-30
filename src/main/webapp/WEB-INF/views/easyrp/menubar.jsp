@@ -124,7 +124,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                         <li class="submenu-item">
                            <a href="employeelist" class="submenu-link">사원 기초 관리</a>
                         </li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">부서 관리</a></li>
+                        <li class="submenu-item"><a href="commontable" class="submenu-link">부서 관리</a></li>
                      </ul>
                   </li>
                   <!-- 기초 정보 관리 / 사원 및 부서 관리 END -->

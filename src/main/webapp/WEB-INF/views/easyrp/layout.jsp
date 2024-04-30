@@ -13,8 +13,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 <!-- Font END (현우 추가)  -->
 
+<!-- 2024년 4월 30일 오후 2시 37분 수정  -->
+<!-- 수정내용 : BootStrap 아이콘 추가  -->
 <!-- 아이콘 추가 START (현우 추가) -->
 <script src="https://kit.fontawesome.com/14e995bc13.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <!-- 아이콘 추가 END (현우 추가) -->
 
 <!-- CSS 추가 START (현우 추가)  -->

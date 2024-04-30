@@ -33,5 +33,6 @@ public class HomeController {
 	public String collectionManagement() {
 		return "easyrp/collection/collectionmanagement";
 	}
+
 	
 }
