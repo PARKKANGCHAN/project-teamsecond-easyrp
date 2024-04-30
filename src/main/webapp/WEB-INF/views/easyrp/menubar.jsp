@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> <%@ taglib
+uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
    <head>
@@ -72,88 +72,111 @@
             </div>
             <!-- 로그인 & 회원가입 START -->
             <!-- 2024년 4월 29일 오후 9시 13분 수정 박현우  -->
-              <c:if test="${empty empCode}">
+            <c:if test="${empty empCode}">
                <div class="d-flex justify-content-between" style="margin-top: 1rem !important">
                   <div class="col-md-12" style="text-align: center !important">
                      <a href="login" class="btn icon icon-left btn-primary"><i data-feather="key"></i>로그인</a>
                   </div>
                </div>
-              </c:if>
+            </c:if>
             <!-- 로그인 & 회원가입 END -->
-            
+
             <!-- 사원 정보 카드 START -->
             <!-- 2024년 4월 29일 오후 9시 23분 수정 박현우  -->
             <c:if test="${not empty empCode}">
-            <div class="card" style="margin-bottom:0rem !important">
-               <div class="card-body px-4">
-                  <div class="row" style="align-items: center">
-                     <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-center">
-                        <div class="avatar avatar-xl">
-                           <img src="resources/easyrp/assets/compiled/jpg/1.jpg" alt="Face 1" />
+               <div class="card" style="margin-bottom: 0rem !important">
+                  <div class="card-body px-4">
+                     <div class="row" style="align-items: center">
+                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-center">
+                           <div class="avatar avatar-xl">
+                              <img src="resources/easyrp/assets/compiled/jpg/1.jpg" alt="Face 1" />
+                           </div>
                         </div>
-                     </div>
-                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                        <h6 class="font-semibold">${empName }</h6>
-                        <h6 class="font-semibold">직급 : ${empPosition }</h6>
-                        <h6 class="font-semibold">부서 : ${empDeptCode }</h6>
+                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                           <h6 class="font-semibold">${empName }</h6>
+                           <h6 class="font-semibold">직급 : ${empPosition }</h6>
+                           <h6 class="font-semibold">부서 : ${empDeptCode }</h6>
+                        </div>
                      </div>
                   </div>
                </div>
-            </div>
                <div class="d-flex justify-content-between" style="margin-top: 0.3rem !important">
                   <div class="col-md-12" style="text-align: center !important">
-                     <a href="logout" class="btn icon icon-left btn-primary"><i class="fa-solid fa-right-from-bracket"></i>로그아웃</a>
+                     <a href="logout" class="btn icon icon-left btn-primary"
+                        ><i class="fa-solid fa-right-from-bracket"></i>로그아웃</a
+                     >
                   </div>
                </div>
             </c:if>
             <!-- 사원 정보 카드 END -->
-            
             <div class="sidebar-menu">
                <ul class="menu">
                   <!-- 기초 정보 관리 START -->
-                  <li class="no_dot" style="font-size: 1.1rem !important">
-                     📝 <span style="font-weight: 800 !important">기초 정보 관리</span>
-                  </li>
-                  <!-- 기초 정보 관리 / 사원 및 부서 관리 START -->
-                  <li class="sidebar-item has-sub">
-                     <a href="#" class="sidebar-link">
-                        <span style="font-weight: 800 !important">사원 및 부서 관리</span>
-                     </a>
-                     <ul class="submenu">
-                        <li class="submenu-item">
-                           <a href="employeelist" class="submenu-link">사원 기초 관리</a>
-                        </li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">부서 관리</a></li>
-                     </ul>
-                  </li>
-                  <!-- 기초 정보 관리 / 사원 및 부서 관리 END -->
+                  <div class="accordion" id="accordionExample">
+                     <div class="accordion-item">
+                        <button
+                           class="accordion-button collapsed"
+                           type="button"
+                           data-bs-toggle="collapse"
+                           data-bs-target="#collapseTwo"
+                           aria-expanded="false"
+                           aria-controls="collapseTwo"
+                        >
+                           <li class="no_dot" style="font-size: 1.1rem !important">
+                              📝 <span style="font-weight: 800 !important">기초 정보 관리</span>
+                           </li>
+                        </button>
+                        <!-- 기초 정보 관리 / 사원 및 부서 관리 START -->
+                        <div
+                           id="collapseTwo"
+                           class="accordion-collapse collapse"
+                           aria-labelledby="headingTwo"
+                           data-bs-parent="#accordionExample"
+                        >
+                           <div class="accordion-body">
+                              <li class="sidebar-item has-sub">
+                                 <a href="#" class="sidebar-link">
+                                    <span style="font-weight: 800 !important">사원 및 부서 관리</span>
+                                 </a>
+                                 <ul class="submenu">
+                                    <li class="submenu-item">
+                                       <a href="employeelist" class="submenu-link">사원 기초 관리</a>
+                                    </li>
+                                    <li class="submenu-item"><a href="#" class="submenu-link">부서 관리</a></li>
+                                 </ul>
+                              </li>
+                              <!-- 기초 정보 관리 / 사원 및 부서 관리 END -->
 
-                  <!-- 기초 정보 관리 / 공장&창고&제품 관리 START -->
-                  <li class="sidebar-item has-sub">
-                     <a href="#" class="sidebar-link">
-                        <span style="font-weight: 800 !important">제품 및 공장&amp;창고 관리</span>
-                     </a>
+                              <!-- 기초 정보 관리 / 공장&창고&제품 관리 START -->
+                              <li class="sidebar-item has-sub">
+                                 <a href="#" class="sidebar-link">
+                                    <span style="font-weight: 800 !important">제품 및 공장&amp;창고 관리</span>
+                                 </a>
 
-                     <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">창고 및 공장 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">제품 및 자재 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">제품 단위 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">제품 그룹 관리</a></li>
-                     </ul>
-                  </li>
-                  <!-- 기초 정보 관리 / 공장&창고&제품 관리 END -->
+                                 <ul class="submenu">
+                                    <li class="submenu-item"><a href="#" class="submenu-link">창고 및 공장 관리</a></li>
+                                    <li class="submenu-item"><a href="#" class="submenu-link">제품 및 자재 관리</a></li>
+                                    <li class="submenu-item"><a href="#" class="submenu-link">제품 단위 관리</a></li>
+                                    <li class="submenu-item"><a href="#" class="submenu-link">제품 그룹 관리</a></li>
+                                 </ul>
+                              </li>
+                              <!-- 기초 정보 관리 / 공장&창고&제품 관리 END -->
 
-                  <!-- 기초 정보 관리 / 거래처 관리 START -->
-                  <li class="sidebar-item has-sub">
-                     <a href="#" class="sidebar-link">
-                        <span style="font-weight: 800 !important">거래처 관리</span>
-                     </a>
+                              <!-- 기초 정보 관리 / 거래처 관리 START -->
+                              <li class="sidebar-item has-sub">
+                                 <a href="#" class="sidebar-link">
+                                    <span style="font-weight: 800 !important">거래처 관리</span>
+                                 </a>
 
-                     <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">거래처관리</a></li>
-                     </ul>
-                  </li>
-                  <!-- 기초 정보 관리 / 거래처 관리 END -->
+                                 <ul class="submenu">
+                                    <li class="submenu-item"><a href="#" class="submenu-link">거래처관리</a></li>
+                                 </ul>
+                              </li>
+                              <!-- 기초 정보 관리 / 거래처 관리 END -->
+                           </div>
+                        </div>
+                     </div>
+                  </div>
                   <!-- 기초 정보 관리 END -->
 
                   <!-- 영업 관리 START -->
