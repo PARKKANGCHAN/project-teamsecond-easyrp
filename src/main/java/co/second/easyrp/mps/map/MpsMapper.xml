@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.second.easyrp.mps.map.MpsMapper">
+	<select id="mpsSelectListAll"></select>
+	<select id="mpsSelectList"></select>
+	<select id="mpsSelect"></select>
+	<insert id="mpsInsert"></insert>
+	<update id="mpsUpdate"></update>
+	<delete id="mpsDelete"></delete>
+</mapper>
