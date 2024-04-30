@@ -84,7 +84,7 @@
             <!-- 사원 정보 카드 START -->
             <!-- 2024년 4월 29일 오후 9시 23분 수정 박현우  -->
             <c:if test="${not empty empCode}">
-            <div class="card">
+            <div class="card" style="margin-bottom:0rem !important">
                <div class="card-body px-4">
                   <div class="row" style="align-items: center">
                      <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-center">
@@ -100,6 +100,11 @@
                   </div>
                </div>
             </div>
+               <div class="d-flex justify-content-between" style="margin-top: 0.3rem !important">
+                  <div class="col-md-12" style="text-align: center !important">
+                     <a href="logout" class="btn icon icon-left btn-primary"><i class="fa-solid fa-right-from-bracket"></i>로그아웃</a>
+                  </div>
+               </div>
             </c:if>
             <!-- 사원 정보 카드 END -->
             

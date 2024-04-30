@@ -61,6 +61,7 @@
                            id="cod"
                            placeholder="사원번호"
                            required
+                           autofocus
                         />
                         <div class="form-control-icon">
                            <i class="fa-regular fa-address-card"></i>
@@ -114,31 +115,40 @@
       <script src="resources/easyrp/assets/static/js/pages/dashboard.js"></script>
 
       <script type="text/javascript">
+         // 2024년 4월 30일 오전 9시 51분 수정 박현우
+         // 수정 내용 : Ajax는 Required가 안되므로, 직접 Validation 부분 추가
          // 로그인 기능 Ajax 구현
-         // 2024년 4월 30일 오전 12시 13분 추가 박현우
          function sendAjaxLoginRequest() {
             // input의 값들을 id.val로 받아와 변수에 담는 코드
             let empCode = $('#cod').val();
             let empPassword = $('#password').val();
 
-            $.ajax({
-               url: 'loginresult',
-               method: 'POST',
-               data: {
-                  cod: empCode,
-                  password: empPassword,
-               },
-               success: function (response) {
-                  if (response === 'success') {
-                     window.location.href = 'home';
-                  } else {
-                     alert('사원번호나 비밀번호가 틀렸습니다.');
-                  }
-               },
-               error: function (xhr, status, error) {
-                  alert('로그인 중 오류가 발생했습니다. 다시 한번 시도 해주세요.');
-               },
-            });
+            if (empCode === '') {
+               alert('사원번호가 입력되지 않았습니다.');
+               $('#cod').focus();
+            } else if (empPassword === '') {
+               alert('비밀번호가 입력되지 않았습니다.');
+               $('#password').focus();
+            } else {
+               $.ajax({
+                  url: 'loginresult',
+                  method: 'POST',
+                  data: {
+                     cod: empCode,
+                     password: empPassword,
+                  },
+                  success: function (response) {
+                     if (response === 'success') {
+                        window.location.href = 'home';
+                     } else {
+                        alert('사원번호나 비밀번호가 틀렸습니다.');
+                     }
+                  },
+                  error: function (xhr, status, error) {
+                     alert('로그인 중 오류가 발생했습니다. 다시 한번 시도 해주세요.');
+                  },
+               });
+            }
          }
 
          // 버튼에 이벤트 추가 -> 위의 로그인기능 함수 수행
