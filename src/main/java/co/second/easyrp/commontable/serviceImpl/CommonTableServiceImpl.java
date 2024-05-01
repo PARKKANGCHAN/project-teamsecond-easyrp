@@ -11,7 +11,6 @@ import co.second.easyrp.commontable.service.CommonTableService;
 import co.second.easyrp.commontable.service.CommonTableVO;
 
 //(2024년 4월 30일 오후 3시 4분 박현우)
-//사원 관리를 구현하기 위한 Employee 서비스 구현체 클래스
 @Service
 @Primary
 public class CommonTableServiceImpl implements CommonTableService {
@@ -20,8 +19,16 @@ public class CommonTableServiceImpl implements CommonTableService {
 	private CommonTableMapper commonTableMapper;
 
 	@Override
-	public List<CommonTableVO> commonTableAllList() {
-		return commonTableMapper.commonTableAllList();
+	public List<CommonTableVO> commonTableAllListPaged(int page, int size) {
+		int offset = (page - 1) * size;
+		return commonTableMapper.commonTableAllListPaged(size, offset);
 	}
+
+	@Override
+	public int countCommonTables() {
+		return commonTableMapper.countCommonTables();
+	}
+
+
 
 }
