@@ -15,4 +15,5 @@ public class SalesplanVO {
 	private int basicplnQty;
 	private int modplnQty;
 	private String stateCod;
+	private String deleteyn;
 }

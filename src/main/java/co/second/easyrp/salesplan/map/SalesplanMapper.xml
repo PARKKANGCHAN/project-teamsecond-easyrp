@@ -11,9 +11,21 @@
 			modpln_qty,
 			state_cod
 		from salesplan
+		where deleteyn = 'N'
 	</select>
+	
 	<select id="SalesplanSelect"></select>
-	<insert id="SalesplanInsert"></insert>
+	
+	<insert id="SalesplanInsert" parameterType="co.second.easyrp.salesplan.service.SalesplanVO">
+		insert into salesplan (cod, client_cod, product_cod, basicpln_qty)
+		values (#{cod}, #{clientCod}, #{productCod}, #{basicplnQty})
+	</insert>
+	
 	<update id="SalesplanUpdate"></update>
-	<delete id="SalesplanDelete"></delete>
+	
+	<delete id="SalesplanDelete" parameterType="co.second.easyrp.salesplan.service.SalesplanVO">
+		update salesplan
+		set deleteyn = 'Y'
+		where cod = #{cod}
+	</delete>
 </mapper>
