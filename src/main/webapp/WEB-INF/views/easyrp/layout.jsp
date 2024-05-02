@@ -33,7 +33,7 @@
 <!-- SweetAlert(JavaScript alert를 꾸며주는 API)  -->
 <link rel="stylesheet" href="resources/easyrp/assets/extensions/sweetalert2/sweetalert2.min.css">
 
-
+<script src="resources/easyrp/assets/extensions/jquery/jquery.min.js"></script>
 <!-- 라이브러리 추가 END (현우 추가)  -->
 
 <link rel="shortcut icon" href="resources/easyrp/assets/compiled/svg/favicon.svg"
@@ -69,18 +69,9 @@
 
 
 <!-- 라이브러리 추가 START -->
-
-
-<!-- 제이쿼리 추가 -->
-<script src="resources/easyrp/assets/extensions/jquery/jquery.min.js"></script>
-
 <!-- SweetAlert2 추가 -->
 <script src="resources/easyrp/assets/extensions/sweetalert2/sweetalert2.min.js"></script>
 <script src="resources/easyrp/assets/static/js/pages/sweetalert2.js"></script>
-
-<!-- datepicker와 한글버전 라이브러리 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <!-- DataTable 추가 -->
 <script src="resources/easyrp/assets/extensions/datatables.net/js/jquery.dataTables.min.js"></script>

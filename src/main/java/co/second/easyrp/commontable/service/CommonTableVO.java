@@ -17,12 +17,12 @@ public class CommonTableVO {
 	private Date createdAt;
 	private String deleteyn;
 	private String modalInput;
-	private int offset; // 페이지네이션 기능 구현 멤버 변수 (어디서 부터 보여줄 지)
-	private int pageSize; // 페이지네이션 기능 구현 멤버 변수 (보여줄 총 개수)
+	private int offset;
+	private int pageSize;
 	private String searchNumber;
 	private String searchTitle;
 	private String searchContent;
 	private String searchAuthor;
-	private java.util.Date preSearchDate;
-	private java.util.Date postSearchDate;
+	private Date preSearchDate;
+	private Date postSearchDate;
 }

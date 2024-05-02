@@ -45,8 +45,19 @@
 			AND author LIKE CONCAT('%', #{searchAuthor}, '%')
 		</if>
 		<if test="preSearchDate != null and postSearchDate != null">
-			AND created_at BETWEEN #{preSearchDate} AND #{postSearchDate}
+			AND created_at BETWEEN #{preSearchDate} AND
+			#{postSearchDate}
 		</if>
+	</select>
+
+	<select id="getAllKeyValues">
+	  SELECT id, cod, value
+	  FROM common_modal_kv
+	</select>
+	
+	<select id="getAllCopyDatas">
+	  SELECT title, content, author
+	  FROM commontable_copy
 	</select>
 
 	<insert id="commonInsert">
@@ -74,7 +85,8 @@
 		UPDATE commontable
 		SET
 		TITLE = #{title}
-		CONTENT = #{content},
+		CONTENT =
+		#{content},
 		AUTHOR = #{author},
 		MODAL_INPUT = #{modalInput},
 		WHERE POST_ID = #{postId};

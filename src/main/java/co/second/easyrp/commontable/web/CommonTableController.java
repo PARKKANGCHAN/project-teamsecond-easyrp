@@ -10,9 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import co.second.easyrp.commontable.service.CommonTableCopyVO;
 import co.second.easyrp.commontable.service.CommonTableService;
 import co.second.easyrp.commontable.service.CommonTableVO;
+import co.second.easyrp.commontable.service.KeyValueVO;
 
 // (2024년 5월 1일 오후 6시 18분 박현우)
 @Controller
@@ -89,6 +92,18 @@ public class CommonTableController {
     	model.addAttribute("deleteData", deleteData);
     	commonTableService.commonDelete(commonTableVO);
     	return "redirect:/commontable";
+    }
+    
+    @GetMapping("/api/get-kv")
+    @ResponseBody
+    public List<KeyValueVO> getKeyValues() {
+        return commonTableService.getAllKeyValues();
+    }
+    
+    @GetMapping("/api/get-data")
+    @ResponseBody
+    public List<CommonTableCopyVO> getDatas() {
+        return commonTableService.getAllCopyDatas();
     }
 
 

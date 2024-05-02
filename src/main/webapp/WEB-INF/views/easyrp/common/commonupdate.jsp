@@ -51,15 +51,15 @@
 											<tr>
 												<td width="150">글제목</td>
 												<td><input type="text" id="title" name="title"
-													class="form-control" placeholder="제목을 입력해주세요." value="${updateData.title }" required />
-												</td>
+													class="form-control" placeholder="제목을 입력해주세요."
+													value="${updateData.title }" required /></td>
 											</tr>
 											<!-- 내용 INPUT -->
 											<tr>
 												<td width="150">내 용</td>
-												<td><input type="text" id="content" name="content" value="${updateData.content }"
-													class="form-control" placeholder="내용을 입력해주세요." required />
-												</td>
+												<td><input type="text" id="content" name="content"
+													value="${updateData.content }" class="form-control"
+													placeholder="내용을 입력해주세요." required /></td>
 											</tr>
 											<!-- 글쓴이 INPUT (로그인 시 자동으로 값 입력 readonly) -->
 											<tr>
@@ -72,9 +72,14 @@
 											<tr>
 												<td width="150">모달 입력 테스트</td>
 												<td><input type="text" id="modalInput"
-													name="modalInput" class="form-control" value="${updateData.modalInput }"
+													name="modalInput" class="form-control"
+													value="${updateData.modalInput }"
+													style="width: 80%; float: left"
 													placeholder="모달을 이용해서 입력하는 테스트" required />
-												</td>
+													<button type="button" class="btn btn-primary"
+														id="loadValues" data-bs-toggle="modal"
+														data-bs-target="#kvModal"
+														style="margin-left: 2rem; width: 10%">저장 값 가져오기</button></td>
 											</tr>
 										</table>
 									</div>
@@ -100,6 +105,130 @@
 			</section>
 		</div>
 	</div>
+	<!-- 작은 Modal  -->
+	<div class="modal fade" id="kvModal" tabindex="-1"
+		aria-labelledby="kvModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="kvModalLabel">코드-값 선택</h5>
+					<input type="text" id="searchInput" class="form-control"
+						placeholder="코드 또는 값을 입력해주세요."
+						style="margin-left: 10px; width: auto; flex-grow: 1" />
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Code</th>
+								<th scope="col">Value</th>
+							</tr>
+						</thead>
+						<tbody id="modalTableBody">
+							<!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- 공통 수정 테이블 END -->
+	<script type="text/javascript">
+		function setValue(cod, value) {
+			$('#modalInput').val(value);
+			$('#kvModal').modal('hide');
+			$('.modal-backdrop').remove();
+		}
+
+		$(document)
+				.ready(
+						function() {
+							$('#loadValues')
+									.on(
+											'click',
+											function() {
+												$
+														.ajax({
+															url : 'api/get-kv',
+															method : 'GET',
+															success : function(
+																	data) {
+																let rows = '';
+																data
+																		.forEach(function(
+																				item) {
+																			if (item.id
+																					&& item.cod) {
+																				rows += '<tr onclick="setValue(\''
+																						+ item.cod
+																						+ "', '"
+																						+ item.value
+																						+ '\')" '
+																						+ 'class="searchable" data-cod="'
+																						+ item.cod
+																						+ '" data-value="'
+																						+ item.value
+																						+ '" style= "'
+																						+ 'cursor: pointer'
+																						+ '">'
+																						+ '<td>'
+																						+ item.id
+																						+ '</td>'
+																						+ '<td>'
+																						+ item.cod
+																						+ '</td>'
+																						+ '<td>'
+																						+ item.value
+																						+ '</td>'
+																						+ '</tr>';
+																			}
+																		});
+																$(
+																		'#modalTableBody')
+																		.html(
+																				rows);
+																$('#kvModal')
+																		.modal(
+																				'show');
+															},
+														});
+											});
+
+							$('#searchInput')
+									.on(
+											'keyup',
+											function() {
+												var searchTerm = $(this).val()
+														.toLowerCase();
+												$('.searchable')
+														.each(
+																function() {
+																	var cod = $(
+																			this)
+																			.data(
+																					'cod')
+																			.toLowerCase();
+																	var value = $(
+																			this)
+																			.data(
+																					'value')
+																			.toLowerCase();
+																	$(this)
+																			.toggle(
+																					cod
+																							.includes(searchTerm)
+																							|| value
+																									.includes(searchTerm));
+																});
+											});
+						});
+	</script>
 </body>
 </html>

@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import co.second.easyrp.commontable.service.CommonTableCopyVO;
 import co.second.easyrp.commontable.service.CommonTableVO;
+import co.second.easyrp.commontable.service.KeyValueVO;
 
 //(2024년 4월 30일 오후 3시 3분 박현우)
 public interface CommonTableMapper {
@@ -20,6 +22,10 @@ public interface CommonTableMapper {
 		    @Param("preSearchDate") Date preSearchDate, 
 		    @Param("postSearchDate") Date postSearchDate
 		);
+	
+	List<KeyValueVO> getAllKeyValues();
+	
+	List<CommonTableCopyVO> getAllCopyDatas();
 	
 	CommonTableVO getCommonData(int postId);
 	

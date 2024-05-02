@@ -8,8 +8,10 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import co.second.easyrp.commontable.map.CommonTableMapper;
+import co.second.easyrp.commontable.service.CommonTableCopyVO;
 import co.second.easyrp.commontable.service.CommonTableService;
 import co.second.easyrp.commontable.service.CommonTableVO;
+import co.second.easyrp.commontable.service.KeyValueVO;
 
 //(2024년 4월 30일 오후 3시 4분 박현우)
 @Service
@@ -49,6 +51,16 @@ public class CommonTableServiceImpl implements CommonTableService {
 	@Override
 	public int countCommonTables(String searchNumber, String searchTitle, String searchContent, String searchAuthor, Date preSearchDate, Date postSearchDate) {
 		return commonTableMapper.countCommonTables(searchNumber, searchTitle, searchContent, searchAuthor, preSearchDate, postSearchDate);
+	}
+
+	@Override
+	public List<KeyValueVO> getAllKeyValues() {
+		return commonTableMapper.getAllKeyValues();
+	}
+
+	@Override
+	public List<CommonTableCopyVO> getAllCopyDatas() {
+		return commonTableMapper.getAllCopyDatas();
 	}
 
 

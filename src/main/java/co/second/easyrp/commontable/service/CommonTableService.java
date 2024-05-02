@@ -18,7 +18,10 @@ public interface CommonTableService {
 		    @Param("preSearchDate") Date preSearchDate, 
 		    @Param("postSearchDate") Date postSearchDate
 		);
-
+	
+	List<KeyValueVO> getAllKeyValues();
+	
+	List<CommonTableCopyVO> getAllCopyDatas();
 	
 	CommonTableVO getCommonData(int postId);
 	
