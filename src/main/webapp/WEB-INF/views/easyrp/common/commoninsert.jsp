@@ -246,7 +246,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                               "', '" +
                               item.value +
                               '\')" ' +
-                              'class="searchable" data-cod="' +
+                              'class="searchValue" data-cod="' +
                               item.cod +
                               '" data-value="' +
                               item.value +
@@ -272,11 +272,11 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             });
 
             $('#searchInput').on('keyup', function () {
-               var searchTerm = $(this).val().toLowerCase();
-               $('.searchable').each(function () {
-                  var cod = $(this).data('cod').toLowerCase();
-                  var value = $(this).data('value').toLowerCase();
-                  $(this).toggle(cod.includes(searchTerm) || value.includes(searchTerm));
+               var searchInputVlaue = $(this).val().toLowerCase()
+               $('.searchValue').each(function () {
+                  var cod = $(this).data('cod').toLowerCase()
+                  var value = $(this).data('value').toLowerCase()
+                  $(this).toggle(cod.includes(searchInputVlaue) || value.includes(searchInputVlaue));
                });
             });
          });
@@ -305,7 +305,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                               "', '" +
                               item.content +
                               '\')" ' +
-                              'class="searchable" data-title="' +
+                              'class="searchData" data-title="' +
                               item.title +
                               '" data-author="' +
                               item.author +
@@ -326,13 +326,13 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                   },
                });
             });
-
+            
             $('#searchDataInput').on('keyup', function () {
-               let searchTerm = $(this).val();
-               $('.searchable').each(function () {
+               let searchInputData = $(this).val();
+               $('.searchData').each(function () {
                   let title = $(this).data('title');
                   let author = $(this).data('author');
-                  $(this).toggle(title.includes(searchTerm) || author.includes(searchTerm));
+                  $(this).toggle(title.includes(searchInputData) || author.includes(searchInputData));
                });
             });
          });
