@@ -5,16 +5,34 @@
 
 	<!-- 테이블에서 pagination을 위한 쿼리 -->
 	<select id="commonTableAllListPaged">
-		SELECT post_id , title , content , author
+		SELECT *
 		FROM commontable
+		WHERE deleteyn = 'N'
 		ORDER BY post_id DESC
 		LIMIT #{pageSize} OFFSET #{offset};
 	</select>
 
 	<select id="countCommonTables">
 		SELECT COUNT(*) 
-		FROM commontable;
+		FROM commontable
+		WHERE deleteyn = 'N';
 	</select>
+	
+	<insert id="commonInsert">
+		INSERT INTO commontable (
+		TITLE,
+		CONTENT,
+		AUTHOR,
+		MODAL_INPUT)
+		VALUES(
+		#{title},
+		#{content},
+		#{author},
+		#{modalInput}
+		 );
+	</insert>
+	
+	
 
 
 </mapper>

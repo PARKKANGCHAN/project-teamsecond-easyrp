@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import co.second.easyrp.commontable.service.CommonTableService;
@@ -36,8 +37,19 @@ public class CommonTableController {
         model.addAttribute("pageSize", size);
         model.addAttribute("endPage", endPage);
         model.addAttribute("startPage", startPage);
-
         return "easyrp/common/commontable";
+    }
+    
+    @GetMapping("/commoninsert")
+    public String commonInsert(CommonTableVO commonTableVO, Model model) {
+    	
+    	return "easyrp/common/commoninsert";
+    }
+    
+    @PostMapping("/commoninsertfn")
+    public String commonInsertFn(CommonTableVO commonTableVO, Model model) {
+    	commonTableService.commonInsert(commonTableVO);
+    	return "redirect:/commontable";
     }
 
 

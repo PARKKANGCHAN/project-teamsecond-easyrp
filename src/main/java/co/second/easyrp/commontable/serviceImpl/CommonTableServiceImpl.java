@@ -29,6 +29,11 @@ public class CommonTableServiceImpl implements CommonTableService {
 		return commonTableMapper.countCommonTables();
 	}
 
+	@Override
+	public int commonInsert(CommonTableVO commonTableVO) {
+		return commonTableMapper.commonInsert(commonTableVO);
+	}
+
 
 
 }

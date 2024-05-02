@@ -14,7 +14,6 @@
 <!-- Font END (현우 추가)  -->
 
 <!-- 2024년 4월 30일 오후 2시 37분 수정  -->
-<!-- 수정내용 : BootStrap 아이콘 추가  -->
 <!-- 아이콘 추가 START (현우 추가) -->
 <script src="https://kit.fontawesome.com/14e995bc13.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -69,24 +68,31 @@
 	<script src="resources/easyrp/assets/compiled/js/app.js"></script>
 
 
-<!-- 라이브러리 추가 START (현우 추가) -->
+<!-- 라이브러리 추가 START -->
+
+
+<!-- 제이쿼리 추가 -->
+<script src="resources/easyrp/assets/extensions/jquery/jquery.min.js"></script>
 
 <!-- SweetAlert2 추가 -->
 <script src="resources/easyrp/assets/extensions/sweetalert2/sweetalert2.min.js"></script>
 <script src="resources/easyrp/assets/static/js/pages/sweetalert2.js"></script>
 
-<!-- 제이쿼리 추가 -->
-<script src="resources/easyrp/assets/extensions/jquery/jquery.min.js"></script>
+<!-- datepicker와 한글버전 라이브러리 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <!-- DataTable 추가 -->
 <script src="resources/easyrp/assets/extensions/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="resources/easyrp/assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
 <script src="resources/easyrp/assets/static/js/pages/datatables.js"></script>
 
-<!-- 라이브러리 추가 END (현우 추가) -->
+<!-- 탬플릿 차트 라이브러리 -->
+<script src="resources/easyrp/assets/extensions/apexcharts/apexcharts.min.js"></script>
+<script src="resources/easyrp/assets/static/js/pages/dashboard.js"></script>
 
-	<!-- Need: Apexcharts -->
-	<script src="resources/easyrp/assets/extensions/apexcharts/apexcharts.min.js"></script>
-	<script src="resources/easyrp/assets/static/js/pages/dashboard.js"></script>
+<!-- 라이브러리 추가 END -->
+
+
 </body>
 </html>

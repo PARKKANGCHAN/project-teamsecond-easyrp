@@ -11,5 +11,7 @@ public interface CommonTableMapper {
 	
 	List<CommonTableVO> commonTableAllListPaged(@Param("pageSize") int pageSize, @Param("offset") int offset);
 	
+	int commonInsert(CommonTableVO commonTableVO);
+	
 	int countCommonTables();
 }
