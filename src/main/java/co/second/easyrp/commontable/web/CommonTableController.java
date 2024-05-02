@@ -3,6 +3,7 @@ package co.second.easyrp.commontable.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +22,16 @@ public class CommonTableController {
 	
     @GetMapping("/commontable")
     public String commonTable(@RequestParam(defaultValue = "1") int page,
-                              @RequestParam(defaultValue = "10") int size, Model model) {
-        List<CommonTableVO> commonTable = commonTableService.commonTableAllListPaged(page, size);
-        int totalRecords = commonTableService.countCommonTables();
+                              @RequestParam(defaultValue = "10") int size,
+                              @RequestParam(required = false) String searchNumber,
+                              @RequestParam(required = false) String searchTitle,
+                              @RequestParam(required = false) String searchContent,
+                              @RequestParam(required = false) String searchAuthor,
+                              @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") java.util.Date preSearchDate,
+                              @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") java.util.Date postSearchDate,
+                              Model model) {
+        List<CommonTableVO> commonTable = commonTableService.commonTableAllListPaged(page, size, searchNumber, searchTitle, searchContent, searchAuthor, preSearchDate, postSearchDate);
+        int totalRecords = commonTableService.countCommonTables(searchNumber, searchTitle, searchContent, searchAuthor, preSearchDate, postSearchDate);
         int totalPages = (int) Math.ceil((double) totalRecords / size);
 
         int pageGroupSize = 10;
@@ -41,14 +49,38 @@ public class CommonTableController {
     }
     
     @GetMapping("/commoninsert")
-    public String commonInsert(CommonTableVO commonTableVO, Model model) {
-    	
+    public String commonInsert() {
     	return "easyrp/common/commoninsert";
     }
     
     @PostMapping("/commoninsertfn")
     public String commonInsertFn(CommonTableVO commonTableVO, Model model) {
     	commonTableService.commonInsert(commonTableVO);
+    	return "redirect:/commontable";
+    }
+    
+    @GetMapping("/commonupdate")
+    public String commonUpdate(Model model, @RequestParam("postId") int postId) {
+    	CommonTableVO updateData = commonTableService.getCommonData(postId);
+    	
+    	model.addAttribute("updateData", updateData);
+    	
+    	return "easyrp/common/commonupdate";
+    }
+    
+    @PostMapping("/commonupdatefn")
+    public String commonUpdateFn(CommonTableVO commonTableVO) {
+    	commonTableService.commonUpdate(commonTableVO);
+    	
+    	return "redirect:/commontable";
+    }
+    
+    @GetMapping("/commondeletefn")
+    public String commonDeleteFn(CommonTableVO commonTableVO, @RequestParam("postId") int postId, Model model) {
+    	CommonTableVO deleteData = commonTableService.getCommonData(postId);
+    	
+    	model.addAttribute("deleteData", deleteData);
+    	commonTableService.commonDelete(commonTableVO);
     	return "redirect:/commontable";
     }
 

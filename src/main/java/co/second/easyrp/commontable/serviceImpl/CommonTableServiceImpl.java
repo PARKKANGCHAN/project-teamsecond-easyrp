@@ -1,5 +1,6 @@
 package co.second.easyrp.commontable.serviceImpl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +19,38 @@ public class CommonTableServiceImpl implements CommonTableService {
 	@Autowired
 	private CommonTableMapper commonTableMapper;
 
-	@Override
-	public List<CommonTableVO> commonTableAllListPaged(int page, int size) {
-		int offset = (page - 1) * size;
-		return commonTableMapper.commonTableAllListPaged(size, offset);
-	}
-
-	@Override
-	public int countCommonTables() {
-		return commonTableMapper.countCommonTables();
-	}
 
 	@Override
 	public int commonInsert(CommonTableVO commonTableVO) {
 		return commonTableMapper.commonInsert(commonTableVO);
+	}
+
+	@Override
+	public CommonTableVO getCommonData(int postId) {
+		return commonTableMapper.getCommonData(postId);
+	}
+
+	@Override
+	public int commonUpdate(CommonTableVO commonTableVO) {
+		return commonTableMapper.commonUpdate(commonTableVO);
+	}
+
+	@Override
+	public int commonDelete(CommonTableVO commonTableVO) {
+		return commonTableMapper.commonDelete(commonTableVO);
+	}
+	
+	@Override
+	public List<CommonTableVO> commonTableAllListPaged(int page, int size, String searchNumber, String searchTitle, String searchContent, String searchAuthor, java.util.Date preSearchDate, java.util.Date postSearchDate) {
+	    int offset = (page - 1) * size;
+	    return commonTableMapper.commonTableAllListPaged(size, offset, searchNumber, searchTitle, searchContent, searchAuthor, preSearchDate, postSearchDate);
+	}
+
+	@Override
+	public int countCommonTables(String searchNumber, String searchTitle, String searchContent, String searchAuthor,
+			Date preSearchDate, Date postSearchDate) {
+		
+		return commonTableMapper.countCommonTables(searchNumber, searchTitle, searchContent, searchAuthor, preSearchDate, postSearchDate);
 	}
 
 

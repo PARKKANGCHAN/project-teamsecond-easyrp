@@ -47,42 +47,42 @@
 											<div class="col-12 col-md-6 order-md-1 order-last">
 												<h3>검색</h3>
 											</div>
-											<form id="searchForm" action="/commontable" method="get">
+											<form id="searchForm" action="commontable" method="get">
 												<div class="mb-4" style="text-align: center">
 													<table class="table table-bordered" id="searchTable">
 														<tr>
 															<td width="100">글 번호</td>
 															<td><input type="text" id="searchNumber"
 																name="searchNumber" class="form-control"
-																placeholder="글 번호를 입력해주세요." required /></td>
+																placeholder="글 번호를 입력해주세요."/></td>
 															<td width="100">제 목</td>
 															<td><input type="text" id="searchTitle"
 																name="searchTitle" class="form-control"
-																placeholder="제목을 입력해주세요." required /></td>
+																placeholder="제목을 입력해주세요." /></td>
 															<td width="100">내 용</td>
 															<td><input type="text" id="searchContent"
 																name="searchContent" class="form-control"
-																placeholder="내용을 입력해주세요." required /></td>
+																placeholder="내용을 입력해주세요." /></td>
 															<td width="100">작성자</td>
 															<td><input type="text" id="searchAuthor"
 																name="searchAuthor" class="form-control"
-																placeholder="작성자를 입력해주세요." required /></td>
+																placeholder="작성자를 입력해주세요." /></td>
 														</tr>
 														<tr>
 															<td width="100">검색 날짜</td>
 															<td colspan="2"><input type="date"
 																id="preSearchDate" name="preSearchDate"
 																class="form-control" style="width: 47%; float: left"
-																required /> <span><i
+																/> <span><i
 																	class="fa-solid fa-arrow-right"
 																	style="margin-top: 10px"></i></span> <input type="date"
 																id="postSearchDate" name="postSearchDate"
 																class="form-control" style="width: 47%; float: right"
-																required /></td>
+																/></td>
 														</tr>
 													</table>
 												</div>
-												<input type="hidden" name="page" value="${currentPage}" />
+												<input type="hidden" name="offset" value="${offset}" />
 												<input type="hidden" name="size" value="${pageSize}" />
 												<div style="text-align: end; margin-right: 0.5rem">
 													<button type="submit" class="btn btn-primary">검색</button>
@@ -116,8 +116,8 @@
 																<i class="fa-solid fa-gear"></i>
 															</button>
 															<ul class="dropdown-menu">
-																<li><a class="dropdown-item" href="#">수정</a></li>
-																<li><a class="dropdown-item" href="#">삭제</a></li>
+																<li><a class="dropdown-item" href="commonupdate?postId=${commonTable.postId}">수정</a></li>
+																<li><a class="dropdown-item" href="commondeletefn?postId=${commonTable.postId}">삭제</a></li>
 															</ul>
 														</div>
 													</td>
@@ -170,16 +170,5 @@
 		</div>
 	</div>
 	<!-- 공통 사용 테이블 END -->
-
-	<!--       <script type="text/javascript">
-         $(function () {
-            $('.datepicker').datepicker({
-               format: 'yyyy-mm-dd',
-               startDate: new Date('2024'),
-               calendarWeeks: false,
-               language: 'ko',
-            });
-         });
-      </script> -->
 </body>
 </html>

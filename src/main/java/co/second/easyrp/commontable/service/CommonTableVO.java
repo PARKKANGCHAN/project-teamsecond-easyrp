@@ -23,6 +23,6 @@ public class CommonTableVO {
 	private String searchTitle;
 	private String searchContent;
 	private String searchAuthor;
-	private Date preSearchDate;
-	private Date postSearchDate;
+	private java.util.Date preSearchDate;
+	private java.util.Date postSearchDate;
 }
