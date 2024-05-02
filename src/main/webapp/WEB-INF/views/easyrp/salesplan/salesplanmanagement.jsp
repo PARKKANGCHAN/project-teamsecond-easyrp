@@ -32,7 +32,7 @@
                </div>
             </div>
 
-			<table>
+			<table id="salesplanTable">
 			<th>판매계획번호</th>
 			<th>고객번호</th>
 			<th>상품번호</th>
@@ -57,13 +57,11 @@
 		</c:forEach>
 			</table>
 		
-		<form action="salesplaninsert" method="post">
-			<input type="text" name="cod" placeholder="판매계획번호">
-			<input type="text" name="clientCod" placeholder="고객번호">
-			<input type="text" name="productCod" placeholder="상품번호">
-			<input type="text" name="basicplnQty" placeholder="기초계획수량">
-			<input type="submit" value="등록">
-		</form>
+			<input type="text" id="cod" name="cod" placeholder="판매계획번호">
+			<input type="text" id="clientCod" name="clientCod" placeholder="고객번호">
+			<input type="text" id="productCod" name="productCod" placeholder="상품번호">
+			<input type="text" id="basicplnQty" name="basicplnQty" placeholder="기초계획수량">
+			<input type="button" value="등록" onclick="salesplanInsert()">
 
          </div>
       </div>
@@ -72,37 +70,77 @@
 			<input type="hidden" id="salesplandeleteId" name="salesplanCod" value="">
 		</form>
       <script>
-
-           	// function deleteSalesplan(cod) {
-      		// document.getElementById("salesplandeleteId").value = cod;
-      		// frmDelete.submit();
+		
       		
-      		function deleteSalesplan(cod) {
-      			var salesplanCod = cod;
-      			
-      			fetch('/salesplandelete', {
-      				method: 'POST',
-      				headers: {
-      					'Content-Type': 'application/json'
-      				},
-      				body: JSON.stringify({ salesplanCod: slaesplanCod })
-      			})
-      			.then(response => {
-      				if (!response.ok) {
-      					throw new Error('실패');
-      				}
-      				return response.json();
-      			})
-      			.then(data => {
-      				console.log(data);
-      				window.location.reload();
-      			})
-      			.catch(error => {
-      				console.error('fetch operation 중 오류발생', error);
-      			});
+      		/*
+      		fetch(url[, options])
+      	    .then(response => {
+      	        // 응답을 처리하는 로직
+      	    })
+      	    .catch(error => {
+      	        // 에러를 처리하는 로직
+      	    });
+      		*/
+      		
+      		function salesplanInsert() {
+				
+				const newSalesplan = {
+						cod: document.getElementById("cod").value,
+						clientCod: document.getElementById("clientCod").value,
+						productCod: document.getElementById("productCod").value,
+						basicplnQty: document.getElementById("basicplnQty").value
+					};
+				
+				console.log(newSalesplan);
+				
+			    const newRow = document.createElement("tr");
+			    newRow.innerHTML = `
+			        <td colspan="7">로딩 중...</td>
+			    `;
+			    document.getElementById("salesplanTable").appendChild(newRow);
+				
+				fetch("salesplaninsert", {
+					method: "POST",
+					headers: {
+						"Content-Type" : "application/json" // 요청 데이터가 JSON 형식임을 명시함
+					},
+					body: JSON.stringify(newSalesplan) // 새 판매 계획 데이터를 JSON 문자열로 변환하여 전송
+				})
+					.then(response => {
+						// 여기서 응답을 처리
+						if (!response.ok) {
+          				  throw new Error("네트워크 상태가 정상이 아님");
+      					  }
+       					 return response.json(); // json 형식의 응답을 파싱하여 반환
+					})
+					.then(data => {
+						// 서버로부터 받은 data를 이용하여 필요한 작업 수행
+						console.log("판매 계획이 추가되었습니다.", data);
+						
+						const newRow = document.createElement("tr");
 
-      		}
-      	}
+						newRow.innerHTML = `
+							<td>${data.cod}</td>
+							<td>${data.clientCod}</td>
+							<td>${data.productCod}</td>
+							<td>${data.planDate}</td>
+							<td>${data.basicplnQty}</td>
+							<td>${data.modplnQty}</td>
+							<td>${data.stateCod}</td>
+							<td>
+								<button onclick="deleteSalesplan('${data.cod}')">삭제</button>	
+							</td>
+						`;
+						document.getElementById("salesplanTable").appendChild(newRow);
+						
+			            // 로딩 행을 제거
+			            newRow.previousElementSibling.remove();
+					})
+					.catch(error => {
+						console.error("판매 계획 추가 오류발생", error);
+					});
+			}
+
       	/* 
       	  fetch(url, options)
 		  .then((response) => console.log("response:", response))
