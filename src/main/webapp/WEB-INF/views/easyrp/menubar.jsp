@@ -329,7 +329,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                         <span style="font-weight: 800 !important">재고 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">재고 이동 관리</a></li>
+                        <li class="submenu-item"><a href="inventorymovement" class="submenu-link">재고 이동 관리</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">재고 실사 관리</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">재고 조정</a></li>
                      </ul>

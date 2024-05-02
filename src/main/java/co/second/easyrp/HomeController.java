@@ -34,4 +34,11 @@ public class HomeController {
 		return "easyrp/collection/collectionmanagement";
 	}
 	
+	// 수금 관리 페이지 이동
+	// 2024년 4월 30일 오전 11시 18분 추가 박현우
+	@RequestMapping("/inventorymovement")
+	public String inventorymovement() {
+		return "easyrp/inventory/inventorymovement";
+	}
+
 }
