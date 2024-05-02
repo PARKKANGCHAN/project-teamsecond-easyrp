@@ -41,15 +41,13 @@ public class CommonTableServiceImpl implements CommonTableService {
 	}
 	
 	@Override
-	public List<CommonTableVO> commonTableAllListPaged(int page, int size, String searchNumber, String searchTitle, String searchContent, String searchAuthor, java.util.Date preSearchDate, java.util.Date postSearchDate) {
+	public List<CommonTableVO> commonTableAllListPaged(int page, int size, String searchNumber, String searchTitle, String searchContent, String searchAuthor, Date preSearchDate, Date postSearchDate) {
 	    int offset = (page - 1) * size;
 	    return commonTableMapper.commonTableAllListPaged(size, offset, searchNumber, searchTitle, searchContent, searchAuthor, preSearchDate, postSearchDate);
 	}
 
 	@Override
-	public int countCommonTables(String searchNumber, String searchTitle, String searchContent, String searchAuthor,
-			Date preSearchDate, Date postSearchDate) {
-		
+	public int countCommonTables(String searchNumber, String searchTitle, String searchContent, String searchAuthor, Date preSearchDate, Date postSearchDate) {
 		return commonTableMapper.countCommonTables(searchNumber, searchTitle, searchContent, searchAuthor, preSearchDate, postSearchDate);
 	}
 

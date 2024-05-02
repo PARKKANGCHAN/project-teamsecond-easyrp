@@ -17,8 +17,8 @@ public interface CommonTableMapper {
 		    @Param("searchTitle") String searchTitle, 
 		    @Param("searchContent") String searchContent, 
 		    @Param("searchAuthor") String searchAuthor, 
-		    @Param("preSearchDate") java.util.Date preSearchDate, 
-		    @Param("postSearchDate") java.util.Date postSearchDate
+		    @Param("preSearchDate") Date preSearchDate, 
+		    @Param("postSearchDate") Date postSearchDate
 		);
 	
 	CommonTableVO getCommonData(int postId);
@@ -34,6 +34,6 @@ public interface CommonTableMapper {
 			@Param("searchTitle") String searchTitle,
 			@Param("searchContent") String searchContent,
 			@Param("searchAuthor") String searchAuthor,
-			@Param("preSearchDate") java.util.Date preSearchDate, 
-			@Param("postSearchDate") java.util.Date postSearchDate);
+			@Param("preSearchDate") Date preSearchDate, 
+			@Param("postSearchDate") Date postSearchDate);
 }

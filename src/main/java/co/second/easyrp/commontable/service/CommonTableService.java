@@ -15,8 +15,8 @@ public interface CommonTableService {
 		    @Param("searchTitle") String searchTitle, 
 		    @Param("searchContent") String searchContent, 
 		    @Param("searchAuthor") String searchAuthor, 
-		    @Param("preSearchDate") java.util.Date preSearchDate, 
-		    @Param("postSearchDate") java.util.Date postSearchDate
+		    @Param("preSearchDate") Date preSearchDate, 
+		    @Param("postSearchDate") Date postSearchDate
 		);
 
 	
@@ -33,6 +33,6 @@ public interface CommonTableService {
 			@Param("searchTitle") String searchTitle,
 			@Param("searchContent") String searchContent,
 			@Param("searchAuthor") String searchAuthor,
-			@Param("preSearchDate") java.util.Date preSearchDate, 
-			@Param("postSearchDate") java.util.Date postSearchDate);
+			@Param("preSearchDate") Date preSearchDate, 
+			@Param("postSearchDate") Date postSearchDate);
 }

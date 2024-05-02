@@ -3,8 +3,7 @@
 <mapper
 	namespace="co.second.easyrp.commontable.map.CommonTableMapper">
 
-	<select id="commonTableAllListPaged"
-		resultType="co.second.easyrp.commontable.service.CommonTableVO">
+	<select id="commonTableAllListPaged">
 		SELECT *
 		FROM commontable
 		WHERE DELETEYN = 'N'

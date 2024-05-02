@@ -1,5 +1,6 @@
 package co.second.easyrp.commontable.web;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,8 @@ public class CommonTableController {
                               @RequestParam(required = false) String searchTitle,
                               @RequestParam(required = false) String searchContent,
                               @RequestParam(required = false) String searchAuthor,
-                              @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") java.util.Date preSearchDate,
-                              @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") java.util.Date postSearchDate,
+                              @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date preSearchDate,
+                              @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date postSearchDate,
                               Model model) {
         List<CommonTableVO> commonTable = commonTableService.commonTableAllListPaged(page, size, searchNumber, searchTitle, searchContent, searchAuthor, preSearchDate, postSearchDate);
         int totalRecords = commonTableService.countCommonTables(searchNumber, searchTitle, searchContent, searchAuthor, preSearchDate, postSearchDate);
@@ -39,6 +40,12 @@ public class CommonTableController {
         int startPage = currentPageGroup * pageGroupSize + 1;
         int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
 
+        model.addAttribute("searchNumber", searchNumber);
+        model.addAttribute("searchTitle", searchTitle);
+        model.addAttribute("searchContent", searchContent);
+        model.addAttribute("searchAuthor", searchAuthor);
+        model.addAttribute("preSearchDate", preSearchDate);
+        model.addAttribute("postSearchDate", postSearchDate);
         model.addAttribute("commonTable", commonTable);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
