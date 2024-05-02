@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="co.second.easyrp.inventorymovement.mapper.InventoryMovementMapper">
+	<select id="selectInventoryMovement">
+	SELECT
+		cod,
+		move_date,
+		obound_warehouse,
+		obound_location,
+		ibound_warehouse,
+		ibound_location,
+		employee_cod,
+		product_cod,
+		product_name,
+		spec,
+		unit
+	FROM inventorymovement
+	</select>
+	<select id="selectInventoryMovementDateScope">
+	SELECT
+		cod,
+		move_date,
+		obound_warehouse,
+		obound_location,
+		ibound_warehouse,
+		ibound_location,
+		employee_cod,
+		product_cod,
+		product_name,
+		spec,
+		unit
+	FROM inventorymovement
+	WHERE move_date Between #{startDate} and #{endDate}
+	</select>
+	
+	<insert id="insertInventoryMovement">
+	INSERT INTO inventorymovement
+	VALUES(
+		, 
+		#{moveDate}, 
+		#{oboundWarehouse}, 
+		#{oboundLocation},
+		#{iboundWarehouse}, 
+		#{iboundLocation},
+		#{employee_cod},
+		#{product_cod},
+		#{product_name},
+		#{spec},
+		#{unit})
+	</insert>
+	<update id="updateInventoryMovement"></update>
+	<delete id="deleteInventoryMovement"></delete>
+</mapper>
