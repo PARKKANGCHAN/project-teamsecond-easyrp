@@ -112,71 +112,45 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
             <div class="sidebar-menu">
                <ul class="menu">
                   <!-- 기초 정보 관리 START -->
-                  <div class="accordion" id="accordionExample">
-                     <div class="accordion-item">
-                        <button
-                           class="accordion-button collapsed"
-                           type="button"
-                           data-bs-toggle="collapse"
-                           data-bs-target="#collapseTwo"
-                           aria-expanded="false"
-                           aria-controls="collapseTwo"
-                        >
-                           <li class="no_dot" style="font-size: 1.1rem !important">
-                              📝 <span style="font-weight: 800 !important">기초 정보 관리</span>
-                           </li>
-                        </button>
-                        <!-- 기초 정보 관리 / 사원 및 부서 관리 START -->
-                        <div
-                           id="collapseTwo"
-                           class="accordion-collapse collapse"
-                           aria-labelledby="headingTwo"
-                           data-bs-parent="#accordionExample"
-                        >
-                           <div class="accordion-body">
-                              <li class="sidebar-item has-sub">
-                                 <a href="#" class="sidebar-link">
-                                    <span style="font-weight: 800 !important">사원 및 부서 관리</span>
-                                 </a>
-                                 <ul class="submenu">
-                                    <li class="submenu-item">
-                                       <a href="employeelist" class="submenu-link">사원 기초 관리</a>
-                                    </li>
-                                    <li class="submenu-item"><a href="#" class="submenu-link">부서 관리</a></li>
-                                 </ul>
-                              </li>
-                              <!-- 기초 정보 관리 / 사원 및 부서 관리 END -->
-
-                              <!-- 기초 정보 관리 / 공장&창고&제품 관리 START -->
-                              <li class="sidebar-item has-sub">
-                                 <a href="#" class="sidebar-link">
-                                    <span style="font-weight: 800 !important">제품 및 공장&amp;창고 관리</span>
-                                 </a>
-
-                                 <ul class="submenu">
-                                    <li class="submenu-item"><a href="#" class="submenu-link">창고 및 공장 관리</a></li>
-                                    <li class="submenu-item"><a href="#" class="submenu-link">제품 및 자재 관리</a></li>
-                                    <li class="submenu-item"><a href="#" class="submenu-link">제품 단위 관리</a></li>
-                                    <li class="submenu-item"><a href="#" class="submenu-link">제품 그룹 관리</a></li>
-                                 </ul>
-                              </li>
-                              <!-- 기초 정보 관리 / 공장&창고&제품 관리 END -->
-
-                              <!-- 기초 정보 관리 / 거래처 관리 START -->
-                              <li class="sidebar-item has-sub">
-                                 <a href="#" class="sidebar-link">
-                                    <span style="font-weight: 800 !important">거래처 관리</span>
-                                 </a>
-
-                                 <ul class="submenu">
-                                    <li class="submenu-item"><a href="#" class="submenu-link">거래처관리</a></li>
-                                 </ul>
-                              </li>
-                              <!-- 기초 정보 관리 / 거래처 관리 END -->
-                           </div>
-                        </div>
-                     </div>
-                  </div>
+                  <li class="no_dot" style="font-size: 1.1rem !important">
+                     📝 <span style="font-weight: 800 !important">기초 정보 관리</span>
+                  </li>
+                  <!-- 기초 정보 관리 / 사원 및 부서 관리 START -->
+                  <li class="sidebar-item has-sub">
+                     <a href="#" class="sidebar-link">
+                        <span style="font-weight: 800 !important">사원 및 부서 관리</span>
+                     </a>
+                     <ul class="submenu">
+                        <li class="submenu-item">
+                           <a href="employeelist" class="submenu-link">사원 기초 관리</a>
+                        </li>
+                        <li class="submenu-item"><a href="#" class="submenu-link">부서 관리</a></li>
+                     </ul>
+                  </li>
+                  <!-- 기초 정보 관리 / 사원 및 부서 관리 END -->
+                  <!-- 기초 정보 관리 / 공장&창고&제품 관리 START -->
+                  <li class="sidebar-item has-sub">
+                     <a href="#" class="sidebar-link">
+                        <span style="font-weight: 800 !important">제품 및 공장&amp;창고 관리</span>
+                     </a>
+                     <ul class="submenu">
+                        <li class="submenu-item"><a href="#" class="submenu-link">창고 및 공장 관리</a></li>
+                        <li class="submenu-item"><a href="#" class="submenu-link">제품 및 자재 관리</a></li>
+                        <li class="submenu-item"><a href="#" class="submenu-link">제품 단위 관리</a></li>
+                        <li class="submenu-item"><a href="#" class="submenu-link">제품 그룹 관리</a></li>
+                     </ul>
+                  </li>
+                  <!-- 기초 정보 관리 / 공장&창고&제품 관리 END -->
+                  <!-- 기초 정보 관리 / 거래처 관리 START -->
+                  <li class="sidebar-item has-sub">
+                     <a href="#" class="sidebar-link">
+                        <span style="font-weight: 800 !important">거래처 관리</span>
+                     </a>
+                     <ul class="submenu">
+                        <li class="submenu-item"><a href="#" class="submenu-link">거래처관리</a></li>
+                     </ul>
+                  </li>
+                  <!-- 기초 정보 관리 / 거래처 관리 END -->
                   <!-- 기초 정보 관리 END -->
 
                   <!-- 영업 관리 START -->
