@@ -38,6 +38,8 @@ public class SalesplanController {
 	@RequestMapping(value="/salesplaninsert", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> salesplaninsert(@RequestBody SalesplanVO vo) {
+		
+		System.out.println("request : " + vo);
 	    int result = salesplanService.SalesplanInsert(vo);
 	    
 	    

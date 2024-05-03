@@ -116,21 +116,21 @@
 					.then(data => {
 						// 서버로부터 받은 data를 이용하여 필요한 작업 수행
 						console.log("판매 계획이 추가되었습니다.", data);
-						
+										
 						const newRow = document.createElement("tr");
-
-						newRow.innerHTML = `
-							<td>${data.cod}</td>
-							<td>${data.clientCod}</td>
-							<td>${data.productCod}</td>
-							<td>${data.planDate}</td>
-							<td>${data.basicplnQty}</td>
-							<td>${data.modplnQty}</td>
-							<td>${data.stateCod}</td>
+				       
+						let newData =  "<td>" + data.cod + "</td>";
+							newData += "<td>" + data.clientCod + "</td>";
+							<td>data.productCod</td>
+							<td>data.planDate</td>
+							<td>data.basicplnQty</td>
+							<td>data.modplnQty</td>
+							<td>data.stateCod</td>
 							<td>
-								<button onclick="deleteSalesplan('${data.cod}')">삭제</button>	
+								<button onclick="deleteSalesplan('data.cod')">삭제</button>	
 							</td>
-						`;
+						;
+						newRow.appendChild(newData);												
 						document.getElementById("salesplanTable").appendChild(newRow);
 						
 			            // 로딩 행을 제거
