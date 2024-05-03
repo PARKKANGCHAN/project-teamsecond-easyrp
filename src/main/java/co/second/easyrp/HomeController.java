@@ -34,6 +34,7 @@ public class HomeController {
 		return "easyrp/collection/collectionmanagement";
 	}
 	
+<<<<<<< HEAD
 	// 수금 관리 페이지 이동
 	// 2024년 4월 30일 오전 11시 18분 추가 박현우
 	@RequestMapping("/inventorymovement")
@@ -41,4 +42,13 @@ public class HomeController {
 		return "easyrp/inventory/inventorymovement";
 	}
 
+=======
+	// 판매 계획 관리 페이지 이동
+	// 2024년 4얼 30일 오전 11시 23분 추가 류현석
+	@RequestMapping("salesplanmanagement")
+	public String salesPlan() {
+		return "easyrp/salesplan/salesplanmanagement";
+	}
+	
+>>>>>>> origin/feature-salesplan
 }

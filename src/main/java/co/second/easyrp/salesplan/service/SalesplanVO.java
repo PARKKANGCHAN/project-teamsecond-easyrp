@@ -1,0 +1,21 @@
+package co.second.easyrp.salesplan.service;
+
+import java.sql.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class SalesplanVO {
+	private String cod;
+	private String clientCod;
+	private String productCod;
+	private Date planDate;
+	private int basicplnQty;
+	private int modplnQty;
+	private String stateCod;
+	private String deleteyn;
+}
