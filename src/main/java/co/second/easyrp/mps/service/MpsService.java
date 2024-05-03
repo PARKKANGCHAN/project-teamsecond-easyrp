@@ -15,4 +15,6 @@ public interface MpsService {
 	int mpsDelete(MpsVO mpsVo); //삭제
 	
 	int orderdetailMpsStateUpdate(MpsVO mpsVo); //orderdetail의 mps_state 컬럼을 N에서 Y로 바꿔준다.
+	
+	int selectMaxCod(); //숫자가 제일 높은 코드의 숫자를 구한다.
 }

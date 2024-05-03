@@ -5,9 +5,15 @@
 	<select id="mpsSelectList"></select>
 	<select id="mpsSelect"></select>
 	<insert id="mpsInsert">
-		
+		INSERT INTO mps(cod, order_cod, product_cod, plan_date, qty, employee_cod, procurement, account, note, closing) VALUES (#{cod}, #{orderCod}, #{productCod}, #{planDate}, #{qty}, #{employeeCod}, #{procurement}, '완제', #{note}, 'N')
 	</insert>
 	<update id="mpsUpdate"></update>
 	<delete id="mpsDelete"></delete>
-	<update id="orderdetailMpsStateUpdate"></update>
+	<update id="orderdetailMpsStateUpdate">
+		UPDATE orderdetail SET mps_state = 'Y' WHERE cod = #{orderCod} AND num = #{num}
+	</update>
+	
+	<select id="selectMaxCod">
+		SELECT COALESCE(MAX(CAST(RIGHT (cod,3) AS SIGNED)), 0) AS cod FROM mps
+	</select>
 </mapper>

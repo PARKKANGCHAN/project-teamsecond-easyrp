@@ -90,6 +90,7 @@
 													type="hidden" name="size" value="${pageSize}" />
 												<div style="text-align: end; margin-right: 0.5rem">
 													<button type="submit" class="btn btn-primary">검색</button>
+													<button type="reset" class="btn btn-primary">초기화</button>
 												</div>
 											</form>
 										</div>

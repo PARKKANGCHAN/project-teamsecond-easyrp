@@ -59,4 +59,9 @@ public class MpsServiceImpl implements MpsService {
 		return mpsMapper.orderdetailMpsStateUpdate(mpsVo);
 	}
 
+	@Override
+	public int selectMaxCod() {
+		// TODO Auto-generated method stub
+		return mpsMapper.selectMaxCod();
+	}
 }

@@ -22,4 +22,6 @@ public class MpsVO {
 	
 	private Date startDate;
 	private Date endDate;
+	
+	private int num; 
 }
