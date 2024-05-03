@@ -339,26 +339,9 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                   <!-- 자재 관리 / 재고 평가 END -->
                   <!-- 자재 관리 END -->
 
-                  <li class="sidebar-item has-sub">
-                     <a href="#" class="sidebar-link toggle">
-                        📝<span style="font-weight: 800 !important">기초 정보 관리</span>
+                     <a href="commontable" class="sidebar-link toggle">
+                        📝<span style="font-weight: 800 !important">공통 사용 테이블</span>
                      </a>
-                     <ul class="submenu">
-                        <li class="sidebar-item has-sub">
-                           <a href="#" class="sidebar-link toggle">
-                              <span style="font-weight: 800 !important">사원 및 부서 관리</span>
-                           </a>
-                           <ul class="submenu">
-                              <li class="submenu-item">
-                                 <a href="employeelist" class="submenu-link">사원 기초 관리</a>
-                              </li>
-                              <li class="submenu-item">
-                                 <a href="#" class="submenu-link">부서 관리</a>
-                              </li>
-                           </ul>
-                        </li>
-                     </ul>
-                  </li>
                </ul>
             </div>
          </div>
