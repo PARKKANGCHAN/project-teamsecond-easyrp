@@ -20,7 +20,7 @@ public class InventoryMovementController {
 	@RequestMapping(value="inventorymovement", method=RequestMethod.GET)
 	public String inventoryMovementList(Model model, InventoryMovementVO inventorymovementvo) {
 		List<InventoryMovementVO> inventoryMovementList=inventorymovementService.InventoryMovementList();
-		model.addAttribute("inventorymovementList", inventoryMovementList);
+		model.addAttribute("inventoryMovementList", inventoryMovementList);
 		
 		return "easyrp/inventory/inventorymovement";
 		

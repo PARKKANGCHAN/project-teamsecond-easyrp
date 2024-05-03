@@ -53,7 +53,7 @@
                                  
                               </tr>
                            </thead>
-                           <c:forEach var="inventorymovement" items="${inventorymovementList }">
+                           <c:forEach var="inventoryMovementList" items="${inventorymovementList }">
                            <tbody>
                               <tr>
                                  <td>${inventorymovementList.cod }</td>
