@@ -119,16 +119,16 @@
 										
 						const newRow = document.createElement("tr");
 				       
-						let newData =  "<td>" + data.cod + "</td>";
-							newData += "<td>" + data.clientCod + "</td>";
-							<td>data.productCod</td>
-							<td>data.planDate</td>
-							<td>data.basicplnQty</td>
-							<td>data.modplnQty</td>
-							<td>data.stateCod</td>
-							<td>
-								<button onclick="deleteSalesplan('data.cod')">삭제</button>	
-							</td>
+						let newData =  "<td>" + data.cod + "</td>" +
+							"<td>" + data.clientCod + "</td>" +
+							"<td>" + data.productCod + "</td>" +
+							"<td>" + data.planDate + "</td>" +
+							"<td>" + data.basicplnQty + "</td>" +
+							"<td>" + data.modplnQty + "</td>" + 
+							"<td>" + data.stateCod + "</td>" +
+							"<td>" +
+								<button onclick= + ' + deleteSalesplan( ' + data.cod + ')">삭제</button> "'	
+							+ "</td>"
 						;
 						newRow.appendChild(newData);												
 						document.getElementById("salesplanTable").appendChild(newRow);
