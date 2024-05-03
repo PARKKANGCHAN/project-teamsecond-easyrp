@@ -36,93 +36,126 @@
 			</div>
 
 			<!-- Basic Tables start -->
-				<section class="section">
-					<div class="card">
-						<div class="card-header"
-							style="display: flex; justify-content: space-between;">
-							<h5 class="card-title">기본정보</h5>
+			<section class="section">
+				<div class="card">
+					<div class="card-header"
+						style="display: flex; justify-content: space-between;">
+						<h5 class="card-title">기본정보</h5>
+						<div>
+							<a href="employeelist">돌아가기</a>
+							<button type="button" onclick="employeeRegisSubmit()">등록</button>
+						</div>
+					</div>
+					<div>모든항목은 필수항목입니다</div>
+					<div class="card-body">
+						<div>
 							<div>
-								<a href="employeelist">돌아가기</a>
-								<button type="button" onclick="employeeRegisSubmit()">등록</button>
+								<span>이름</span> <input type="text" id="empName" />
 							</div>
 						</div>
-						<div class="card-body">
+						<div>
 							<div>
-								<div>
-									<span>이름</span> <input type="text" id="empName" value="test"/>
-								</div>
+								<span>생년월일</span> <input type="date" id="empBirthdate" />
 							</div>
 							<div>
-								<div>
-									<span>나이</span> <input type="text" id="empAge" value=10>
-								</div>
-								<div>
-									<span>성별</span> <input type="text" id="empGender" value="M"/>
-								</div>
+								<span>성별</span> <select id="empGender">
+									<option value="">선택</option>
+									<option value="M">여성</option>
+									<option value="F">남성</option>
+								</select>
+							</div>
+						</div>
+						<div>
+							<div>
+								<span>이메일</span> <input type="text" id="empEmail" />
 							</div>
 							<div>
-								<div>
-									<span>이메일</span> <input type="text" id="empEmail" value="test"/>
-								</div>
-								<div>
-									<span>전화번호</span> <input type="text" id="empTel" value="test"/>
-								</div>
+								<span>전화번호</span> <input type="text" id="empTel"
+									onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" />
+							</div>
+						</div>
+						<div>
+							<div>
+								<span>입사일</span> <input type="date" id="empRegdate" />
+							</div>
+						</div>
+						<div>
+							<div>
+								<span>부서코드</span> <input type="text" id="deptCod" readonly
+									value="dept004" />
+								<button type="button">부서찾기</button>
 							</div>
 							<div>
-								<div>
-									<span>입사일</span> <input type="date" id="empRegdate" value="2024-04-29"/>
-								</div>
+								<span>직책</span> <input type="text" id="empPosition" />
 							</div>
+						</div>
+						<div>
 							<div>
-								<div>
-									<span>부서코드</span> <input type="text" id="deptCod" readonly value="test" />
-									<button type="button">부서찾기</button>
-								</div>
-								<div>
-									<span>직책</span> <input type="text" id="empPosition" value="test"/>
-								</div>
-							</div>
-							<div>
-								<div>
-									<span>비밀번호</span> <input type="text" id="empPassword" value="test"/>
-								</div>
+								<span>비밀번호</span> <input type="text" id="empPassword" />
 							</div>
 						</div>
 					</div>
-				</section>
+				</div>
+			</section>
 			<!-- Basic Tables end -->
 		</div>
 	</div>
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
-		const employeeRegisSubmit = () => {
-			$.ajax({
-				url: "employeeregissubmit",
-				method: "POST",
-				data: {
-					cod: "test",
-					name: $("#empName").val(),
-					password: $("#empPassword").val(),
-					departmentCod: $("#deptCod").val(),
-					empPosition: $("#empPosition").val(),
-					regdate: $("#empRegdate").val(),
-					email: $("#empEmail").val(),
-					tel: $("#empTel").val(),
-					age: $("#empAge").val(),
-					gender: $("#empGender").val()
-				},
-				async: false,
-				success: function(res) {
-					if(res == "success") {
-						alert("사원이 등록되었습니다");
-					} else {
-						alert("실패");
-					}
-					},
-				error: function(error) {
-					console.log(error)
+		function checkNumber(event) {
+		  if(event.key >= 0 && event.key <= 9) {
+		    return true;
+		  }
+		  
+		  return false;
+		}
+	
+		function blankCheck(data){
+			let blankBool = true;
+			for(let key in data) {
+				if(data[key] == '') {
+					blankBool = false;
 				}
-			})
+			}
+			if(!blankBool) {
+				alert("입력하지 않은 값이 있습니다. 다시한번 확인 부탁드립니다.");
+			}
+			return blankBool
+		};
+	
+		const employeeRegisSubmit = () => {
+
+			const data = {
+				name: $("#empName").val(),
+				password: $("#empPassword").val(),
+				departmentCod: $("#deptCod").val(),
+				empPosition: $("#empPosition").val(),
+				regdate: $("#empRegdate").val(),
+				email: $("#empEmail").val(),
+				tel: $("#empTel").val(),
+				birthdate: $("#empBirthdate").val(),
+				gender: $("#empGender").val()
+			}
+			
+			if(blankCheck(data)) {
+				$.ajax({
+					url: "employeeregissubmit",
+					method: "POST",
+					data: data,
+					async: false,
+					success: function(res) {
+						if(res == "success") {
+							alert("사원이 등록되었습니다");
+						} else {
+							alert("예상치 못한 오류가 발생했습니다.");
+						}
+						},
+					error: function(error) {
+						alert("예상치 못한 오류가 발생했습니다.");
+						console.log(error)
+					}
+				})	
+			} 
 		}
 	</script>
 </body>

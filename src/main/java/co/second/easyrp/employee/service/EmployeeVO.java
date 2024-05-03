@@ -19,6 +19,8 @@ public class EmployeeVO {
 	private Date regdate;
 	private String email;
 	private String tel;
-	private int age;
+	private Date birthdate;
 	private String gender;
+	private Date quitdate;
+	private String quitReason;
 }

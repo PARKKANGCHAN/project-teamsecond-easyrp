@@ -1,6 +1,7 @@
 package co.second.easyrp.employee.serviceImpl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -34,4 +35,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeMapper.employeeRegis(vo);
 	}
 
+	@Override
+	public List<Map<String, Object>> empListJoinedDept() {
+		// TODO Auto-generated method stub
+		return employeeMapper.empListJoinedDept();
+	}
 }

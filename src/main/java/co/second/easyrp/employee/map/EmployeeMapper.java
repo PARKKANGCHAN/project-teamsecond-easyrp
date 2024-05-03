@@ -1,6 +1,7 @@
 package co.second.easyrp.employee.map;
 
 import java.util.List;
+import java.util.Map;
 
 import co.second.easyrp.employee.service.EmployeeVO;
 
@@ -13,4 +14,7 @@ public interface EmployeeMapper {
 	
 	// 사원을 등록하는 메서드
 	int employeeRegis(EmployeeVO vo);
+	
+	// 부서정보를 join한 사원정보를 가져오는 메소드(사원조회목록에 뿌려주기위한 리스트)
+	List<Map<String, Object>> empListJoinedDept();
 }

@@ -1,6 +1,7 @@
 package co.second.easyrp.employee.web;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,7 @@ public class EmployeeController {
 	@RequestMapping("/employeelist")
 	public ModelAndView employeeList(ModelAndView modelAndView) {
 		
-		List<EmployeeVO> employeeList = employeeService.employeeAllList();
+		List<Map<String, Object>> employeeList = employeeService.empListJoinedDept();
 		
 		modelAndView.addObject("employeeList", employeeList);
 		modelAndView.setViewName("easyrp/basic-information/employeeList");

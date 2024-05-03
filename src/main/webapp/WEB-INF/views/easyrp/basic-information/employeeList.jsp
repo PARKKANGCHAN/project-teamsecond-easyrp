@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -41,203 +42,58 @@
 						style="display: flex; justify-content: space-between;">
 						<h5 class="card-title">jQuery Datatable</h5>
 						<div>
-							<a href="employeeregis">사원등록</a>						</div>
+							<a href="employeeregis">사원등록</a>
+							<button id="quitRegisBtn" type="button" class="btn btn-primary"
+								data-bs-toggle="modal" data-bs-target="#exampleModal"
+								onclick="return quitRegis()" >
+								퇴사등록</button>
+							<a href="employeeregis">수정</a> <a href="employeeregis">삭제</a>
+						</div>
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
-							<table class="table" id="table1">
+							<table class="table" id="table1" style="width: 100%">
 								<thead>
 									<tr>
-										<th>Name</th>
-										<th>Email</th>
-										<th>Phone</th>
-										<th>City</th>
-										<th>Status</th>
+										<th>사원코드</th>
+										<th>사원명</th>
+										<th>성별</th>
+										<th>생년월일</th>
+										<th>연락처</th>
+										<th>이메일</th>
+										<td>부서코드</td>
+										<th>부서명</th>
+										<th>직급</th>
+										<th>사업장</th>
+										<td>지역</td>
+										<th>입사일</th>
+										<th>퇴사일</th>
+										<th>퇴사사유</th>
+										<!-- 비밀번호는 인사팀관리자가 로그인했을때만 보여지도록 나중에 수정하기 -->
+										<th>비밀번호</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>Graiden</td>
-										<td>vehicula.aliquet@semconsequat.co.uk</td>
-										<td>076 4820 8838</td>
-										<td>Offenburg</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Dale</td>
-										<td>fringilla.euismod.enim@quam.ca</td>
-										<td>0500 527693</td>
-										<td>New Quay</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Nathaniel</td>
-										<td>mi.Duis@diam.edu</td>
-										<td>(012165) 76278</td>
-										<td>Grumo Appula</td>
-										<td><span class="badge bg-danger">Inactive</span></td>
-									</tr>
-									<tr>
-										<td>Darius</td>
-										<td>velit@nec.com</td>
-										<td>0309 690 7871</td>
-										<td>Ways</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Oleg</td>
-										<td>rhoncus.id@Aliquamauctorvelit.net</td>
-										<td>0500 441046</td>
-										<td>Rossignol</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Kermit</td>
-										<td>diam.Sed.diam@anteVivamusnon.org</td>
-										<td>(01653) 27844</td>
-										<td>Patna</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Jermaine</td>
-										<td>sodales@nuncsit.org</td>
-										<td>0800 528324</td>
-										<td>Mold</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Ferdinand</td>
-										<td>gravida.molestie@tinciduntadipiscing.org</td>
-										<td>(016977) 4107</td>
-										<td>Marlborough</td>
-										<td><span class="badge bg-danger">Inactive</span></td>
-									</tr>
-									<tr>
-										<td>Kuame</td>
-										<td>Quisque.purus@mauris.org</td>
-										<td>(0151) 561 8896</td>
-										<td>Tresigallo</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Deacon</td>
-										<td>Duis.a.mi@sociisnatoquepenatibus.com</td>
-										<td>07740 599321</td>
-										<td>Karapınar</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Channing</td>
-										<td>tempor.bibendum.Donec@ornarelectusante.ca</td>
-										<td>0845 46 49</td>
-										<td>Warrnambool</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Aladdin</td>
-										<td>sem.ut@pellentesqueafacilisis.ca</td>
-										<td>0800 1111</td>
-										<td>Bothey</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Cruz</td>
-										<td>non@quisturpisvitae.ca</td>
-										<td>07624 944915</td>
-										<td>Shikarpur</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Keegan</td>
-										<td>molestie.dapibus@condimentumDonecat.edu</td>
-										<td>0800 200103</td>
-										<td>Assen</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Ray</td>
-										<td>placerat.eget@sagittislobortis.edu</td>
-										<td>(0112) 896 6829</td>
-										<td>Hofors</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Maxwell</td>
-										<td>diam@dapibus.org</td>
-										<td>0334 836 4028</td>
-										<td>Thane</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Carter</td>
-										<td>urna.justo.faucibus@orci.com</td>
-										<td>07079 826350</td>
-										<td>Biez</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Stone</td>
-										<td>velit.Aliquam.nisl@sitametrisus.com</td>
-										<td>0800 1111</td>
-										<td>Olivar</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Berk</td>
-										<td>fringilla.porttitor.vulputate@taciti.edu</td>
-										<td>(0101) 043 2822</td>
-										<td>Sanquhar</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Philip</td>
-										<td>turpis@euenimEtiam.org</td>
-										<td>0500 571108</td>
-										<td>Okara</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Kibo</td>
-										<td>feugiat@urnajustofaucibus.co.uk</td>
-										<td>07624 682306</td>
-										<td>La Cisterna</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Bruno</td>
-										<td>elit.Etiam.laoreet@luctuslobortisClass.edu</td>
-										<td>07624 869434</td>
-										<td>Rocca d"Arce</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Leonard</td>
-										<td>blandit.enim.consequat@mollislectuspede.net</td>
-										<td>0800 1111</td>
-										<td>Lobbes</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Hamilton</td>
-										<td>mauris@diam.org</td>
-										<td>0800 256 8788</td>
-										<td>Sanzeno</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Harding</td>
-										<td>Lorem.ipsum.dolor@etnetuset.com</td>
-										<td>0800 1111</td>
-										<td>Obaix</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
-									<tr>
-										<td>Emmanuel</td>
-										<td>eget.lacus.Mauris@feugiatSednec.org</td>
-										<td>(016977) 8208</td>
-										<td>Saint-Remy-Geest</td>
-										<td><span class="badge bg-success">Active</span></td>
-									</tr>
+									<c:forEach items="${employeeList }" var="e">
+										<tr onclick="itemCheck('${e.cod}')">
+											<td>${e.cod }</td>
+											<td>${e.name }</td>
+											<td>${e.gender }</td>
+											<td>${e.birthdate }</td>
+											<td>${e.tel }</td>
+											<td>${e.email }</td>
+											<td>${e.dept_cod }</td>
+											<td>${e.dept_name }</td>
+											<td>${e.emp_position }</td>
+											<td>${e.wrkname }</td>
+											<td>${e.location }</td>
+											<td>${e.regdate }</td>
+											<td>${e.quitdate }</td>
+											<td>${e.quit_reason }</td>
+											<td>${e.password }</td>
+											<input type="hidden" id="${e.cod }" class="unchecked"/>
+										</tr>
+									</c:forEach>
 								</tbody>
 							</table>
 						</div>
@@ -246,6 +102,72 @@
 			</section>
 			<!-- Basic Tables end -->
 		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true" data-dismiss="modal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">퇴사등록</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div>
+							<span>퇴사일</span>
+							<input type="date"/>
+						</div>
+						<div>
+							<span>퇴사사유</span>
+							<input type="text" />
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save
+							changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal end -->
 	</div>
+	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript">
+	const myModal = document.getElementById('myModal');
+	const myInput = document.getElementById('myInput');
+	document.getElementById('exampleModal').toggle();
+	
+	//퇴사등록.수정.삭제할 항목을 고르는 함수
+	const itemCheck = (cod) => {
+		const input = document.getElementById(cod);
+		const tr = document.getElementById(cod).parentElement;
+		
+		if(input.className == "checked") {
+			tr.style.backgroundColor = "white";
+			input.className = "unchecked";
+		} else {
+			tr.style.backgroundColor = "#f2f7ff";
+			input.className = "checked";		
+		}
+		
+		$(".checked").each((index,item) => {
+			if(input.id != item.id) {
+				item.parentElement.style.backgroundColor = "white";
+				item.className = "unchecked";
+			}
+			
+		})
+	}
+	
+	//퇴사등록창을 띄우기전 퇴사등록할 항목을 선택했는지 확인하는 함수
+	const quitRegis = () => {
+		if($(".checked").length == 0) {
+			alert("퇴사등록을 하고자하는 사원을 체크해주세요");			
+		}
+	}
+  </script>
 </body>
 </html>
