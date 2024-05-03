@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> <%@ taglib
+uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
    <head>
@@ -68,31 +69,45 @@
                      <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
                   </div>
                </div>
-               <!-- 로그인 & 회원가입 START -->
+            </div>
+            <!-- 로그인 & 회원가입 START -->
+            <!-- 2024년 4월 29일 오후 9시 13분 수정 박현우  -->
+            <c:if test="${empty empCode}">
                <div class="d-flex justify-content-between" style="margin-top: 1rem !important">
                   <div class="col-md-12" style="text-align: center !important">
                      <a href="login" class="btn icon icon-left btn-primary"><i data-feather="key"></i>로그인</a>
                   </div>
                </div>
-               <!-- 로그인 & 회원가입 END -->
-            </div>
+            </c:if>
+            <!-- 로그인 & 회원가입 END -->
+
             <!-- 사원 정보 카드 START -->
-            <div class="card">
-               <div class="card-body px-4">
-                  <div class="row" style="align-items: center">
-                     <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-center">
-                        <div class="avatar avatar-xl">
-                           <img src="resources/easyrp/assets/compiled/jpg/1.jpg" alt="Face 1" />
+            <!-- 2024년 4월 29일 오후 9시 23분 수정 박현우  -->
+            <c:if test="${not empty empCode}">
+               <div class="card" style="margin-bottom: 0rem !important">
+                  <div class="card-body px-4">
+                     <div class="row" style="align-items: center">
+                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-center">
+                           <div class="avatar avatar-xl">
+                              <img src="resources/easyrp/assets/compiled/jpg/1.jpg" alt="Face 1" />
+                           </div>
                         </div>
-                     </div>
-                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                        <h6 class="font-semibold">박현우</h6>
-                        <h6 class="font-semibold">직급 : 사원</h6>
-                        <h6 class="font-semibold">부서 : 영업1팀</h6>
+                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                           <h6 class="font-semibold">${empName }</h6>
+                           <h6 class="font-semibold">직급 : ${empPosition }</h6>
+                           <h6 class="font-semibold">부서 : ${empDeptCode }</h6>
+                        </div>
                      </div>
                   </div>
                </div>
-            </div>
+               <div class="d-flex justify-content-between" style="margin-top: 0.3rem !important">
+                  <div class="col-md-12" style="text-align: center !important">
+                     <a href="logout" class="btn icon icon-left btn-primary"
+                        ><i class="fa-solid fa-right-from-bracket"></i>로그아웃</a
+                     >
+                  </div>
+               </div>
+            </c:if>
             <!-- 사원 정보 카드 END -->
             <div class="sidebar-menu">
                <ul class="menu">
@@ -113,13 +128,11 @@
                      </ul>
                   </li>
                   <!-- 기초 정보 관리 / 사원 및 부서 관리 END -->
-
                   <!-- 기초 정보 관리 / 공장&창고&제품 관리 START -->
                   <li class="sidebar-item has-sub">
                      <a href="#" class="sidebar-link">
                         <span style="font-weight: 800 !important">제품 및 공장&amp;창고 관리</span>
                      </a>
-
                      <ul class="submenu">
                         <li class="submenu-item"><a href="#" class="submenu-link">창고 및 공장 관리</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">제품 및 자재 관리</a></li>
@@ -128,13 +141,11 @@
                      </ul>
                   </li>
                   <!-- 기초 정보 관리 / 공장&창고&제품 관리 END -->
-
                   <!-- 기초 정보 관리 / 거래처 관리 START -->
                   <li class="sidebar-item has-sub">
                      <a href="#" class="sidebar-link">
                         <span style="font-weight: 800 !important">거래처 관리</span>
                      </a>
-
                      <ul class="submenu">
                         <li class="submenu-item"><a href="#" class="submenu-link">거래처관리</a></li>
                      </ul>
@@ -218,7 +229,7 @@
                         <span style="font-weight: 800 !important">수금 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">수금 관리</a></li>
+                        <li class="submenu-item"><a href="collectionmanagement" class="submenu-link">수금 관리</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">고객 별 채권 현황</a></li>
                      </ul>
                   </li>
@@ -328,26 +339,9 @@
                   <!-- 자재 관리 / 재고 평가 END -->
                   <!-- 자재 관리 END -->
 
-                  <li class="sidebar-item has-sub">
-                     <a href="#" class="sidebar-link toggle">
-                        📝<span style="font-weight: 800 !important">기초 정보 관리</span>
+                     <a href="commontable" class="sidebar-link toggle">
+                        📝<span style="font-weight: 800 !important">공통 사용 테이블</span>
                      </a>
-                     <ul class="submenu">
-                        <li class="sidebar-item has-sub">
-                           <a href="#" class="sidebar-link toggle">
-                              <span style="font-weight: 800 !important">사원 및 부서 관리</span>
-                           </a>
-                           <ul class="submenu">
-                              <li class="submenu-item">
-                                 <a href="employeelist" class="submenu-link">사원 기초 관리</a>
-                              </li>
-                              <li class="submenu-item">
-                                 <a href="#" class="submenu-link">부서 관리</a>
-                              </li>
-                           </ul>
-                        </li>
-                     </ul>
-                  </li>
                </ul>
             </div>
          </div>
