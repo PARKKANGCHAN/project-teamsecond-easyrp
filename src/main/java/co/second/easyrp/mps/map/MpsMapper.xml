@@ -4,7 +4,10 @@
 	<select id="mpsSelectListAll"></select>
 	<select id="mpsSelectList"></select>
 	<select id="mpsSelect"></select>
-	<insert id="mpsInsert"></insert>
+	<insert id="mpsInsert">
+		
+	</insert>
 	<update id="mpsUpdate"></update>
 	<delete id="mpsDelete"></delete>
+	<update id="orderdetailMpsStateUpdate"></update>
 </mapper>

@@ -19,4 +19,7 @@ public class MpsVO {
 	private String account;
 	private String note;
 	private String closing;
+	
+	private Date startDate;
+	private Date endDate;
 }

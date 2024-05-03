@@ -24,9 +24,9 @@ public class MpsServiceImpl implements MpsService {
 	}
 
 	@Override
-	public List<MpsVO> mpsSelectList(MpsVO mpsVo, Date startDate, Date endDate) {
+	public List<MpsVO> mpsSelectList(MpsVO mpsVo) {
 		// TODO Auto-generated method stub
-		return mpsMapper.mpsSelectList(mpsVo, startDate, endDate);
+		return mpsMapper.mpsSelectList(mpsVo);
 	}
 
 	@Override
@@ -51,6 +51,12 @@ public class MpsServiceImpl implements MpsService {
 	public int mpsDelete(MpsVO mpsVo) {
 		// TODO Auto-generated method stub
 		return mpsMapper.mpsDelete(mpsVo);
+	}
+
+	@Override
+	public int orderdetailMpsStateUpdate(MpsVO mpsVo) {
+		// TODO Auto-generated method stub
+		return mpsMapper.orderdetailMpsStateUpdate(mpsVo);
 	}
 
 }
