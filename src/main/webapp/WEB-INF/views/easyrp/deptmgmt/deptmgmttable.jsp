@@ -8,8 +8,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<!-- (2024년 4월 30일 추가 박현우) -->
-	<!-- 공통 사용 테이블 START -->
+	<!-- (2024년 5월 3일 추가 박현우) -->
+	<!-- 사원 관리 테이블 START -->
 	<div id="main">
 		<header class="mb-3">
 			<a href="#" class="burger-btn d-block d-xl-none"> <i
@@ -21,17 +21,17 @@
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
 						<h3>
-							<a href="/easyrp/commontable">공통 테이블</a>
+							<a href="/easyrp/commontable">부서 관리</a>
 						</h3>
-						<p class="text-subtitle text-muted">공통 테이블 소개(부제목)</p>
+						<p class="text-subtitle text-muted">부서 관리를 할 수 있는 현황판</p>
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
 						<nav aria-label="breadcrumb"
 							class="breadcrumb-header float-start float-lg-end">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="/easyrp">home</a></li>
-								<li class="breadcrumb-item active" aria-current="page">공통
-									테이블</li>
+								<li class="breadcrumb-item active" aria-current="page">부서
+									관리</li>
 							</ol>
 						</nav>
 					</div>
@@ -49,45 +49,37 @@
 											<div class="col-12 col-md-6 order-md-1 order-last">
 												<h3>검색</h3>
 											</div>
-											<form id="searchForm" action="commontable" method="get">
+											<form id="searchForm" action="departmentmgmt" method="get">
 												<div class="mb-4" style="text-align: center">
 													<table class="table table-bordered" id="searchTable">
 														<tr>
-															<td width="100">글 번호</td>
-															<td><input type="text" id="searchNumber"
-																name="searchNumber" class="form-control"
-																value="${searchNumber}" placeholder="글 번호를 입력해주세요." /></td>
-															<td width="100">제 목</td>
-															<td><input type="text" id="searchTitle"
-																name="searchTitle" class="form-control"
-																value="${searchTitle}" placeholder="제목을 입력해주세요." /></td>
-															<td width="100">내 용</td>
-															<td><input type="text" id="searchContent"
-																name="searchContent" class="form-control"
-																value="${searchContent}" placeholder="내용을 입력해주세요." /></td>
-															<td width="100">작성자</td>
-															<td><input type="text" id="searchAuthor"
-																name="searchAuthor" class="form-control"
-																value="${searchAuthor}" placeholder="작성자를 입력해주세요." /></td>
-														</tr>
-														<tr>
-															<td width="100">검색 날짜</td>
-															<td colspan="2"><input type="date"
-																id="preSearchDate" name="preSearchDate"
-																value="${preSearchDate}" class="form-control"
-																style="width: 47%; float: left" /> <span><i
-																	class="fa-solid fa-arrow-right"
-																	style="margin-top: 10px"></i></span> <input type="date"
-																id="postSearchDate" name="postSearchDate"
-																value="${postSearchDate}" class="form-control"
-																style="width: 47%; float: right" /></td>
+															<td width="100">부서번호</td>
+															<td><input type="text" id="searchCod"
+																name="searchCod" class="form-control"
+																value="${searchVO.searchCod}"
+																placeholder="부서 번호를 입력해주세요." /></td>
+															<td width="100">부서이름</td>
+															<td><input type="text" id="searchName"
+																name="searchName" class="form-control"
+																value="${searchVO.searchName}"
+																placeholder="부서명을 입력해주세요." /></td>
+															<td width="100">사업장</td>
+															<td><input type="text" id="searchWrkName"
+																name="searchWrkName" class="form-control"
+																value="${searchVO.searchWrkName}"
+																placeholder="사업장 명을 입력해주세요." /></td>
+															<td width="100">지역</td>
+															<td><input type="text" id="searchLocation"
+																name="searchLocation" class="form-control"
+																value="${searchVO.searchLocation}"
+																placeholder="검색 지역을 입력해주세요." /></td>
 														</tr>
 													</table>
 												</div>
-												<input type="hidden" name="offset" value="${offset}" /> <input
-													type="hidden" name="size" value="${pageSize}" />
+												<input type="hidden" name="size" value="${pageSize}" />
 												<div style="text-align: end; margin-right: 0.5rem">
 													<button type="submit" class="btn btn-primary">검색</button>
+													<button type="reset" class="btn btn-primary">초기화</button>
 												</div>
 											</form>
 										</div>
@@ -98,20 +90,20 @@
 									<table class="table table-hover mb-0">
 										<thead>
 											<tr>
-												<th width="5%">글 번호</th>
-												<th width="20%">제 목</th>
-												<th width="60%">내 용</th>
-												<th width="10%">작성자</th>
+												<th width="5%">부서 번호</th>
+												<th width="20%">부서 명</th>
+												<th width="60%">사업장</th>
+												<th width="10%">지역</th>
 												<th width="5%">기 능</th>
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach var="commonTable" items="${commonTable }">
+											<c:forEach var="departmentmgmt" items="${departmentmgmt }">
 												<tr class="commonDetailTable">
-													<td class="text-bold-500">${commonTable.postId }</td>
-													<td>${commonTable.title }</td>
-													<td class="text-bold-500">${commonTable.content }</td>
-													<td>${commonTable.author }</td>
+													<td class="text-bold-500">${departmentmgmt.cod }</td>
+													<td>${departmentmgmt.name }</td>
+													<td class="text-bold-500">${departmentmgmt.wrkname }</td>
+													<td>${departmentmgmt.location }</td>
 													<td>
 														<div class="btn-group">
 															<button type="button"
