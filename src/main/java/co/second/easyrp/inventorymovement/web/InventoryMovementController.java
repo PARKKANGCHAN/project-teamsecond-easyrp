@@ -15,11 +15,11 @@ import co.second.easyrp.inventorymovement.service.InventoryMovementVO;
 public class InventoryMovementController {
 	
 	@Autowired
-	InventoryMovementService inventorymovementService;
+	InventoryMovementService inventorymovementservice;
 	
 	@RequestMapping(value="inventorymovement", method=RequestMethod.GET)
 	public String inventoryMovementList(Model model, InventoryMovementVO inventorymovementvo) {
-		List<InventoryMovementVO> inventoryMovementList=inventorymovementService.InventoryMovementList();
+		List<InventoryMovementVO> inventoryMovementList=inventorymovementservice.InventoryMovementList();
 		model.addAttribute("inventoryMovementList", inventoryMovementList);
 		
 		return "easyrp/inventory/inventorymovement";
