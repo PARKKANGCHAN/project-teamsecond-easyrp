@@ -13,8 +13,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 <!-- Font END (현우 추가)  -->
 
+<!-- 2024년 4월 30일 오후 2시 37분 수정  -->
 <!-- 아이콘 추가 START (현우 추가) -->
 <script src="https://kit.fontawesome.com/14e995bc13.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <!-- 아이콘 추가 END (현우 추가) -->
 
 <!-- CSS 추가 START (현우 추가)  -->
@@ -31,7 +33,7 @@
 <!-- SweetAlert(JavaScript alert를 꾸며주는 API)  -->
 <link rel="stylesheet" href="resources/easyrp/assets/extensions/sweetalert2/sweetalert2.min.css">
 
-
+<script src="resources/easyrp/assets/extensions/jquery/jquery.min.js"></script>
 <!-- 라이브러리 추가 END (현우 추가)  -->
 
 <link rel="shortcut icon" href="resources/easyrp/assets/compiled/svg/favicon.svg"
@@ -66,24 +68,22 @@
 	<script src="resources/easyrp/assets/compiled/js/app.js"></script>
 
 
-<!-- 라이브러리 추가 START (현우 추가) -->
-
+<!-- 라이브러리 추가 START -->
 <!-- SweetAlert2 추가 -->
 <script src="resources/easyrp/assets/extensions/sweetalert2/sweetalert2.min.js"></script>
 <script src="resources/easyrp/assets/static/js/pages/sweetalert2.js"></script>
-
-<!-- 제이쿼리 추가 -->
-<script src="resources/easyrp/assets/extensions/jquery/jquery.min.js"></script>
 
 <!-- DataTable 추가 -->
 <script src="resources/easyrp/assets/extensions/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="resources/easyrp/assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
 <script src="resources/easyrp/assets/static/js/pages/datatables.js"></script>
 
-<!-- 라이브러리 추가 END (현우 추가) -->
+<!-- 탬플릿 차트 라이브러리 -->
+<script src="resources/easyrp/assets/extensions/apexcharts/apexcharts.min.js"></script>
+<script src="resources/easyrp/assets/static/js/pages/dashboard.js"></script>
 
-	<!-- Need: Apexcharts -->
-	<script src="resources/easyrp/assets/extensions/apexcharts/apexcharts.min.js"></script>
-	<script src="resources/easyrp/assets/static/js/pages/dashboard.js"></script>
+<!-- 라이브러리 추가 END -->
+
+
 </body>
 </html>
