@@ -20,8 +20,8 @@
 			<div class="page-title">
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
-						<h3><a href="/easyrp/commontable">공통 테이블</a></h3>
-						<p class="text-subtitle text-muted">공통 테이블 소개(부제목)</p>
+						<h3><a href="/easyrp/salesplanmanagement">판매 계획 테이블</a></h3>
+						<p class="text-subtitle text-muted">판매 계획 목록</p>
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
 						<nav aria-label="breadcrumb"
@@ -98,20 +98,26 @@
 									<table class="table table-hover mb-0">
 										<thead>
 											<tr>
-												<th width="5%">글 번호</th>
-												<th width="20%">제 목</th>
-												<th width="60%">내 용</th>
-												<th width="10%">작성자</th>
-												<th width="5%">기 능</th>
+												<th width="10%">판매계획번호</th>
+												<th width="10%">등록일자</th>
+												<th width="10%">고객번호</th>
+												<th width="10%">제품번호</th>
+												<th width="15%">기초계획수량</th>
+												<th width="15%">수정계획수량</th>
+												<th width="15%">주계획작성여부</th>
+												<th width="15%">설 정</th>
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach var="commonTable" items="${commonTable }">
+											<c:forEach items="${salesplan }" var="salesplan" >
 												<tr>
-													<td class="text-bold-500">${commonTable.postId }</td>
-													<td>${commonTable.title }</td>
-													<td class="text-bold-500">${commonTable.content }</td>
-													<td>${commonTable.author }</td>
+													<td class="text-bold-500">${salesplan.cod }</td>
+													<td>${salesplan.planDate }</td>
+													<td>${salesplan.clientCod }</td>
+													<td class="text-bold-500">${salesplan.productCod }</td>
+													<td>${salesplan.basicplnQty }</td>
+													<td>${salesplan.modplnQty }</td>
+													<td>${salesplan.closing }</td>
 													<td>
 														<div class="btn-group">
 															<button type="button"
@@ -121,9 +127,9 @@
 															</button>
 															<ul class="dropdown-menu">
 																<li><a class="dropdown-item"
-																	href="commonupdate?postId=${commonTable.postId}">수정</a></li>
+																	href="commonupdate?cod=${salesplan.cod}">수정</a></li>
 																<li><a class="dropdown-item"
-																	href="commondeletefn?postId=${commonTable.postId}">삭제</a></li>
+																	href="commondeletefn?cod=${salesplan.cod}">삭제</a></li>
 															</ul>
 														</div>
 													</td>
@@ -168,7 +174,7 @@
 						style="padding-bottom: 0.5rem; padding-top: 0.5rem;">
 						<div class="col-md-6">
 							<button type="button" class="btn btn-primary">
-								<a href="commoninsert" style="color: white">등록</a>
+								<a href="salesplaninsert" style="color: white">등록</a>
 							</button>
 						</div>
 					</div>
