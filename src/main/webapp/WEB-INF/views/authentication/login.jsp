@@ -139,7 +139,7 @@
                   },
                   success: function (response) {
                      if (response === 'success') {
-                        window.location.href = 'home';
+                        window.location.href = '/easyrp';
                      } else {
                         alert('사원번호나 비밀번호가 틀렸습니다.');
                      }
