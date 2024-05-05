@@ -25,4 +25,5 @@ public class SalesplanVO {
 	
 	private String name;
 	private String prodName;
+	
 }

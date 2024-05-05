@@ -49,7 +49,7 @@
                            </div>
                         </div>
                         <div class="card-body mb-3">
-                           <form action="commoninsertfn" method="post">
+                           <form action="salesplaninsert" method="post">
                               <div class="mb-4">
                                  <table class="table table-bordered">
                                     <!-- 글제목 INPUT INPUT -->
@@ -78,9 +78,9 @@
                                        <td width="150">기초계획수량</td>
                                        <td>
                                           <input
-                                             type="text"
+                                             type="number"
                                              id="content"
-                                             name="content"
+                                             name="basicplnQty"
                                              class="form-control"
                                              placeholder="내용을 입력해주세요."
                                              required
@@ -138,7 +138,7 @@
                                  >
                                     공통등록
                                  </button>
-                                 <a href="commontable" class="me-2">
+
                                     <button
                                        type="button"
                                        class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4"

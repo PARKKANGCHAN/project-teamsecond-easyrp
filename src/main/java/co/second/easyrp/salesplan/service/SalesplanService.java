@@ -33,5 +33,7 @@ public interface SalesplanService {
 	
 	List<SalesplanVO> ClientNameSelectList();
 	List<SalesplanVO> ProductNameSelectList();
+	String ClientCodSelect(String ClientName);
+	String ProductCodSelect(String ProductName);
 	
 }

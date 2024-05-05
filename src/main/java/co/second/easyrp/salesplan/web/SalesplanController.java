@@ -80,11 +80,25 @@ public class SalesplanController {
     	return "easyrp/salesplan/salesplaninsert";
     }
    
-//    @PostMapping("/commoninsertfn")
-//   public String commonInsertFn(CommonTableVO commonTableVO, Model model) {
-//    	commonTableService.commonInsert(commonTableVO);
-//    	return "redirect:/commontable";
-//    }
+    @RequestMapping(value = "/salesplaninsert", method = RequestMethod.POST)
+    public String salesplanInsert(@RequestParam("ClientName") String ClientName,
+    							  @RequestParam("ProductName") String ProductName,
+    							  @RequestParam("basicplnQty") int basicplnQty,
+    							  SalesplanVO vo) {
+    	
+    	String ClientCod = salesplanService.ClientCodSelect(ClientName);
+    	String ProductCod = salesplanService.ProductCodSelect(ProductName);
+    	
+    	vo.setClientCod(ClientCod);
+    	vo.setProductCod(ProductCod);
+    	vo.setBasicplnQty(basicplnQty);
+    	
+    	
+    	int result = salesplanService.SalesplanInsert(vo);
+    	
+    	
+    	return "redirect:/salesplanmanagement";
+    }
     
 	/*
 	 * @RequestMapping(value = "/salesplanupdate", method = RequestMethod.GET)

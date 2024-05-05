@@ -69,4 +69,19 @@ public class SalesplanServiceImpl implements SalesplanService {
 		return salesplanMapper.ProductNameSelectList();
 	}
 
+	@Override
+	public String ClientCodSelect(String ClientName) {
+		// TODO Auto-generated method stub
+		return salesplanMapper.ClientCodSelect(ClientName);
+	}
+
+	@Override
+	public String ProductCodSelect(String ProductName) {
+		// TODO Auto-generated method stub
+		return salesplanMapper.ProductCodSelect(ProductName);
+	}
+
+
+	
+
 }

@@ -49,4 +49,28 @@
 		select prodname from product
 	</select>
 	
+	<insert id="SalesplanInsert" parameterType="co.second.easyrp.salesplan.service.SalesplanVO">
+	
+		insert into salesplan (cod, client_cod, product_cod, basicpln_qty)
+		select 
+		    concat('spln', lpad(coalesce(max(substring(cod, 5)), 0) + 1, 3, '0')),
+			#{clientCod}, 
+			#{productCod}, 
+			#{basicplnQty}
+		FROM salesplan;
+		
+	</insert>
+	
+	<select id="ClientCodSelect" parameterType="String" resultType="String">
+		select cod from client
+		where name = #{ClientName}
+	</select>
+	
+	<select id="ProductCodSelect" parameterType="String" resultType="String">
+		select cod from product
+		where prodname = #{ProductName}
+	</select>
+	
+	
+	
 </mapper>
