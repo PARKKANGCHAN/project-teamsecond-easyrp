@@ -20,9 +20,9 @@ public interface DepartmentMgmtMapper {
 	
 	int deptmgmtInsertFn(DepartmentMgmtVO deptMgmtVo);
 	
-	int deptmgmtUpdateFn(DepartmentMgmtVO deptMgmtVo); // 아직 미완성
+	int deptmgmtUpdateFn(DepartmentMgmtVO deptMgmtVo);
 	
-	int deptmgmtDeleteFn(String cod); // 아직 미완성
+	int deptmgmtDeleteFn(String cod);
 	
 	int countDepartmentTable(SearchVO searchVo);
 
