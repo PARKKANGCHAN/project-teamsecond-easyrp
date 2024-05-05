@@ -127,9 +127,9 @@
 															</button>
 															<ul class="dropdown-menu">
 																<li><a class="dropdown-item"
-																	href="commonupdate?cod=${salesplan.cod}">수정</a></li>
+																	href="salesplanupdate?cod=${salesplan.cod}">수정</a></li>
 																<li><a class="dropdown-item"
-																	href="commondeletefn?cod=${salesplan.cod}">삭제</a></li>
+																	href="salesplandelete?cod=${salesplan.cod}">삭제</a></li>
 															</ul>
 														</div>
 													</td>

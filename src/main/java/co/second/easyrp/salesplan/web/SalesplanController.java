@@ -100,15 +100,14 @@ public class SalesplanController {
     	return "redirect:/salesplanmanagement";
     }
     
-	/*
-	 * @RequestMapping(value = "/salesplanupdate", method = RequestMethod.GET)
-	 * public String commonUpdate(Model model, @RequestParam("postId") int postId) {
-	 * CommonTableVO updateData = commonTableService.getCommonData(postId);
-	 * 
-	 * model.addAttribute("updateData", updateData);
-	 * 
-	 * return "easyrp/salesplan/salesplanupdate"; }
-	 */
+	
+	@RequestMapping(value = "/salesplanupdate", method = RequestMethod.GET)
+	public String salesplanupdate(@RequestParam("cod") String cod) {
+		
+		
+	  
+	  
+	return "easyrp/salesplan/salesplanupdate"; }
    
 //   @PostMapping("/commonupdatefn")
 //    public String commonUpdateFn(CommonTableVO commonTableVO) {
