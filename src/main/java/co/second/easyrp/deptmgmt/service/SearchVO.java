@@ -9,10 +9,10 @@ import lombok.ToString;
 @Setter
 @ToString
 public class SearchVO {
-	private int offset=1;
-	private int pageSize=10;
 	private String searchCod;
 	private String searchName;
 	private String searchWrkName;
 	private String searchLocation;
+	private int pageSize = 10;
+	private int offset = 0;
 }

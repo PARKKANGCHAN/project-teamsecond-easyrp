@@ -21,7 +21,7 @@
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
 						<h3>
-							<a href="/easyrp/commontable">부서 관리</a>
+							<a href="departmentmgmt">부서 관리</a>
 						</h3>
 						<p class="text-subtitle text-muted">부서 관리를 할 수 있는 현황판</p>
 					</div>
@@ -76,34 +76,32 @@
 														</tr>
 													</table>
 												</div>
-												<input type="hidden" name="size" value="${pageSize}" />
 												<div style="text-align: end; margin-right: 0.5rem">
 													<button type="submit" class="btn btn-primary">검색</button>
-													<button type="reset" class="btn btn-primary">초기화</button>
+													<button type="button" class="btn btn-primary"
+														onclick="resetSearchForm()">초기화</button>
 												</div>
 											</form>
 										</div>
 									</div>
 									<!-- 검색 FORM END -->
-									<button id="loadDetail" data-bs-toggle="modal"
-										data-bs-target="#detailModal">모달</button>
 									<table class="table table-hover mb-0">
 										<thead>
 											<tr>
-												<th width="5%">부서 번호</th>
-												<th width="20%">부서 명</th>
+												<th width="5%">부서번호</th>
+												<th width="20%">부서이름</th>
 												<th width="60%">사업장</th>
-												<th width="10%">지역</th>
+												<th width="10%">지 역</th>
 												<th width="5%">기 능</th>
 											</tr>
 										</thead>
 										<tbody>
 											<c:forEach var="departmentmgmt" items="${departmentmgmt }">
 												<tr class="commonDetailTable">
-													<td class="text-bold-500">${departmentmgmt.cod }</td>
-													<td>${departmentmgmt.name }</td>
-													<td class="text-bold-500">${departmentmgmt.wrkname }</td>
-													<td>${departmentmgmt.location }</td>
+													<td class="text-bold-500">${departmentmgmt.cod}</td>
+													<td>${departmentmgmt.name}</td>
+													<td class="text-bold-500">${departmentmgmt.wrkname}</td>
+													<td>${departmentmgmt.location}</td>
 													<td>
 														<div class="btn-group">
 															<button type="button"
@@ -113,15 +111,21 @@
 															</button>
 															<ul class="dropdown-menu">
 																<li><a class="dropdown-item"
-																	href="commonupdate?postId=${commonTable.postId}">수정</a></li>
+																	href="deptmgmtupdate?cod=${departmentmgmt.cod}">수정</a></li>
 																<li><a class="dropdown-item"
-																	href="commondeletefn?postId=${commonTable.postId}">삭제</a></li>
+																	href="deptmgmtdeletefn?cod=${departmentmgmt.cod}">삭제</a></li>
 															</ul>
 														</div>
 													</td>
 												</tr>
 											</c:forEach>
+											<c:if test="${empty departmentmgmt}">
+												<tr>
+													<td colspan="5" class="text-center">데이터가 존재하지 않습니다.</td>
+												</tr>
+											</c:if>
 										</tbody>
+
 									</table>
 								</div>
 							</div>
@@ -130,11 +134,10 @@
 					<!-- 페이지네이션 START -->
 					<nav aria-label="Page navigation">
 						<ul class="pagination justify-content-center">
-							<!-- Previous 10 Pages -->
 							<li
 								class="page-item <c:if test='${startPage == 1}'>disabled</c:if>">
 								<a class="page-link"
-								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&size=${pageSize}&searchNumber=${param.searchNumber}&searchTitle=${param.searchTitle}&searchContent=${param.searchContent}&searchAuthor=${param.searchAuthor}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">이전
+								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&searchCod=${searchVO.searchCod}&searchName=${searchVO.searchName}&searchWrkName=${searchVO.searchWrkName}&searchLocation=${searchVO.searchLocation}</c:if>">이전
 									10 페이지</a>
 							</li>
 
@@ -142,14 +145,14 @@
 								<li
 									class="page-item <c:if test='${i == currentPage}'>active</c:if>">
 									<a class="page-link"
-									href="?page=${i}&size=${pageSize}&searchNumber=${param.searchNumber}&searchTitle=${param.searchTitle}&searchContent=${param.searchContent}&searchAuthor=${param.searchAuthor}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}">${i}</a>
+									href="?page=${i}&searchCod=${searchVO.searchCod}&searchName=${searchVO.searchName}&searchWrkName=${searchVO.searchWrkName}&searchLocation=${searchVO.searchLocation}">${i}</a>
 								</li>
 							</c:forEach>
 
 							<li
 								class="page-item <c:if test='${endPage == totalPages}'>disabled</c:if>">
 								<a class="page-link"
-								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&size=${pageSize}&searchNumber=${param.searchNumber}&searchTitle=${param.searchTitle}&searchContent=${param.searchContent}&searchAuthor=${param.searchAuthor}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">다음
+								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&searchCod=${searchVO.searchCod}&searchName=${searchVO.searchName}&searchWrkName=${searchVO.searchWrkName}&searchLocation=${searchVO.searchLocation}</c:if>">다음
 									10 페이지</a>
 							</li>
 						</ul>
@@ -160,7 +163,7 @@
 						style="padding-bottom: 0.5rem; padding-top: 0.5rem;">
 						<div class="col-md-6">
 							<button type="button" class="btn btn-primary">
-								<a href="commoninsert" style="color: white">등록</a>
+								<a href="deptmgmtinsert" style="color: white">등록</a>
 							</button>
 						</div>
 					</div>
@@ -168,98 +171,17 @@
 			</section>
 		</div>
 	</div>
-	<!-- 공통 사용 테이블 END -->
-	<!-- 상세페이지 모달 START -->
-	<div class="modal fade" id="detailModal" tabindex="-1"
-		aria-labelledby="detailModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-xl">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="detailModalLabel">공통 상세 페이지</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<table class="table">
-						<tr>
-							<th scope="col">수주 번호</th>
-							<td>0001</td>
-							<th scope="col">거래처 명</th>
-							<td>우주상사</td>
-							<th scope="col">수주 날짜</th>
-							<td>2024-05-03</td>
-						</tr>
-						<tr>
-							<th scope="col">수주 담당 부서</th>
-							<td>영업1팀</td>
-							<th scope="col">수주 담당 사원코드</th>
-							<td>emp001</td>
-							<th scope="col">수주 담당자 명</th>
-							<td>박현우</td>
-						</tr>
-						<tr>
-							<th colspan="1">상품 코드</th>
-							<th colspan="1">상품 명</th>
-							<th colspan="1">수 량</th>
-							<th colspan="1">단 가</th>
-							<th colspan="1">공급가액</th>
-							<th colspan="1">부가세</th>
-						<tr>
-							<td colspan="1">product_01</td>
-							<td colspan="1">컴퓨터 100대</td>
-							<td colspan="1">10개</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000,000</td>
-							<td colspan="1">1,000,000</td>
-						</tr>
-						<tr>
-							<td colspan="1">product_02</td>
-							<td colspan="1">마우스 100개</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000</td>
-						</tr>
-						<tr>
-							<td colspan="1">product_02</td>
-							<td colspan="1">키보드 100개</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000</td>
-						</tr>
-						<tr>
-							<td colspan="1">product_02</td>
-							<td colspan="1">모니터 100대</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000</td>
-						</tr>
-						<tr>
-							<th colspan="1">총 합</th>
-							<td colspan="1"></td>
-							<td colspan="1"></td>
-							<td colspan="1"></td>
-							<td colspan="1">5,000,000</td>
-							<td colspan="1">5,000,000</td>
-						</tr>
-						<tr>
-							<td colspan="6" style="border-bottom-width: 0px">
-								<button type="button" class="btn btn-primary">전표 생성</button>
-								<button type="button" class="btn btn-primary">출력</button>
-								<button type="button" class="btn btn-primary">이메일 보내기</button>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">닫기</button>
-				</div>
-			</div>
-		</div>
-	</div>
+	<!-- 부서 관리 테이블 END -->
+	<!-- 2024년 5월 5일 오전 7시 47분 추가  -->
+	<!-- 초기화 버튼 작동 자바스크립트  -->
+	<script type="text/javascript">
+		function resetSearchForm() {
+			$('#searchCod').val('');
+			$('#searchName').val('');
+			$('#searchWrkName').val('');
+			$('#searchLocation').val('');
+		}
+	</script>
 	<!-- 상세페이지 모달 END  -->
 </body>
 </html>

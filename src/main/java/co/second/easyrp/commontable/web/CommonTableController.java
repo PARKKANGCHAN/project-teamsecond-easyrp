@@ -80,8 +80,9 @@ public class CommonTableController {
 
 	@PostMapping("/commonupdatefn")
 	public String commonUpdateFn(CommonTableVO commonTableVO) {
+		
 		commonTableService.commonUpdate(commonTableVO);
-
+		
 		return "redirect:/commontable";
 	}
 

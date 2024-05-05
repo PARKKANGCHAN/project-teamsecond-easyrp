@@ -122,7 +122,6 @@
 		<!-- Servlet END (현우 추가) -->
 
 
-
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -209,36 +208,13 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-	
 
-		<!-- Spring security START (인증 및 인가 /로그인 관련 API) -->
-		<!-- (2024년 4월 29일 오후 6시 16분 박현우 추가) -->
-		
-
+		<!--https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
 		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-core</artifactId>
-		    <version>5.4.6</version>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.17.1</version>
 		</dependency>
-
-	
-		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
-		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-config</artifactId>
-		    <version>5.4.6</version>
-		</dependency>
-
-	
-		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-web</artifactId>
-		    <version>5.4.6</version>
-		</dependency>
-
-
-		
-		<!-- Spring security END (인증 및 인가 /로그인 관련 API) -->
 
 
 	</dependencies>
@@ -251,10 +227,12 @@
 				<version>2.9</version>
 				<configuration>
 					<additionalProjectnatures>
-						<projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+						<projectnature>
+							org.springframework.ide.eclipse.core.springnature</projectnature>
 					</additionalProjectnatures>
 					<additionalBuildcommands>
-						<buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
+						<buildcommand>
+							org.springframework.ide.eclipse.core.springbuilder</buildcommand>
 					</additionalBuildcommands>
 					<downloadSources>true</downloadSources>
 					<downloadJavadocs>true</downloadJavadocs>

@@ -6,6 +6,18 @@ import java.util.List;
 public interface DepartmentMgmtService {
 	
 	List<DepartmentMgmtVO> departmentTableAllList(SearchVO searchVo);
+	
+	DepartmentMgmtVO getDeptData(String cod);
+	
+	List<WorkplaceVO> getAllWorkplaceValues();
+	
+	String getMaxCode();
+	
+	int deptmgmtInsertFn(DepartmentMgmtVO deptMgmtVo);
+	
+	int deptmgmtUpdateFn(DepartmentMgmtVO deptMgmtVo); // 아직 미완성
+	
+	int deptmgmtDeleteFn(String cod); // 아직 미완성
 
 	int countDepartmentTable(SearchVO searchVo);
 }

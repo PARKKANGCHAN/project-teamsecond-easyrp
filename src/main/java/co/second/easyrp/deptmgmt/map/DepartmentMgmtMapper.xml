@@ -5,7 +5,7 @@
 	<select id="departmentTableAllList" parameterType="co.second.easyrp.deptmgmt.service.SearchVO" resultType="co.second.easyrp.deptmgmt.service.DepartmentMgmtVO">
 		SELECT cod, name, wrkname, location
 		FROM department
-		WHERE DELETEYN = 'N'
+		WHERE deleteyn = 'N'
 		<if test="searchCod != null and searchCod != ''">
 			AND cod = #{searchCod}
 		</if>
@@ -20,6 +20,12 @@
 		</if>
 		ORDER BY cod DESC
 		LIMIT #{pageSize} OFFSET #{offset}
+	</select>
+	
+	<select id="getDeptData" parameterType="co.second.easyrp.deptmgmt.service.DepartmentMgmtVO">
+		SELECT cod, name, wrkname, location
+		FROM department
+		WHERE cod = #{cod};
 	</select>
 	
 	<select id="countDepartmentTable" parameterType="co.second.easyrp.deptmgmt.service.SearchVO" resultType="int">
@@ -39,6 +45,50 @@
 			AND location LIKE CONCAT('%', #{searchLocation}, '%')
 		</if>
 	</select>
+	
+	<select id="getMaxCode" resultType="String">
+		SELECT max(cod) as 'cod'
+		FROM department
+		WHERE deleteyn = 'N';
+	</select>
+	
+	<select id="getAllWorkplaceValues" resultType="co.second.easyrp.deptmgmt.service.WorkplaceVO">
+	  SELECT code, name, location
+	  FROM workplace
+	  where deleteyn = 'N';
+	</select>
+	
+	<insert id="deptmgmtInsertFn" parameterType="co.second.easyrp.deptmgmt.service.DepartmentMgmtVO">
+		INSERT INTO department (
+		cod,
+		name,
+		wrkname,
+		location)
+		VALUES(
+		#{cod},
+		#{name},
+		#{wrkname},
+		#{location}
+		);
+	</insert>
+	
+	<update id="deptmgmtUpdateFn" parameterType="co.second.easyrp.deptmgmt.service.DepartmentMgmtVO">
+		UPDATE department
+		SET
+		name = #{name},
+		wrkname = #{wrkname},
+		location = #{location}
+		WHERE cod = #{cod};
+	</update>
+	
+	<update id="deptmgmtDeleteFn">
+		UPDATE department
+		SET
+		DELETEYN = 'Y'
+		WHERE cod = #{cod};
+	</update>
+	
+	
 	
 	
 </mapper>
