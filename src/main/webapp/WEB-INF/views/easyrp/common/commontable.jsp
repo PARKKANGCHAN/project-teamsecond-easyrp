@@ -20,7 +20,9 @@
 			<div class="page-title">
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
-						<h3><a href="/easyrp/commontable">공통 테이블</a></h3>
+						<h3>
+							<a href="/easyrp/commontable">공통 테이블</a>
+						</h3>
 						<p class="text-subtitle text-muted">공통 테이블 소개(부제목)</p>
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
@@ -54,35 +56,31 @@
 															<td width="100">글 번호</td>
 															<td><input type="text" id="searchNumber"
 																name="searchNumber" class="form-control"
-																value="${searchNumber}"
-																placeholder="글 번호를 입력해주세요." /></td>
+																value="${searchNumber}" placeholder="글 번호를 입력해주세요." /></td>
 															<td width="100">제 목</td>
 															<td><input type="text" id="searchTitle"
 																name="searchTitle" class="form-control"
-																value="${searchTitle}"
-																placeholder="제목을 입력해주세요." /></td>
+																value="${searchTitle}" placeholder="제목을 입력해주세요." /></td>
 															<td width="100">내 용</td>
 															<td><input type="text" id="searchContent"
 																name="searchContent" class="form-control"
-																value="${searchContent}"
-																placeholder="내용을 입력해주세요." /></td>
+																value="${searchContent}" placeholder="내용을 입력해주세요." /></td>
 															<td width="100">작성자</td>
 															<td><input type="text" id="searchAuthor"
 																name="searchAuthor" class="form-control"
-																value="${searchAuthor}"
-																placeholder="작성자를 입력해주세요." /></td>
+																value="${searchAuthor}" placeholder="작성자를 입력해주세요." /></td>
 														</tr>
 														<tr>
 															<td width="100">검색 날짜</td>
 															<td colspan="2"><input type="date"
 																id="preSearchDate" name="preSearchDate"
-																value="${preSearchDate}"
-																class="form-control" style="width: 47%; float: left" />
-																<span><i class="fa-solid fa-arrow-right"
+																value="${preSearchDate}" class="form-control"
+																style="width: 47%; float: left" /> <span><i
+																	class="fa-solid fa-arrow-right"
 																	style="margin-top: 10px"></i></span> <input type="date"
 																id="postSearchDate" name="postSearchDate"
-																value="${postSearchDate}"
-																class="form-control" style="width: 47%; float: right" /></td>
+																value="${postSearchDate}" class="form-control"
+																style="width: 47%; float: right" /></td>
 														</tr>
 													</table>
 												</div>
@@ -95,6 +93,8 @@
 										</div>
 									</div>
 									<!-- 검색 FORM END -->
+									<button id="loadDetail" data-bs-toggle="modal"
+										data-bs-target="#detailModal">모달</button>
 									<table class="table table-hover mb-0">
 										<thead>
 											<tr>
@@ -107,7 +107,7 @@
 										</thead>
 										<tbody>
 											<c:forEach var="commonTable" items="${commonTable }">
-												<tr>
+												<tr class="commonDetailTable">
 													<td class="text-bold-500">${commonTable.postId }</td>
 													<td>${commonTable.title }</td>
 													<td class="text-bold-500">${commonTable.content }</td>
@@ -177,5 +177,97 @@
 		</div>
 	</div>
 	<!-- 공통 사용 테이블 END -->
+	<!-- 상세페이지 모달 START -->
+	<div class="modal fade" id="detailModal" tabindex="-1"
+		aria-labelledby="detailModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="detailModalLabel">공통 상세 페이지</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+							<th scope="col">수주 번호</th>
+							<td>0001</td>
+							<th scope="col">거래처 명</th>
+							<td>우주상사</td>
+							<th scope="col">수주 날짜</th>
+							<td>2024-05-03</td>
+						</tr>
+						<tr>
+							<th scope="col">수주 담당 부서</th>
+							<td>영업1팀</td>
+							<th scope="col">수주 담당 사원코드</th>
+							<td>emp001</td>
+							<th scope="col">수주 담당자 명</th>
+							<td>박현우</td>
+						</tr>
+						<tr>
+							<th colspan="1">상품 코드</th>
+							<th colspan="1">상품 명</th>
+							<th colspan="1">수 량</th>
+							<th colspan="1">단 가</th>
+							<th colspan="1">공급가액</th>
+							<th colspan="1">부가세</th>
+						<tr>
+							<td colspan="1">product_01</td>
+							<td colspan="1">컴퓨터 100대</td>
+							<td colspan="1">10개</td>
+							<td colspan="1">1,000,000</td>
+							<td colspan="1">1,000,000,000</td>
+							<td colspan="1">1,000,000</td>
+						</tr>
+						<tr>
+							<td colspan="1">product_02</td>
+							<td colspan="1">마우스 100개</td>
+							<td colspan="1">1,000,000</td>
+							<td colspan="1">1,000,000</td>
+							<td colspan="1">1,000,000</td>
+							<td colspan="1">1,000,000</td>
+						</tr>
+						<tr>
+							<td colspan="1">product_02</td>
+							<td colspan="1">키보드 100개</td>
+							<td colspan="1">1,000,000</td>
+							<td colspan="1">1,000,000</td>
+							<td colspan="1">1,000,000</td>
+							<td colspan="1">1,000,000</td>
+						</tr>
+						<tr>
+							<td colspan="1">product_02</td>
+							<td colspan="1">모니터 100대</td>
+							<td colspan="1">1,000,000</td>
+							<td colspan="1">1,000,000</td>
+							<td colspan="1">1,000,000</td>
+							<td colspan="1">1,000,000</td>
+						</tr>
+						<tr>
+							<th colspan="1">총 합</th>
+							<td colspan="1"></td>
+							<td colspan="1"></td>
+							<td colspan="1"></td>
+							<td colspan="1">5,000,000</td>
+							<td colspan="1">5,000,000</td>
+						</tr>
+						<tr>
+							<td colspan="6" style="border-bottom-width: 0px">
+								<button type="button" class="btn btn-primary">전표 생성</button>
+								<button type="button" class="btn btn-primary">출력</button>
+								<button type="button" class="btn btn-primary">이메일 보내기</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 상세페이지 모달 END  -->
 </body>
 </html>
