@@ -246,7 +246,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                         <span style="font-weight: 800 !important">계획 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">주계획 관리</a></li>
+                        <li class="submenu-item"><a href="mpsmanagement" class="submenu-link">주계획 관리</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">소요량전개 관리</a></li>
                      </ul>
                   </li>

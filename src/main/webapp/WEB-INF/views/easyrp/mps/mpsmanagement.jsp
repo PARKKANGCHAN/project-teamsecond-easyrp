@@ -8,7 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<!-- (2024년 4월 30일 추가 박현우) -->
 	<!-- 공통 사용 테이블 START -->
 	<div id="main">
 		<header class="mb-3">
@@ -30,8 +29,8 @@
 							class="breadcrumb-header float-start float-lg-end">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="/easyrp">home</a></li>
-								<li class="breadcrumb-item active" aria-current="page">공통
-									테이블</li>
+								<li class="breadcrumb-item active" aria-current="page">주계획
+									목록</li>
 							</ol>
 						</nav>
 					</div>
@@ -94,42 +93,59 @@
 										</div>
 									</div>
 									<!-- 검색 FORM END -->
-									<button id="loadDetail" data-bs-toggle="modal"
-										data-bs-target="#detailModal">모달</button>
 									<table class="table table-hover mb-0">
 										<thead>
 											<tr>
-												<th width="5%">글 번호</th>
-												<th width="20%">제 목</th>
-												<th width="60%">내 용</th>
-												<th width="10%">작성자</th>
-												<th width="5%">기 능</th>
+												<th>계획일</th>
+												<th>품번</th>
+												<th>품명</th>
+												<th>규격</th>
+												<th>단위</th>
+												<th>출하예정일</th>
+												<th>납기일</th>
+												<th>계획수량</th>
+												<th>고객</th>
+												<th>비고</th>
+												<th>기능</th>
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach var="commonTable" items="${commonTable }">
-												<tr class="commonDetailTable">
-													<td class="text-bold-500">${commonTable.postId }</td>
-													<td>${commonTable.title }</td>
-													<td class="text-bold-500">${commonTable.content }</td>
-													<td>${commonTable.author }</td>
-													<td>
-														<div class="btn-group">
-															<button type="button"
-																class="btn btn-primary dropdown-toggle"
-																data-bs-toggle="dropdown" aria-expanded="false">
-																<i class="fa-solid fa-gear"></i>
-															</button>
-															<ul class="dropdown-menu">
-																<li><a class="dropdown-item"
-																	href="commonupdate?postId=${commonTable.postId}">수정</a></li>
-																<li><a class="dropdown-item"
-																	href="commondeletefn?postId=${commonTable.postId}">삭제</a></li>
-															</ul>
-														</div>
-													</td>
+											<c:if test="${not empty mpsTable }">
+												<c:forEach var="mpsTable" items="${mpsTable }">
+													<tr>
+														<td class="text-bold-500">${commonTable.postId }</td>
+														<td>${commonTable.title }</td>
+														<td class="text-bold-500">${commonTable.content }</td>
+														<td>${commonTable.author }</td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td>
+															<div class="btn-group">
+																<button type="button"
+																	class="btn btn-primary dropdown-toggle"
+																	data-bs-toggle="dropdown" aria-expanded="false">
+																	<i class="fa-solid fa-gear"></i>
+																</button>
+																<ul class="dropdown-menu">
+																	<li><a class="dropdown-item"
+																		href="commonupdate?postId=${mpsTable.postId}">수정</a></li>
+																	<li><a class="dropdown-item"
+																		href="commondeletefn?postId=${mpsTable.postId}">삭제</a></li>
+																</ul>
+															</div>
+														</td>
+													</tr>
+												</c:forEach>
+											</c:if>
+											<c:if test="${empty mpsTable }">
+												<tr>
+													<td colspan="11">주계획 내역이 없습니다.</td>
 												</tr>
-											</c:forEach>
+											</c:if>
 										</tbody>
 									</table>
 								</div>
@@ -169,7 +185,7 @@
 						style="padding-bottom: 0.5rem; padding-top: 0.5rem;">
 						<div class="col-md-6">
 							<button type="button" class="btn btn-primary">
-								<a href="commoninsert" style="color: white">등록</a>
+								<a href="mpsinsert" style="color: white">등록</a>
 							</button>
 						</div>
 					</div>
@@ -178,97 +194,8 @@
 		</div>
 	</div>
 	<!-- 공통 사용 테이블 END -->
-	<!-- 상세페이지 모달 START -->
-	<div class="modal fade" id="detailModal" tabindex="-1"
-		aria-labelledby="detailModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-xl">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="detailModalLabel">공통 상세 페이지</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<table class="table">
-						<tr>
-							<th scope="col">수주 번호</th>
-							<td>0001</td>
-							<th scope="col">거래처 명</th>
-							<td>우주상사</td>
-							<th scope="col">수주 날짜</th>
-							<td>2024-05-03</td>
-						</tr>
-						<tr>
-							<th scope="col">수주 담당 부서</th>
-							<td>영업1팀</td>
-							<th scope="col">수주 담당 사원코드</th>
-							<td>emp001</td>
-							<th scope="col">수주 담당자 명</th>
-							<td>박현우</td>
-						</tr>
-						<tr>
-							<th colspan="1">상품 코드</th>
-							<th colspan="1">상품 명</th>
-							<th colspan="1">수 량</th>
-							<th colspan="1">단 가</th>
-							<th colspan="1">공급가액</th>
-							<th colspan="1">부가세</th>
-						<tr>
-							<td colspan="1">product_01</td>
-							<td colspan="1">컴퓨터 100대</td>
-							<td colspan="1">10개</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000,000</td>
-							<td colspan="1">1,000,000</td>
-						</tr>
-						<tr>
-							<td colspan="1">product_02</td>
-							<td colspan="1">마우스 100개</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000</td>
-						</tr>
-						<tr>
-							<td colspan="1">product_02</td>
-							<td colspan="1">키보드 100개</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000</td>
-						</tr>
-						<tr>
-							<td colspan="1">product_02</td>
-							<td colspan="1">모니터 100대</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000</td>
-						</tr>
-						<tr>
-							<th colspan="1">총 합</th>
-							<td colspan="1"></td>
-							<td colspan="1"></td>
-							<td colspan="1"></td>
-							<td colspan="1">5,000,000</td>
-							<td colspan="1">5,000,000</td>
-						</tr>
-						<tr>
-							<td colspan="6" style="border-bottom-width: 0px">
-								<button type="button" class="btn btn-primary">전표 생성</button>
-								<button type="button" class="btn btn-primary">출력</button>
-								<button type="button" class="btn btn-primary">이메일 보내기</button>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">닫기</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- 상세페이지 모달 END  -->
 </body>
+<script>
+	
+</script>
 </html>
