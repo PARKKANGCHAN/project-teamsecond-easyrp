@@ -16,8 +16,8 @@
             <div class="page-title">
                <div class="row">
                   <div class="col-12 col-md-6 order-md-1 order-last">
-                     <h3>판매계획 수정</h3>
-                     <p class="text-subtitle text-muted">판매계획 수정</p>
+                     <h3>견적 등록</h3>
+                     <p class="text-subtitle text-muted">견적 등록</p>
                   </div>
                   <div class="col-12 col-md-6 order-md-2 order-first">
                      <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -49,40 +49,38 @@
                            </div>
                         </div>
                         <div class="card-body mb-3">
-                           <form action="salesplanupdateFn?cod=${salesplanCod}" method="post">
+                           <form action="salesplaninsertFn" method="post">
                               <div class="mb-4">
                                  <table class="table table-bordered">
                                     <!-- 글제목 INPUT INPUT -->
                                     <tr>
                                        <td width="150">거래처명</td>
                                        <td>
-                                          <input 
-                                          	type="text" 
-                                          	name="clientName" 
-                                          	value="${clientName }" 
-                                          	class="form-control"
-                                          	readonly />
+                                          <select class="form-select" id="ClientName" name="ClientName">
+                                          	<c:forEach items="${ClientNames}" var="c">
+											  <option>${c.name}</option>
+											</c:forEach>
+										  </select>
                                        </td>
                                     </tr>
                                     <!-- 내용 INPUT -->
                                     <tr>
                                        <td width="150">제품이름</td>
                                        <td>
-                                          <input 
-                                          	type="text" 
-                                          	name="productName" 
-                                          	value="${productName }" 
-                                          	class="form-control"
-                                          	readonly />
+                                          <select class="form-select" id="ProductName" name="ProductName">
+                                          	<c:forEach items="${ProductNames}" var="p">
+											  <option>${p.prodName}</option>
+											</c:forEach>
+										  </select>
                                        </td>
                                     </tr>
                                     <tr>
-                                       <td width="150">수정계획수량</td>
+                                       <td width="150">기초계획수량</td>
                                        <td>
                                           <input
                                              type="number"
                                              id="content"
-                                             name="modplnQty"
+                                             name="basicplnQty"
                                              class="form-control"
                                              placeholder="내용을 입력해주세요."
                                              required
