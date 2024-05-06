@@ -71,6 +71,25 @@
 		where prodname = #{ProductName}
 	</select>
 	
+	<update id="SalesplanUpdate" parameterType="co.second.easyrp.salesplan.service.SalesplanVO">
+		update salesplan
+		set modpln_qty = #{modplnQty}
+		where cod = #{cod}
+	</update>
+	
+	<select id="SalesplanNameSelect" parameterType="String">
+		SELECT sp.cod, c.name, pr.prodname
+		FROM salesplan sp
+		JOIN client c ON sp.client_cod = c.cod
+		JOIN product pr ON sp.product_cod = pr.cod
+		where sp.cod = #{cod}
+	</select>
+	
+	<update id="SalesplanDelete" parameterType="co.second.easyrp.salesplan.service.SalesplanVO">
+		update salesplan
+		set deleteyn = 'Y'
+		where cod = #{cod}
+	</update>
 	
 	
 </mapper>

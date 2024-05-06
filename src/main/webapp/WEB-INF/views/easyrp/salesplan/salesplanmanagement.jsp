@@ -129,7 +129,7 @@
 																<li><a class="dropdown-item"
 																	href="salesplanupdate?cod=${salesplan.cod}">수정</a></li>
 																<li><a class="dropdown-item"
-																	href="salesplandelete?cod=${salesplan.cod}">삭제</a></li>
+																	href="salesplandeleteFn?cod=${salesplan.cod}">삭제</a></li>
 															</ul>
 														</div>
 													</td>

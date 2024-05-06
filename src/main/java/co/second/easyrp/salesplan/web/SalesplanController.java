@@ -80,7 +80,7 @@ public class SalesplanController {
     	return "easyrp/salesplan/salesplaninsert";
     }
    
-    @RequestMapping(value = "/salesplaninsert", method = RequestMethod.POST)
+    @RequestMapping(value = "/salesplaninsertFn", method = RequestMethod.POST)
     public String salesplanInsert(@RequestParam("ClientName") String ClientName,
     							  @RequestParam("ProductName") String ProductName,
     							  @RequestParam("basicplnQty") int basicplnQty,
@@ -102,28 +102,47 @@ public class SalesplanController {
     
 	
 	@RequestMapping(value = "/salesplanupdate", method = RequestMethod.GET)
-	public String salesplanupdate(@RequestParam("cod") String cod) {
+	public String salesplanupdate(@RequestParam("cod") String cod,
+								  Model model) {
 		
 		
+		SalesplanVO vo = salesplanService.SalesplanNameSelect(cod);
+		vo.setCod(cod);
+		String salesplanCod = vo.getCod();
+		
+		String clientName = vo.getName();
+		String productName = vo.getProdName();
+		model.addAttribute("clientName", clientName);
+		model.addAttribute("productName", productName);
+		model.addAttribute("salesplanCod", salesplanCod);
 	  
-	  
-	return "easyrp/salesplan/salesplanupdate"; }
+		return "easyrp/salesplan/salesplanupdate"; 
+	}
    
-//   @PostMapping("/commonupdatefn")
-//    public String commonUpdateFn(CommonTableVO commonTableVO) {
-//    	commonTableService.commonUpdate(commonTableVO);
-//    	
-//    	return "redirect:/salesplanupdate";
-//    }
+	@PostMapping("/salesplanupdateFn")
+	public String salesplanupdateFn(@RequestParam("cod") String cod,
+    								@RequestParam("modplnQty") int modplnQty,
+    								SalesplanVO vo) {
+	   
+	   vo.setCod(cod);
+	   vo.setModplnQty(modplnQty);
+	   
+	   int result = salesplanService.SalesplanUpdate(vo);
+    	
+    	return "redirect:/salesplanmanagement";
+    }
     
-//    @GetMapping("/commondeletefn")
-//    public String commonDeleteFn(CommonTableVO commonTableVO, @RequestParam("postId") int postId, Model model) {
-//    	CommonTableVO deleteData = commonTableService.getCommonData(postId);
-//    	
-//    	model.addAttribute("deleteData", deleteData);
-//    	commonTableService.commonDelete(commonTableVO);
-//    	return "redirect:/commontable";
-//    }
+	@GetMapping("/salesplandeleteFn")
+    public String salesplandeleteFn(@RequestParam("cod") String cod, 
+    								SalesplanVO vo,
+    								Model model) {
+		
+		vo.setCod(cod);
+		
+    	int result = salesplanService.SalesplanDelete(vo);
+    	
+    	return "redirect:/salesplanmanagement";
+    }
     
 //    @GetMapping("/api/get-kv")
 //    @ResponseBody

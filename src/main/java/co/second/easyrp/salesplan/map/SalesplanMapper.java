@@ -38,4 +38,6 @@ public interface SalesplanMapper {
 	String ClientCodSelect(String ClientName);
 	String ProductCodSelect(String ProductName);
 	
+	SalesplanVO SalesplanNameSelect(String cod);
+	
 }

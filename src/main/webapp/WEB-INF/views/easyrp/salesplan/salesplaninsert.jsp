@@ -49,7 +49,7 @@
                            </div>
                         </div>
                         <div class="card-body mb-3">
-                           <form action="salesplaninsert" method="post">
+                           <form action="salesplaninsertFn" method="post">
                               <div class="mb-4">
                                  <table class="table table-bordered">
                                     <!-- 글제목 INPUT INPUT -->
@@ -138,7 +138,7 @@
                                  >
                                     공통등록
                                  </button>
-
+								<a href="salesplanmanagement">
                                     <button
                                        type="button"
                                        class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4"
