@@ -19,8 +19,8 @@
 			<div class="page-title">
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
-						<h3>공통 테이블</h3>
-						<p class="text-subtitle text-muted">공통 테이블 소개(부제목)</p>
+						<h3>주계획 등록</h3>
+						<p class="text-subtitle text-muted">주계획을 등록해주세요.</p>
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
 						<nav aria-label="breadcrumb"
@@ -48,7 +48,7 @@
 								</div>
 							</div>
 							<div class="card-body mb-3">
-								<form action="mpscompleted" method="post">
+								<form action="mpsinsertfn" method="post">
 									<div class="mb-4">
 										<table class="table table-bordered">
 											<!-- 수주번호 INPUT -->
@@ -61,7 +61,7 @@
 											<!-- 수주번호 상세 INPUT -->
 											<tr>
 												<td width="150">수주상세번호</td>
-												<td><input type="text" id="num" name="num"
+												<td><input type="text" id="orderdetailNum" name="orderdetailNum"
 													class="form-control" placeholder="수주상세번호를 입력해주세요." required />
 												</td>
 											</tr>
@@ -325,7 +325,7 @@
           function setData(cod, num, orderDate, productCod, clientName, prodname, qty, unitName, deliveryDate, note) {
         	 
             $('#orderCod').val(cod);
-            $('#num').val(num);
+            $('#orderdetailNum').val(num);
             $('#orderDate').val(orderDate);
             $('#productCod').val(productCod);
             $('#prodname').val(prodname);
@@ -334,7 +334,6 @@
             $('#clientName').val(clientName);
             $('#deliveryDate').val(deliveryDate);
             $('#note').val(note);
-            
             $('#dataModal').modal('hide');
             $('.modal-backdrop').remove();
          }

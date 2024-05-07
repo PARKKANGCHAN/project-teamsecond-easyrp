@@ -16,24 +16,6 @@ import co.second.easyrp.mps.service.MpsVO;
 public class MpsServiceImpl implements MpsService {
 	@Autowired
 	private MpsMapper mpsMapper;
-	
-	@Override
-	public List<MpsVO> mpsSelectListAll() {
-		// TODO Auto-generated method stub
-		return mpsMapper.mpsSelectListAll();
-	}
-
-	@Override
-	public List<MpsVO> mpsSelectList(MpsVO mpsVo) {
-		// TODO Auto-generated method stub
-		return mpsMapper.mpsSelectList(mpsVo);
-	}
-
-	@Override
-	public MpsVO mpsSelect(MpsVO mpsVo) {
-		// TODO Auto-generated method stub
-		return mpsMapper.mpsSelect(mpsVo);
-	}
 
 	@Override
 	public int mpsInsert(MpsVO mpsVo) {
@@ -63,5 +45,21 @@ public class MpsServiceImpl implements MpsService {
 	public int selectMaxCod() {
 		// TODO Auto-generated method stub
 		return mpsMapper.selectMaxCod();
+	}
+
+	@Override
+	public int countMpsTables(String searchProdCod, String searchProdName, String searchClient,
+			Date preSearchDate, Date postSearchDate) {
+		// TODO Auto-generated method stub
+		
+		return mpsMapper.countMpsTables(searchProdCod, searchProdName, searchClient, preSearchDate, postSearchDate);
+	}
+	
+	@Override
+	public List<MpsVO> mpsSelectListAll(int page, int size, String searchProdCod, String searchProdName,
+			String searchClient, Date preSearchDate, Date postSearchDate) {
+		// TODO Auto-generated method stub
+		int offset = (page-1)*size; 
+		return mpsMapper.mpsSelectListAll(size, offset, searchProdCod, searchProdName, searchClient, preSearchDate, postSearchDate);
 	}
 }
