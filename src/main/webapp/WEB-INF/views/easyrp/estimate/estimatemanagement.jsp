@@ -1,11 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8" />
 <title>Insert title here</title>
+<script>
+
+function estimateDetail(cod) {
+	
+	const obj = {cod};
+
+	const reqdata = {
+	  method: 'POST',
+	  headers: {
+	    'Content-Type': 'application/json'
+	  },
+	  body: JSON.stringify(obj)
+	};
+	
+	fetch('/easyrp/estimatedetail', reqdata)			
+	.then(response => response.json())
+	.then(data => {
+		
+	});	
+}
+
+</script>
 </head>
 <body>
 	<!-- (2024년 4월 30일 추가 박현우) -->
@@ -90,6 +113,7 @@
 													type="hidden" name="size" value="${pageSize}" />
 												<div style="text-align: end; margin-right: 0.5rem">
 													<button type="submit" class="btn btn-primary">검색</button>
+													<button type="button" class="btn btn-primary"   onclick="resetSearchForm()">초기화</button>
 												</div>
 											</form>
 										</div>
@@ -132,6 +156,9 @@
 																	href="estimateupdate?cod=${estimate.cod}">수정</a></li>
 																<li><a class="dropdown-item"
 																	href="estimatedeleteFn?cod=${estimate.cod}">삭제</a></li>
+																<li id="loadDetail" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="estimateDetail('${estimate.cod}')">
+																	모달
+																</li>
 															</ul>
 														</div>
 													</td>
@@ -185,5 +212,97 @@
 		</div>
 	</div>
 	<!-- 공통 사용 테이블 END -->
+	
+		<!-- 상세페이지 모달 START -->
+	<div class="modal fade" id="detailModal" tabindex="-1"
+		aria-labelledby="detailModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="detailModalLabel">공통 상세 페이지</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+							<th scope="col">견적 번호</th>
+							<td>0001</td>
+							<th scope="col">거래처 명</th>
+							<td>우주상사</td>
+							<th scope="col">견적 날짜</th>
+							<td>2024-05-03</td>
+						</tr>
+						<tr>
+							<th scope="col">견적 담당 부서</th>
+							<td>영업1팀</td>
+							<th scope="col">견적 담당 사원코드</th>
+							<td>emp002</td>
+							<th scope="col">견적 담당자 명</th>
+							<td>류현석</td>
+						</tr>
+						<tr>
+							<th colspan="1">상품 코드</th>
+							<th colspan="1">상품 명</th>
+							<th colspan="1">수 량</th>
+							<th colspan="1">단 가</th>
+							<th colspan="1">공급가액</th>
+							<th colspan="1">부가세</th>
+						<tr>
+							<td colspan="1">product_01</td>
+							<td colspan="1">컴퓨터 100대</td>
+							<td colspan="1">10개</td>
+							<td colspan="1">1,000,000</td>
+							<td colspan="1">1,000,000,000</td>
+							<td colspan="1">1,000,000</td>
+						</tr>
+						<tr>
+							<th colspan="1">총 합</th>
+							<td colspan="1"></td>
+							<td colspan="1"></td>
+							<td colspan="1"></td>
+							<td colspan="1">5,000,000</td>
+							<td colspan="1">5,000,000</td>
+						</tr>
+						<tr>
+							<td colspan="6" style="border-bottom-width: 0px">
+								<button type="button" class="btn btn-primary">전표 생성</button>
+								<button type="button" class="btn btn-primary">출력</button>
+								<button type="button" class="btn btn-primary">이메일 보내기</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 상세페이지 모달 END  -->
+
+
+	
 </body>
+
+
+    <script type="text/javascript">
+    
+		/*
+		fetch(url[, options])
+	    .then(response => {
+	        // 응답을 처리하는 로직
+	    })
+	    .catch(error => {
+	        // 에러를 처리하는 로직
+	    });
+		*/
+    
+    
+
+		
+        
+    </script>
+
 </html>

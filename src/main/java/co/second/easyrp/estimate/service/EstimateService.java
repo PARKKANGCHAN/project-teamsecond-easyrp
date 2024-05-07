@@ -35,4 +35,6 @@ public interface EstimateService {
 		);
 	
 	List<EstimateVO> ClientNameSelectList();
+	
+	List<EstimateVO> EstimateDetailSelectList(String cod);
 }

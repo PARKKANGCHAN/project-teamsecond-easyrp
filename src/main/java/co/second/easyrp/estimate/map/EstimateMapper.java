@@ -36,4 +36,5 @@ public interface EstimateMapper {
 	
 	List<EstimateVO> ClientNameSelectList();
 	
+	List<EstimateVO> EstimateDetailSelectList(String cod);
 }

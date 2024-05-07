@@ -2,6 +2,8 @@ package co.second.easyrp.estimate.service;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,8 +20,14 @@ public class EstimateVO {
 	private String deleteyn;
 	private int total;
 	private String orderyn;
+	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date preSearchDate;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date postSearchDate;
 	
 	private String name;
+	
+	private int num;
+	private int qty;
 }

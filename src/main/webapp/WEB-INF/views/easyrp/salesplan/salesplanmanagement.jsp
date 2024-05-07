@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -90,6 +91,7 @@
 													type="hidden" name="size" value="${pageSize}" />
 												<div style="text-align: end; margin-right: 0.5rem">
 													<button type="submit" class="btn btn-primary">검색</button>
+													<button type="button" class="btn btn-primary"   onclick="resetSearchForm()">초기화</button>
 												</div>
 											</form>
 										</div>
@@ -184,4 +186,15 @@
 	</div>
 	<!-- 공통 사용 테이블 END -->
 </body>
+
+<script type="text/javascript">
+        function resetSearchForm() {
+            $('#searchCod').val('');
+            $('#searchName').val('');
+            $('#searchLocation').val('');
+        }
+</script>
+
 </html>
+
+

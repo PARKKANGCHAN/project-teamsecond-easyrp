@@ -63,4 +63,10 @@ public class EstimateServiceImpl implements EstimateService {
 		return estimateMapper.ClientNameSelectList();
 	}
 
+	@Override
+	public List<EstimateVO> EstimateDetailSelectList(String cod) {
+		// TODO Auto-generated method stub
+		return estimateMapper.EstimateDetailSelectList(cod);
+	}
+
 }

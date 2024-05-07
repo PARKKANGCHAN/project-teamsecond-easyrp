@@ -57,5 +57,13 @@
 		FROM estimate;
 		
 	</insert>
+	
+	<select id="EstimateDetailSelectList" parameterType="String">
+		select e.estimate_cod, e.num, p.prodname, e.qty, e.total
+		from estimatedetail e 
+		left join product p
+		on e.product_cod = p.cod
+		where estimate_cod = #{cod}
+	</select>
 
 </mapper>

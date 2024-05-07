@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.second.easyrp.estimate.service.EstimateService;
 import co.second.easyrp.estimate.service.EstimateVO;
@@ -40,7 +42,6 @@ public class EstimateController {
         int startPage = currentPageGroup * pageGroupSize + 1;
         int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
         
-        System.out.println(estimate);
         model.addAttribute("estimate", estimate);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
@@ -62,6 +63,17 @@ public class EstimateController {
     	
     	
     	return "easyrp/estimate/estimateinsert";
+    }
+    
+    @PostMapping(value = "/estimatedetail")
+    @ResponseBody
+    public String estimateDetail(@RequestParam("cod") String cod) {
+   
+        List<EstimateVO> estimateDetail = estimateService.EstimateDetailSelectList(cod);
+        System.out.println(estimateDetail);
+        
+        return cod;
+    	
     }
 
 //    @RequestMapping(value = "/salesplaninsertFn", method = RequestMethod.POST)
