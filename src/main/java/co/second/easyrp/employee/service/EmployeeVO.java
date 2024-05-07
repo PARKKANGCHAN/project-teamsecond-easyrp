@@ -23,4 +23,7 @@ public class EmployeeVO {
 	private String gender;
 	private Date quitdate;
 	private String quitReason;
+	private String deleteyn;
+	private int offset;
+	private int pageSize;
 }
