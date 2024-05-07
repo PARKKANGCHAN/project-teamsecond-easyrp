@@ -129,9 +129,9 @@
 																</button>
 																<ul class="dropdown-menu">
 																	<li><a class="dropdown-item"
-																		href="commonupdate?postId=${mpsTable.cod}">수정</a></li>
+																		href="mpsupdate?cod=${mpsTable.cod}">수정</a></li>
 																	<li><a class="dropdown-item"
-																		href="commondeletefn?postId=${mpsTable.cod}">삭제</a></li>
+																		href="mpsdeletefn?cod=${mpsTable.cod}">삭제</a></li>
 																</ul>
 															</div>
 														</td>
@@ -156,7 +156,7 @@
 							<li
 								class="page-item <c:if test='${startPage == 1}'>disabled</c:if>">
 								<a class="page-link"
-								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&size=${pageSize}&searchNumber=${param.searchNumber}&searchTitle=${param.searchTitle}&searchContent=${param.searchContent}&searchAuthor=${param.searchAuthor}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">이전
+								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&size=${pageSize}&searchProdCod=${param.searchProdCod}&searchProdName=${param.searchProdName}&searchClient=${param.searchClient}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">이전
 									10 페이지</a>
 							</li>
 
@@ -164,14 +164,14 @@
 								<li
 									class="page-item <c:if test='${i == currentPage}'>active</c:if>">
 									<a class="page-link"
-									href="?page=${i}&size=${pageSize}&searchNumber=${param.searchNumber}&searchTitle=${param.searchTitle}&searchContent=${param.searchContent}&searchAuthor=${param.searchAuthor}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}">${i}</a>
+									href="?page=${i}&size=${pageSize}&searchProdCod=${param.searchProdCod}&searchProdName=${param.searchProdName}&searchClient=${param.searchClient}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearch}">${i}</a>
 								</li>
 							</c:forEach>
 
 							<li
 								class="page-item <c:if test='${endPage == totalPages}'>disabled</c:if>">
 								<a class="page-link"
-								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&size=${pageSize}&searchNumber=${param.searchNumber}&searchTitle=${param.searchTitle}&searchContent=${param.searchContent}&searchAuthor=${param.searchAuthor}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">다음
+								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&size=${pageSize}&searchProdCod=${param.searchProdCod}&searchProdName=${param.searchProdName}&searchClient=${searchClient}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">다음
 									10 페이지</a>
 							</li>
 						</ul>

@@ -49,7 +49,7 @@ public class MpsServiceImpl implements MpsService {
 
 	@Override
 	public int countMpsTables(String searchProdCod, String searchProdName, String searchClient,
-			Date preSearchDate, Date postSearchDate) {
+			java.util.Date preSearchDate, java.util.Date postSearchDate) {
 		// TODO Auto-generated method stub
 		
 		return mpsMapper.countMpsTables(searchProdCod, searchProdName, searchClient, preSearchDate, postSearchDate);
@@ -57,7 +57,7 @@ public class MpsServiceImpl implements MpsService {
 	
 	@Override
 	public List<MpsVO> mpsSelectListAll(int page, int size, String searchProdCod, String searchProdName,
-			String searchClient, Date preSearchDate, Date postSearchDate) {
+			String searchClient, java.util.Date preSearchDate, java.util.Date postSearchDate) {
 		// TODO Auto-generated method stub
 		int offset = (page-1)*size; 
 		return mpsMapper.mpsSelectListAll(size, offset, searchProdCod, searchProdName, searchClient, preSearchDate, postSearchDate);

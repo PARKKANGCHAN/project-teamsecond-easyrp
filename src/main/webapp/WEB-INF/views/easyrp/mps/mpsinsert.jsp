@@ -168,7 +168,7 @@
 										<button type="submit"
 											class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
 											등록</button>
-										<a href="commontable" class="me-2">
+										<a href="mpsmanagement" class="me-2">
 											<button type="button"
 												class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
 												등록취소</button>

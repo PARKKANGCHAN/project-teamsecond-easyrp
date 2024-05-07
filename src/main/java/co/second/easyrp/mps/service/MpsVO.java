@@ -2,6 +2,8 @@ package co.second.easyrp.mps.service;
 
 import java.sql.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -27,13 +29,17 @@ public class MpsVO {
 	private String prodname;
 	private String spec;
 	private String unitName;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date deliveryDate;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date dday;
 	private String clientName;
 	
 	private String searchProdCod;
 	private String searchProdName;
 	private String searchClient;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date preSearchDate;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date postSearchDate;
 }

@@ -1,6 +1,6 @@
 package co.second.easyrp.mps.service.web;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +8,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.second.easyrp.commontable.service.CommonTableService;
+import co.second.easyrp.commontable.service.CommonTableVO;
+import co.second.easyrp.commontable.service.KeyValueVO;
 import co.second.easyrp.mps.service.MpsService;
 import co.second.easyrp.mps.service.MpsVO;
 import co.second.easyrp.orderdetail.service.OrderdetailService;
@@ -37,15 +40,6 @@ public class MpsController {
         List<MpsVO> mpsTable = mpsService.mpsSelectListAll(page, size, searchProdCod, searchProdName, searchClient, preSearchDate, postSearchDate);
         int totalRecords = mpsService.countMpsTables(searchProdCod, searchProdName, searchClient, preSearchDate, postSearchDate);
         int totalPages = (int) Math.ceil((double) totalRecords / size);
-        
-//        System.out.println(page);
-//        System.out.println(size);
-//        System.out.println(searchProdCod);
-//        System.out.println(searchProdName);
-//        System.out.println(searchClient);
-//        System.out.println(preSearchDate);
-//        System.out.println(postSearchDate);
-        System.out.println(mpsTable);
 
         int pageGroupSize = 10;
         int currentPageGroup = (page - 1) / pageGroupSize;
@@ -84,9 +78,43 @@ public class MpsController {
 		return "easyrp/mps/mpsmanagement";
 	}
 	
+//	@GetMapping("/mpsupdate")
+//	public String mpsUpdate(Model model, @RequestParam("postId") int postId) {
+//		CommonTableVO updateData = commonTableService.getCommonData(postId);
+//
+//		model.addAttribute("updateData", updateData);
+//
+//		return "easyrp/common/mpsupdate";
+//	}
+//	
+//	@PostMapping("/mpsupdatefn")
+//	public String mpsUpdateFn(MpsVO mpsVo) {
+//		
+//		mpsService.mpsUpdate(mpsVo);
+//		
+//		return "redirect:/mpsmanagement";
+//	}
+
+	@GetMapping("/mpsdeletefn")
+	public String mpsDeleteFn(MpsVO mpsVo, @RequestParam("cod") String cod) {
+		//CommonTableVO deleteData = commonTableService.getCommonData(postId);
+
+		//model.addAttribute("deleteData", deleteData);
+		mpsVo.setCod(cod);
+		mpsService.mpsDelete(mpsVo);
+		return "redirect:/mpsmanagement";
+	}
+	
     @GetMapping("/api/get-ov")
     @ResponseBody
     public List<OrderdetailVO> getOrderdetailValues() {
         return orderdetailService.orderdetailSelectListAll();
     }
+    
+    //유닛가지고오기
+//    @GetMapping("/api/get-kv")
+//	@ResponseBody
+//	public List<KeyValueVO> getKeyValues() {
+//		return commonTableService.getAllKeyValues();
+//	}
 }

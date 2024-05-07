@@ -1,6 +1,10 @@
 package co.second.easyrp.orderdetail.service;
 
-import java.sql.Date;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,8 +20,9 @@ public class OrderdetailVO {
 	private int qty;
 	private int vax;
 	private int total;
-	@DateFormat(pattern="yyyy-MM-dd")
-	private Date deliveryDate;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private java.util.Date deliveryDate;
 	private int deleverState;
 	private String note;
 	private String mpsState;
@@ -25,8 +30,9 @@ public class OrderdetailVO {
 	private Date startDate;
 	private Date endDate;
 	
-	@DateFormat(pattern="yyyy-MM-dd")
-	private Date orderDate;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private java.util.Date orderDate;
 	private String clientName;
 	private String prodname;
 	private String unitName;
