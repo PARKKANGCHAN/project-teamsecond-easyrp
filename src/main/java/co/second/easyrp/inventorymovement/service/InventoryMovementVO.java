@@ -19,4 +19,6 @@ public class InventoryMovementVO {
 	private String productName;
 	private String spec;
 	private int unit;
+	private String deleteyn;
+	private int qty;
 }

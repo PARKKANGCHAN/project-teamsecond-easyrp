@@ -12,3 +12,17 @@ body {
    margin-top: 1rem;
    margin-bottom: 1rem;
 }
+
+.disabled {
+    pointer-events: none;
+    color: gray;
+}
+
+.commonDetailTable {
+	cursor: pointer;
+}
+
+.tdSpace {
+    padding: 10px 0;
+    border:none;
+}

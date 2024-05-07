@@ -124,17 +124,17 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                         <li class="submenu-item">
                            <a href="employeelist" class="submenu-link">사원 기초 관리</a>
                         </li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">부서 관리</a></li>
+                        <li class="submenu-item"><a href="departmentmgmt" class="submenu-link">부서 관리</a></li>
                      </ul>
                   </li>
                   <!-- 기초 정보 관리 / 사원 및 부서 관리 END -->
-                  <!-- 기초 정보 관리 / 공장&창고&제품 관리 START -->
+                  <!-- 기초 정보 관리 / 창고&제품 관리 START -->
                   <li class="sidebar-item has-sub">
                      <a href="#" class="sidebar-link">
-                        <span style="font-weight: 800 !important">제품 및 공장&amp;창고 관리</span>
+                        <span style="font-weight: 800 !important">제품 및 창고 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">창고 및 공장 관리</a></li>
+                        <li class="submenu-item"><a href="warehouse" class="submenu-link">창고 관리</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">제품 및 자재 관리</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">제품 단위 관리</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">제품 그룹 관리</a></li>
@@ -147,7 +147,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                         <span style="font-weight: 800 !important">거래처 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">거래처관리</a></li>
+                        <li class="submenu-item"><a href="client" class="submenu-link">거래처관리</a></li>
                      </ul>
                   </li>
                   <!-- 기초 정보 관리 / 거래처 관리 END -->
@@ -157,14 +157,16 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                   <li class="no_dot" style="font-size: 1.1rem !important; margin-top: 1rem; margin-bottom: 1rem">
                      📈 <span style="font-weight: 800 !important">영업 관리</span>
                   </li>
+                  
                   <!-- 영업 관리 / 판매 계획 관리 START -->
+                  <!-- 2024년 4월 30일 오전 11시 34분 류현석 수정 -->
                   <li class="sidebar-item has-sub">
                      <a href="#" class="sidebar-link">
                         <span style="font-weight: 800 !important">계획 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">판매 계획 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">목표 달성 현황</a></li>
+                        <li class="submenu-item"><a href="salesplanmanagement" class="submenu-link">판매 계획 관리</a></li>
+                        <li class="submenu-item"><a href="salesplanachivement" class="submenu-link">목표 달성 현황</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">매출 순위표</a></li>
                      </ul>
                   </li>
@@ -339,26 +341,9 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                   <!-- 자재 관리 / 재고 평가 END -->
                   <!-- 자재 관리 END -->
 
-                  <li class="sidebar-item has-sub">
-                     <a href="#" class="sidebar-link toggle">
-                        📝<span style="font-weight: 800 !important">기초 정보 관리</span>
+                     <a href="commontable" class="sidebar-link toggle">
+                        📝<span style="font-weight: 800 !important">공통 사용 테이블</span>
                      </a>
-                     <ul class="submenu">
-                        <li class="sidebar-item has-sub">
-                           <a href="#" class="sidebar-link toggle">
-                              <span style="font-weight: 800 !important">사원 및 부서 관리</span>
-                           </a>
-                           <ul class="submenu">
-                              <li class="submenu-item">
-                                 <a href="employeelist" class="submenu-link">사원 기초 관리</a>
-                              </li>
-                              <li class="submenu-item">
-                                 <a href="#" class="submenu-link">부서 관리</a>
-                              </li>
-                           </ul>
-                        </li>
-                     </ul>
-                  </li>
                </ul>
             </div>
          </div>
