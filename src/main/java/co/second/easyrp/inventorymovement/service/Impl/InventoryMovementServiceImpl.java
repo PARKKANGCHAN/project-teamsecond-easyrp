@@ -13,6 +13,7 @@ import co.second.easyrp.commontable.service.KeyValueVO;
 import co.second.easyrp.inventorymovement.mapper.InventoryMovementMapper;
 import co.second.easyrp.inventorymovement.service.InventoryMovementService;
 import co.second.easyrp.inventorymovement.service.InventoryMovementVO;
+import co.second.easyrp.purchaseorder.service.PurchaseOrderVO;
 @Service
 @Primary
 public class InventoryMovementServiceImpl implements InventoryMovementService {
@@ -59,9 +60,9 @@ public class InventoryMovementServiceImpl implements InventoryMovementService {
 	}
 
 	@Override
-	public List<CommonTableCopyVO> getAllCopyDatas() {
+	public List<PurchaseOrderVO> getAllPurchaseOrderDatas() {
 		// TODO Auto-generated method stub
-		return null;
+		return inventorymovementmapper.getAllPurchaseOrderDatas();
 	}
 
 	@Override

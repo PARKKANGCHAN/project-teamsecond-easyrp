@@ -68,7 +68,9 @@
 		#{unit})
 	</insert>
 	<select id="getAllPurchaseOrderDatas">
-		SELECT cod, employee_cod_ibound
+		SELECT *
+		 FROM purchaseorderdetail
+		WHERE state = '입고처리';
 	</select>
 	<update id="updateInventoryMovement"></update>
 	<delete id="deleteInventoryMovement"></delete>

@@ -16,6 +16,7 @@ import co.second.easyrp.commontable.service.CommonTableCopyVO;
 import co.second.easyrp.commontable.service.CommonTableVO;
 import co.second.easyrp.inventorymovement.service.InventoryMovementService;
 import co.second.easyrp.inventorymovement.service.InventoryMovementVO;
+import co.second.easyrp.purchaseorder.service.PurchaseOrderVO;
 
 @Controller
 public class InventoryMovementController {
@@ -78,10 +79,10 @@ public class InventoryMovementController {
     	inventorymovementservice.insertInventoryMovement(inventoryMovementVO);
     	return "redirect:/inventorymovement";
     }
-}
 	 					
-@GetMapping("/api/get-data")
-@ResponseBody
-public List<PurchaseOrderVO> getDatas() {
-    return inventorymovementservice.getAllCopyDatas();
+	@GetMapping("/api/get-podata")
+	@ResponseBody
+	public List<PurchaseOrderVO> getPoDatas() {
+	    return inventorymovementservice.getAllPurchaseOrderDatas();
+	}
 }

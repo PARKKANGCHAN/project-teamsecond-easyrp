@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import co.second.easyrp.commontable.service.CommonTableCopyVO;
 import co.second.easyrp.commontable.service.CommonTableVO;
 import co.second.easyrp.commontable.service.KeyValueVO;
+import co.second.easyrp.purchaseorder.service.PurchaseOrderVO;
 
 
 public interface InventoryMovementService {
@@ -35,7 +36,7 @@ public interface InventoryMovementService {
 	
 	List<KeyValueVO> getAllKeyValues();
 	
-	List<CommonTableCopyVO> getAllCopyDatas();
+	List<PurchaseOrderVO> getAllPurchaseOrderDatas();
 	
 	CommonTableVO getCommonData(int postId);
 	

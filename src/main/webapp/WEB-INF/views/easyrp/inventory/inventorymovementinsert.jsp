@@ -54,7 +54,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                  <table class="table table-bordered">
                                     <!-- 글제목 INPUT INPUT -->
                                     <tr>
-                                       <td width="150">글제목</td>
+                                       <td width="150">이동번호</td>
                                        <td>
                                           <input
                                              type="text"
@@ -68,7 +68,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                     </tr>
                                     <!-- 내용 INPUT -->
                                     <tr>
-                                       <td width="150">내 용</td>
+                                       <td width="150">이동날짜</td>
                                        <td>
                                           <input
                                              type="text"
@@ -82,7 +82,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                     </tr>
                                     <!-- 글쓴이 INPUT (로그인 시 자동으로 값 입력 readonly) -->
                                     <tr>
-                                       <td width="150">글쓴이</td>
+                                       <td width="150">담당자</td>
                                        <td>
                                           <input
                                              type="text"
@@ -96,6 +96,118 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                           />
                                        </td>
                                     </tr>
+                                   <!-- 출고 창고/장소, 입고 창고/장소 -->
+                                    <tr>
+                                       <td width="150">출고 창고</td>
+                                       <td>
+                                          <input
+                                             type="text"
+                                             id="oboundwarehouse"
+                                             name="oboundwarehouse"
+                                             class="form-control"
+                                             placeholder="출고창고를 선택해주세요."
+                                             readonly
+                                             required
+                                          />
+                                       </td>
+                                    </tr>
+									<tr>
+                                       <td width="150">출고 장소</td>
+                                       <td>
+                                          <input
+                                             type="text"
+                                             id="oboundlocation"
+                                             name="oboundlocation"
+                                             class="form-control"
+                                             placeholder="출고창고를 선택해주세요."
+                                             readonly
+                                             required
+                                          />
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td width="150">입고 창고</td>
+                                       <td>
+                                          <input
+                                             type="text"
+                                             id="iboundwarehouse"
+                                             name="iboundwarehouse"
+                                             class="form-control"
+                                             placeholder="입고창고를 선택해주세요."
+                                             readonly
+                                             required
+                                          />
+                                       </td>
+                                    </tr>
+									<tr>
+                                       <td width="150">입고 장소</td>
+                                       <td>
+                                          <input
+                                             type="text"
+                                             id="iboundlocation"
+                                             name="iboundlocation"
+                                             class="form-control"
+                                             placeholder="입고창고를 선택해주세요."
+                                             readonly
+                                             required
+                                          />
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td width="150">품번</td>
+                                       <td>
+                                          <input
+                                             type="text"
+                                             id="prodcod"
+                                             name="prodcod"
+                                             class="form-control"
+                                             placeholder="품번을 선택해주세요."
+                                             readonly
+                                             required
+                                          />
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td width="150">품명</td>
+                                       <td>
+                                          <input
+                                             type="text"
+                                             id="prodname"
+                                             name="prodname"
+                                             class="form-control"
+                                             placeholder="품명을 선택해주세요."
+                                             readonly
+                                             required
+                                          />
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td width="150">단위</td>
+                                       <td>
+                                          <input
+                                             type="text"
+                                             id="unit"
+                                             name="unit"
+                                             class="form-control"
+                                             placeholder="단위를 선택해주세요."
+                                             readonly
+                                             required
+                                          />
+                                       </td>
+                                                                           <tr>
+                                       <td width="150">이동수량</td>
+                                       <td>
+                                          <input
+                                             type="text"
+                                             id="qty"
+                                             name="qty"
+                                             class="form-control"
+                                             placeholder="이동수량을 선택해주세요."
+                                             readonly
+                                             required
+                                          />
+                                       </td>
+                                    </tr>                                   
                                     <!-- 모달로 입력 테스트 -->
                                     <tr>
                                        <td width="150">모달 입력 테스트</td>
@@ -131,7 +243,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                  >
                                     등록
                                  </button>
-                                 <a href="commontable" class="me-2">
+                                 <a href="inventorymovement" class="me-2">
                                     <button
                                        type="button"
                                        class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4"
@@ -293,7 +405,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
          $(document).ready(function () {
             $('#loadDatas').on('click', function () {
                $.ajax({
-                  url: 'api/get-data',
+                  url: 'api/get-podata',
                   method: 'GET',
                   success: function (data) {
                      let rows = '';
