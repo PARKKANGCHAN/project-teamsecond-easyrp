@@ -2,8 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="co.second.easyrp.inventorymovement.mapper.InventoryMovementMapper">
+	
 	<select id="inventoryMovementList">
-			SELECT *
+		SELECT *
 		FROM inventorymovement
 		WHERE deleteyn = 'N'
 		<if test="cod != null and cod != ''">
@@ -33,6 +34,7 @@
 		ORDER BY cod DESC
 		LIMIT #{pageSize} OFFSET #{offset}
 	</select>
+	
 	<select id="selectInventoryMovementDateScope">
 	SELECT
 		cod,
@@ -65,10 +67,13 @@
 		#{spec},
 		#{unit})
 	</insert>
+	<select id="getAllPurchaseOrderDatas">
+		SELECT cod, employee_cod_ibound
+	</select>
 	<update id="updateInventoryMovement"></update>
 	<delete id="deleteInventoryMovement"></delete>
 	<select id="getAllKeyValues"></select>
-	<select id="countInventoryMovementLists">
+	<select id="countInventoryMovementLists" resultType="int">
 		SELECT COUNT(*)
 		FROM inventorymovement
 		WHERE DELETEYN = 'N'

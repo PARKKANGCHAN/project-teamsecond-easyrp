@@ -27,6 +27,7 @@ public interface InventoryMovementService {
 		    @Param("preSearchDate") Date preSearchDate, 
 		    @Param("postSearchDate") Date postSearchDate
 		);
+	
 	InventoryMovementVO selectInventoryMovementDateScope(InventoryMovementVO vo);
 	int insertInventoryMovement(InventoryMovementVO vo);
 	int updateInventoryMovement(InventoryMovementVO vo);

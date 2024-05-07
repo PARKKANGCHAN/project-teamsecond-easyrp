@@ -48,7 +48,8 @@ public class InventoryMovementServiceImpl implements InventoryMovementService {
 			String oboundLocation, String iboundWarehouse, String iboundLocation, String employeeCod,
 			String purchaseDetailCod, String productCod, Date preSearchDate, Date postSearchDate) {
 		// TODO Auto-generated method stub
-		return inventorymovementmapper.inventoryMovementList(page, size, cod, oboundWarehouse, oboundLocation, iboundWarehouse, iboundLocation, employeeCod, purchaseDetailCod, productCod, preSearchDate, postSearchDate);
+		int offset = (page-1)*size;
+		return inventorymovementmapper.inventoryMovementList(size, offset, cod, oboundWarehouse, oboundLocation, iboundWarehouse, iboundLocation, employeeCod, purchaseDetailCod, productCod, preSearchDate, postSearchDate);
 	}
 
 	@Override

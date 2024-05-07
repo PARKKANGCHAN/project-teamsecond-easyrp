@@ -16,14 +16,14 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             <div class="page-title">
                <div class="row">
                   <div class="col-12 col-md-6 order-md-1 order-last">
-                     <h3>공통 테이블</h3>
-                     <p class="text-subtitle text-muted">공통 테이블 소개(부제목)</p>
+                     <h3>재고이동등록</h3>
+                     <p class="text-subtitle text-muted">재고 이동 등록</p>
                   </div>
                   <div class="col-12 col-md-6 order-md-2 order-first">
                      <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                            <li class="breadcrumb-item"><a href="/easyrp">home</a></li>
-                           <li class="breadcrumb-item active" aria-current="page">공통 테이블</li>
+                           <li class="breadcrumb-item active" aria-current="page">재고 이동 등록</li>
                         </ol>
                      </nav>
                   </div>
@@ -35,7 +35,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                      <div class="card mb-4">
                         <div class="card-header py-3">
                            <div class="d-flex" style="justify-content: space-between">
-                              <h5 class="m-0">공통 등록</h5>
+                              <h5 class="m-0">재고 이동 등록</h5>
                               <button
                                  type="button"
                                  class="btn btn-primary"
@@ -49,7 +49,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                            </div>
                         </div>
                         <div class="card-body mb-3">
-                           <form action="commoninsertfn" method="post">
+                           <form action="inventorymovementinsertfn" method="post">
                               <div class="mb-4">
                                  <table class="table table-bordered">
                                     <!-- 글제목 INPUT INPUT -->
@@ -129,7 +129,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                     type="submit"
                                     class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4"
                                  >
-                                    공통등록
+                                    등록
                                  </button>
                                  <a href="commontable" class="me-2">
                                     <button
@@ -207,8 +207,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                   <table class="table">
                      <thead>
                         <tr>
-                           <th scope="col">제목</th>
-                           <th scope="col">저자</th>
+                           <th scope="col">발주번호</th>
+                           <th scope="col">담당자코드</th>
                         </tr>
                      </thead>
                      <tbody id="modalDataTableBody">
@@ -330,7 +330,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             $('#searchDataInput').on('keyup', function () {
                let searchInputData = $(this).val();
                $('.searchData').each(function () {
-                  let title = $(this).data('title');
+                  let title = $(this).data('');
                   let author = $(this).data('author');
                   $(this).toggle(title.includes(searchInputData) || author.includes(searchInputData));
                });

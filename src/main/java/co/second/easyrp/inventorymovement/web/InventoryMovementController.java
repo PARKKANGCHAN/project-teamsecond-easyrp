@@ -8,8 +8,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import co.second.easyrp.commontable.service.CommonTableCopyVO;
+import co.second.easyrp.commontable.service.CommonTableVO;
 import co.second.easyrp.inventorymovement.service.InventoryMovementService;
 import co.second.easyrp.inventorymovement.service.InventoryMovementVO;
 
@@ -32,10 +36,10 @@ public class InventoryMovementController {
 						            @RequestParam(required = false) String productCod,
 						            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date preSearchDate,
 						            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date postSearchDate,
-						            Model model) {
+						            Model model
+						            ) {
 		
 		List<InventoryMovementVO> inventoryMovementList=inventorymovementservice.inventoryMovementList(page, size, cod, oboundWarehouse, oboundLocation, iboundWarehouse, iboundLocation, employeeCod, purchaseDetailCod, productCod, preSearchDate, postSearchDate);
-	
 		int totalRecords = inventorymovementservice.countInventoryMovementLists(cod, oboundWarehouse, oboundLocation, iboundWarehouse, iboundLocation, employeeCod, purchaseDetailCod, productCod, preSearchDate, postSearchDate);
 		int totalPages = (int) Math.ceil((double) totalRecords / size);
 
@@ -59,9 +63,25 @@ public class InventoryMovementController {
 		model.addAttribute("pageSize", size);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("startPage", startPage);
+		
 		return "easyrp/inventory/inventorymovement";
 		}
 
-
+	@GetMapping("/inventorymovementinsert")
+    public String inventoryMovementInsert() {
+		
+    	return "easyrp/inventory/inventorymovementinsert";
+    }
+    
+    @PostMapping("/inventorymovementinsertfn")
+    public String inventorymovementInsertfn(InventoryMovementVO inventoryMovementVO, Model model) {
+    	inventorymovementservice.insertInventoryMovement(inventoryMovementVO);
+    	return "redirect:/inventorymovement";
+    }
 }
 	 					
+@GetMapping("/api/get-data")
+@ResponseBody
+public List<PurchaseOrderVO> getDatas() {
+    return inventorymovementservice.getAllCopyDatas();
+}

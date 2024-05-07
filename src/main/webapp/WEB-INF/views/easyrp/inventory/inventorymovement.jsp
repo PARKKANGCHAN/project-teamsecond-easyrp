@@ -29,8 +29,7 @@
 							class="breadcrumb-header float-start float-lg-end">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="/easyrp">home</a></li>
-								<li class="breadcrumb-item active" aria-current="page">공통
-									테이블</li>
+								<li class="breadcrumb-item active" aria-current="page">재고이동관리</li>
 							</ol>
 						</nav>
 					</div>
@@ -87,7 +86,7 @@
 														</tr>
 														<tr>
 															<td width="100">검색 날짜</td>
-															<td colspan="2"><input type="date"
+															<td colspan="3"><input type="date"
 																id="preSearchDate" name="preSearchDate"
 																value="${preSearchDate}" class="form-control"
 																style="width: 47%; float: left" /> <span><i
@@ -103,12 +102,12 @@
 													type="hidden" name="size" value="${pageSize}" />
 												<div style="text-align: end; margin-right: 0.5rem">
 													<button type="submit" class="btn btn-primary">검색</button>
+													<button type="button" class="btn btn-primary"   onclick="resetSearchForm()">초기화</button>
 												</div>
 											</form>
 										</div>
 									</div>
 									<!-- 검색 FORM END -->
-										${inventoryMovementList }
 									<table class="table table-hover mb-0">
 										<thead>
 											<tr>
@@ -126,7 +125,6 @@
 											</tr>
 										</thead>
 										<tbody>
-										
 											<c:forEach var="inventoryMovementList" items="${inventoryMovementList }">
 												<tr>
 													<td class="text-bold-500">${inventoryMovementList.cod }</td>
@@ -138,8 +136,8 @@
 													<td>${inventoryMovementList.employeeCod}</td>
 													<td>${inventoryMovementList.productCod}</td>
 													<td>${inventoryMovementList.productName}</td>
-													<td>${inventoryMovementList.spec}</td>
 													<td>${inventoryMovementList.unit}</td>
+													<td>${inventoryMovementList.qty}</td>
 													<td>
 														<div class="btn-group">
 															<button type="button"
@@ -149,9 +147,9 @@
 															</button>
 															<ul class="dropdown-menu">
 																<li><a class="dropdown-item"
-																	href="commonupdate?postId=${inventoryMovementList.cod}">수정</a></li>
+																	href="updateInventoryMovement?cod=${inventoryMovementList.cod}">수정</a></li>
 																<li><a class="dropdown-item"
-																	href="commondeletefn?postId=${inventoryMovementList.cod}">삭제</a></li>
+																	href="deleteInventoryMovement?cod=${inventoryMovementList.cod}">삭제</a></li>
 															</ul>
 														</div>
 													</td>
@@ -205,5 +203,19 @@
 		</div>
 	</div>
 	<!-- 공통 사용 테이블 END -->
+	    <script type="text/javascript">
+        function resetSearchForm() {
+            $('#cod').val('');
+            $('#oboundWarehouse').val('');
+            $('#oboundLocation').val('');
+            $('#iboundWarehouse').val('');
+            $('#iboundLocation').val('');
+            $('#employeeCod').val('');
+            $('#productCod').val('');
+            $('#preSearchDate').val('');
+            $('#postSearchDate').val('');
+            
+        }
+    </script>
 </body>
 </html>
