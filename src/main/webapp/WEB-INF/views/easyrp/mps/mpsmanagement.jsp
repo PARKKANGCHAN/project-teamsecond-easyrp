@@ -20,9 +20,9 @@
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
 						<h3>
-							<a href="/easyrp/commontable">공통 테이블</a>
+							<a href="/easyrp/commontable">주계획 관리</a>
 						</h3>
-						<p class="text-subtitle text-muted">공통 테이블 소개(부제목)</p>
+						<p class="text-subtitle text-muted">주계획 조회, 등록, 수정, 삭제</p>
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
 						<nav aria-label="breadcrumb"
@@ -48,26 +48,22 @@
 											<div class="col-12 col-md-6 order-md-1 order-last">
 												<h3>검색</h3>
 											</div>
-											<form id="searchForm" action="commontable" method="get">
+											<form id="searchForm" action="mpsmanagement" method="get">
 												<div class="mb-4" style="text-align: center">
 													<table class="table table-bordered" id="searchTable">
 														<tr>
-															<td width="100">글 번호</td>
-															<td><input type="text" id="searchNumber"
-																name="searchNumber" class="form-control"
-																value="${searchNumber}" placeholder="글 번호를 입력해주세요." /></td>
-															<td width="100">제 목</td>
-															<td><input type="text" id="searchTitle"
-																name="searchTitle" class="form-control"
-																value="${searchTitle}" placeholder="제목을 입력해주세요." /></td>
-															<td width="100">내 용</td>
-															<td><input type="text" id="searchContent"
-																name="searchContent" class="form-control"
-																value="${searchContent}" placeholder="내용을 입력해주세요." /></td>
-															<td width="100">작성자</td>
-															<td><input type="text" id="searchAuthor"
-																name="searchAuthor" class="form-control"
-																value="${searchAuthor}" placeholder="작성자를 입력해주세요." /></td>
+															<td width="100">품 번</td>
+															<td><input type="text" id="searchProdCod"
+																name="searchProdCod" class="form-control"
+																value="${searchProdCod}" placeholder="글 번호를 입력해주세요." /></td>
+															<td width="100">품 명</td>
+															<td><input type="text" id="searchProdName"
+																name="searchProdName" class="form-control"
+																value="${searchProdName}" placeholder="제목을 입력해주세요." /></td>
+															<td width="100">고 객</td>
+															<td><input type="text" id="searchClient"
+																name="searchClient" class="form-control"
+																value="${searchClient}" placeholder="내용을 입력해주세요." /></td>
 														</tr>
 														<tr>
 															<td width="100">검색 날짜</td>
@@ -87,7 +83,7 @@
 													type="hidden" name="size" value="${pageSize}" />
 												<div style="text-align: end; margin-right: 0.5rem">
 													<button type="submit" class="btn btn-primary">검색</button>
-													<button type="reset" class="btn btn-primary">초기화</button>
+													 <button type="button" class="btn btn-primary"   onclick="resetSearchForm()">초기화</button>
 												</div>
 											</form>
 										</div>
@@ -101,7 +97,7 @@
 												<th>품명</th>
 												<th>규격</th>
 												<th>단위</th>
-												<th>출하예정일</th>
+												<th>출고예정일</th>
 												<th>납기일</th>
 												<th>계획수량</th>
 												<th>고객</th>
@@ -113,16 +109,17 @@
 											<c:if test="${not empty mpsTable }">
 												<c:forEach var="mpsTable" items="${mpsTable }">
 													<tr>
-														<td class="text-bold-500">${commonTable.postId }</td>
-														<td>${commonTable.title }</td>
-														<td class="text-bold-500">${commonTable.content }</td>
-														<td>${commonTable.author }</td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
+														<td class="text-bold-500">${mpsTable.planDate }</td>
+														<td>${mpsTable.productCod}
+														</td>
+														<td class="text-bold-500">${mpsTable.prodname }</td>
+														<td>${mpsTable.spec }</td>
+														<td>${mpsTable.unitName }</td>
+														<td>${mpsTable.deliveryDate }</td>
+														<td>${mpsTable.dday }</td>
+														<td>${mpsTable.qty }</td>
+														<td>${mpsTable.clientName }</td>
+														<td>${mpsTable.note }</td>
 														<td>
 															<div class="btn-group">
 																<button type="button"
@@ -132,9 +129,9 @@
 																</button>
 																<ul class="dropdown-menu">
 																	<li><a class="dropdown-item"
-																		href="commonupdate?postId=${mpsTable.postId}">수정</a></li>
+																		href="commonupdate?postId=${mpsTable.cod}">수정</a></li>
 																	<li><a class="dropdown-item"
-																		href="commondeletefn?postId=${mpsTable.postId}">삭제</a></li>
+																		href="commondeletefn?postId=${mpsTable.cod}">삭제</a></li>
 																</ul>
 															</div>
 														</td>
@@ -143,7 +140,7 @@
 											</c:if>
 											<c:if test="${empty mpsTable }">
 												<tr>
-													<td colspan="11">주계획 내역이 없습니다.</td>
+													<td colspan="11" align="center">주계획 내역이 없습니다.</td>
 												</tr>
 											</c:if>
 										</tbody>
@@ -195,7 +192,12 @@
 	</div>
 	<!-- 공통 사용 테이블 END -->
 </body>
-<script>
-	
-</script>
+	<!-- 초기화 버튼 작동 자바스크립트  -->
+    <script type="text/javascript">
+        function resetSearchForm() {
+            $('#searchProdCod').val('');
+            $('#searchProdName').val('');
+            $('#searchClient').val('');
+        }
+    </script>
 </html>
