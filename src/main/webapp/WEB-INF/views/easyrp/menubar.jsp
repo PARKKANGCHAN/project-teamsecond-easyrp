@@ -147,7 +147,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                         <span style="font-weight: 800 !important">거래처 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">거래처관리</a></li>
+                        <li class="submenu-item"><a href="client" class="submenu-link">거래처관리</a></li>
                      </ul>
                   </li>
                   <!-- 기초 정보 관리 / 거래처 관리 END -->
