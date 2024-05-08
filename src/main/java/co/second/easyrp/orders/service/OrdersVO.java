@@ -1,7 +1,5 @@
 package co.second.easyrp.orders.service;
 
-import java.sql.Date;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +22,4 @@ public class OrdersVO {
 	private String account;
 	private String note;
 	private String employeeCod;
-	
-	private Date startDate;
-	private Date endDate;
 }

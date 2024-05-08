@@ -22,6 +22,7 @@ public class MpsVO {
 	private String employeeCod;
 	private String procurement;
 	private String account;
+	private String plan;
 	private String note;
 	private String closing;
 	private String deleteyn;
@@ -29,9 +30,7 @@ public class MpsVO {
 	private String prodname;
 	private String spec;
 	private String unitName;
-	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date deliveryDate;
-	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date dday;
 	private String clientName;
 	

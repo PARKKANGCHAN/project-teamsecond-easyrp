@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,18 +53,23 @@
 												<div class="mb-4" style="text-align: center">
 													<table class="table table-bordered" id="searchTable">
 														<tr>
+															<td width="100">계획구분</td>
+															<td><select id="searchPlan" name="searchPlan" class="form-select">
+																<option value="수주">수주정보 기반</option>
+																<option value="계획">생산계획 기반</option>
+															</select></td>
 															<td width="100">품 번</td>
 															<td><input type="text" id="searchProdCod"
 																name="searchProdCod" class="form-control"
-																value="${searchProdCod}" placeholder="글 번호를 입력해주세요." /></td>
+																value="${searchProdCod}" placeholder="품번을 입력해주세요." /></td>
 															<td width="100">품 명</td>
 															<td><input type="text" id="searchProdName"
 																name="searchProdName" class="form-control"
-																value="${searchProdName}" placeholder="제목을 입력해주세요." /></td>
+																value="${searchProdName}" placeholder="품명을 입력해주세요." /></td>
 															<td width="100">고 객</td>
 															<td><input type="text" id="searchClient"
 																name="searchClient" class="form-control"
-																value="${searchClient}" placeholder="내용을 입력해주세요." /></td>
+																value="${searchClient}" placeholder="고객을 입력해주세요." /></td>
 														</tr>
 														<tr>
 															<td width="100">검색 날짜</td>
@@ -109,14 +115,14 @@
 											<c:if test="${not empty mpsTable }">
 												<c:forEach var="mpsTable" items="${mpsTable }">
 													<tr>
-														<td class="text-bold-500">${mpsTable.planDate }</td>
+														<td class="text-bold-500"><fmt:formatDate value="${mpsTable.planDate }" pattern="yyyy-MM-dd"/></td>
 														<td>${mpsTable.productCod}
 														</td>
 														<td class="text-bold-500">${mpsTable.prodname }</td>
 														<td>${mpsTable.spec }</td>
 														<td>${mpsTable.unitName }</td>
-														<td>${mpsTable.deliveryDate }</td>
-														<td>${mpsTable.dday }</td>
+														<td><fmt:formatDate value="${mpsTable.deliveryDate }" pattern="yyyy-MM-dd"/></td>
+														<td><fmt:formatDate value="${mpsTable.dday }" pattern="yyyy-MM-dd"/></td>
 														<td>${mpsTable.qty }</td>
 														<td>${mpsTable.clientName }</td>
 														<td>${mpsTable.note }</td>
@@ -156,7 +162,7 @@
 							<li
 								class="page-item <c:if test='${startPage == 1}'>disabled</c:if>">
 								<a class="page-link"
-								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&size=${pageSize}&searchProdCod=${param.searchProdCod}&searchProdName=${param.searchProdName}&searchClient=${param.searchClient}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">이전
+								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&size=${pageSize}&searchPlan=${searchPlan }&searchProdCod=${param.searchProdCod}&searchProdName=${param.searchProdName}&searchClient=${param.searchClient}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">이전
 									10 페이지</a>
 							</li>
 
@@ -164,14 +170,14 @@
 								<li
 									class="page-item <c:if test='${i == currentPage}'>active</c:if>">
 									<a class="page-link"
-									href="?page=${i}&size=${pageSize}&searchProdCod=${param.searchProdCod}&searchProdName=${param.searchProdName}&searchClient=${param.searchClient}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearch}">${i}</a>
+									href="?page=${i}&size=${pageSize}&searchPlan=${searchPlan }&searchProdCod=${param.searchProdCod}&searchProdName=${param.searchProdName}&searchClient=${param.searchClient}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}">${i}</a>
 								</li>
 							</c:forEach>
 
 							<li
 								class="page-item <c:if test='${endPage == totalPages}'>disabled</c:if>">
 								<a class="page-link"
-								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&size=${pageSize}&searchProdCod=${param.searchProdCod}&searchProdName=${param.searchProdName}&searchClient=${searchClient}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">다음
+								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&size=${pageSize}&searchPlan=${searchPlan }&searchProdCod=${param.searchProdCod}&searchProdName=${param.searchProdName}&searchClient=${searchClient}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">다음
 									10 페이지</a>
 							</li>
 						</ul>
@@ -199,5 +205,11 @@
             $('#searchProdName').val('');
             $('#searchClient').val('');
         }
+    </script>
+    
+    <script type="text/javascript">
+    	window.onload = function(){
+    		document.getElementById('searchPlan').value = '${searchPlan}';
+    	}
     </script>
 </html>

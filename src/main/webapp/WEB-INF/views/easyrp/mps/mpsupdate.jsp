@@ -46,45 +46,113 @@
 								<form action="commoninsertfn" method="post">
 									<div class="mb-4">
 										<table class="table table-bordered">
-											<!-- 글제목 INPUT INPUT -->
+											<!-- 수주번호 INPUT -->
 											<tr>
-												<td width="150">글제목</td>
-												<td><input type="text" id="title" name="title"
-													class="form-control" placeholder="제목을 입력해주세요."
-													value="${updateData.title }" required /></td>
+												<td width="150">수주번호</td>
+												<td><input type="text" id="orderCod" name="orderCod"
+													class="form-control" value="${mpsData.cod}" readonly/>
+												</td>
 											</tr>
-											<!-- 내용 INPUT -->
+											<!-- 수주번호 상세 INPUT -->
 											<tr>
-												<td width="150">내 용</td>
-												<td><input type="text" id="content" name="content"
-													value="${updateData.content }" class="form-control"
-													placeholder="내용을 입력해주세요." required /></td>
+												<td width="150">수주상세번호</td>
+												<td><input type="text" id="orderdetailNum" name="orderdetailNum"
+													class="form-control" value="${mpsData.orderdetailNum}" readonly/>
+												</td>
 											</tr>
-											<!-- 글쓴이 INPUT (로그인 시 자동으로 값 입력 readonly) -->
+											<!-- 등록자 INPUT (로그인 시 자동으로 값 입력 readonly) -->
 											<tr>
-												<td width="150">글쓴이</td>
+												<td width="150">등록자</td>
 												<td><input type="text" id="author" name="author"
-													class="form-control" value="${empName }"
-													placeholder="로그인을 하면 자동으로 입력됩니다." readonly required /></td>
+													class="form-control readonly" value="${empName }"
+													placeholder="로그인을 하면 자동으로 입력됩니다." required  />
+												</td>
 											</tr>
-											<!-- 모달로 입력 테스트 -->
+											<!-- 수주일자 INPUT -->
 											<tr>
-												<td width="150">모달 입력 테스트</td>
-												<td><input type="text" id="modalInput"
-													name="modalInput" class="form-control"
-													value="${updateData.modalInput }"
-													style="width: 80%; float: left"
-													placeholder="모달을 이용해서 입력하는 테스트" required />
-                                          <button
-                                             type="button"
-                                             class="btn btn-primary"
-                                             id="loadValues"
-                                             data-bs-toggle="modal"
-                                             data-bs-target="#kvModal"
-                                             style="margin-left: 2rem; width: 10%"
-                                          >
-                                             저장 값 가져오기
-                                          </button></td>
+												<td width="150">수주일자</td>
+												<td><input type="text" id="orderDate" name="orderDate"
+													class="form-control" value="${mpsData.orderDate}" readonly/>
+												</td>
+											</tr>
+											<!-- 고객명 INPUT -->
+											<tr>
+												<td width="150">고객명</td>
+												<td><input type="text" id="clientName" name="clientName"
+													class="form-control" value="${mpsData.clientName}" readonly/>
+												</td>
+											</tr>
+											<!-- 품번 INPUT -->
+											<tr>
+												<td width="150">품번</td>
+												<td><input type="text" id="productCod" name="productCod"
+													class="form-control" value="${mpsData.productCod}" readonly/>
+												</td>
+											</tr>
+											<!-- 품명 INPUT -->
+											<tr>
+												<td width="150">품명</td>
+												<td><input type="text" id="prodname" name="prodname"
+													class="form-control" value="${mpsData.prodname}" readonly/>
+												</td>
+											</tr>
+											<!-- 수량 INPUT -->
+											<tr>
+												<td width="150">수량</td>
+												<td><input type="text" id="qty" name="qty"
+													class="form-control" value="${mpsData.qty}" required 
+													oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
+													maxlength="5" />
+												</td>
+											</tr>
+											<!-- 단위 INPUT (모달) -->
+											<tr>
+												<td width="150">단위</td>
+												<td><input type="text" id="unitName"
+													name="unitName" class="form-control"
+													style="width: 100%; float: left" value="${mpsData.unitName}" readonly/>
+													<!-- 
+													<button type="button" class="btn btn-primary"
+														id="loadValues" data-bs-toggle="modal"
+														data-bs-target="#kvModal"
+														style="margin-left: 2rem; width: 10%">
+														단위 불러오기</button></td>  -->
+											<!-- 출고예정일 INPUT -->
+											<tr>
+												<td width="150">출고예정일</td>
+												<td><input type="text" id="deliveryDate" name="deliveryDate"
+													class="form-control" value="${mpsData.deliveryDate}" readonly/>
+												</td>
+											</tr>
+											<!-- 계획일 INPUT -->
+		                                    <tr>
+		                                       <td width="150">계획일</td>
+		                                       <td>
+		                                          <input
+		                                             type="date"
+		                                             id="planDate"
+		                                             name="planDate"
+		                                             class="form-control"
+		                                             value="${mpsData.planDate}"
+		                                             required
+		                                          />
+		                                       </td>
+		                                    </tr>
+		                                    <!-- 조달구분 INPUT -->
+											<tr>
+												<td width="150">조달구분</td>
+												<td><select id="procurement" name="procurement" class="form-select">
+													<option value="구매">구매</option>
+													<option value="생산">생산</option>
+												</select>
+												</td>
+											</tr>
+											<!-- 비고 INPUT -->
+											<tr>
+												<td width="150">비고</td>
+												<td><input type="text" id="note" name="note"
+													class="form-control" value="${mpsData.note}"/>
+												</td>
 											</tr>
 										</table>
 									</div>

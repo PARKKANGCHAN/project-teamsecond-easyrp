@@ -55,57 +55,59 @@
 											<tr>
 												<td width="150">수주번호</td>
 												<td><input type="text" id="orderCod" name="orderCod"
-													class="form-control" placeholder="수주번호를 입력해주세요." required />
+													class="form-control" placeholder="수주번호를 불러오세요." required readonly/>
 												</td>
 											</tr>
 											<!-- 수주번호 상세 INPUT -->
 											<tr>
 												<td width="150">수주상세번호</td>
 												<td><input type="text" id="orderdetailNum" name="orderdetailNum"
-													class="form-control" placeholder="수주상세번호를 입력해주세요." required />
+													class="form-control" placeholder="수주상세번호를 불러오세요." required readonly/>
 												</td>
 											</tr>
-											<!-- 글쓴이 INPUT (로그인 시 자동으로 값 입력 readonly) -->
+											<!-- 등록자 INPUT (로그인 시 자동으로 값 입력 readonly) -->
 											<tr>
-												<td width="150">글쓴이</td>
+												<td width="150">등록자</td>
 												<td><input type="text" id="author" name="author"
-													class="form-control" value="${empName }"
-													placeholder="로그인을 하면 자동으로 입력됩니다." readonly required />
+													class="form-control readonly" value="${empName }"
+													placeholder="로그인을 하면 자동으로 입력됩니다." required  />
 												</td>
 											</tr>
 											<!-- 수주일자 INPUT -->
 											<tr>
 												<td width="150">수주일자</td>
 												<td><input type="text" id="orderDate" name="orderDate"
-													class="form-control" placeholder="수주일자를 입력해주세요." required />
+													class="form-control" placeholder="수주일자를 불러오세요." required readonly/>
 												</td>
 											</tr>
 											<!-- 고객명 INPUT -->
 											<tr>
 												<td width="150">고객명</td>
 												<td><input type="text" id="clientName" name="clientName"
-													class="form-control" placeholder="고객명을 입력해주세요." required />
+													class="form-control" placeholder="고객명을 불러오세요." required readonly/>
 												</td>
 											</tr>
 											<!-- 품번 INPUT -->
 											<tr>
 												<td width="150">품번</td>
 												<td><input type="text" id="productCod" name="productCod"
-													class="form-control" placeholder="품번을 입력해주세요." required />
+													class="form-control" placeholder="품번을 불러오세요." required readonly/>
 												</td>
 											</tr>
 											<!-- 품명 INPUT -->
 											<tr>
 												<td width="150">품명</td>
 												<td><input type="text" id="prodname" name="prodname"
-													class="form-control" placeholder="품명을 입력해주세요." required />
+													class="form-control" placeholder="품명을 불러오세요." required readonly/>
 												</td>
 											</tr>
 											<!-- 수량 INPUT -->
 											<tr>
 												<td width="150">수량</td>
 												<td><input type="text" id="qty" name="qty"
-													class="form-control" placeholder="수량을 입력해주세요." required />
+													class="form-control" placeholder="수량을 입력해주세요." required 
+													oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
+													maxlength="5"/>
 												</td>
 											</tr>
 											<!-- 단위 INPUT (모달) -->
@@ -113,18 +115,19 @@
 												<td width="150">단위</td>
 												<td><input type="text" id="unitName"
 													name="unitName" class="form-control"
-													style="width: 80%; float: left" placeholder="단위를 입력해주세요."
-													required />
+													style="width: 100%; float: left" placeholder="단위를 불러오세요."
+													required readonly/>
+													<!-- 
 													<button type="button" class="btn btn-primary"
 														id="loadValues" data-bs-toggle="modal"
 														data-bs-target="#kvModal"
 														style="margin-left: 2rem; width: 10%">
-														단위 불러오기</button></td>
+														단위 불러오기</button></td>  -->
 											<!-- 출고예정일 INPUT -->
 											<tr>
 												<td width="150">출고예정일</td>
 												<td><input type="text" id="deliveryDate" name="deliveryDate"
-													class="form-control" placeholder="출고예정일을 입력해주세요." required />
+													class="form-control" placeholder="출고예정일을 입력해주세요." required readonly/>
 												</td>
 											</tr>
 											<!-- 계획일 INPUT -->
@@ -144,8 +147,7 @@
 		                                    <!-- 조달구분 INPUT -->
 											<tr>
 												<td width="150">조달구분</td>
-												<td><select id="procurement" name="procurement" class="form-control">
-													<option value="">조달 구분을 선택해주세요.</option>
+												<td><select id="procurement" name="procurement" class="form-select">
 													<option value="구매">구매</option>
 													<option value="생산">생산</option>
 												</select>
@@ -162,6 +164,7 @@
 									</div>
 									<div>
 										<input type="hidden" id="employeeCod" name="employeeCod" value="${empCode}" />
+										<input type="hidden" id="plan" name="plan" value='수주' />
 									</div>
 									<!-- 등록 Button START -->
 									<div style="text-align: center">
@@ -186,9 +189,9 @@
 		</div>
 	</div>
 	<!-- 공통 사용 테이블 END -->
-	<!-- Value Modal START  -->
+	<!-- Unit Value Modal START  -->
 	<div class="modal fade" id="kvModal" tabindex="-1"
-		aria-labelledby="kvModalLabel" aria-hidden="true">
+		aria-labelledby="kvModalLabel" aria-hidden="true" data-bs-backdrop='static' data-bs-keyboard='false' >
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -203,7 +206,6 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th scope="col">#</th>
 								<th scope="col">Code</th>
 								<th scope="col">Value</th>
 							</tr>
@@ -222,8 +224,8 @@
 	</div>
 	<!-- Value Modal END  -->
 	<!-- Data Modal START  -->
-	<div class="modal fade" id="dataModal" tabindex="-1"
-		aria-labelledby="dataModalLabel" aria-hidden="true">
+	<div class="modal fade modal-lg" id="dataModal" tabindex="-1"
+		aria-labelledby="dataModalLabel" aria-hidden="true" data-bs-backdrop='static' data-bs-keyboard='false'>
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -241,6 +243,7 @@
 								<th scope="col">수주번호</th>
 								<th scope="col">No.</th>
 								<th scope="col">주문일자</th>
+								<th scope="col">품번</th>
 								<th scope="col">품명</th>
 								<th scope="col">수량</th>
 								<th scope="col">단위</th>
@@ -263,8 +266,8 @@
 	<!-- Data Modal END  -->
      <script type="text/javascript">
          /* valueModal START */
-         function setValue(cod, value) {
-            $('#modalInput').val(value);
+         function setValue(cod, name) {
+        	$('#unitName').val(name);
             $('#kvModal').modal('hide');
             $('.modal-backdrop').remove();
          }
@@ -272,33 +275,28 @@
          $(document).ready(function () {
             $('#loadValues').on('click', function () {
                $.ajax({
-                  url: 'api/',
+                  url: 'api/get-unit',
                   method: 'GET',
                   success: function (data) {
                      let rows = '';
                      data.forEach(function (item) {
-                        if (item.id && item.cod) {
+                        if (item.cod) {
                            rows +=
                               '<tr onclick="setValue(\'' +
-                              item.cod +
-                              "', '" +
-                              item.value +
+                              item.name +
                               '\')" ' +
                               'class="searchValue" data-cod="' +
                               item.cod +
-                              '" data-value="' +
-                              item.value +
+                              '" data-name="' +
+                              item.name +
                               '" style= "' +
                               'cursor: pointer' +
                               '">' +
                               '<td>' +
-                              item.id +
-                              '</td>' +
-                              '<td>' +
                               item.cod +
                               '</td>' +
                               '<td>' +
-                              item.value +
+                              item.name +
                               '</td>' +
                               '</tr>';
                         }
@@ -313,9 +311,9 @@
             $('#searchInput').on('keyup', function () {
                var searchInputVlaue = $(this).val().toLowerCase()
                $('.searchValue').each(function () {
-                  var cod = $(this).data('cod').toLowerCase()
-                  var value = $(this).data('value').toLowerCase()
-                  $(this).toggle(cod.includes(searchInputVlaue) || value.includes(searchInputVlaue));
+            	  var cod = String($(this).data('cod')).toLowerCase()
+                  var name = String($(this).data('name')).toLowerCase()
+                  $(this).toggle(cod.includes(searchInputVlaue) || name.includes(searchInputVlaue));
                });
             });
          });
@@ -323,15 +321,14 @@
 
          /* DataModal START */
           function setData(cod, num, orderDate, productCod, clientName, prodname, qty, unitName, deliveryDate, note) {
-        	 
             $('#orderCod').val(cod);
             $('#orderdetailNum').val(num);
             $('#orderDate').val(orderDate);
             $('#productCod').val(productCod);
+            $('#clientName').val(clientName);
             $('#prodname').val(prodname);
             $('#qty').val(qty);
             $('#unitName').val(unitName);
-            $('#clientName').val(clientName);
             $('#deliveryDate').val(deliveryDate);
             $('#note').val(note);
             $('#dataModal').modal('hide');
@@ -373,6 +370,10 @@
                               item.cod +
                               '" data-clientName="' +
                               item.clientName +
+                              '" data-productCod="' +
+                              item.productCod +
+                              '" data-prodname="' +
+                              item.prodname +
                               '" style= "' +
                               'cursor: pointer' +
                               '">' +
@@ -384,6 +385,9 @@
                               '</td>' +
                               '<td>' +
                               item.orderDate +
+                              '</td>' +
+                              '<td>' +
+                              item.productCod +
                               '</td>' +
                               '<td>' +
                               item.prodname +
@@ -412,15 +416,21 @@
             $('#searchDataInput').on('keyup', function () {
                let searchInputData = $(this).val();
                $('.searchData').each(function () {
-                  let cod = $(this).data('cod');
-                  let clientName = $(this).data('clientName');
-                  let productCod = $(this).data('productCod');
-                  let prodname = $(this).data('prodname');
+                  let cod = String($(this).data('cod')).toLowerCase();
+                  let clientName = String($(this).data('clientname')).toLowerCase();
+                  let productCod = String($(this).data('productcod')).toLowerCase();
+                  let prodname = String($(this).data('prodname')).toLowerCase();
                   $(this).toggle(cod.includes(searchInputData) || clientName.includes(searchInputData)
                 		  || productCod.includes(searchInputData) || prodname.includes(searchInputData));
                });
             });
          });
          /* DataModal END */
+	</script>
+	<script type="text/javascript">
+		$('.readonly').on('keydown paste focus mousedown',(function(e){
+			if(e.keyCode == '')
+				e.preventDefault();
+		});
 	</script>
 </html>

@@ -1,6 +1,6 @@
 package co.second.easyrp.mps.map;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -13,20 +13,25 @@ public interface MpsMapper {
 	//리스트 전체 조회
 	List<MpsVO> mpsSelectListAll(
 		    @Param("pageSize") int pageSize, 
-		    @Param("offset") int offset, 
+		    @Param("offset") int offset,
+		    @Param("searchPlan") String searchPlan,
 		    @Param("searchProdCod") String searchProdCod, 
 		    @Param("searchProdName") String searchProdName, 
 		    @Param("searchClient") String searchClient, 
-		    @Param("preSearchDate") java.util.Date preSearchDate, 
-		    @Param("postSearchDate") java.util.Date postSearchDate
+		    @Param("preSearchDate") Date preSearchDate, 
+		    @Param("postSearchDate") Date postSearchDate
 		); 
 	//리스트 페이지 구하기
 	int countMpsTables(
+			@Param("searchPlan") String searchPlan,
 			@Param("searchProdCod") String searchProdCod,
 			@Param("searchProdName") String searchProdName,
 			@Param("searchClient") String searchClient,
-			@Param("preSearchDate") java.util.Date preSearchDate, 
-			@Param("postSearchDate") java.util.Date postSearchDate);
+			@Param("preSearchDate") Date preSearchDate, 
+			@Param("postSearchDate") Date postSearchDate);
+	
+	//개별조회
+	MpsVO mpsSelect(MpsVO mpsVo); 
 	
 	int mpsInsert(MpsVO mpsVo); //등록
 	int mpsUpdate(MpsVO mpsVo); //수정

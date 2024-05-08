@@ -1,6 +1,6 @@
 package co.second.easyrp.mps.serviceImpl;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,18 +48,24 @@ public class MpsServiceImpl implements MpsService {
 	}
 
 	@Override
-	public int countMpsTables(String searchProdCod, String searchProdName, String searchClient,
-			java.util.Date preSearchDate, java.util.Date postSearchDate) {
+	public int countMpsTables(String searchPlan, String searchProdCod, String searchProdName, String searchClient,
+			Date preSearchDate, Date postSearchDate) {
 		// TODO Auto-generated method stub
 		
-		return mpsMapper.countMpsTables(searchProdCod, searchProdName, searchClient, preSearchDate, postSearchDate);
+		return mpsMapper.countMpsTables(searchPlan, searchProdCod, searchProdName, searchClient, preSearchDate, postSearchDate);
 	}
 	
 	@Override
-	public List<MpsVO> mpsSelectListAll(int page, int size, String searchProdCod, String searchProdName,
-			String searchClient, java.util.Date preSearchDate, java.util.Date postSearchDate) {
+	public List<MpsVO> mpsSelectListAll(int page, int size, String searchPlan, String searchProdCod, String searchProdName,
+			String searchClient, Date preSearchDate, Date postSearchDate) {
 		// TODO Auto-generated method stub
 		int offset = (page-1)*size; 
-		return mpsMapper.mpsSelectListAll(size, offset, searchProdCod, searchProdName, searchClient, preSearchDate, postSearchDate);
+		return mpsMapper.mpsSelectListAll(size, offset, searchPlan, searchProdCod, searchProdName, searchClient, preSearchDate, postSearchDate);
+	}
+
+	@Override
+	public MpsVO mpsSelect(MpsVO mpsVo) {
+		// TODO Auto-generated method stub
+		return mpsMapper.mpsSelect(mpsVo);
 	}
 }

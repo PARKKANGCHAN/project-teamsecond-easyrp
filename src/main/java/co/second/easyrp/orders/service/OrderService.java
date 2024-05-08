@@ -1,6 +1,4 @@
 package co.second.easyrp.orders.service;
-
-import java.sql.Date;
 import java.util.List;
 
 public interface OrderService {

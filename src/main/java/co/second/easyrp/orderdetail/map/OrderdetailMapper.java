@@ -1,6 +1,5 @@
 package co.second.easyrp.orderdetail.map;
 
-import java.sql.Date;
 import java.util.List;
 
 import co.second.easyrp.orderdetail.service.OrderdetailVO;
