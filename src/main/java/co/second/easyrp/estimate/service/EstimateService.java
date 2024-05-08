@@ -21,7 +21,7 @@ public interface EstimateService {
 	
 	EstimateVO EstimateSelect(EstimateVO vo);
 	int EstimateInsert(EstimateVO vo);
-	int EstimateUpdate(EstimateVO vo);
+	int EstimateUpdate(String cod, int qty, int num);
 	int EstimateDelete(EstimateVO vo);
 	
 	int countSalesTables(
@@ -37,4 +37,5 @@ public interface EstimateService {
 	List<EstimateVO> ClientNameSelectList();
 	
 	List<EstimateVO> EstimateDetailSelectList(String cod);
+	
 }

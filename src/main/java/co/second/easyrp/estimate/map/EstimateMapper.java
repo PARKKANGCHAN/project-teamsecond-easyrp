@@ -21,7 +21,7 @@ public interface EstimateMapper {
 	
 	EstimateVO EstimateSelect(EstimateVO vo);
 	int EstimateInsert(EstimateVO vo);
-	int EstimateUpdate(EstimateVO vo);
+	int EstimateUpdate(@Param("cod") String cod, @Param("qty") int qty, @Param("num") int num);
 	int EstimateDelete(EstimateVO vo);
 	
 	int countSalesTables(

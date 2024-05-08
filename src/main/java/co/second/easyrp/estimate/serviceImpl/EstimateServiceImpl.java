@@ -39,9 +39,9 @@ public class EstimateServiceImpl implements EstimateService {
 	}
 
 	@Override
-	public int EstimateUpdate(EstimateVO vo) {
+	public int EstimateUpdate(String cod, int qty, int num) {
 		// TODO Auto-generated method stub
-		return estimateMapper.EstimateUpdate(vo);
+		return estimateMapper.EstimateUpdate(cod, qty, num);
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -80,45 +81,28 @@ public class EstimateController {
     	
     }
 
-//    @RequestMapping(value = "/salesplaninsertFn", method = RequestMethod.POST)
-//    public String salesplanInsert(@RequestParam("ClientName") String ClientName,
-//    							  @RequestParam("ProductName") String ProductName,
-//    							  @RequestParam("basicplnQty") int basicplnQty,
-//    							  SalesplanVO vo) {
+	@RequestMapping(value = "/estimateupdate", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<String> estimateUpdate(@RequestParam("cod") String cod,
+								 @RequestParam("qty") int qty,
+								 @RequestParam("num") int num) {
+		
+		System.out.println(qty);
+		int result = estimateService.EstimateUpdate(cod, qty, num);
+		
+		return ResponseEntity.ok().body("{\"message\": \"success\"}");
+	}
+   
+//    @RequestMapping(value = "/estimateinsertFn", method = RequestMethod.POST)
+//    public String salesplanInsert(@RequestParam("ClientName") String ClientName) {
 //    	
-//    	String ClientCod = salesplanService.ClientCodSelect(ClientName);
-//    	String ProductCod = salesplanService.ProductCodSelect(ProductName);
-//    	
-//    	vo.setClientCod(ClientCod);
-//    	vo.setProductCod(ProductCod);
-//    	vo.setBasicplnQty(basicplnQty);
-//    	
-//    	
-//    	int result = salesplanService.SalesplanInsert(vo);
+//
 //    	
 //    	
 //    	return "redirect:/salesplanmanagement";
 //    }
-    
 	
-//	@RequestMapping(value = "/estimateupdate", method = RequestMethod.GET)
-//	public String salesplanupdate(@RequestParam("cod") String cod,
-//								  Model model) {
-//		
-//		
-//		SalesplanVO vo = salesplanService.SalesplanNameSelect(cod);
-//		vo.setCod(cod);
-//		String salesplanCod = vo.getCod();
-//		
-//		String clientName = vo.getName();
-//		String productName = vo.getProdName();
-//		model.addAttribute("clientName", clientName);
-//		model.addAttribute("productName", productName);
-//		model.addAttribute("salesplanCod", salesplanCod);
-//	  
-//		return "easyrp/estimate/estimateupdate"; 
-//	}
-   
+	
 //	@PostMapping("/salesplanupdateFn")
 //	public String salesplanupdateFn(@RequestParam("cod") String cod,
 //    								@RequestParam("modplnQty") int modplnQty,

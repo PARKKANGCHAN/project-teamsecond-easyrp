@@ -68,5 +68,10 @@
 		left join department d on e3.department_cod = d.cod
 		WHERE estimate_cod = #{cod}
 	</select>
-
+	
+	<update id="EstimateUpdate" parameterType="map">
+		update estimatedetail
+		set qty = #{qty}
+		where estimate_cod = #{cod} and num = #{num}
+	</update>
 </mapper>
