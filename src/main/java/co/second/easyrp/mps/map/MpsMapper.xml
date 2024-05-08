@@ -91,10 +91,8 @@
 	<update id="mpsUpdate">
 		UPDATE mps
 		SET
-		product_cod = #{productCod}
 		plan_date = #{planDate}
 		qty = #{qty}
-		procurement = #{procurement}
 		note = #{note}
 		WHERE cod = #{cod};
 	</update>

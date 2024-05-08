@@ -34,11 +34,11 @@ public class MpsVO {
 	private Date dday;
 	private String clientName;
 	
-	private String searchProdCod;
-	private String searchProdName;
-	private String searchClient;
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private Date preSearchDate;
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private Date postSearchDate;
+//	private String searchProdCod;
+//	private String searchProdName;
+//	private String searchClient;
+//	@DateTimeFormat(pattern="yyyy-MM-dd")
+//	private Date preSearchDate;
+//	@DateTimeFormat(pattern="yyyy-MM-dd")
+//	private Date postSearchDate;
 }

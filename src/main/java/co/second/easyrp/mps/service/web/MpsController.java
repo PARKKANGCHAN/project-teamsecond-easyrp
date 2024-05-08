@@ -84,8 +84,7 @@ public class MpsController {
 	public String mpsUpdate(Model model, @RequestParam("cod") String cod) {
 		MpsVO mpsVo = new MpsVO();
 		mpsVo.setCod(cod);
-		mpsService.mpsSelect(mpsVo);
-		model.addAttribute("mpsData", mpsVo);
+		model.addAttribute("mpsData", mpsService.mpsSelect(mpsVo));
 		return "easyrp/mps/mpsupdate";
 	}
 	
