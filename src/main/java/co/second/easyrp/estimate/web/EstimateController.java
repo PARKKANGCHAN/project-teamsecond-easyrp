@@ -3,11 +3,13 @@ package co.second.easyrp.estimate.web;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -65,14 +67,16 @@ public class EstimateController {
     	return "easyrp/estimate/estimateinsert";
     }
     
-    @PostMapping(value = "/estimatedetail")
+    @GetMapping(value = "/estimatedetail")
     @ResponseBody
-    public String estimateDetail(@RequestParam("cod") String cod) {
-   
-        List<EstimateVO> estimateDetail = estimateService.EstimateDetailSelectList(cod);
-        System.out.println(estimateDetail);
+    public List<EstimateVO> estimateDetail(@RequestParam("cod") String estimateCod,
+    							 Model model) {
+    	
+        List<EstimateVO> estimateDetailList = estimateService.EstimateDetailSelectList(estimateCod);
+        System.out.println(estimateDetailList);
+        model.addAttribute("estimateDetail", estimateDetailList);
         
-        return cod;
+        return estimateDetailList;
     	
     }
 

@@ -30,4 +30,11 @@ public class EstimateVO {
 	
 	private int num;
 	private int qty;
+	private String prodName;
+	private String productCod;
+	private String clientName;
+	private String empName;
+	private String deptName;
+	private int unitprice;
+	private int totalsum;
 }

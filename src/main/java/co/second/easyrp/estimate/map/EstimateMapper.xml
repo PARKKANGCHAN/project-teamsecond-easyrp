@@ -59,11 +59,14 @@
 	</insert>
 	
 	<select id="EstimateDetailSelectList" parameterType="String">
-		select e.estimate_cod, e.num, p.prodname, e.qty, e.total
-		from estimatedetail e 
-		left join product p
-		on e.product_cod = p.cod
-		where estimate_cod = #{cod}
+		SELECT e.estimate_cod as cod , e.num, e2.est_date , p.cod as productcod , p.prodname, e.qty, e.total, c.name as clientname,  e2.employee_cod as employeecod , e3.name as empname, d.name as deptname, p.unitprice
+		FROM estimatedetail e 
+		LEFT JOIN product p ON e.product_cod = p.cod
+		LEFT JOIN estimate e2 ON e.estimate_cod = e2.cod 
+		LEFT JOIN client c ON e2.client_cod = c.cod
+		left join employee e3 on e2.employee_cod = e3.cod 
+		left join department d on e3.department_cod = d.cod
+		WHERE estimate_cod = #{cod}
 	</select>
 
 </mapper>

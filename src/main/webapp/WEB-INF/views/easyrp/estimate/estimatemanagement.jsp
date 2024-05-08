@@ -7,28 +7,6 @@
 <head>
 <meta charset="UTF-8" />
 <title>Insert title here</title>
-<script>
-
-function estimateDetail(cod) {
-	
-	const obj = {cod};
-
-	const reqdata = {
-	  method: 'POST',
-	  headers: {
-	    'Content-Type': 'application/json'
-	  },
-	  body: JSON.stringify(obj)
-	};
-	
-	fetch('/easyrp/estimatedetail', reqdata)			
-	.then(response => response.json())
-	.then(data => {
-		
-	});	
-}
-
-</script>
 </head>
 <body>
 	<!-- (2024년 4월 30일 추가 박현우) -->
@@ -215,7 +193,7 @@ function estimateDetail(cod) {
 	
 		<!-- 상세페이지 모달 START -->
 	<div class="modal fade" id="detailModal" tabindex="-1"
-		aria-labelledby="detailModalLabel" aria-hidden="true">
+		aria-labelledby="detailModalLabel" aria-hidden="true" data-bs-backdrop='static' data-bs-keyboard='false'>
 		<div class="modal-dialog modal-xl">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -227,52 +205,90 @@ function estimateDetail(cod) {
 					<table class="table">
 						<tr>
 							<th scope="col">견적 번호</th>
-							<td>0001</td>
+							<td id="estimateCod"></td>
 							<th scope="col">거래처 명</th>
-							<td>우주상사</td>
+							<td id="clientName"></td>
 							<th scope="col">견적 날짜</th>
-							<td>2024-05-03</td>
+							<td id="estimateDate"></td>
+							<td></td>
 						</tr>
 						<tr>
 							<th scope="col">견적 담당 부서</th>
-							<td>영업1팀</td>
+							<td id="estimateDept"></td>
 							<th scope="col">견적 담당 사원코드</th>
-							<td>emp002</td>
+							<td id="estimateEmp"></td>
 							<th scope="col">견적 담당자 명</th>
-							<td>류현석</td>
+							<td id="estimateEmpName"></td>
+							<td></td>
 						</tr>
-						<tr>
+						<tr id="detailList">
 							<th colspan="1">상품 코드</th>
 							<th colspan="1">상품 명</th>
 							<th colspan="1">수 량</th>
 							<th colspan="1">단 가</th>
 							<th colspan="1">공급가액</th>
 							<th colspan="1">부가세</th>
-						<tr>
-							<td colspan="1">product_01</td>
-							<td colspan="1">컴퓨터 100대</td>
-							<td colspan="1">10개</td>
-							<td colspan="1">1,000,000</td>
-							<td colspan="1">1,000,000,000</td>
-							<td colspan="1">1,000,000</td>
-						</tr>
+							<th colspan="1">금 액</th>
+
 						<tr>
 							<th colspan="1">총 합</th>
 							<td colspan="1"></td>
 							<td colspan="1"></td>
 							<td colspan="1"></td>
-							<td colspan="1">5,000,000</td>
-							<td colspan="1">5,000,000</td>
+							<td colspan="1" id="totalprice"></td>
+							<td colspan="1" id="totalvax"></td>
+							<td colspan="1" id="totalsum"></td>
 						</tr>
 						<tr>
 							<td colspan="6" style="border-bottom-width: 0px">
+								<button type="button" class="btn btn-primary" onClick="estimateChange()">견적 수정</button>
 								<button type="button" class="btn btn-primary">전표 생성</button>
 								<button type="button" class="btn btn-primary">출력</button>
 								<button type="button" class="btn btn-primary">이메일 보내기</button>
+                                <button type="button" class="btn btn-primary" id="loadValues" data-bs-toggle="modal" data-bs-target="#kvModal" style="width: 10%">
+                                  제품 검색
+                                </button>
 							</td>
 						</tr>
 					</table>
 				</div>
+				
+				      <div class="modal fade" id="kvModal" tabindex="-1" aria-labelledby="kvModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="kvModalLabel">코드-값 선택</h5>
+                  <input
+                     type="text"
+                     id="searchInput"
+                     class="form-control"
+                     placeholder="코드 또는 값을 입력해주세요."
+                     style="margin-left: 10px; width: auto; flex-grow: 1"
+                  />
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  <table class="table">
+                     <thead>
+                        <tr>
+                           <th scope="col">#</th>
+                           <th scope="col">Code</th>
+                           <th scope="col">Value</th>
+                        </tr>
+                     </thead>
+                     <tbody id="modalTableBody">
+                        <!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
+                     </tbody>
+                  </table>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+               </div>
+            </div>
+         </div>
+      </div>
+				
+				
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">닫기</button>
@@ -281,6 +297,8 @@ function estimateDetail(cod) {
 		</div>
 	</div>
 	<!-- 상세페이지 모달 END  -->
+
+
 
 
 	
@@ -298,9 +316,153 @@ function estimateDetail(cod) {
 	        // 에러를 처리하는 로직
 	    });
 		*/
-    
+    	
+		function estimateDetail(estimateCod) {
+			
+			$.ajax({
+				url: 'estimatedetail',
+				type: 'GET',
+				data: {cod : estimateCod},
+				dataType: 'JSON',
+				success: function(response) {
+					
+				    var totalPrice = 0; // 총 가격 합계 초기값 설정
+				    var totalVat = 0; // 부가세 합계 초기값 설정
+				    var totalSum = 0; // 총합 합계 초기값 설정
+					
+					$('#estimateCod').text(response[0].cod);
+					$('#clientName').text(response[0].clientName);
+					$('#estimateDate').text(response[0].estDate);
+					$('#estimateDept').text(response[0].deptName);
+					$('#estimateEmp').text(response[0].employeeCod);
+					$('#estimateEmpName').text(response[0].empName);
+
+					
+					response.forEach(function(item) {
+						
+						var newRow = $('<tr class="generatedRow">');
+						
+						newRow.append($('<td>').text(item.productCod));
+						
+						newRow.append($('<td>').append($('<input>').attr({
+						    'type': 'text',
+						    'readonly': 'readonly',
+						    'class': 'form-control',
+						}).css('width', '150px').val(item.prodName)));
+						
+						newRow.append($('<td>').append($('<input>').attr({
+						    'type': 'number',
+						    'readonly': 'readonly',
+						    'class': 'form-control',
+						}).css('width', '150px').val(item.qty)));
+
+						
+						newRow.append($('<td>').text(item.unitprice.toLocaleString()));
+						
+				        // 각 항목의 총 가격 계산 및 표시
+				        var totalPriceItem = item.unitprice * item.qty;
+				        newRow.append($('<td>').text(totalPriceItem.toLocaleString())); // 숫자를 형식화하여 표시
+				        totalPrice += totalPriceItem; // 총 가격 합계 누적
+				        
+				        // 각 항목의 부가세 계산 및 표시
+				        var vat = Math.floor(totalPriceItem * 0.1);
+				        newRow.append($('<td>').text(vat.toLocaleString())); 
+				        totalVat += vat; // 부가세 합계 누적
+				        
+				        // 각 항목의 총합 계산 및 표시
+				        var totalItem = totalPriceItem + vat;
+				        newRow.append($('<td>').text(totalItem.toLocaleString())); 
+				        totalSum += totalItem; // 총합 합계 누적
+						
+						$('#detailList').after(newRow);
+					});
+					
+				    $('#totalprice').text(totalPrice.toLocaleString());
+				    $('#totalvax').text(totalVat.toLocaleString());
+				    $('#totalsum').text(totalSum.toLocaleString());
+						
+						
+						$('#detailModal').on('hidden.bs.modal', function () {
+						    // 모달이 닫힐 때 생성된 tr 요소 제거
+						    $('.generatedRow').remove();
+						
+					});
+					
+					// $('#prodName').text(response[0].prodName);
+					// $('#qty').text(response[0].qty);
+					
+				},
+				error: function(xhr, status, error) {
+					console.error('실패');
+				}
+			})
+		}
+		
+		function estimateChange() {
+			$('input').removeAttr('readonly');
+		}
     
 
+		
+		
+        /* valueModal START */
+        function setValue(cod, value) {
+           $('#modalInput').val(value);
+           $('#kvModal').modal('hide');
+           $('.modal-backdrop').remove();
+        }
+
+        $(document).ready(function () {
+           $('#loadValues').on('click', function () {
+              $.ajax({
+                 url: 'api/get-kv',
+                 method: 'GET',
+                 success: function (data) {
+                    let rows = '';
+                    data.forEach(function (item) {
+                       if (item.id && item.cod) {
+                          rows +=
+                             '<tr onclick="setValue(\'' +
+                             item.cod +
+                             "', '" +
+                             item.value +
+                             '\')" ' +
+                             'class="searchValue" data-cod="' +
+                             item.cod +
+                             '" data-value="' +
+                             item.value +
+                             '" style= "' +
+                             'cursor: pointer' +
+                             '">' +
+                             '<td>' +
+                             item.id +
+                             '</td>' +
+                             '<td>' +
+                             item.cod +
+                             '</td>' +
+                             '<td>' +
+                             item.value +
+                             '</td>' +
+                             '</tr>';
+                       }
+                    });
+                    $('#modalTableBody').html(rows);
+                    $('#kvModal').modal('show');
+                 },
+              });
+           });
+
+           $('#searchInput').on('keyup', function () {
+              var searchInputVlaue = $(this).val().toLowerCase()
+              $('.searchValue').each(function () {
+                 var cod = $(this).data('cod').toLowerCase()
+                 var value = $(this).data('value').toLowerCase()
+                 $(this).toggle(cod.includes(searchInputVlaue) || value.includes(searchInputVlaue));
+              });
+           });
+        });
+        /* valueModal END */
+		
 		
         
     </script>
