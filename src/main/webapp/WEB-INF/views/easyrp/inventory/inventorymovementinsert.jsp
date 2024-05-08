@@ -16,7 +16,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             <div class="page-title">
                <div class="row">
                   <div class="col-12 col-md-6 order-md-1 order-last">
-                     <h3>재고이동등록</h3>
+                     <h3>재고 이동 등록</h3>
                      <p class="text-subtitle text-muted">재고 이동 등록</p>
                   </div>
                   <div class="col-12 col-md-6 order-md-2 order-first">
@@ -41,10 +41,10 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                  class="btn btn-primary"
                                  id="loadDatas"
                                  data-bs-toggle="modal"
-                                 data-bs-target="#dataModal"
+                                 data-bs-target="#dataPurchaseOrderModal"
                                  style="float: left; width: 10%"
                               >
-                                 데이터 가져오기
+                                 발주 데이터
                               </button>
                            </div>
                         </div>
@@ -52,30 +52,28 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                            <form action="inventorymovementinsertfn" method="post">
                               <div class="mb-4">
                                  <table class="table table-bordered">
-                                    <!-- 글제목 INPUT INPUT -->
-                                    <tr>
-                                       <td width="150">이동번호</td>
+                                   <tr>
+                                       <td width="150">이동코드</td>
                                        <td>
                                           <input
                                              type="text"
-                                             id="title"
-                                             name="title"
+                                             id="movecod"
+                                             name="movecod"
                                              class="form-control"
-                                             placeholder="제목을 입력해주세요."
+                                             placeholder="이동코드를 선택해주세요."
                                              required
                                           />
                                        </td>
                                     </tr>
-                                    <!-- 내용 INPUT -->
                                     <tr>
                                        <td width="150">이동날짜</td>
                                        <td>
                                           <input
                                              type="text"
-                                             id="content"
-                                             name="content"
+                                             id="movedate"
+                                             name="movedate"
                                              class="form-control"
-                                             placeholder="내용을 입력해주세요."
+                                             placeholder="이동날짜를 선택해주세요."
                                              required
                                           />
                                        </td>
@@ -86,8 +84,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                        <td>
                                           <input
                                              type="text"
-                                             id="author"
-                                             name="author"
+                                             id="manager"
+                                             name="manager"
                                              class="form-control"
                                              value="${empName }"
                                              placeholder="로그인을 하면 자동으로 입력됩니다."
@@ -119,7 +117,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                              id="oboundlocation"
                                              name="oboundlocation"
                                              class="form-control"
-                                             placeholder="출고창고를 선택해주세요."
+                                             placeholder="출고장소를 선택해주세요."
                                              readonly
                                              required
                                           />
@@ -147,7 +145,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                              id="iboundlocation"
                                              name="iboundlocation"
                                              class="form-control"
-                                             placeholder="입고창고를 선택해주세요."
+                                             placeholder="입고장소를 선택해주세요."
                                              readonly
                                              required
                                           />
@@ -180,7 +178,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                              required
                                           />
                                        </td>
-                                    </tr>
+                                    </tr>                                                     
                                     <tr>
                                        <td width="150">단위</td>
                                        <td>
@@ -189,12 +187,23 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                              id="unit"
                                              name="unit"
                                              class="form-control"
+                                             style="width: 80%; float: left"
                                              placeholder="단위를 선택해주세요."
-                                             readonly
                                              required
                                           />
+                                          <button
+                                             type="button"
+                                             class="btn btn-primary"
+                                             id="loadValues"
+                                             data-bs-toggle="modal"
+                                             data-bs-target="#kvModal"
+                                             style="margin-left: 2rem; width: 10%"
+                                          >
+                                             단위 선택하기
+                                          </button>
                                        </td>
-                                                                           <tr>
+                                    </tr>
+                                       <tr>
                                        <td width="150">이동수량</td>
                                        <td>
                                           <input
@@ -208,31 +217,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                           />
                                        </td>
                                     </tr>                                   
-                                    <!-- 모달로 입력 테스트 -->
-                                    <tr>
-                                       <td width="150">모달 입력 테스트</td>
-                                       <td>
-                                          <input
-                                             type="text"
-                                             id="modalInput"
-                                             name="modalInput"
-                                             class="form-control"
-                                             style="width: 80%; float: left"
-                                             placeholder="모달을 이용해서 입력하는 테스트"
-                                             required
-                                          />
-                                          <button
-                                             type="button"
-                                             class="btn btn-primary"
-                                             id="loadValues"
-                                             data-bs-toggle="modal"
-                                             data-bs-target="#kvModal"
-                                             style="margin-left: 2rem; width: 10%"
-                                          >
-                                             저장 값 가져오기
-                                          </button>
-                                       </td>
-                                    </tr>
                                  </table>
                               </div>
                               <!-- 공통등록 Button START -->
@@ -301,11 +285,11 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
       </div>
       <!-- Value Modal END  -->
       <!-- Data Modal START  -->
-      <div class="modal fade" id="dataModal" tabindex="-1" aria-labelledby="dataModalLabel" aria-hidden="true">
+      <div class="modal fade" id="dataPurchaseOrderModal" tabindex="-1" aria-labelledby="dataModalLabel" aria-hidden="true">
          <div class="modal-dialog">
             <div class="modal-content">
                <div class="modal-header">
-                  <h5 class="modal-title" id="dataModalLabel">데이터 선택</h5>
+                  <h5 class="modal-title" id="dataModalLabel">선택</h5>
                   <input
                      type="text"
                      id="searchDataInput"
@@ -323,7 +307,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                            <th scope="col">담당자코드</th>
                         </tr>
                      </thead>
-                     <tbody id="modalDataTableBody">
+                     <tbody id="purchaseOrderModalDataTableBody">
                         <!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
                      </tbody>
                   </table>
@@ -338,7 +322,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
       <script type="text/javascript">
          /* valueModal START */
          function setValue(cod, value) {
-            $('#modalInput').val(value);
+            $('#unit').val(value);
             $('#kvModal').modal('hide');
             $('.modal-backdrop').remove();
          }
@@ -394,11 +378,20 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
          });
          /* valueModal END */
 
-         /* DataModal START */
-         function setData(title, content, author) {
-            $('#title').val(title);
-            $('#content').val(content);
-            $('#dataModal').modal('hide');
+         /*PurchaseOrderModalTable START */
+         function setData(movecod, movedate, manager,oboundwarehouse,oboundlocation, iboundwarehouse,iboundlocation,prodcod,prodname,unit,qty) {
+            $('#movecod').val(moveCod);
+            $('#movedate').val(moveDate);
+            $('#manager').val(employeeCod);
+            $('#oboundwarehouse').val(oboundWarehouse);
+            $('#oboundlocation').val(oboundLocation);
+            $('#iboundwarehouse').val(iboundWarehouse);
+            $('#iboundlocation').val(iboundLocation);
+            $('#prodcod').val(prodCod);
+            $('#prodname').val(prodName);
+            $('#unit').val(unit);
+            $('#qty').val(qty);
+            $('#dataPurchaseOrderModal').modal('hide');
             $('.modal-backdrop').remove();
          }
 
@@ -408,33 +401,35 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                   url: 'api/get-podata',
                   method: 'GET',
                   success: function (data) {
+                	  console.log(data);
                      let rows = '';
                      data.forEach(function (item) {
-                        if (item.title && item.content) {
+                        if (item.cod && item.manager) {
                            rows +=
-                              '<tr onclick="setData(\'' +
-                              item.title +
+                              '<tr onclick="setData(\'' +item.movecod +
                               "', '" +
-                              item.content +
+                              item.manager +
                               '\')" ' +
-                              'class="searchData" data-title="' +
-                              item.title +
-                              '" data-author="' +
-                              item.author +
+                              'class="searchData" data-cod="' +
+                              item.cod +
+                              '" data-manager="' +
+                              item.manager +
                               '" style= "' +
                               'cursor: pointer' +
                               '">' +
                               '<td>' +
-                              item.title +
+                              item.cod +
                               '</td>' +
                               '<td>' +
-                              item.author +
+                              item.manager +
                               '</td>' +
                               '</tr>';
                         }
                      });
-                     $('#modalDataTableBody').html(rows);
-                     $('#dataModal').modal('show');
+                     console.log(rows);
+                     $('#purchaseOrderModalDataTableBody').html(rows);
+                     
+                     $('#dataPurchaseOrderModal').modal('show');
                   },
                });
             });
@@ -442,9 +437,9 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             $('#searchDataInput').on('keyup', function () {
                let searchInputData = $(this).val();
                $('.searchData').each(function () {
-                  let title = $(this).data('');
-                  let author = $(this).data('author');
-                  $(this).toggle(title.includes(searchInputData) || author.includes(searchInputData));
+                  let movecod = $(this).data('movecod');
+                  let manager = $(this).data('manager');
+                  $(this).toggle(movecod.includes(searchInputData) || movecod.includes(searchInputData));
                });
             });
          });

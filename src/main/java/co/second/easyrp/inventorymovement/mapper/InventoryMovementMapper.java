@@ -5,11 +5,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import co.second.easyrp.commontable.service.CommonTableCopyVO;
-import co.second.easyrp.commontable.service.CommonTableVO;
-import co.second.easyrp.commontable.service.KeyValueVO;
+
 import co.second.easyrp.inventorymovement.service.InventoryMovementVO;
-import co.second.easyrp.purchaseorder.service.PurchaseOrderVO;
+import co.second.easyrp.purchaseorderdetail.service.PurchaseOrderDetailVO;
 
 
 public interface InventoryMovementMapper{
@@ -34,11 +32,11 @@ public interface InventoryMovementMapper{
 	int updateInventoryMovement(InventoryMovementVO vo);
 	int deleteInventoryMovement(InventoryMovementVO vo);
 	
-	List<KeyValueVO> getAllKeyValues();
+	//List<KeyValueVO> getAllKeyValues();
 	
-	List<PurchaseOrderVO> getAllPurchaseOrderDatas();
+	List<PurchaseOrderDetailVO> getAllPurchaseOrderDatas();
 	
-	CommonTableVO getCommonData(int postId);
+	//CommonTableVO getCommonData(int postId);
 	
 	int countInventoryMovementLists(
 			@Param("cod") String cod,

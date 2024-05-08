@@ -7,13 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import co.second.easyrp.commontable.service.CommonTableCopyVO;
-import co.second.easyrp.commontable.service.CommonTableVO;
-import co.second.easyrp.commontable.service.KeyValueVO;
 import co.second.easyrp.inventorymovement.mapper.InventoryMovementMapper;
 import co.second.easyrp.inventorymovement.service.InventoryMovementService;
 import co.second.easyrp.inventorymovement.service.InventoryMovementVO;
-import co.second.easyrp.purchaseorder.service.PurchaseOrderVO;
+import co.second.easyrp.purchaseorderdetail.service.PurchaseOrderDetailVO;
 @Service
 @Primary
 public class InventoryMovementServiceImpl implements InventoryMovementService {
@@ -53,23 +50,23 @@ public class InventoryMovementServiceImpl implements InventoryMovementService {
 		return inventorymovementmapper.inventoryMovementList(size, offset, cod, oboundWarehouse, oboundLocation, iboundWarehouse, iboundLocation, employeeCod, purchaseDetailCod, productCod, preSearchDate, postSearchDate);
 	}
 
-	@Override
-	public List<KeyValueVO> getAllKeyValues() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public List<KeyValueVO> getAllKeyValues() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
-	public List<PurchaseOrderVO> getAllPurchaseOrderDatas() {
+	public List<PurchaseOrderDetailVO> getAllPurchaseOrderDatas() {
 		// TODO Auto-generated method stub
 		return inventorymovementmapper.getAllPurchaseOrderDatas();
 	}
 
-	@Override
-	public CommonTableVO getCommonData(int postId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public CommonTableVO getCommonData(int postId) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public int countInventoryMovementLists(String cod, String oboundWarehouse, String oboundLocation,

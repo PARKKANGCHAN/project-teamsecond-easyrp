@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import co.second.easyrp.commontable.service.CommonTableCopyVO;
-import co.second.easyrp.commontable.service.CommonTableVO;
+
 import co.second.easyrp.inventorymovement.service.InventoryMovementService;
 import co.second.easyrp.inventorymovement.service.InventoryMovementVO;
-import co.second.easyrp.purchaseorder.service.PurchaseOrderVO;
+import co.second.easyrp.purchaseorderdetail.service.PurchaseOrderDetailVO;
 
 @Controller
 public class InventoryMovementController {
@@ -70,7 +69,6 @@ public class InventoryMovementController {
 
 	@GetMapping("/inventorymovementinsert")
     public String inventoryMovementInsert() {
-		
     	return "easyrp/inventory/inventorymovementinsert";
     }
     
@@ -82,7 +80,7 @@ public class InventoryMovementController {
 	 					
 	@GetMapping("/api/get-podata")
 	@ResponseBody
-	public List<PurchaseOrderVO> getPoDatas() {
-	    return inventorymovementservice.getAllPurchaseOrderDatas();
+	public List<PurchaseOrderDetailVO> getPoDatas(){
+		return inventorymovementservice.getAllPurchaseOrderDatas();
 	}
 }

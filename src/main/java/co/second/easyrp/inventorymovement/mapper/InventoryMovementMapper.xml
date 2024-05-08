@@ -55,7 +55,6 @@
 	<insert id="insertInventoryMovement">
 	INSERT INTO inventorymovement
 	VALUES(
-		, 
 		#{moveDate}, 
 		#{oboundWarehouse}, 
 		#{oboundLocation},
@@ -68,10 +67,15 @@
 		#{unit})
 	</insert>
 	<select id="getAllPurchaseOrderDatas">
-		SELECT *
-		 FROM purchaseorderdetail
-		WHERE state = '입고처리';
+		SELECT pod.*, po
+		
+		.employee_cod_ibound
+		 FROM purchaseorderdetail pod
+		 LEFT JOIN purchaseorder po
+		 ON pod.purchaseorder_cod=po.cod
+		WHERE state_cod = 203
 	</select>
+	
 	<update id="updateInventoryMovement"></update>
 	<delete id="deleteInventoryMovement"></delete>
 	<select id="getAllKeyValues"></select>
