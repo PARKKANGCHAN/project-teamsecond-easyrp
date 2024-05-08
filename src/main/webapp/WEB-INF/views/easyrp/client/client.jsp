@@ -144,7 +144,7 @@
 							<li
 								class="page-item <c:if test='${startPage == 1}'>disabled</c:if>">
 								<a class="page-link"
-								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&searchCod=${searchVO.searchCod}&searchName=${searchVO.searchName}&searchAddress=${searchVO.searchAddress}&searchManagerName=${searchVO.searchManagerName }</c:if>">이전
+								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&searchRepresentative=${searchVO.searchRepresentative }&searchCod=${searchVO.searchCod}&searchName=${searchVO.searchName}&searchAddress=${searchVO.searchAddress}&searchManagerName=${searchVO.searchManagerName }</c:if>">이전
 									10 페이지</a>
 							</li>
 
@@ -152,14 +152,14 @@
 								<li
 									class="page-item <c:if test='${i == currentPage}'>active</c:if>">
 									<a class="page-link"
-									href="?page=${i}&searchCod=${searchVO.searchCod}&searchName=${searchVO.searchName}&searchAddress=${searchVO.searchAddress}&searchManagerName=${searchVO.searchManagerName }">${i}</a>
+									href="?page=${i}&searchCod=${searchVO.searchCod}&searchRepresentative=${searchVO.searchRepresentative }&searchName=${searchVO.searchName}&searchAddress=${searchVO.searchAddress}&searchManagerName=${searchVO.searchManagerName }">${i}</a>
 								</li>
 							</c:forEach>
 
 							<li
 								class="page-item <c:if test='${endPage == totalPages}'>disabled</c:if>">
 								<a class="page-link"
-								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&searchCod=${searchVO.searchCod}&searchName=${searchVO.searchName}&searchAddress=${searchVO.searchAddress}&searchManagerName=${searchVO.searchManagerName }</c:if>">다음
+								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&searchCod=${searchVO.searchCod}&searchRepresentative=${searchVO.searchRepresentative }&searchName=${searchVO.searchName}&searchAddress=${searchVO.searchAddress}&searchManagerName=${searchVO.searchManagerName }</c:if>">다음
 									10 페이지</a>
 							</li>
 						</ul>
