@@ -16,7 +16,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             <div class="page-title">
                <div class="row">
                   <div class="col-12 col-md-6 order-md-1 order-last">
-                     <h3>재고이동등록</h3>
+                     <h3>재고 이동 등록</h3>
                      <p class="text-subtitle text-muted">재고 이동 등록</p>
                   </div>
                   <div class="col-12 col-md-6 order-md-2 order-first">
@@ -58,8 +58,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                        <td>
                                           <input
                                              type="text"
-                                             id="title"
-                                             name="title"
+                                             id="movecod"
+                                             name="movecod"
                                              class="form-control"
                                              placeholder="제목을 입력해주세요."
                                              required
@@ -71,11 +71,11 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                        <td width="150">이동날짜</td>
                                        <td>
                                           <input
-                                             type="text"
-                                             id="content"
-                                             name="content"
+                                             type="date"
+                                             id="movedate"
+                                             name="movedate"
                                              class="form-control"
-                                             placeholder="내용을 입력해주세요."
+                                             placeholder="이동날짜를 입력해주세요."
                                              required
                                           />
                                        </td>
@@ -86,8 +86,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                        <td>
                                           <input
                                              type="text"
-                                             id="author"
-                                             name="author"
+                                             id="manager"
+                                             name="manager"
                                              class="form-control"
                                              value="${empName }"
                                              placeholder="로그인을 하면 자동으로 입력됩니다."
@@ -180,7 +180,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                              required
                                           />
                                        </td>
-                                    </tr>
+                                    <!-- 모달로 입력 테스트 -->
                                     <tr>
                                        <td width="150">단위</td>
                                        <td>
@@ -189,12 +189,22 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                              id="unit"
                                              name="unit"
                                              class="form-control"
+                                             style="width: 80%; float: left"
                                              placeholder="단위를 선택해주세요."
-                                             readonly
                                              required
                                           />
+                                          <button
+                                             type="button"
+                                             class="btn btn-primary"
+                                             id="loadValues"
+                                             data-bs-toggle="modal"
+                                             data-bs-target="#kvModal"
+                                             style="margin-left: 2rem; width: 10%"
+                                          >
+                                             단위 선택하기
+                                          </button>
                                        </td>
-                                                                           <tr>
+                                    </tr>
                                        <td width="150">이동수량</td>
                                        <td>
                                           <input
@@ -208,31 +218,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                           />
                                        </td>
                                     </tr>                                   
-                                    <!-- 모달로 입력 테스트 -->
-                                    <tr>
-                                       <td width="150">모달 입력 테스트</td>
-                                       <td>
-                                          <input
-                                             type="text"
-                                             id="modalInput"
-                                             name="modalInput"
-                                             class="form-control"
-                                             style="width: 80%; float: left"
-                                             placeholder="모달을 이용해서 입력하는 테스트"
-                                             required
-                                          />
-                                          <button
-                                             type="button"
-                                             class="btn btn-primary"
-                                             id="loadValues"
-                                             data-bs-toggle="modal"
-                                             data-bs-target="#kvModal"
-                                             style="margin-left: 2rem; width: 10%"
-                                          >
-                                             저장 값 가져오기
-                                          </button>
-                                       </td>
-                                    </tr>
+
                                  </table>
                               </div>
                               <!-- 공통등록 Button START -->
@@ -398,6 +384,9 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
          function setData(title, content, author) {
             $('#title').val(title);
             $('#content').val(content);
+            $('#content').val(content);
+            $('#content').val(content);
+            $('#content').val(content);
             $('#dataModal').modal('hide');
             $('.modal-backdrop').remove();
          }
@@ -410,7 +399,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                   success: function (data) {
                      let rows = '';
                      data.forEach(function (item) {
-                        if (item.title && item.content) {
+                        if (item. && item.content) {
                            rows +=
                               '<tr onclick="setData(\'' +
                               item.title +

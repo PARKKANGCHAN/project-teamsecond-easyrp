@@ -2,13 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="co.second.easyrp.inventorymovement.mapper.InventoryMovementMapper">
-<<<<<<< HEAD
-	<select id="InventoryMovementList">
-	SELECT
-		*
-	FROM inventorymovement
-=======
-	
+
 	<select id="inventoryMovementList">
 		SELECT *
 		FROM inventorymovement
@@ -39,7 +33,6 @@
 		</if>
 		ORDER BY cod DESC
 		LIMIT #{pageSize} OFFSET #{offset}
->>>>>>> 81f70972fc0594137f54fc6739d91ba5a57e073e
 	</select>
 	
 	<select id="selectInventoryMovementDateScope">
