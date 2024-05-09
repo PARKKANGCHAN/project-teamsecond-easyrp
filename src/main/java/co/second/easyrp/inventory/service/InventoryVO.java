@@ -24,5 +24,10 @@ public class InventoryVO {
 	private int unitcod;
 	private int safetyInvQty;
 	private String account;
+	private String deleteyn;
 	private String note;
+	private String name;
+	private String warehouse;
+	private String employee;
+	private String location;
 }

@@ -8,7 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import co.second.easyrp.inventory.service.InventoryService;
@@ -24,17 +23,17 @@ public class InventoryController {
 	public String inventory(@RequestParam(defaultValue="1")int page,
 							@RequestParam(defaultValue="10")int size,
 							@RequestParam(required=false)String cod,
-							@RequestParam(required=false)String warehouseCod,
-							@RequestParam(required=false)String locationCod,
-							@RequestParam(required=false)String employeeCod,
-							@RequestParam(required=false)Date invDate,
+							@RequestParam(required=false)String warehouse,
+							@RequestParam(required=false)String employee,
 							@RequestParam(required=false)String account,
 							@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date preSearchDate,
 				            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date postSearchDate,
 				            Model model
 							) {
-		List<InventoryVO> inventoryList=inventoryservice.inventoryList(page, size, cod, warehouseCod, locationCod, employeeCod, employeeCod, account, preSearchDate, postSearchDate);
-			int totalRecords = inventoryservice.countInventoryLists(cod, warehouseCod, locationCod, employeeCod, employeeCod, account, preSearchDate, postSearchDate);
+		List<InventoryVO> inventoryList=inventoryservice.inventoryList(page, size, cod, warehouse, employee, account, preSearchDate, postSearchDate);
+			System.out.println(inventoryList);
+			int totalRecords = inventoryservice.countInventoryLists(cod, warehouse, employee, account, preSearchDate, postSearchDate);
+			System.out.println(totalRecords);
 			int totalPages = (int) Math.ceil((double) totalRecords / size);
 
 		int pageGroupSize = 10;
@@ -43,11 +42,8 @@ public class InventoryController {
 		int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
 
 		model.addAttribute("cod", cod);
-		model.addAttribute("warehouseCod", warehouseCod);
-		model.addAttribute("locationCod", locationCod);
-		model.addAttribute("employeeCod", employeeCod);
-		model.addAttribute("invDate", invDate);
-		model.addAttribute("employeeCod", employeeCod);
+		model.addAttribute("warehouse", warehouse);
+		model.addAttribute("employee", employee);
 		model.addAttribute("account", account);
 		model.addAttribute("preSearchDate", preSearchDate);
 		model.addAttribute("postSearchDate", postSearchDate);

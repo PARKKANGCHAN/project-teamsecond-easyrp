@@ -21,7 +21,7 @@
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
 						<h3>
-							<a href="/easyrp/inventory/inventorymovement">재고 이동 현황</a>
+							<a href="/easyrp/inventorymovement">재고 이동 현황</a>
 						</h3>
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
@@ -78,7 +78,7 @@
 															<td width="100">발주 번호</td>
 															<td><input type="text" id="purchaseDetailCod"
 																name="purchaseDetailCod" class="form-control"
-																value="${iboundLocation}" placeholder="발주 번호를 입력해주세요." /></td>
+																value="${purchaseDetailCod}" placeholder="발주 번호를 입력해주세요." /></td>
 															<td width="100">제품코드</td>
 															<td><input type="text" id="productCod"
 																name="productCod" class="form-control"

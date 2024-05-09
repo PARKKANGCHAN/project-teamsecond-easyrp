@@ -21,7 +21,7 @@
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
 						<h3>
-							<a href="/easyrp/inventory/inventory">재고 현황</a>
+							<a href="/easyrp/inventory">재고 현황</a>
 						</h3>
 						<p class="text-subtitle text-muted">재고 현황</p>
 					</div>
@@ -38,6 +38,7 @@
 			</div>
 			<section class="section">
 				<div class="row" id="table-hover-row">
+					<div class="inventorySection">
 					<div class="col-12">
 						<div class="card">
 							<div class="card-content">
@@ -48,7 +49,7 @@
 											<div class="col-12 col-md-6 order-md-1 order-last">
 												<h3>검색</h3>
 											</div>
-											<form id="searchForm" action="commontable" method="get">
+											<form id="searchForm" action="inventory" method="get">
 												<div class="mb-4" style="text-align: center">
 													<table class="table table-bordered" id="searchTable">
 														<tr>
@@ -59,15 +60,15 @@
 															<td width="100">창고</td>
 															<td><input type="text" id="warehouse"
 																name="warehouse" class="form-control"
-																value="${warehouse}" placeholder="제목을 입력해주세요." /></td>
+																value="${warehouse}" placeholder="창고를 입력해주세요." /></td>
 															<td width="100">담당자</td>
-															<td><input type="text" id="manager"
-																name="manager" class="form-control"
-																value="${manager}" placeholder="담당자를 입력해주세요." /></td>
-															<td width="100">작성자</td>
-															<td><input type="text" id="manager"
-																name="manager" class="form-control"
-																value="${searchAuthor}" placeholder="작성자를 입력해주세요." /></td>
+															<td><input type="text" id="employee"
+																name="employee" class="form-control"
+																value="${employee}" placeholder="담당자를 입력해주세요." /></td>
+															<td width="100">계정</td>
+															<td><input type="text" id="account"
+																name="account" class="form-control"
+																value="${account}" placeholder="계정을 입력해주세요." /></td>
 														</tr>
 														<tr>
 															<td width="100">재고기준일</td>
@@ -87,30 +88,40 @@
 													type="hidden" name="size" value="${pageSize}" />
 												<div style="text-align: end; margin-right: 0.5rem">
 													<button type="submit" class="btn btn-primary">검색</button>
+													<button type="button" class="btn btn-primary"   onclick="resetSearchForm()">초기화</button>
 												</div>
 											</form>
 										</div>
 									</div>
 									<!-- 검색 FORM END -->
-									<button id="loadDetail" data-bs-toggle="modal"
-										data-bs-target="#detailModal">모달</button>
+									<!--<button id="loadDetail" data-bs-toggle="modal"
+										data-bs-target="#detailModal">모달</button>  -->
 									<table class="table table-hover mb-0">
 										<thead>
 											<tr>
-												<th width="5%">글 번호</th>
-												<th width="20%">제 목</th>
-												<th width="60%">내 용</th>
-												<th width="10%">작성자</th>
-												<th width="5%">기 능</th>
+												<th>재고코드</th>
+												<th>품명</th>
+												<th>단위(재고)</th>
+												<th>단가</th>
+												<th>기초수량</th>
+												<th>기초재고금액</th>
+												<th>현재고수량</th>
+												<th>현재고금액</th>
+												<th>안전재고량</th>
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach var="commonTable" items="${commonTable }">
-												<tr class="commonDetailTable">
-													<td class="text-bold-500">${commonTable.postId }</td>
-													<td>${commonTable.title }</td>
-													<td class="text-bold-500">${commonTable.content }</td>
-													<td>${commonTable.author }</td>
+											<c:forEach var="inventoryList" items="${inventoryList }">
+												<tr>
+													<td class="text-bold-500">${inventoryList.cod }</td>
+													<td>${inventoryList.name }</td>
+													<td class="text-bold-500">${inventoryList.unitcod }</td>
+													<td>${inventoryList.unitprice }
+													<td>${inventoryList.qty }</td>
+													<td>${inventoryList.price}
+													<td>${inventoryList.curInvQty }</td>
+													<td>${inventoryList.curInvPrice }</td>
+													<td>${inventoryList.safetyInvQty }</td>
 													<td>
 														<div class="btn-group">
 															<button type="button"
@@ -120,9 +131,9 @@
 															</button>
 															<ul class="dropdown-menu">
 																<li><a class="dropdown-item"
-																	href="commonupdate?postId=${commonTable.postId}">수정</a></li>
+																	href="updateInventory?cod=${inventoryList.cod}">수정</a></li>
 																<li><a class="dropdown-item"
-																	href="commondeletefn?postId=${commonTable.postId}">삭제</a></li>
+																	href="deletefnInventory?cod=${inventoryList.cod}">삭제</a></li>
 															</ul>
 														</div>
 													</td>
@@ -133,6 +144,7 @@
 								</div>
 							</div>
 						</div>
+					</div>
 					</div>
 					<!-- 페이지네이션 START -->
 					<nav aria-label="Page navigation">
@@ -161,16 +173,16 @@
 							</li>
 						</ul>
 					</nav>
-
 					<!-- 페이지네이션 END -->
 					<div class="d-flex"
 						style="padding-bottom: 0.5rem; padding-top: 0.5rem;">
 						<div class="col-md-6">
 							<button type="button" class="btn btn-primary">
-								<a href="commoninsert" style="color: white">등록</a>
+								<a href="easyrp/inventory/inventoryinsert" style="color: white">등록</a>
 							</button>
 						</div>
 					</div>
+					
 				</div>
 			</section>
 		</div>
@@ -369,5 +381,16 @@
     });
     /* valueModal END */
 	</script>
+	<script type="text/javascript">
+        function resetSearchForm() {
+            $('#cod').val('');
+            $('#warehouse').val('');
+            $('#employee').val('');
+            $('#account').val('');
+            $('#preSearchDate').val('');
+            $('#postSearchDate').val('');
+            
+        }
+    </script>
 </body>
 </html>

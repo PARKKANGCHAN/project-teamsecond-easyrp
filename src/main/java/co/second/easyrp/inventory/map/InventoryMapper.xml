@@ -3,26 +3,61 @@
 <mapper namespace="co.second.easyrp.inventory.map.InventoryMapper">
 	
 	<select id="inventoryList">
-		SELECT * 
-		FROM inventory
-		WHERE DELETEYN = 'N'
-		<if test="searchNumber != null and searchNumber != ''">
-			AND post_id = #{searchNumber}
+		SELECT i.*, w.name AS 'warehouse', e.name AS 'employee'
+		FROM inventory i
+		LEFT JOIN warehouse w
+		ON i.warehouse_cod = w.cod
+		LEFT JOIN employee e
+		ON i.employee_cod = e.cod
+		WHERE i.deleteyn = 'N'
+		<if test=" cod!= null and cod != ''">
+			AND i.cod = #{cod}
 		</if>
-		<if test="searchTitle != null and searchTitle != ''">
-			AND title LIKE CONCAT('%', #{searchTitle}, '%')
+		<if test="warehouse != null and warehouse != ''">
+			AND w.name LIKE CONCAT('%', #{warehouse}, '%')
 		</if>
-		<if test="searchContent != null and searchContent != ''">
-			AND content LIKE CONCAT('%', #{searchContent}, '%')
+		<if test="employee != null and employee != ''">
+			AND e.name LIKE CONCAT('%', #{employee}, '%')
 		</if>
-		<if test="searchAuthor != null and searchAuthor != ''">
-			AND author LIKE CONCAT('%', #{searchAuthor}, '%')
+		<if test="account != null and account != ''">
+			AND account LIKE CONCAT('%', #{account}, '%')
 		</if>
 		<if test="preSearchDate != null and postSearchDate != null">
-			AND created_at BETWEEN #{preSearchDate} AND
+			AND inv_Date BETWEEN #{preSearchDate} AND
 			#{postSearchDate}
 		</if>
-		ORDER BY post_id DESC
+		ORDER BY i.cod DESC
 		LIMIT #{pageSize} OFFSET #{offset}
+		
 	</select>
+		<select id="countInventoryLists">
+		SELECT count(*), w.name AS 'warehouse', e.name AS 'employee'
+		FROM inventory i
+		LEFT JOIN warehouse w
+		ON i.warehouse_cod = w.cod
+		LEFT JOIN employee e
+		ON i.employee_cod = e.cod
+		WHERE i.deleteyn = 'N'
+		<if test=" cod!= null and cod != ''">
+			AND i.cod = #{cod}
+		</if>
+		<if test="warehouse != null and warehouse != ''">
+			AND w.name LIKE CONCAT('%', #{warehouse}, '%')
+		</if>
+		<if test="employee != null and employee != ''">
+			AND e.name LIKE CONCAT('%', #{employee}, '%')
+		</if>
+		<if test="account != null and account != ''">
+			AND account LIKE CONCAT('%', #{account}, '%')
+		</if>
+		<if test="preSearchDate != null and postSearchDate != null">
+			AND inv_Date BETWEEN #{preSearchDate} AND
+			#{postSearchDate}
+		</if>
+	</select>
+	<insert id="insertInventory">
+	INSERT INTO Inventory VALUES()
+	</insert>
+	<update id="updateInventory"></update>
+	<delete id="deleteInventory"></delete>
 </mapper>

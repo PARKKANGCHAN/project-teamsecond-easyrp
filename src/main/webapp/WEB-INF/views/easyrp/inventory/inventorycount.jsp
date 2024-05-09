@@ -484,6 +484,5 @@
     });
     /* valueModal END */
 	</script>
->>>>>>> origin/feature/feature-hyomihome
 </body>
 </html>

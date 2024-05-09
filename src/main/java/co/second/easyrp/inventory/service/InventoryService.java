@@ -11,10 +11,8 @@ public interface InventoryService {
 			@Param("pageSize") int pageSize,
 			@Param("offset") int offset,
 			@Param("cod") String cod,
-		    @Param("warehouseCod") String warehouseCod, 
-		    @Param("locationCod") String locationCod, 
-		    @Param("employeeCod") String employeeCod, 
-		    @Param("invDate") String invDate, 
+		    @Param("warehouse") String warehouse, 
+		    @Param("employee") String employee,  
 		    @Param("account") String account,
 		    @Param("preSearchDate") Date preSearchDate, 
 		    @Param("postSearchDate") Date postSearchDate
@@ -22,13 +20,14 @@ public interface InventoryService {
 
 	int countInventoryLists(
 			@Param("cod") String cod,
-		    @Param("warehouseCod") String warehouseCod, 
-		    @Param("locationCod") String locationCod, 
-		    @Param("employeeCod") String employeeCod, 
-		    @Param("invDate") String invDate, 
+		    @Param("warehouse") String warehouse, 
+		    @Param("employee") String employee, 
 		    @Param("account") String account,
 		    @Param("preSearchDate") Date preSearchDate, 
 		    @Param("postSearchDate") Date postSearchDate
 			);
 
+	int insertInventory(InventoryVO vo);
+	int updateInventory(InventoryVO vo);
+	int deleteInventory(InventoryVO vo);
 }
