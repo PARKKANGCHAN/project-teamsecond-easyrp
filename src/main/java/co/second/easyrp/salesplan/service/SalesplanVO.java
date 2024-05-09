@@ -1,6 +1,8 @@
 package co.second.easyrp.salesplan.service;
 
-import java.sql.Date;
+
+
+import java.util.Date;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +18,13 @@ public class SalesplanVO {
 	private Date planDate;
 	private int basicplnQty;
 	private int modplnQty;
-	private String stateCod;
+	private String closing;
 	private String deleteyn;
+	private Date preSearchDate;
+	private Date postSearchDate;
+	
+	private String name;
+	private String prodName;
+	
+
 }

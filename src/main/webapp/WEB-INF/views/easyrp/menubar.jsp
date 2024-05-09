@@ -135,7 +135,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                      </a>
                      <ul class="submenu">
                         <li class="submenu-item"><a href="warehouse" class="submenu-link">창고 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">제품 및 자재 관리</a></li>
+                        <li class="submenu-item"><a href="productmgmt" class="submenu-link">제품 및 자재 관리</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">제품 단위 관리</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">제품 그룹 관리</a></li>
                      </ul>
@@ -178,8 +178,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                         <span style="font-weight: 800 !important">견적 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">견적 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">견적 대비 미주문 현황</a></li>
+                        <li class="submenu-item"><a href="estimatemanagement" class="submenu-link">견적 관리</a></li>
+                        <li class="submenu-item"><a href="estimatenonorder" class="submenu-link">견적 대비 미주문 현황</a></li>
                      </ul>
                   </li>
                   <!-- 영업 관리 / 견적 관리 END -->
@@ -248,7 +248,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                         <span style="font-weight: 800 !important">계획 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">주계획 관리</a></li>
+                        <li class="submenu-item"><a href="mpsmanagement" class="submenu-link">주계획 관리</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">소요량전개 관리</a></li>
                      </ul>
                   </li>
