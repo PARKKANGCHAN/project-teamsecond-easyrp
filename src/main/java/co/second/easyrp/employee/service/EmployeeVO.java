@@ -1,6 +1,9 @@
 package co.second.easyrp.employee.service;
 
-import java.sql.Date;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,11 +19,14 @@ public class EmployeeVO {
 	private String password;
 	private String departmentCod;
 	private String empPosition;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date regdate;
 	private String email;
 	private String tel;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birthdate;
 	private String gender;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date quitdate;
 	private String quitReason;
 	private String deleteyn;

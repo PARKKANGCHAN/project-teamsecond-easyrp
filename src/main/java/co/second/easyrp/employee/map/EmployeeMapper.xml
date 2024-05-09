@@ -145,6 +145,11 @@
 		</trim>
 		WHERE cod = #{cod};
 	</update>
+	<update id="delQuitdate">
+		UPDATE employee
+			SET quitdate = #{quitdate}
+		WHERE cod = #{cod};
+	</update>
 
 	<!-- 페이징된 사원리스트를 구하기위한 쿼리 -->
 	<!-- (2024년 5월 3일 오후 3시 43분 하서현) -->

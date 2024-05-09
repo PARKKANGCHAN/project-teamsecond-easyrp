@@ -98,5 +98,12 @@ public class DepartmentMgmtController {
 	public List<WorkplaceVO> getWrkData() {
 		return departmentMgmtService.getAllWorkplaceValues();
 	}
+	
+	@GetMapping("/deptsearch")
+	@ResponseBody
+	public List<DepartmentMgmtVO> deptSearch() {
+		List<DepartmentMgmtVO> returnList = departmentMgmtService.deptAllList();
+		return returnList;
+	}
 
 }

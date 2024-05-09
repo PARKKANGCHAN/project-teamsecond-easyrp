@@ -88,7 +88,18 @@
 		WHERE cod = #{cod};
 	</update>
 	
-	
+	<!-- 페이징과 검색조건이 적용되지않은 순수 부서리스트만 가져오는 쿼리 -->
+	<!-- 2024년 5월 7일 오후 1시 13분 하서현 -->
+	<select id="deptAllList">
+		SELECT 
+			cod,
+			name,
+			wrkname,
+			location
+		FROM department
+		WHERE
+			deleteyn = 'N'
+	</select>
 	
 	
 </mapper>

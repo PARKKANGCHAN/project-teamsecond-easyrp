@@ -35,7 +35,6 @@
 				</div>
 			</div>
 
-			<!-- Basic Tables start -->
 			<section class="section">
 				<div class="card">
 					<div class="card-header"
@@ -81,7 +80,7 @@
 						</div>
 						<div>
 							<div>
-								<span>부서코드</span> <input type="text" id="deptCod"
+								<span>부서번호</span> <input type="text" id="deptCod"
 									name="deptCod" class="form-control" readonly />
 								<button type="button" class="btn btn-primary" id="loadValues"
 									data-bs-toggle="modal" data-bs-target="#kvModal"
@@ -120,9 +119,10 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th scope="col">#</th>
-								<th scope="col">Code</th>
-								<th scope="col">Value</th>
+								<th scope="col">부서번호</th>
+								<th scope="col">부서명</th>
+								<th scope="col">사업장</th>
+								<th scope="col">지역</th>
 							</tr>
 						</thead>
 						<tbody id="modalTableBody">
@@ -197,9 +197,9 @@
 			} 
 		}
 		
-		 /* valueModal START */
-	    function setValue(cod, value) {
-	       $('#deptCod').val(value);
+		 /* 부서찾기 Modal START */
+	    function setValue(cod) {
+	       $('#deptCod').val(cod);
 	       $('#kvModal').modal('hide');
 	       $('.modal-backdrop').remove();
 	    }
@@ -207,36 +207,41 @@
 	    $(document).ready(function () {
 	       $('#loadValues').on('click', function () {
 	          $.ajax({
-	             url: 'api/get-kv',
+	             url: 'deptsearch',
 	             method: 'GET',
+	             dataType:"json",
 	             success: function (data) {
 	                let rows = '';
 	                data.forEach(function (item) {
-	                   if (item.id && item.cod) {
 	                      rows +=
 	                         '<tr onclick="setValue(\'' +
 	                         item.cod +
-	                         "', '" +
-	                         item.value +
 	                         '\')" ' +
 	                         'class="searchValue" data-cod="' +
 	                         item.cod +
-	                         '" data-value="' +
-	                         item.value +
+	                         '" data-name="' +
+	                         item.name +
+	                         '" data-wrkname="' +
+	                         item.wrkname +
+	                         '" data-location="' +
+	                         item.location +
 	                         '" style= "' +
 	                         'cursor: pointer' +
 	                         '">' +
 	                         '<td>' +
-	                         item.id +
-	                         '</td>' +
-	                         '<td>' +
 	                         item.cod +
 	                         '</td>' +
 	                         '<td>' +
-	                         item.value +
+	                         item.name +
+	                         '</td>' +
+	                         '<td>' +
+	                         item.wrkname +
+	                         '</td>' +
+	                         '<td>' +
+	                         item.location +
 	                         '</td>' +
 	                         '</tr>';
-	                   }
+	                         
 	                });
 	                $('#modalTableBody').html(rows);
 	                $('#kvModal').modal('show');
@@ -248,12 +253,17 @@
 	          var searchInputVlaue = $(this).val().toLowerCase()
 	          $('.searchValue').each(function () {
 	             var cod = $(this).data('cod').toLowerCase()
-	             var value = $(this).data('value').toLowerCase()
-	             $(this).toggle(cod.includes(searchInputVlaue) || value.includes(searchInputVlaue));
+	             var name = $(this).data('name').toLowerCase()
+	             var wrkname = $(this).data('wrkname').toLowerCase()
+	             var location = $(this).data('location').toLowerCase()
+	             $(this).toggle(cod.includes(searchInputVlaue) 
+	            		 		|| name.includes(searchInputVlaue)
+	            		 		|| wrkname.includes(searchInputVlaue)
+	            		 		|| location.includes(searchInputVlaue));
 	          });
 	       });
 	    });
-	    /* valueModal END */
+	    /* 부서찾기 Modal END */
 	</script>
 </body>
 </html>

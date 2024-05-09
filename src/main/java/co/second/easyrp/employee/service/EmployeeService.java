@@ -48,5 +48,9 @@ public interface EmployeeService {
 	// 사원코드를 파라미터로 받아서 사원한명의 정보를 가져오는 메소드
 	// (2024 5월 7일 오전 10시 14분 하서현)
 	EmployeeVO selectOneEmp(EmployeeVO vo);
-	
+
+	// 퇴사일을 삭제하는 메소드
+	// (2024 5월 7일 오전 10시 14분 하서현)
+	int delQuitdate(EmployeeVO vo);
+
 }

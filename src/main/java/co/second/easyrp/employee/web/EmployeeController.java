@@ -1,5 +1,6 @@
 package co.second.easyrp.employee.web;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -129,12 +130,23 @@ public class EmployeeController {
 		return "easyrp/basic-information/employeeupdate";
 	}
 
-	// 사원수정페이지로 이동하는 메서드
+	// 사원을 삭제하는 메서드
 	// 2024년 5월 7일 오전 9시 45분 하서현
 	@PostMapping("/deleteEmp")
 	@ResponseBody
 	public int deleteEmp(EmployeeVO vo) {
 		int result = employeeService.updateEmployee(vo);
 		return result;
+	}
+
+	// 사원정보를 수정하는 메소드
+	// 2024년 5월 7일 오전 9시 45분 하서현
+	@PostMapping("/empupdatefn")
+	public String empUpdateFn(EmployeeVO vo) {
+		employeeService.updateEmployee(vo);
+		if(vo.getQuitdate() == null) {
+			employeeService.delQuitdate(vo);
+		}
+		return "redirect:/employeelist";
 	}
 }

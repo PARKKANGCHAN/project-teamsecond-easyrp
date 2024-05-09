@@ -49,4 +49,7 @@ public interface EmployeeMapper {
 	// (2024 5월 7일 오전 10시 14분 하서현)
 	EmployeeVO selectOneEmp(EmployeeVO vo);
 
+	// 퇴사일을 삭제하는 메소드
+	// (2024 5월 7일 오전 10시 14분 하서현)
+	int delQuitdate(EmployeeVO vo);
 }

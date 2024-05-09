@@ -8,8 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<!-- (2024년 4월 30일 추가 박현우) -->
-	<!-- 공통 사용 테이블 START -->
 	<div id="main">
 		<header class="mb-3">
 			<a href="#" class="burger-btn d-block d-xl-none"> <i
@@ -55,23 +53,23 @@
 													<table class="table table-bordered" id="searchTable">
 														<tr>
 															<td width="100">사원번호</td>
-															<td><input type="text" id="searchNumber"
+															<td><input type="text" id="searchCod"
 																name="searchCod" class="form-control"
 																value="${searchCod}" placeholder="사원번호 입력해주세요." /></td>
 															<td width="100">사원명</td>
-															<td><input type="text" id="searchTitle"
+															<td><input type="text" id="searchName"
 																name="searchName" class="form-control"
 																value="${searchName}" placeholder="사원명을 입력해주세요." /></td>
 															<td width="100">부서번호</td>
-															<td><input type="text" id="searchContent"
+															<td><input type="text" id="searchDeptCod"
 																name="searchDeptCod" class="form-control"
 																value="${searchDeptCod}" placeholder="부서번호를 입력해주세요." /></td>
 															<td width="100">부서명</td>
-															<td><input type="text" id="searchAuthor"
+															<td><input type="text" id="searchDeptName"
 																name="searchDeptName" class="form-control"
 																value="${searchDeptName}" placeholder="부서명을 입력해주세요." /></td>
 															<td width="100">직책</td>
-															<td><input type="text" id="searchAuthor"
+															<td><input type="text" id="searchEmpPosition"
 																name="searchEmpPosition" class="form-control"
 																value="${searchEmpPosition}" placeholder="직책을 입력해주세요." /></td>
 														</tr>
@@ -103,7 +101,6 @@
 												<th>입사일</th>
 												<th>퇴사일</th>
 												<th>퇴사사유</th>
-												<!-- 비밀번호는 인사팀관리자가 로그인했을때만 보여지도록 나중에 수정하기 -->
 												<th>비밀번호</th>
 												<th>기능</th>
 											</tr>
