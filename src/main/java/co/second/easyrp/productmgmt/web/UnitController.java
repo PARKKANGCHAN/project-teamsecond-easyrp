@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.second.easyrp.productmgmt.service.UnitService;
 import co.second.easyrp.productmgmt.service.UnitVO;
@@ -19,9 +21,19 @@ public class UnitController {
 
 	@GetMapping("/unit")
 	public String unit(Model model) {
-		List<UnitVO> unit = unitService.unitTableAllList();
-		
-		model.addAttribute("unit", unit);
 		return "easyrp/unit/modal/unit";
+	}
+	
+	@GetMapping("/api/get-unit")
+	@ResponseBody
+	public List<UnitVO> getUnitData() {
+		return unitService.unitTableAllList();
+	}
+	
+	@PostMapping("/unitinsertfn")
+	@ResponseBody
+	public String unitInsertFn(UnitVO unitVO,Model model) {
+		unitService.unitInsertFn(unitVO);
+		return "complete";
 	}
 }

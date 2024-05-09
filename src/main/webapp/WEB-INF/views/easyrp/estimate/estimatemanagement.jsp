@@ -461,25 +461,25 @@
 		}
     
 
-		function addcolumn() {
-			var newRow = $('<tr class="generatedRow">');
-			
-			newRow.append($('<td>').append($('<input>'))text("ex"));
-			newRow.append($('<td>').text("ex"));
-			newRow.append($('<td>').text("ex"));
-			newRow.append($('<td>').text("ex"));
-			newRow.append($('<td>').text("ex"));
-			newRow.append($('<td>').text("ex"));
-			newRow.append($('<td>').text("ex"));
-			
-	        var editButton = $('<button>').text('수정').addClass('btn btn-primary').css('margin-right', '2px');
-	        var deleteButton = $('<button>').text('삭제').addClass('btn btn-primary');
-	        var buttonGroup = $('<div>').append(editButton).append(deleteButton);
-	        
-		    newRow.append($('<td>').append(buttonGroup));
-			
-			$('#detailList').after(newRow);
-		}
+        function addcolumn() {
+            var newRow = $('<tr class="generatedRow">');
+
+            newRow.append($('<td>').append($('<input>')).text("ex"));
+            newRow.append($('<td>').text("ex"));
+            newRow.append($('<td>').text("ex"));
+            newRow.append($('<td>').text("ex"));
+            newRow.append($('<td>').text("ex"));
+            newRow.append($('<td>').text("ex"));
+            newRow.append($('<td>').text("ex"));
+
+            var editButton = $('<button>').text('수정').addClass('btn btn-primary').css('margin-right', '2px');
+            var deleteButton = $('<button>').text('삭제').addClass('btn btn-primary');
+            var buttonGroup = $('<div>').append(editButton).append(deleteButton);
+
+            newRow.append($('<td>').append(buttonGroup));
+
+            $('#detailList').after(newRow);
+        } 
 		
 		
         /* valueModal START */

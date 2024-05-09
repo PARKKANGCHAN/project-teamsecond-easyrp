@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import co.second.easyrp.common.service.UnitService;
-import co.second.easyrp.common.service.UnitVO;
-import co.second.easyrp.commontable.service.CommonTableVO;
 import co.second.easyrp.mps.service.MpsService;
 import co.second.easyrp.mps.service.MpsVO;
 import co.second.easyrp.orderdetail.service.OrderdetailService;
@@ -25,7 +22,6 @@ import co.second.easyrp.orderdetail.service.OrderdetailVO;
 public class MpsController {
 	@Autowired MpsService mpsService;
 	@Autowired OrderdetailService orderdetailService;
-	@Autowired UnitService unitService;
 	
 	//주계획 관리 페이지	
     @GetMapping("/mpsmanagement")
@@ -107,10 +103,4 @@ public class MpsController {
     public List<OrderdetailVO> getOrderdetailValues() {
         return orderdetailService.orderdetailSelectListAll();
     }
-    
-    @GetMapping("/api/get-unit")
-	@ResponseBody
-	public List<UnitVO> getUnitValues() {
-		return unitService.unitSelectListAll();
-	}
 }
