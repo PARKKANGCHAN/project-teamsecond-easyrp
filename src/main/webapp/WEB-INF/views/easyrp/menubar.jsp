@@ -157,14 +157,16 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                   <li class="no_dot" style="font-size: 1.1rem !important; margin-top: 1rem; margin-bottom: 1rem">
                      📈 <span style="font-weight: 800 !important">영업 관리</span>
                   </li>
+                  
                   <!-- 영업 관리 / 판매 계획 관리 START -->
+                  <!-- 2024년 4월 30일 오전 11시 34분 류현석 수정 -->
                   <li class="sidebar-item has-sub">
                      <a href="#" class="sidebar-link">
                         <span style="font-weight: 800 !important">계획 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">판매 계획 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">목표 달성 현황</a></li>
+                        <li class="submenu-item"><a href="salesplanmanagement" class="submenu-link">판매 계획 관리</a></li>
+                        <li class="submenu-item"><a href="salesplanachivement" class="submenu-link">목표 달성 현황</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">매출 순위표</a></li>
                      </ul>
                   </li>
@@ -176,8 +178,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                         <span style="font-weight: 800 !important">견적 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">견적 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">견적 대비 미주문 현황</a></li>
+                        <li class="submenu-item"><a href="estimatemanagement" class="submenu-link">견적 관리</a></li>
+                        <li class="submenu-item"><a href="estimatenonorder" class="submenu-link">견적 대비 미주문 현황</a></li>
                      </ul>
                   </li>
                   <!-- 영업 관리 / 견적 관리 END -->
