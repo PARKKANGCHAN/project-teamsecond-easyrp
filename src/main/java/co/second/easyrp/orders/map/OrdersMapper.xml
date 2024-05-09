@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.second.easyrp.orders.map.OrdersMapper">
+	<select id="ordersSelectListAll"></select>
+	<select id="ordersSelectList"></select>
+	<select id="ordersSelect"></select>
+	<insert id="ordersInsert"></insert>
+	<update id="ordersUpdate"></update>
+	<delete id="ordersDelete"></delete>
+</mapper>
