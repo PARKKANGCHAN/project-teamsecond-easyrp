@@ -30,3 +30,8 @@ body {
 .hyunwoo-main {
 	padding: 2rem;
 }
+
+.hynowoo-10vw {
+	margin-left : 0.5rem !important;
+	width : 5vw;
+}

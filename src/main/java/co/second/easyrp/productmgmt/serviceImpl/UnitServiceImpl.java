@@ -34,4 +34,14 @@ public class UnitServiceImpl implements UnitService {
 			return number;
 	}
 
+	@Override
+	public int unitUpdateFn(UnitVO unitVO) {
+		return unitMapper.unitUpdateFn(unitVO);
+	}
+
+	@Override
+	public int unitDeleteFn(UnitVO unitVO) {
+		return unitMapper.unitDeleteFn(unitVO);
+	}
+
 }
