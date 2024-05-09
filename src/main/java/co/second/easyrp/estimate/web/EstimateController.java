@@ -92,6 +92,32 @@ public class EstimateController {
 		
 		return ResponseEntity.ok().body("{\"message\": \"success\"}");
 	}
+	
+	@RequestMapping(value = "/estimatedetaildelete", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<String> estimatedetailDelete(@RequestParam("productCod") String productCod) {
+		
+		System.out.println(productCod);
+		int result = estimateService.EstimateDetailDelete(productCod);
+		
+		return ResponseEntity.ok().body("{\"message\": \"success\"}");
+	}
+	
+	
+	@RequestMapping(value = "/productnamelist", method = RequestMethod.GET)
+    @ResponseBody
+    public List<EstimateVO> productnameList() {
+    	
+    	List<EstimateVO> productNameList = new ArrayList<EstimateVO>();
+    	productNameList = estimateService.ProductNameSelectList();
+    	System.out.println(productNameList);
+    
+
+    	return productNameList;
+    }
+	
+
+	
    
 //    @RequestMapping(value = "/estimateinsertFn", method = RequestMethod.POST)
 //    public String salesplanInsert(@RequestParam("ClientName") String ClientName) {
@@ -128,11 +154,6 @@ public class EstimateController {
 //    	return "redirect:/salesplanmanagement";
 //    }
     
-//    @GetMapping("/api/get-kv")
-//    @ResponseBody
-//    public List<KeyValueVO> getKeyValues() {
-//        return commonTableService.getAllKeyValues();
-//   }
     
 //    @GetMapping("/api/get-data")
 //   @ResponseBody

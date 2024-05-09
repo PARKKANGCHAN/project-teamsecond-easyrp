@@ -69,4 +69,16 @@ public class EstimateServiceImpl implements EstimateService {
 		return estimateMapper.EstimateDetailSelectList(cod);
 	}
 
+	@Override
+	public int EstimateDetailDelete(String productCod) {
+		// TODO Auto-generated method stub
+		return estimateMapper.EstimateDetailDelete(productCod);
+	}
+	
+	@Override
+	public List<EstimateVO> ProductNameSelectList() {
+		
+		return estimateMapper.ProductNameSelectList();
+	}
+
 }

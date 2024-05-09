@@ -74,4 +74,14 @@
 		set qty = #{qty}
 		where estimate_cod = #{cod} and num = #{num}
 	</update>
+	
+	<delete id="EstimateDetailDelete">
+		delete from estimatedetail
+		where product_cod = #{productCod}
+	</delete>
+	
+	<select id="ProductNameSelectList">
+		select cod, prodname
+		from product
+	</select>
 </mapper>
