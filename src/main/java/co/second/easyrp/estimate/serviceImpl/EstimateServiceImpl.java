@@ -81,4 +81,10 @@ public class EstimateServiceImpl implements EstimateService {
 		return estimateMapper.ProductNameSelectList();
 	}
 
+	@Override
+	public int EstimateDetailInsert(String cod, String productName, int productQty) {
+		// TODO Auto-generated method stub
+		return estimateMapper.EstimateDetailInsert(cod, productName, productQty);
+	}
+
 }

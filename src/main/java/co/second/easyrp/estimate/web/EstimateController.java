@@ -74,7 +74,7 @@ public class EstimateController {
     							 Model model) {
     	
         List<EstimateVO> estimateDetailList = estimateService.EstimateDetailSelectList(estimateCod);
-        System.out.println(estimateDetailList);
+//        System.out.println(estimateDetailList);
         model.addAttribute("estimateDetail", estimateDetailList);
         
         return estimateDetailList;
@@ -87,7 +87,7 @@ public class EstimateController {
 								 @RequestParam("qty") int qty,
 								 @RequestParam("num") int num) {
 		
-		System.out.println(qty);
+//		System.out.println(qty);
 		int result = estimateService.EstimateUpdate(cod, qty, num);
 		
 		return ResponseEntity.ok().body("{\"message\": \"success\"}");
@@ -97,7 +97,7 @@ public class EstimateController {
 	@ResponseBody
 	public ResponseEntity<String> estimatedetailDelete(@RequestParam("productCod") String productCod) {
 		
-		System.out.println(productCod);
+//		System.out.println(productCod);
 		int result = estimateService.EstimateDetailDelete(productCod);
 		
 		return ResponseEntity.ok().body("{\"message\": \"success\"}");
@@ -110,12 +110,22 @@ public class EstimateController {
     	
     	List<EstimateVO> productNameList = new ArrayList<EstimateVO>();
     	productNameList = estimateService.ProductNameSelectList();
-    	System.out.println(productNameList);
+//    	System.out.println(productNameList);
     
 
     	return productNameList;
     }
 	
+	@RequestMapping(value = "/estimatedetailinsert", method = RequestMethod.GET)
+	@ResponseBody
+	public List<EstimateVO> estimatedetailInsert(@RequestParam("productName") String productName,
+												 @RequestParam("productQty") int productQty,
+												 @RequestParam("estimateCod") String cod) {
+		
+		int result = estimateService.EstimateDetailInsert(cod, productName, productQty);
+		
+		return new ArrayList<>();
+	}
 
 	
    

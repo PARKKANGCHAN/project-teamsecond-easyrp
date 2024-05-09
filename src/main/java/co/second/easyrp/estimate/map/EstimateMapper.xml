@@ -84,4 +84,23 @@
 		select cod, prodname
 		from product
 	</select>
+	
+	
+	<insert id="EstimateDetailInsert">
+	
+	<selectKey keyProperty="generatedIndex,cod" resultType="int" order="BEFORE">
+	    (SELECT IFNULL(MAX(index), 0) + 1 AS generatedIndex
+        FROM estimatedetail
+        WHERE estimate_cod = #{estimateCod}) AS generatedIndex,
+        (SELECT cod
+        FROM product
+        WHERE productName = #{productName}) AS generatedProductCod
+	</selectKey>
+	
+	
+	    INSERT INTO estimatedetail (estimate_cod, num, product_cod, qty)
+	    VALUES (#{estimateCod}, #{generatedIndex}, #{generatedProductCod}, #{qty});
+	</insert>
+	
+	
 </mapper>

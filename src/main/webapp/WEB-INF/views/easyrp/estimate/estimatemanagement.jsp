@@ -193,7 +193,7 @@
 		<!-- 상세페이지 모달 START -->
 	<div class="modal fade" id="detailModal" tabindex="-1"
 		aria-labelledby="detailModalLabel" aria-hidden="true" data-bs-backdrop='static' data-bs-keyboard='false'>
-		<div class="modal-dialog modal-xl">
+		<div class="modal-dialog modal-xl" style="width: 1400px;">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="detailModalLabel">공통 상세 페이지</h5>
@@ -220,9 +220,11 @@
 							<td id="estimateEmpName"></td>
 							<td></td>
 						</tr>
+						</table>
+						<table class="table">
 						<tr id="detailList">
 							<th colspan="1">상품 코드</th>
-							<th colspan="1">상품 명</th>
+							<th colspan="1" style="width: 160px;">상품 명</th>
 							<th colspan="1">수 량</th>
 							<th colspan="1">단 가</th>
 							<th colspan="1">공급가액</th>
@@ -259,7 +261,7 @@
 				
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">닫기</button>
+						data-bs-dismiss="modal" onClick="Modalclose()">닫기</button>
 				</div>
 			</div>
 		</div>
@@ -345,7 +347,7 @@
     				    'type': 'number',
     				    'readonly': 'readonly',
     				    'class': 'form-control',
-    				}).css('width', '100px').val(item.qty)));
+    				}).css('width', '120px').val(item.qty)));
 
     				
     				newRow.append($('<td>').text(item.unitprice.toLocaleString()));
@@ -499,7 +501,7 @@
 			    'name': 'productName', 
  			    'id': 'productName', 
 			    'placeholder': '상품 선택',
-			}).css('width', '100px').on('click', function() {
+			}).css('width', '140px').on('click', function() {
 	 		    $('#kvModal').modal('show'); // 자식 모달 열기
 	 		    console.log('자식 모달 오픈');
 	 		    searchModalOpen();
@@ -512,7 +514,7 @@
 			    'name': 'productQty', 
 			    'id': 'productQty', 
 			    'placeholder': '수량 입력', 
-			}).css('width', '100px')));
+			}).css('width', '120px')));
 			newRow.append($('<td>').text("--"));
 			newRow.append($('<td>').text("--"));
 			newRow.append($('<td>').text("--"));
@@ -522,15 +524,36 @@
 	        var cancelButton = $('<button>').text('취소').addClass('btn btn-primary');
 	        var buttonGroup = $('<div>').append(checkButton).append(cancelButton);
 	        
-		    newRow.append($('<td>').append(buttonGroup));
+		    newRow.append($('<td>').attr({
+		    	'id': 'buttonrow'
+		    }).append(buttonGroup));
 		    
-		    checkButton.on('click', function() {
-		    	
+ 		    checkButton.on('click', function() {
+ 		    	console.log("확인 버튼 누름");
+ 		    	var estimateCodValue = $('#estimateCod').text();
+ 		    	
+ 		    	$.ajax({
+ 		    		url: 'estimatedetailinsert',
+ 		    		type: 'GET',
+ 		    		dataType: 'JSON',
+ 		    		data: {
+		    			productName: productName,
+ 		    			productQty: productQty,
+ 		    			estimateCod: estimateCodValue,
+ 		    		},
+ 		    		success: function(response){
+ 		    			console.log('ajax 성공');
+ 		    			alert('상품 항목이 추가되었습니다.');
+ 		    		},
+ 		    		error: function(xhr, status, error){
+ 		    			console.error('ajax 실패');
+ 		    		}
+ 		    	});
 		    });
 		    
 		    cancelButton.on('click', function() {
 		    	
-		    	$(this).closest('tr').remove(); // 새로 추가된 행 삭제
+ 		    	$(this).closest('tr').remove(); // 새로 추가된 행 삭제
 		    	$('#addColumnButton').prop('disabled', false);
 		    });
 		    
@@ -540,6 +563,11 @@
 			$('#addColumnButton').prop('disabled', true);
 			
 		} 
+		
+		function Modalclose() {
+			
+			$('#addColumnButton').prop('disabled', false);
+		}
 			
 		
         /* valueModal START */
@@ -558,7 +586,7 @@
                     let rows = '';
                     data.forEach(function (item, index) {
                     	
- 					console.log(item);
+//  					console.log(item);
                           rows +=
                              '<tr onclick="setValue(\'' +
                              item.cod +

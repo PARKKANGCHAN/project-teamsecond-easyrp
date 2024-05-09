@@ -39,4 +39,6 @@ public interface EstimateMapper {
 	List<EstimateVO> ProductNameSelectList();
 	
 	List<EstimateVO> EstimateDetailSelectList(String cod);
+	
+	int EstimateDetailInsert(@Param("estimateCod") String cod, @Param("productName") String productName, @Param("productQty") int productQty);
 }
