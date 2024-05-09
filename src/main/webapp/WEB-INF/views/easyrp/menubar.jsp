@@ -249,7 +249,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                      </a>
                      <ul class="submenu">
                         <li class="submenu-item"><a href="mpsmanagement" class="submenu-link">주계획 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">소요량전개 관리</a></li>
+                        <li class="submenu-item"><a href="mrpmanagement" class="submenu-link">소요량전개 관리</a></li>
                      </ul>
                   </li>
                   <!-- 구매 관리 / 계획 관리 END -->
