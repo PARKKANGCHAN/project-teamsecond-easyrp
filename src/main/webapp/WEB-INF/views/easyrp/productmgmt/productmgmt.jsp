@@ -192,7 +192,7 @@
 								<a id="unitmgmt" data-bs-toggle="modal" data-bs-target="#loadModal" href="javascript:void(0);" onclick="unitModal();" role="button" style="color: white">단위 관리</a>
 							</button>
 							<button type="button" class="btn btn-primary">
-								<a id="productGroupmgmt" data-bs-toggle="modal" data-bs-target="#loadModal" href="javascript:void(0);" onclick="productGroupModal();" role="button" style="color: white">그룹 관리</a>
+								<a id="productGroupmgmt" data-bs-toggle="modal" data-bs-target="#loadModal" href="javascript:void(0);" onclick="productGroupModal();" role="button" style="color: white">제품 그룹 관리</a>
 							</button>
 						</div>
 					</div>
