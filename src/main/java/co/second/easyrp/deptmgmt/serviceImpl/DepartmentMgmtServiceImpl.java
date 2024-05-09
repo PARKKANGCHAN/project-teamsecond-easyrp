@@ -71,4 +71,10 @@ public class DepartmentMgmtServiceImpl implements DepartmentMgmtService {
 		return departmentMgmtMapper.deptmgmtDeleteFn(cod);
 	}
 
+	@Override
+	public List<DepartmentMgmtVO> deptAllList() {
+		// TODO Auto-generated method stub
+		return departmentMgmtMapper.deptAllList();
+	}
+
 }
