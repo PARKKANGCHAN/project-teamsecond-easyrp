@@ -4,11 +4,13 @@ import java.util.Date;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class InventoryVO {
-	private String productCod;
+	private String cod;
 	private String warehouseCod;
 	private String locationCod;
 	private String employeeCod;

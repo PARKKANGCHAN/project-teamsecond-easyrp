@@ -69,11 +69,19 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                        <td width="150">이동날짜</td>
                                        <td>
                                           <input
+<<<<<<< HEAD
                                              type="text"
                                              id="movedate"
                                              name="movedate"
                                              class="form-control"
                                              placeholder="이동날짜를 선택해주세요."
+=======
+                                             type="date"
+                                             id="movedate"
+                                             name="movedate"
+                                             class="form-control"
+                                             placeholder="이동날짜를 입력해주세요."
+>>>>>>> origin/feature/feature-hyomihome
                                              required
                                           />
                                        </td>
@@ -178,7 +186,11 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                              required
                                           />
                                        </td>
+<<<<<<< HEAD
                                     </tr>                                                     
+=======
+                                    <!-- 모달로 입력 테스트 -->
+>>>>>>> origin/feature/feature-hyomihome
                                     <tr>
                                        <td width="150">단위</td>
                                        <td>
@@ -203,7 +215,10 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                           </button>
                                        </td>
                                     </tr>
+<<<<<<< HEAD
                                        <tr>
+=======
+>>>>>>> origin/feature/feature-hyomihome
                                        <td width="150">이동수량</td>
                                        <td>
                                           <input
@@ -217,6 +232,10 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                           />
                                        </td>
                                     </tr>                                   
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/feature/feature-hyomihome
                                  </table>
                               </div>
                               <!-- 공통등록 Button START -->
@@ -378,6 +397,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
          });
          /* valueModal END */
 
+<<<<<<< HEAD
          /*PurchaseOrderModalTable START */
          function setData(movecod, movedate, manager,oboundwarehouse,oboundlocation, iboundwarehouse,iboundlocation,prodcod,prodname,unit,qty) {
             $('#movecod').val(moveCod);
@@ -392,6 +412,16 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             $('#unit').val(unit);
             $('#qty').val(qty);
             $('#dataPurchaseOrderModal').modal('hide');
+=======
+         /* DataModal START */
+         function setData(title, content, author) {
+            $('#title').val(title);
+            $('#content').val(content);
+            $('#content').val(content);
+            $('#content').val(content);
+            $('#content').val(content);
+            $('#dataModal').modal('hide');
+>>>>>>> origin/feature/feature-hyomihome
             $('.modal-backdrop').remove();
          }
 
@@ -404,7 +434,11 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                 	  console.log(data);
                      let rows = '';
                      data.forEach(function (item) {
+<<<<<<< HEAD
                         if (item.cod && item.manager) {
+=======
+                        if (item. && item.content) {
+>>>>>>> origin/feature/feature-hyomihome
                            rows +=
                               '<tr onclick="setData(\'' +item.movecod +
                               "', '" +
