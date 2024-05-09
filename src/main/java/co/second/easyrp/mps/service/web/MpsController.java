@@ -90,6 +90,7 @@ public class MpsController {
 	
 	@PostMapping("/mpsupdatefn")
 	public String mpsUpdateFn(MpsVO mpsVo) {
+		System.out.println(mpsVo);
 		mpsService.mpsUpdate(mpsVo);
 		return "redirect:/mpsmanagement";
 	}

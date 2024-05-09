@@ -91,17 +91,17 @@
 	<update id="mpsUpdate">
 		UPDATE mps
 		SET
-		plan_date = #{planDate}
-		qty = #{qty}
+		plan_date = #{planDate},
+		qty = #{qty},
 		note = #{note}
-		WHERE cod = #{cod};
+		WHERE cod = #{cod}
 	</update>
 	
 	<delete id="mpsDelete">
 		UPDATE mps
 		SET
 		deleteyn = 'Y'
-		WHERE COD = #{cod};
+		WHERE COD = #{cod}
 	</delete>
 	
 	<update id="orderdetailMpsStateUpdate">
