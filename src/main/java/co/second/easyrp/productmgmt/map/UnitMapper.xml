@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.second.easyrp.productmgmt.map.UnitMapper">
+
+	<!-- (2024년 5월 8일 오후 2시 37분 박현우) -->
+
+	<select id="unitTableAllList" resultType="co.second.easyrp.productmgmt.service.UnitVO">
+		SELECT cod, name
+		FROM unit
+		WHERE deleteyn = 'N'
+		ORDER BY cod DESC
+	</select>
+
+	<select id="getClientData"
+		resultType="co.second.easyrp.client.service.ClientVO">
+		SELECT * FROM client WHERE cod = #{cod}
+	</select>
+
+	<select id="countClientTable"
+		parameterType="co.second.easyrp.client.service.SearchVO"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM client
+		WHERE DELETEYN = 'N'
+		<if test="searchCod != null and searchCod != ''">
+			AND cod = #{searchCod}
+		</if>
+		<if test="searchName != null and searchName != ''">
+			AND name LIKE CONCAT('%', #{searchName}, '%')
+		</if>
+		<if test="searchAddress != null and searchAddress != ''">
+			AND address LIKE CONCAT('%', #{searchAddress}, '%')
+		</if>
+		<if
+			test="searchRepresentative != null and searchRepresentative != ''">
+			AND representative LIKE CONCAT('%', #{searchRepresentative}, '%')
+		</if>
+		<if test="searchManagerName != null and searchManagerName != ''">
+			AND manager_name LIKE CONCAT('%', #{searchManagerName}, '%')
+		</if>
+	</select>
+
+	<select id="getMaxCode" resultType="String">
+		SELECT max(cod) as 'cod'
+		FROM
+		client
+		WHERE deleteyn = 'N';
+	</select>
+
+	<insert id="clientInsertFn"
+		parameterType="co.second.easyrp.client.service.ClientVO">
+		INSERT INTO client (
+		cod,
+		name,
+		representative,
+		faxnum,
+		address,
+		postcode,
+		manager_name,
+		manager_tel,
+		discount_class)
+		VALUES(
+		#{cod},
+		#{name},
+		#{representative},
+		#{faxnum},
+		#{address},
+		#{postcode},
+		#{managerName},
+		#{managerTel},
+		#{discountClass}
+		);
+	</insert>
+
+	<update id="clientUpdateFn"
+		parameterType="co.second.easyrp.client.service.ClientVO">
+		UPDATE client
+		SET
+		name = #{name},
+		representative = #{representative},
+		faxnum = #{faxnum},
+		address = #{address},
+		postcode = #{postcode},
+		manager_name = #{managerName},
+		manager_tel = #{managerTel},
+		discount_class = #{discountClass}
+		WHERE cod = #{cod};
+	</update>
+
+	<update id="clientDeleteFn"
+		parameterType="co.second.easyrp.client.service.ClientVO">
+		UPDATE client
+		SET
+		DELETEYN = 'Y'
+		WHERE cod = #{cod};
+	</update>
+	
+	<select id="getDiscountData" resultType="co.second.easyrp.client.service.discountVO">
+	  SELECT num, class as 'className', discrate
+	  FROM discount
+	  where deleteyn = 'N';
+	</select>
+
+
+</mapper>
