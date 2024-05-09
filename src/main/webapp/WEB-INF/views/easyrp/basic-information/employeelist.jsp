@@ -19,17 +19,16 @@
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
 						<h3>
-							<a href="/easyrp/commontable">공통 테이블</a>
+							<a href="/easyrp/commontable">사원기초관리</a>
 						</h3>
-						<p class="text-subtitle text-muted">공통 테이블 소개(부제목)</p>
+						<p class="text-subtitle text-muted">사원을 조회.등록.수정.삭제 할수있는 페이지</p>
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
 						<nav aria-label="breadcrumb"
 							class="breadcrumb-header float-start float-lg-end">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="/easyrp">home</a></li>
-								<li class="breadcrumb-item active" aria-current="page">공통
-									테이블</li>
+								<li class="breadcrumb-item active" aria-current="page">사원기초관리</li>
 							</ol>
 						</nav>
 					</div>
@@ -132,14 +131,14 @@
 															</button>
 															<ul class="dropdown-menu">
 																<li>
-																	<button type="button" class="btn btn-primary"
+																	<button type="button" class="dropdown-item"
 																		data-bs-toggle="modal" data-bs-target="#quitRegisModal"
 																		onclick="selectCod('${e.cod }')">퇴사등록</button>
 																</li>
 																<li><a class="dropdown-item"
 																	href="employeeupdate?cod=${e.cod}">수정</a></li>
 																<li>
-																	<button type="button" class="btn btn-primary"
+																	<button type="button" class="dropdown-item"
 																		data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="selectCod('${e.cod }')">삭제</button>
 																</li>
 															</ul>
