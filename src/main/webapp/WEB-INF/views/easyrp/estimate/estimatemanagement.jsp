@@ -249,6 +249,7 @@
                                 <button type="button" class="btn btn-primary" id="loadValues" data-bs-toggle="modal" data-bs-target="#kvModal">
                                  	 제품 검색
                                 </button>
+                                <button type="button" class="btn btn-primary" onClick="addcolumn()">제품 추가</button>
 							</td>
 						</tr>
 					</table>
@@ -460,6 +461,25 @@
 		}
     
 
+		function addcolumn() {
+			var newRow = $('<tr class="generatedRow">');
+			
+			newRow.append($('<td>').append($('<input>'))text("ex"));
+			newRow.append($('<td>').text("ex"));
+			newRow.append($('<td>').text("ex"));
+			newRow.append($('<td>').text("ex"));
+			newRow.append($('<td>').text("ex"));
+			newRow.append($('<td>').text("ex"));
+			newRow.append($('<td>').text("ex"));
+			
+	        var editButton = $('<button>').text('수정').addClass('btn btn-primary').css('margin-right', '2px');
+	        var deleteButton = $('<button>').text('삭제').addClass('btn btn-primary');
+	        var buttonGroup = $('<div>').append(editButton).append(deleteButton);
+	        
+		    newRow.append($('<td>').append(buttonGroup));
+			
+			$('#detailList').after(newRow);
+		}
 		
 		
         /* valueModal START */
