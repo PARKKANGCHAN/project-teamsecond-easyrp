@@ -3,6 +3,26 @@
 <mapper namespace="co.second.easyrp.inventory.map.InventoryMapper">
 	
 	<select id="inventoryList">
-		SELECT * FROM inventory
+		SELECT * 
+		FROM inventory
+		WHERE DELETEYN = 'N'
+		<if test="searchNumber != null and searchNumber != ''">
+			AND post_id = #{searchNumber}
+		</if>
+		<if test="searchTitle != null and searchTitle != ''">
+			AND title LIKE CONCAT('%', #{searchTitle}, '%')
+		</if>
+		<if test="searchContent != null and searchContent != ''">
+			AND content LIKE CONCAT('%', #{searchContent}, '%')
+		</if>
+		<if test="searchAuthor != null and searchAuthor != ''">
+			AND author LIKE CONCAT('%', #{searchAuthor}, '%')
+		</if>
+		<if test="preSearchDate != null and postSearchDate != null">
+			AND created_at BETWEEN #{preSearchDate} AND
+			#{postSearchDate}
+		</if>
+		ORDER BY post_id DESC
+		LIMIT #{pageSize} OFFSET #{offset}
 	</select>
 </mapper>

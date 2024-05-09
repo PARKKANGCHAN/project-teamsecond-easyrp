@@ -15,14 +15,6 @@ public interface InventoryService {
 		    @Param("locationCod") String locationCod, 
 		    @Param("employeeCod") String employeeCod, 
 		    @Param("invDate") String invDate, 
-		    @Param("qty") String qty,
-		    @Param("unitprice") String unitprice, 
-		    @Param("price") String price,
-		    @Param("curInvQty") String curInvQty,
-		    @Param("curInvPrice") String curInvPrice, 
-		    @Param("spec") String spec, 
-		    @Param("unitCod") String unitCod, 
-		    @Param("safetyInvQty") String safetyInvQty, 
 		    @Param("account") String account,
 		    @Param("preSearchDate") Date preSearchDate, 
 		    @Param("postSearchDate") Date postSearchDate
@@ -34,16 +26,9 @@ public interface InventoryService {
 		    @Param("locationCod") String locationCod, 
 		    @Param("employeeCod") String employeeCod, 
 		    @Param("invDate") String invDate, 
-		    @Param("qty") String qty,
-		    @Param("unitprice") String unitprice, 
-		    @Param("price") String price,
-		    @Param("curInvQty") String curInvQty,
-		    @Param("curInvPrice") String curInvPrice, 
-		    @Param("spec") String spec, 
-		    @Param("unitCod") String unitCod, 
-		    @Param("safetyInvQty") String safetyInvQty, 
 		    @Param("account") String account,
 		    @Param("preSearchDate") Date preSearchDate, 
 		    @Param("postSearchDate") Date postSearchDate
 			);
+
 }

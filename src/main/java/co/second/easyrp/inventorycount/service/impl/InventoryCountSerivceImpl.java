@@ -15,12 +15,10 @@ public class InventoryCountSerivceImpl implements InventoryCountService {
 	InventoryCountMapper inventorycountmapper;
 	
 	@Override
-	public List<InventoryCountVO> inventoryCountList(int page, int size, String cod, String oboundWarehouse,
-			String oboundLocation, String iboundWarehouse, String iboundLocation, String employeeCod,
-			String purchaseDetailCod, String productCod, Date preSearchDate, Date postSearchDate) {
+	public List<InventoryCountVO> inventoryCountList(int page, int size, String cod, String employeeCod, String productCod, String invCod, String countDate, String countclass, int qty, String procClass, String account, String deleteyn, String note, Date preSearchDate, Date postSearchDate) {
 		// TODO Auto-generated method stub
 		int offset = (page-1)*size;
-		return inventorycountmapper.inventoryCountList(size, offset, cod, oboundWarehouse, oboundLocation, iboundWarehouse, iboundLocation, employeeCod, purchaseDetailCod, productCod, preSearchDate, postSearchDate);
+		return inventorycountmapper.inventoryCountList(size, offset, cod, employeeCod, productCod, invCod, countDate, countclass, qty, procClass, account, deleteyn, note, preSearchDate, postSearchDate);
 	}
 
 	@Override
@@ -42,11 +40,9 @@ public class InventoryCountSerivceImpl implements InventoryCountService {
 	}
 
 	@Override
-	public int countInventoryCountLists(String cod, String oboundWarehouse, String oboundLocation,
-			String iboundWarehouse, String iboundLocation, String employeeCod, String purchaseDetailCod,
-			String productCod, Date preSearchDate, Date postSearchDate) {
+	public int countInventoryCountLists(String cod, String employeeCod, String productCod, String invCod, String countDate, String countclass, int qty, String procClass, String account, String deleteyn, String note, Date preSearchDate, Date postSearchDate) {
 		// TODO Auto-generated method stub
-		return inventorycountmapper.countInventoryCountLists(cod, oboundWarehouse, oboundLocation, iboundWarehouse, iboundLocation, employeeCod, purchaseDetailCod, productCod, preSearchDate, postSearchDate);
+		return inventorycountmapper.countInventoryCountLists(cod, employeeCod, productCod, invCod, countDate, countclass, qty, procClass, account, deleteyn, note, preSearchDate, postSearchDate);
 	}
 
 }

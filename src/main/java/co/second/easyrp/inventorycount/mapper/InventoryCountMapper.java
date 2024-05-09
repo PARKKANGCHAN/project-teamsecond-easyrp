@@ -12,13 +12,16 @@ public interface InventoryCountMapper {
 		    @Param("pageSize") int pageSize, 
 		    @Param("offset") int offset, 
 		    @Param("cod") String cod,
-		    @Param("employeeCod") String oboundWarehouse, 
-		    @Param("productCod") String oboundLocation, 
-		    @Param("countDate") String iboundWarehouse, 
-		    @Param("countclass") String iboundLocation, 
-		    @Param("qty") String employeeCod,
-		    @Param("procClass") String purchaseDetailCod, 
-		    @Param("account") String productCod, 
+		    @Param("employeeCod") String employeeCod, 
+		    @Param("productCod") String productCod, 
+		    @Param("invCod") String invCod,
+		    @Param("countDate") String countDate, 
+		    @Param("countclass") String countclass, 
+		    @Param("qty") int qty,
+		    @Param("procClass") String procClass, 
+		    @Param("account") String account, 
+		    @Param("deleteyn") String deleteyn, 
+		    @Param("note") String note, 
 		    @Param("preSearchDate") Date preSearchDate, 
 		    @Param("postSearchDate") Date postSearchDate
 		);
@@ -35,13 +38,18 @@ public interface InventoryCountMapper {
 	
 	int countInventoryCountLists(
 		    @Param("cod") String cod,
-		    @Param("employeeCod") String oboundWarehouse, 
-		    @Param("productCod") String oboundLocation, 
-		    @Param("countDate") String iboundWarehouse, 
-		    @Param("countclass") String iboundLocation, 
-		    @Param("qty") String employeeCod,
-		    @Param("procClass") String purchaseDetailCod, 
-		    @Param("account") String productCod, 
+		    @Param("employeeCod") String employeeCod, 
+		    @Param("productCod") String productCod, 
+		    @Param("invCod") String invCod,
+		    @Param("countDate") String countDate, 
+		    @Param("countclass") String countclass, 
+		    @Param("qty") int qty,
+		    @Param("procClass") String procClass, 
+		    @Param("account") String account, 
+		    @Param("deleteyn") String deleteyn, 
+		    @Param("note") String note, 
 		    @Param("preSearchDate") Date preSearchDate, 
-		    @Param("postSearchDate") Date postSearchDate);
+		    @Param("postSearchDate") Date postSearchDate
+		    );
 }
+
