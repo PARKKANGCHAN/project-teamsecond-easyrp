@@ -25,7 +25,7 @@ import co.second.easyrp.orderdetail.service.OrderdetailVO;
 public class MpsController {
 	@Autowired MpsService mpsService;
 	@Autowired OrderdetailService orderdetailService;
-	@Autowired UnitService unitService;
+	//@Autowired UnitService unitService;
 	
 	//주계획 관리 페이지	
     @GetMapping("/mpsmanagement")

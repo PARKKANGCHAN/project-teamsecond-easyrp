@@ -21,25 +21,16 @@
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
 						<h3>
-<<<<<<< HEAD
 							<a href="/easyrp/inventory/inventorycount">재고 실사 현황</a>
 						</h3>
-=======
-							<a href="/easyrp/inventory/inventorycount"></a>
-						</h3>
-						<p class="text-subtitle text-muted">재고 실사 현황</p>
->>>>>>> origin/feature/feature-hyomihome
+
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
 						<nav aria-label="breadcrumb"
 							class="breadcrumb-header float-start float-lg-end">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="/easyrp">home</a></li>
-<<<<<<< HEAD
-								<li class="breadcrumb-item active" aria-current="page">재고이동관리</li>
-=======
 								<li class="breadcrumb-item active" aria-current="page">재고 실사</li>
->>>>>>> origin/feature/feature-hyomihome
 							</ol>
 						</nav>
 					</div>
@@ -57,7 +48,6 @@
 											<div class="col-12 col-md-6 order-md-1 order-last">
 												<h3>검색</h3>
 											</div>
-<<<<<<< HEAD
 											<form id="searchForm" action="inventorymovement" method="get">
 												<div class="mb-4" style="text-align: center">
 													<table class="table table-bordered" id="searchTable">
@@ -98,32 +88,6 @@
 														<tr>
 															<td width="100">검색 날짜</td>
 															<td colspan="3"><input type="date"
-=======
-											<form id="searchForm" action="commontable" method="get">
-												<div class="mb-4" style="text-align: center">
-													<table class="table table-bordered" id="searchTable">
-														<tr>
-															<td width="100">실사</td>
-															<td><input type="text" id="searchNumber"
-																name="searchNumber" class="form-control"
-																value="${searchNumber}" placeholder="글 번호를 입력해주세요." /></td>
-															<td width="100">제 목</td>
-															<td><input type="text" id="searchTitle"
-																name="searchTitle" class="form-control"
-																value="${searchTitle}" placeholder="제목을 입력해주세요." /></td>
-															<td width="100">내 용</td>
-															<td><input type="text" id="searchContent"
-																name="searchContent" class="form-control"
-																value="${searchContent}" placeholder="내용을 입력해주세요." /></td>
-															<td width="100">작성자</td>
-															<td><input type="text" id="searchAuthor"
-																name="searchAuthor" class="form-control"
-																value="${searchAuthor}" placeholder="작성자를 입력해주세요." /></td>
-														</tr>
-														<tr>
-															<td width="100">검색 날짜</td>
-															<td colspan="2"><input type="date"
->>>>>>> origin/feature/feature-hyomihome
 																id="preSearchDate" name="preSearchDate"
 																value="${preSearchDate}" class="form-control"
 																style="width: 47%; float: left" /> <span><i
@@ -139,16 +103,12 @@
 													type="hidden" name="size" value="${pageSize}" />
 												<div style="text-align: end; margin-right: 0.5rem">
 													<button type="submit" class="btn btn-primary">검색</button>
-<<<<<<< HEAD
 													<button type="button" class="btn btn-primary"   onclick="resetSearchForm()">초기화</button>
-=======
->>>>>>> origin/feature/feature-hyomihome
 												</div>
 											</form>
 										</div>
 									</div>
 									<!-- 검색 FORM END -->
-<<<<<<< HEAD
 									<table class="table table-hover mb-0">
 										<thead>
 											<tr>
@@ -179,27 +139,6 @@
 													<td>${inventoryMovementList.productName}</td>
 													<td>${inventoryMovementList.unit}</td>
 													<td>${inventoryMovementList.qty}</td>
-=======
-									<button id="loadDetail" data-bs-toggle="modal"
-										data-bs-target="#detailModal">모달</button>
-									<table class="table table-hover mb-0">
-										<thead>
-											<tr>
-												<th width="5%">글 번호</th>
-												<th width="20%">제 목</th>
-												<th width="60%">내 용</th>
-												<th width="10%">작성자</th>
-												<th width="5%">기 능</th>
-											</tr>
-										</thead>
-										<tbody>
-											<c:forEach var="commonTable" items="${commonTable }">
-												<tr class="commonDetailTable">
-													<td class="text-bold-500">${commonTable.postId }</td>
-													<td>${commonTable.title }</td>
-													<td class="text-bold-500">${commonTable.content }</td>
-													<td>${commonTable.author }</td>
->>>>>>> origin/feature/feature-hyomihome
 													<td>
 														<div class="btn-group">
 															<button type="button"
@@ -209,15 +148,9 @@
 															</button>
 															<ul class="dropdown-menu">
 																<li><a class="dropdown-item"
-<<<<<<< HEAD
 																	href="updateInventoryMovement?cod=${inventoryMovementList.cod}">수정</a></li>
 																<li><a class="dropdown-item"
 																	href="deleteInventoryMovement?cod=${inventoryMovementList.cod}">삭제</a></li>
-=======
-																	href="commonupdate?postId=${commonTable.postId}">수정</a></li>
-																<li><a class="dropdown-item"
-																	href="commondeletefn?postId=${commonTable.postId}">삭제</a></li>
->>>>>>> origin/feature/feature-hyomihome
 															</ul>
 														</div>
 													</td>
@@ -262,11 +195,7 @@
 						style="padding-bottom: 0.5rem; padding-top: 0.5rem;">
 						<div class="col-md-6">
 							<button type="button" class="btn btn-primary">
-<<<<<<< HEAD
 								<a href="inventorymovementinsert" style="color: white">등록</a>
-=======
-								<a href="commoninsert" style="color: white">등록</a>
->>>>>>> origin/feature/feature-hyomihome
 							</button>
 						</div>
 					</div>
@@ -275,7 +204,6 @@
 		</div>
 	</div>
 	<!-- 공통 사용 테이블 END -->
-<<<<<<< HEAD
 	    <script type="text/javascript">
         function resetSearchForm() {
             $('#cod').val('');
@@ -290,7 +218,6 @@
             
         }
     </script>
-=======
 	<!-- 상세페이지 모달 START -->
 	<div class="modal fade" id="detailModal" tabindex="-1"
 		aria-labelledby="detailModalLabel" aria-hidden="true">

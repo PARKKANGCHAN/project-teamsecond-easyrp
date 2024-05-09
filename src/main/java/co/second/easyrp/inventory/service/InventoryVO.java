@@ -30,4 +30,5 @@ public class InventoryVO {
 	private String warehouse;
 	private String employee;
 	private String location;
+	private String unit;
 }

@@ -12,12 +12,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import co.second.easyrp.inventory.service.InventoryService;
 import co.second.easyrp.inventory.service.InventoryVO;
+import co.second.easyrp.product.service.ProductService;
+import co.second.easyrp.product.service.ProductVO;
 
 @Controller
 public class InventoryController {
 	
 	@Autowired
 	InventoryService inventoryservice;
+	
+	@Autowired
+	ProductService productservice;
 	
 	@GetMapping("/inventory")
 	public String inventory(@RequestParam(defaultValue="1")int page,
@@ -36,10 +41,16 @@ public class InventoryController {
 			System.out.println(totalRecords);
 			int totalPages = (int) Math.ceil((double) totalRecords / size);
 
+			List<ProductVO> productList=productservice.productList(page, size, cod, warehouse, employee, account, preSearchDate, postSearchDate);
+			System.out.println(productList);
+			int totalProductRecords = productservice.countProductLists(cod, warehouse, employee, account, preSearchDate, postSearchDate);
+			System.out.println(totalProductRecords);
+			int totalProductPages = (int) Math.ceil((double) totalRecords / size);	
+		
 		int pageGroupSize = 10;
 		int currentPageGroup = (page - 1) / pageGroupSize;
 		int startPage = currentPageGroup * pageGroupSize + 1;
-		int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
+		int endPage = Math.min(Math.max(totalPages,  totalProductPages), (currentPageGroup + 1) * pageGroupSize);
 
 		model.addAttribute("cod", cod);
 		model.addAttribute("warehouse", warehouse);
@@ -48,11 +59,15 @@ public class InventoryController {
 		model.addAttribute("preSearchDate", preSearchDate);
 		model.addAttribute("postSearchDate", postSearchDate);
 		model.addAttribute("inventoryList", inventoryList);
+		model.addAttribute("productList", productList);
 		model.addAttribute("currentPage", page);
-		model.addAttribute("totalPages", totalPages);
+//		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("totalPages", Math.max(totalPages, totalProductPages));
 		model.addAttribute("pageSize", size);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("startPage", startPage);
+		
+		
 		
 		return "easyrp/inventory/inventory";
 		}
