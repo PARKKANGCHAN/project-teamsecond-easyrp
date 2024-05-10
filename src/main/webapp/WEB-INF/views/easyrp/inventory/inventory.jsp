@@ -22,6 +22,8 @@
 					<div class="col-12 col-md-6 order-md-1 order-last">
 						<h3>
 							<a href="/easyrp/inventory">재고 현황</a>
+						<button type="button" id="btnInventoryList"class="btn btn-primary" >자재</button>
+						<button type="button" id="btnProductList" class="btn btn-primary">완제품</button>
 						</h3>
 						<p class="text-subtitle text-muted">재고 현황</p>
 					</div>
@@ -38,7 +40,7 @@
 			</div>
 			<section class="section">
 				<div class="row" id="table-hover-row">
-					<div class="inventorySection">
+					<div id="inventorySection">
 					<div class="col-12">
 						<div class="card">
 							<div class="card-content">
@@ -111,6 +113,7 @@
 											</tr>
 										</thead>
 										<tbody>
+										<c:if test="${not empty inventoryList}">
 											<c:forEach var="inventoryList" items="${inventoryList }">
 												<tr>
 													<td class="text-bold-500">${inventoryList.cod }</td>
@@ -139,6 +142,12 @@
 													</td>
 												</tr>
 											</c:forEach>
+											</c:if>
+											<c:if test="${empty inventoryList}">
+											<tr>
+												<td colspan="4">해당 재고가 없습니다.</td>
+											</tr>
+											</c:if>
 										</tbody>
 									</table>
 								</div>
@@ -193,7 +202,7 @@
 											<div class="col-12 col-md-6 order-md-1 order-last">
 												<h3>검색</h3>
 											</div>
-											<form id="searchForm" action="inventorysection" method="get">
+											<form id="searchForm" action="inventory" method="get">
 												<div class="mb-4" style="text-align: center">
 													<table class="table table-bordered" id="searchTable">
 														<tr>
@@ -238,8 +247,8 @@
 										</div>
 									</div>
 									<!-- 검색 FORM END -->
-									<!--<button id="loadDetail" data-bs-toggle="modal"
-										data-bs-target="#detailModal">모달</button>  -->
+									<button id="loadDetail" data-bs-toggle="modal"
+										data-bs-target="#detailModal">재고실사</button>
 									<table class="table table-hover mb-0">
 										<thead>
 											<tr>
@@ -287,7 +296,7 @@
 											</c:if>
 											<c:if test="${empty productList}">
 											<tr>
-												<td colspan="4">등록된 재고가 없습니다.</td>
+												<td colspan="4">해당 재고가 없습니다.</td>
 											</tr>
 											</c:if>
 										</tbody>
@@ -530,8 +539,6 @@
        });
     });
     /* valueModal END */
-	</script>
-	<script type="text/javascript">
         function resetSearchForm() {
             $('#cod').val('');
             $('#warehouse').val('');
@@ -541,6 +548,61 @@
             $('#postSearchDate').val('');
             
         }
+
+      // AJAX를 사용하지 않고, 원래 있던 코드로 display + 세션스토리 사용해서 간단히 게시판 따로 보여주기 구현
+      document.addEventListener('DOMContentLoaded', function () {
+        var activeSection = sessionStorage.getItem('activeSection');
+
+        // 기본값 설정
+        if (!activeSection) {
+          activeSection = 'inventoryList';
+          sessionStorage.setItem('activeSection', 'inventoryList');
+        }
+
+        showSection(activeSection);
+
+        document.getElementById('btnInventoryList').addEventListener('click', function () {
+          showSection('inventoryList');
+        });
+
+        document.getElementById('btnProductList').addEventListener('click', function () {
+          showSection('productList');
+        });
+      });
+      
+      //페이지 이동 전 스크롤 위치를 저장하는 함수
+      function saveScrollPosition() {
+        var scrollPosition = window.scrollY || document.documentElement.scrollTop;
+        sessionStorage.setItem('scrollPosition', scrollPosition);
+      }
+
+      //페이지 이동 후, 스크롤 위치를 저장된 위치로 이동시키는 함수
+      function restoreScrollPostion() {
+        var scrollPosition = sessionStorage.getItem('scrollPosition');
+        if (scrollPosition !== null) {
+          window.scrollTo({
+            top: scrollPosition,
+            behavior: 'auto',
+          });
+          sessionStorage.removeItem('scrollPosition');
+        }
+      }
+      // display 보여주고 세션스토리지 사용해서 담아두기
+      function showSection(section) {
+        var inventorySection = document.getElementById('inventorySection');
+        var productSection = document.getElementById('productSection');
+
+        inventorySection.style.display = 'none';
+        productSection.style.display = 'none';
+
+        if (section === 'inventoryList') {
+          inventorySection.style.display = 'block';
+          sessionStorage.setItem('activeSection', 'inventoryList');
+        } else if (section === 'productList') {
+          productSection.style.display = 'block';
+          sessionStorage.setItem('activeSection', 'productList');
+        }
+      }
     </script>
 </body>
 </html>

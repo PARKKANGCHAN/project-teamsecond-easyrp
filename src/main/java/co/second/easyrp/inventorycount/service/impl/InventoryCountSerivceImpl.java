@@ -8,18 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import co.second.easyrp.inventorycount.mapper.InventoryCountMapper;
 import co.second.easyrp.inventorycount.service.InventoryCountService;
 import co.second.easyrp.inventorycount.service.InventoryCountVO;
+import co.second.easyrp.inventorycount.service.SearchVO;
 
 public class InventoryCountSerivceImpl implements InventoryCountService {
 
 	@Autowired
 	InventoryCountMapper inventorycountmapper;
 	
-	@Override
-	public List<InventoryCountVO> inventoryCountList(int page, int size, String cod, String employeeCod, String productCod, String invCod, String countDate, String countclass, int qty, String procClass, String account, String deleteyn, String note, Date preSearchDate, Date postSearchDate) {
-		// TODO Auto-generated method stub
-		int offset = (page-1)*size;
-		return inventorycountmapper.inventoryCountList(size, offset, cod, employeeCod, productCod, invCod, countDate, countclass, qty, procClass, account, deleteyn, note, preSearchDate, postSearchDate);
-	}
 
 	@Override
 	public int insertInventoryCount(InventoryCountVO vo) {
@@ -39,10 +34,16 @@ public class InventoryCountSerivceImpl implements InventoryCountService {
 		return inventorycountmapper.deleteInventoryCount(vo);
 	}
 
+
 	@Override
-	public int countInventoryCountLists(String cod, String employeeCod, String productCod, String invCod, String countDate, String countclass, int qty, String procClass, String account, String deleteyn, String note, Date preSearchDate, Date postSearchDate) {
+	public List<InventoryCountVO> inventoryCountList(SearchVO searchVo) {
+		return inventorycountmapper.inventoryCountList(searchVo);
+	}
+
+	@Override
+	public int countInventoryCountLists(SearchVO searchVo) {
 		// TODO Auto-generated method stub
-		return inventorycountmapper.countInventoryCountLists(cod, employeeCod, productCod, invCod, countDate, countclass, qty, procClass, account, deleteyn, note, preSearchDate, postSearchDate);
+		return inventorycountmapper.countInventoryCountLists(searchVo);
 	}
 
 }

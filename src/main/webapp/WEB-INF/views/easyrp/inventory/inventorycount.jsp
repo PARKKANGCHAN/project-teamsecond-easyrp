@@ -112,17 +112,14 @@
 									<table class="table table-hover mb-0">
 										<thead>
 											<tr>
-												<th>이동번호</th>
-												<th>이동일자</th>
-												<th>출고창고</th>
-												<th>출고장소</th>
-												<th>입고창고</th>
-												<th>입고장소</th>
+												<th>실사번호</th>
+												<th>실사일자</th>
+												<th>재고기준일</th>
+												<th>창고</th>
+												<th>장소</th>
+												<th>실사구분</th>
 												<th>담당자</th>
-												<th>품번</th>
-												<th>품명</th>
-												<th>단위</th>
-												<th>이동수량</th>
+												<th>비고</th>
 											</tr>
 										</thead>
 										<tbody>

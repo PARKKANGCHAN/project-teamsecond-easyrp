@@ -9,18 +9,15 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class InventoryCountVO {
+public class InventoryCountDetailVO {
 	private String cod;
 	private String employeeCod;
 	private Date countDate;
-	private String invDate;
+	private Date invDate;
 	private String warehouseCod;
 	private String locationCod;
 	private String countclass;
 	private String account;
 	private String deleteyn;
 	private String note;
-	private String warehouse;
-	private String employee;
-	private String location;
 }

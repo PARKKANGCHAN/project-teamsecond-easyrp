@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import co.second.easyrp.inventorycount.service.InventoryCountService;
 import co.second.easyrp.inventorycount.service.InventoryCountVO;
+import co.second.easyrp.inventorycount.service.SearchVO;
 
 @Controller
 public class InventoryCountController {
@@ -20,24 +21,48 @@ public class InventoryCountController {
 	InventoryCountService inventorycountservice;
 	
 	@GetMapping("/inventorycount")
-	public String inventoryCount(
-//	public String inventoryCount(@RequestParam(defaultValue="1") int page,
-//								 @RequestParam(defaultValue="10") int size,
-//								 @RequestParam(required = false) String cod,
-//								 @RequestParam(required = false) String employeeCod,
-//								 @RequestParam(required = false) String productCod,
-//								 @RequestParam(required = false) String invCod,
-//								 @RequestParam(required = false) String countDate,
-//								 @RequestParam(required = false) String countclass,
-//								 @RequestParam(required = false) String procClass,
-//								 @RequestParam(required = false) String account,
-//								 @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date preSearchDate,
-//						         @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date postSearchDate,
-						         Model model) {
-		String viewpage = "easyrp/inventory/inventorycount";
-//		List<InventoryCountVO> inventoryCountList = inventorycountservice.inventoryCountList(page, size, cod, employeeCod, productCod, invCod, countDate, countclass, procClass, account, preSearchDate, postSearchDate);
-//		int totalRecords = inventorycountservice.countInventoryCountLists(cod, employeeCod, productCod, invCod, countDate, countclass, size, procClass, account, preSearchDate, postSearchDate);
-//		int totalPages = (int) Math.ceil((double) totalRecords / size);
-		return viewpage;
+	public String inventoryCount(SearchVO searchVO, Model model, 
+								 @RequestParam(defaultValue="1") int page,
+								 @RequestParam(defaultValue="10") int pageSize,
+								 @RequestParam(required = false) String searchCod,
+								 @RequestParam(required = false) String searchLocationName,
+								 @RequestParam(required = false) String searchWarehouseName,
+								 @RequestParam(required = false) String searchProductName,
+								 @RequestParam(required = false) String searchInventoryName,
+								 @RequestParam(required = false) String searchCountClass,
+								 @RequestParam(required = false) String searchEmployeeName,
+								 @RequestParam(required = false) String searchAccount,
+								 @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date preSearchDate,
+						         @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date postSearchDate) {
+		
+		searchVO.setSearchCod(searchCod);
+		searchVO.setSearchLocationName(searchLocationName);
+		searchVO.setSearchWarehouseName(searchWarehouseName);
+		searchVO.setSearchProductName(searchProductName);
+		searchVO.setSearchInventoryName(searchInventoryName);
+		searchVO.setSearchCountClass(searchCountClass);
+		searchVO.setSearchEmployeeName(searchEmployeeName);
+		searchVO.setSearchAccount(searchAccount);
+		searchVO.setOffset((page-1)*pageSize);
+		
+		List<InventoryCountVO> inventoryCountVO=inventorycountservice.inventoryCountList(searchVO);
+		
+		int totalRecords = inventorycountservice.countInventoryCountLists(searchVO);
+		
+		int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+		int pageGroupSize = 10;
+		
+		int currentPageGroup = (pageSize - 1) / pageGroupSize;
+		int startPage = currentPageGroup * pageGroupSize + 1;
+		int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
+		
+		model.addAttribute("searchVO", searchVO);
+		model.addAttribute("inventorycount", inventorycount);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("startPage", startPage);
+
+		return "easyrp/inventory/inventorycount";
+		
 	}
 }
