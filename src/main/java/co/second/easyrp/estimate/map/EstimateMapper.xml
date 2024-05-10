@@ -76,8 +76,8 @@
 	</update>
 	
 	<delete id="EstimateDetailDelete">
-		delete from estimatedetail
-		where product_cod = #{productCod}
+		delete from estimatedetail 
+		where product_cod = #{productCod} and estimate_cod = #{cod}
 	</delete>
 	
 	<select id="ProductNameSelectList">
@@ -88,18 +88,20 @@
 	
 	<insert id="EstimateDetailInsert">
 	
-	<selectKey keyProperty="generatedIndex,cod" resultType="int" order="BEFORE">
-	    (SELECT IFNULL(MAX(index), 0) + 1 AS generatedIndex
-        FROM estimatedetail
-        WHERE estimate_cod = #{estimateCod}) AS generatedIndex,
-        (SELECT cod
-        FROM product
-        WHERE productName = #{productName}) AS generatedProductCod
+	<selectKey keyColumn="generatedIndex,generatedProductCod" keyProperty="generatedIndex,generatedProductCod" resultType="map" order="BEFORE">
+		SELECT 
+		    IFNULL(MAX(ed.num), 0) + 1 AS generatedIndex, 
+		    p.cod AS generatedProductCod
+		FROM 
+		    estimatedetail ed
+		CROSS JOIN 
+		    (SELECT cod FROM product WHERE prodName = #{prodname}) AS p
+		WHERE 
+		    ed.estimate_cod = #{cod};
 	</selectKey>
 	
-	
 	    INSERT INTO estimatedetail (estimate_cod, num, product_cod, qty)
-	    VALUES (#{estimateCod}, #{generatedIndex}, #{generatedProductCod}, #{qty});
+	    VALUES (#{cod}, #{generatedIndex}, #{generatedProductCod}, #{qty});
 	</insert>
 	
 	

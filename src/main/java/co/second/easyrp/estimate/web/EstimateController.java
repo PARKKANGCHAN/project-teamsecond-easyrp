@@ -95,10 +95,11 @@ public class EstimateController {
 	
 	@RequestMapping(value = "/estimatedetaildelete", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<String> estimatedetailDelete(@RequestParam("productCod") String productCod) {
+	public ResponseEntity<String> estimatedetailDelete(@RequestParam("productCod") String productCod,
+													   @RequestParam("") String cod) {
 		
 //		System.out.println(productCod);
-		int result = estimateService.EstimateDetailDelete(productCod);
+		int result = estimateService.EstimateDetailDelete(productCod, cod);
 		
 		return ResponseEntity.ok().body("{\"message\": \"success\"}");
 	}
@@ -118,11 +119,11 @@ public class EstimateController {
 	
 	@RequestMapping(value = "/estimatedetailinsert", method = RequestMethod.GET)
 	@ResponseBody
-	public List<EstimateVO> estimatedetailInsert(@RequestParam("productName") String productName,
-												 @RequestParam("productQty") int productQty,
-												 @RequestParam("estimateCod") String cod) {
+	public List<EstimateVO> estimatedetailInsert(@RequestParam("prodname") String prodname,
+												 @RequestParam("qty") int qty,
+												 @RequestParam("cod") String cod) {
 		
-		int result = estimateService.EstimateDetailInsert(cod, productName, productQty);
+		int result = estimateService.EstimateDetailInsert(cod, prodname, qty);
 		
 		return new ArrayList<>();
 	}

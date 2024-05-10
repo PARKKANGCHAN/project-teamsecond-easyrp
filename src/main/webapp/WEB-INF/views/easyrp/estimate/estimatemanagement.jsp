@@ -181,6 +181,7 @@
 						<div class="col-md-6">
 							<button type="button" class="btn btn-primary">
 								<a href="estimateinsert" style="color: white">등록</a>
+								
 							</button>
 						</div>
 					</div>
@@ -196,9 +197,9 @@
 		<div class="modal-dialog modal-xl" style="width: 1400px;">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="detailModalLabel">공통 상세 페이지</h5>
+					<h5 class="modal-title" id="detailModalLabel">견적 상세 페이지</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+						aria-label="Close" onClick="Modalclose()"></button>
 				</div>
 				<div class="modal-body">
 					<table class="table">
@@ -230,7 +231,7 @@
 							<th colspan="1">공급가액</th>
 							<th colspan="1">부가세</th>
 							<th colspan="1">금 액</th>
-							<th colspan="1">수정 삭제</th>
+							<th colspan="1">수정 및 삭제</th>
 
 						<tr>
 							<th colspan="1">총 합</th>
@@ -243,13 +244,10 @@
 						</tr>
 						<tr>
 							<td colspan="6" style="border-bottom-width: 0px">
-								<button type="button" class="btn btn-primary" onClick="estimateChange()">견적 수정</button>
 								<button type="button" class="btn btn-primary">전표 생성</button>
 								<button type="button" class="btn btn-primary">출력</button>
 								<button type="button" class="btn btn-primary">이메일 보내기</button>
-<!--                                 <button type="button" class="btn btn-primary" id="loadValues"> -->
-<!--                                  	 제품 검색 -->
-<!--                                 </button> -->
+								<button type="button" class="btn btn-primary" onClick="estimateChange()">견적 수정</button>
                                 <button type="button" class="btn btn-primary" id="addColumnButton" onClick="addcolumn()">제품 추가</button>
 							</td>
 						</tr>
@@ -312,7 +310,7 @@
 </body>
 
 
-    <script type="text/javascript">
+   <script type="text/javascript">
 
 
     function estimateDetail(estimateCod) {
@@ -425,6 +423,7 @@
     				    	type: 'POST',
     				    	data: {
     				    		productCod : productCod,
+    				    		cod: estimateCod,
     				    	},
     				    	dataType: 'JSON',
     				    	success: function(response){
@@ -465,21 +464,12 @@
     			console.error('실패');
     		}
     	});
+    	
+    	// 제품 추가 버튼 활성화
+		$('#addColumnButton').prop('disabled', false);
+    	
     }
 
-		/*
-		fetch(url[, options])
-	    .then(response => {
-	        // 응답을 처리하는 로직
-	    })
-	    .catch(error => {
-	        // 에러를 처리하는 로직
-	    });
-		*/
-    	
-
-		
-		
 		
 		function estimateChange() {
 			$('input').removeAttr('readonly');
@@ -501,11 +491,12 @@
 			    'name': 'productName', 
  			    'id': 'productName', 
 			    'placeholder': '상품 선택',
-			}).css('width', '140px').on('click', function() {
+ 			}).css('width', '140px').on('click', function() {
 	 		    $('#kvModal').modal('show'); // 자식 모달 열기
 	 		    console.log('자식 모달 오픈');
 	 		    searchModalOpen();
-			})));
+			})
+			));
 			
 			newRow.append($('<td>').append($('<input>').attr({
 			    'type': 'number',
@@ -520,36 +511,23 @@
 			newRow.append($('<td>').text("--"));
 			newRow.append($('<td>').text("--"));
 			
-	        var checkButton = $('<button>').text('확인').addClass('btn btn-primary').css('margin-right', '2px');
+	        var checkButton = $('<button>').text('확인').attr({ 'type': 'button' }).addClass('btn btn-primary').css('margin-right', '2px');	        	       	   
 	        var cancelButton = $('<button>').text('취소').addClass('btn btn-primary');
 	        var buttonGroup = $('<div>').append(checkButton).append(cancelButton);
 	        
 		    newRow.append($('<td>').attr({
 		    	'id': 'buttonrow'
 		    }).append(buttonGroup));
+		     		    		    
+		    checkButton.on("click", function() {
+		    	console.log("확인 버튼 누름");
+		    	var estimateCodValue = $('#estimateCod').text();
+		    	var productName = $('#productName').val();
+		    	var productQty = $('#productQty').val();
+		    	
+		    	insertAjax(productName, productQty ,estimateCodValue);				
+	    	});
 		    
- 		    checkButton.on('click', function() {
- 		    	console.log("확인 버튼 누름");
- 		    	var estimateCodValue = $('#estimateCod').text();
- 		    	
- 		    	$.ajax({
- 		    		url: 'estimatedetailinsert',
- 		    		type: 'GET',
- 		    		dataType: 'JSON',
- 		    		data: {
-		    			productName: productName,
- 		    			productQty: productQty,
- 		    			estimateCod: estimateCodValue,
- 		    		},
- 		    		success: function(response){
- 		    			console.log('ajax 성공');
- 		    			alert('상품 항목이 추가되었습니다.');
- 		    		},
- 		    		error: function(xhr, status, error){
- 		    			console.error('ajax 실패');
- 		    		}
- 		    	});
-		    });
 		    
 		    cancelButton.on('click', function() {
 		    	
@@ -563,6 +541,38 @@
 			$('#addColumnButton').prop('disabled', true);
 			
 		} 
+		
+		
+		function insertAjax(productName, productQty, estimateCodValue) {
+			
+			$.ajax({
+	    		url: 'estimatedetailinsert',
+	    		type: 'GET',
+	    		dataType: 'JSON',
+	    		data: {
+    				prodname: productName,
+	    			qty: productQty,
+	    			cod: estimateCodValue,
+	    		},
+	    		success: function(response){
+	    			console.log('ajax 성공');
+	    			alert('상품 항목이 추가되었습니다.');
+	    			
+		            // 성공 시 기존 데이터 삭제
+		            $('.generatedRow').remove();
+	    			
+	    			estimateDetail(estimateCodValue);
+	    			
+	    			$('#addColumnButton').prop('disabled', false);
+	    			
+	    		},
+	    		error: function(xhr, status, error){
+	    			console.error('ajax 실패');
+	    			alert('같은 제품이 이미 존재합니다.');
+	    		}
+		    });		    	
+		}
+		
 		
 		function Modalclose() {
 			
@@ -633,7 +643,11 @@
 
         /* valueModal END */
 		
-		/*아아아아아아아*/
+// 		function estimateLisetInsert() {
+//         	console.log('등록');
+        	
+        	
+//         }
         
     </script>
 

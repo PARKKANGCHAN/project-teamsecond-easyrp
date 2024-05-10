@@ -70,9 +70,9 @@ public class EstimateServiceImpl implements EstimateService {
 	}
 
 	@Override
-	public int EstimateDetailDelete(String productCod) {
+	public int EstimateDetailDelete(String productCod, String cod) {
 		// TODO Auto-generated method stub
-		return estimateMapper.EstimateDetailDelete(productCod);
+		return estimateMapper.EstimateDetailDelete(productCod, cod);
 	}
 	
 	@Override
@@ -82,9 +82,9 @@ public class EstimateServiceImpl implements EstimateService {
 	}
 
 	@Override
-	public int EstimateDetailInsert(String cod, String productName, int productQty) {
+	public int EstimateDetailInsert(String cod, String prodname, int qty) {
 		// TODO Auto-generated method stub
-		return estimateMapper.EstimateDetailInsert(cod, productName, productQty);
+		return estimateMapper.EstimateDetailInsert(cod, prodname, qty);
 	}
 
 }

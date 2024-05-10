@@ -23,7 +23,7 @@ public interface EstimateMapper {
 	int EstimateInsert(EstimateVO vo);
 	int EstimateUpdate(@Param("cod") String cod, @Param("qty") int qty, @Param("num") int num);
 	int EstimateDelete(EstimateVO vo);
-	int EstimateDetailDelete(String productCod);
+	int EstimateDetailDelete(@Param("productCod") String productCod, @Param("cod") String cod);
 	
 	int countSalesTables(
 			@Param("pageSize") int pageSize, 
@@ -40,5 +40,5 @@ public interface EstimateMapper {
 	
 	List<EstimateVO> EstimateDetailSelectList(String cod);
 	
-	int EstimateDetailInsert(@Param("estimateCod") String cod, @Param("productName") String productName, @Param("productQty") int productQty);
+	int EstimateDetailInsert(@Param("cod") String cod, @Param("prodname") String prodname, @Param("qty") int qty);
 }
