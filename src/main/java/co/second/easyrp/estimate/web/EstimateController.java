@@ -56,7 +56,7 @@ public class EstimateController {
     }
     
     @RequestMapping(value = "/estimateinsert", method = RequestMethod.GET)
-    public String commonInsert(EstimateVO vo, Model model) {
+    public String estimateinsert(EstimateVO vo, Model model) {
     	
     	
     	List<EstimateVO> ClientNames = new ArrayList<EstimateVO>();
@@ -128,6 +128,16 @@ public class EstimateController {
 		return new ArrayList<>();
 	}
 
+    @GetMapping("/api/get-client")
+    @ResponseBody
+    public List<EstimateVO> clientNameSelectList() {
+    	
+    	List<EstimateVO> ClientNames = new ArrayList<EstimateVO>();
+    	ClientNames = estimateService.ClientNameSelectList();
+    	System.out.println(ClientNames);
+    	
+        return ClientNames;
+    }
 	
    
 //    @RequestMapping(value = "/estimateinsertFn", method = RequestMethod.POST)
@@ -166,10 +176,6 @@ public class EstimateController {
 //    }
     
     
-//    @GetMapping("/api/get-data")
-//   @ResponseBody
-//    public List<CommonTableCopyVO> getDatas() {
-//        return commonTableService.getAllCopyDatas();
-//    }
+
 	
 }

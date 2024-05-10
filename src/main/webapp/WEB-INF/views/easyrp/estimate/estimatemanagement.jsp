@@ -181,7 +181,6 @@
 						<div class="col-md-6">
 							<button type="button" class="btn btn-primary">
 								<a href="estimateinsert" style="color: white">등록</a>
-								
 							</button>
 						</div>
 					</div>

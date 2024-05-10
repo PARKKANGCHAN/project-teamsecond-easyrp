@@ -35,7 +35,7 @@
                      <div class="card mb-4">
                         <div class="card-header py-3">
                            <div class="d-flex" style="justify-content: space-between">
-                              <h5 class="m-0">공통 등록</h5>
+                              <h5 class="m-0">견적 기본 정보</h5>
                               <button
                                  type="button"
                                  class="btn btn-primary"
@@ -53,40 +53,35 @@
                               <div class="mb-4">
                                  <table class="table table-bordered">
                                     <!-- 글제목 INPUT INPUT -->
+
+                                    <!-- 내용 INPUT -->
+                                 <!-- 모달로 입력 테스트 -->
                                     <tr>
                                        <td width="150">거래처명</td>
                                        <td>
-                                          <select class="form-select" id="ClientName" name="ClientName">
-                                          	<c:forEach items="${ClientNames}" var="c">
-											  <option>${c.name}</option>
-											</c:forEach>
-										  </select>
-                                       </td>
-                                    </tr>
-                                    <!-- 내용 INPUT -->
-                                    <tr>
-                                       <td width="150">제품이름</td>
-                                       <td>
-                                          <select class="form-select" id="ProductName" name="ProductName">
-                                          	<c:forEach items="${ProductNames}" var="p">
-											  <option>${p.prodName}</option>
-											</c:forEach>
-										  </select>
-                                       </td>
-                                    </tr>
-                                    <tr>
-                                       <td width="150">기초계획수량</td>
-                                       <td>
                                           <input
-                                             type="number"
-                                             id="content"
-                                             name="basicplnQty"
+                                             type="text"
+                                             id="clientName"
+                                             name="clientName"
+                                             data-target="#clientName"
                                              class="form-control"
-                                             placeholder="내용을 입력해주세요."
+                                             style="width: 80%; float: left"
+                                             placeholder="모달을 이용해서 입력하는 테스트"
                                              required
                                           />
+                                          <button
+                                             type="button"
+                                             class="btn btn-primary"
+                                             id="loadValues"
+                                             data-bs-toggle="modal"
+                                             data-bs-target="#kvModal"
+                                             style="margin-left: 2rem; width: 10%"
+                                          >
+                                             검색
+                                          </button>
                                        </td>
                                     </tr>
+
                                     <!-- 글쓴이 INPUT (로그인 시 자동으로 값 입력 readonly) -->
                                     <tr>
                                        <td width="150">담당사원</td>
@@ -103,51 +98,76 @@
                                           />
                                        </td>
                                     </tr>
-                                    <!-- 모달로 입력 테스트 -->
-                                    <tr>
-                                       <td width="150">모달 입력 테스트</td>
-                                       <td>
-                                          <input
-                                             type="text"
-                                             id="modalInput"
-                                             name="modalInput"
-                                             class="form-control"
-                                             style="width: 80%; float: left"
-                                             placeholder="모달을 이용해서 입력하는 테스트"
-                                             required
-                                          />
-                                          <button
-                                             type="button"
-                                             class="btn btn-primary"
-                                             id="loadValues"
-                                             data-bs-toggle="modal"
-                                             data-bs-target="#kvModal"
-                                             style="margin-left: 2rem; width: 10%"
-                                          >
-                                             저장 값 가져오기
-                                          </button>
-                                       </td>
-                                    </tr>
+
                                  </table>
                               </div>
-                              <!-- 공통등록 Button START -->
+
+              <div>
+				<div>
+					<h5>견적 상세 정보</h5>
+				</div>
+				<div>
+					<table class="table">
+						<tr>
+							<th scope="col">견적 번호</th>
+							<td id="estimateCod"></td>
+							<th scope="col">거래처 명</th>
+							<td id="clientName"></td>
+							<th scope="col">견적 날짜</th>
+							<td id="estimateDate"></td>
+							<td></td>
+						</tr>
+						<tr>
+							<th scope="col">견적 담당 부서</th>
+							<td id="estimateDept"></td>
+							<th scope="col">견적 담당 사원코드</th>
+							<td id="estimateEmp"></td>
+							<th scope="col">견적 담당자 명</th>
+							<td id="estimateEmpName"></td>
+							<td></td>
+						</tr>
+						</table>
+						<table class="table">
+						<tr id="detailList">
+							<th colspan="1">상품 코드</th>
+							<th colspan="1" style="width: 160px;">상품 명</th>
+							<th colspan="1">수 량</th>
+							<th colspan="1">단 가</th>
+							<th colspan="1">공급가액</th>
+							<th colspan="1">부가세</th>
+							<th colspan="1">금 액</th>
+							<th colspan="1">수정 및 삭제</th>
+
+						<tr>
+							<th colspan="1">총 합</th>
+							<td colspan="1"></td>
+							<td colspan="1"></td>
+							<td colspan="1"></td>
+							<td colspan="1" id="totalprice"></td>
+							<td colspan="1" id="totalvax"></td>
+							<td colspan="1" id="totalsum"></td>
+						</tr>
+						<tr>
+							<td colspan="6" style="border-bottom-width: 0px">
+                                <button type="button" class="btn btn-primary" id="addColumnButton" onClick="addcolumn()">제품 추가</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			               <!-- 공통등록 Button START -->
                               <div style="text-align: center">
-                                 <button
-                                    type="submit"
-                                    class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4"
-                                 >
+                                 <button type="submit" class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
                                     공통등록
                                  </button>
 								<a href="salesplanmanagement">
-                                    <button
-                                       type="button"
-                                       class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4"
-                                    >
+                                  <button type="button" class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
                                        등록취소
-                                    </button>
+                                  </button>
                                  </a>
                               </div>
                               <!-- 공통등록 Button END -->
+                             
                            </form>
                            <!-- 공통등록 END -->
                         </div>
@@ -230,10 +250,117 @@
          </div>
       </div>
       <!-- Data Modal END  -->
-      <script type="text/javascript">
+      
+      
+      
+      
+   </body>
+   
+<script type="text/javascript">
+   
+	function addcolumn() {			
+		
+		var newRow = $('<tr class="generatedRow">');
+		
+		newRow.append($('<td>').attr({
+			'id': 'productCod',
+		}).text("--"));
+		
+		newRow.append($('<td>').append($('<input>').attr({
+		    'type': 'text',
+		    'readonly': 'readonly',
+		    'class': 'form-control',
+		    'name': 'productName', 
+			    'id': 'productName', 
+		    'placeholder': '상품 선택',
+			}).css('width', '140px').on('click', function() {
+ 		    $('#kvModal').modal('show'); // 자식 모달 열기
+ 		    console.log('자식 모달 오픈');
+ 		    searchModalOpen();
+		})
+		));
+		
+		newRow.append($('<td>').append($('<input>').attr({
+		    'type': 'number',
+		    'class': 'form-control',
+		    'name': 'productQty', 
+		    'id': 'productQty', 
+		    'placeholder': '수량 입력', 
+		}).css('width', '120px')));
+		newRow.append($('<td>').text("--"));
+		newRow.append($('<td>').text("--"));
+		newRow.append($('<td>').text("--"));
+		newRow.append($('<td>').text("--"));
+		
+        var checkButton = $('<button>').text('확인').attr({ 'type': 'button' }).addClass('btn btn-primary').css('margin-right', '2px');	        	       	   
+        var cancelButton = $('<button>').text('취소').addClass('btn btn-primary');
+        var buttonGroup = $('<div>').append(checkButton).append(cancelButton);
+        
+	    newRow.append($('<td>').attr({
+	    	'id': 'buttonrow'
+	    }).append(buttonGroup));
+	     		    		    
+	    checkButton.on("click", function() {
+	    	console.log("확인 버튼 누름");
+	    	var estimateCodValue = $('#estimateCod').text();
+	    	var productName = $('#productName').val();
+	    	var productQty = $('#productQty').val();
+	    	
+	    	insertAjax(productName, productQty ,estimateCodValue);				
+    	});
+	    
+	    
+	    cancelButton.on('click', function() {
+	    	
+		    	$(this).closest('tr').remove(); // 새로 추가된 행 삭제
+	    	$('#addColumnButton').prop('disabled', false);
+	    });
+	    
+		
+		$('#detailList').after(newRow);
+		
+		
+		
+	} 
+	
+	// 제품 목록 모달
+    function searchModalOpen() {
+        $.ajax({
+           url: 'productnamelist',
+           method: 'GET',
+           success: function (data) {
+              let rows = '';
+              data.forEach(function (item, index) {
+//				console.log(item);
+                    rows += `
+                       <tr onclick="setValue(item.cod ,item.prodName)" class="searchValue" data-cod="item.cod" data-value="item.prodName" style='cursor: pointer'> 
+                       <td>(index + 1)</td> 
+                       <td>item.cod</td> 
+                       <td>item.prodName</td>
+                       </tr>`;
+						
+              });
+              $('#modalTableBody').html(rows);
+               $('#kvModal').modal('show');
+           },
+           error: function (xhr, status, error) {
+               console.error("실패")
+           }
+        });
+     }
+	
+    $('#searchInput').on('keyup', function () {
+        var searchInputValue = $(this).val().toLowerCase();
+        $('.searchValue').each(function () {
+           var cod = $(this).data('cod').toLowerCase();
+           var productName = $(this).data('value').toLowerCase();
+           $(this).toggle(cod.includes(searchInputValue) || productName.includes(searchInputValue));
+        });
+     });
+
          /* valueModal START */
          function setValue(cod, value) {
-            $('#modalInput').val(value);
+            $('#clientName').val(value);
             $('#kvModal').modal('hide');
             $('.modal-backdrop').remove();
          }
@@ -241,33 +368,37 @@
          $(document).ready(function () {
             $('#loadValues').on('click', function () {
                $.ajax({
-                  url: 'api/get-kv',
+                  url: 'api/get-client',
                   method: 'GET',
                   success: function (data) {
+                	  
                      let rows = '';
-                     data.forEach(function (item) {
-                        if (item.id && item.cod) {
+                     data.forEach(function (item, index) {
+                    	 
+                    	 console.log(item);
+                    	 
+                        if (item.clientCod && item.clientName) {
                            rows +=
                               '<tr onclick="setValue(\'' +
-                              item.cod +
+                              item.clientCod +
                               "', '" +
-                              item.value +
+                              item.clientName +
                               '\')" ' +
                               'class="searchValue" data-cod="' +
-                              item.cod +
+                              item.clientCod +
                               '" data-value="' +
-                              item.value +
+                              item.clientName +
                               '" style= "' +
                               'cursor: pointer' +
                               '">' +
                               '<td>' +
-                              item.id +
+                              (index + 1) +
                               '</td>' +
                               '<td>' +
-                              item.cod +
+                              item.clientCod +
                               '</td>' +
                               '<td>' +
-                              item.value +
+                              item.clientName +
                               '</td>' +
                               '</tr>';
                         }
@@ -281,9 +412,9 @@
             $('#searchInput').on('keyup', function () {
                var searchInputVlaue = $(this).val().toLowerCase()
                $('.searchValue').each(function () {
-                  var cod = $(this).data('cod').toLowerCase()
-                  var value = $(this).data('value').toLowerCase()
-                  $(this).toggle(cod.includes(searchInputVlaue) || value.includes(searchInputVlaue));
+                  var clientCod = $(this).data('cod').toLowerCase()
+                  var clientName = $(this).data('value').toLowerCase()
+                  $(this).toggle(clientCod.includes(searchInputVlaue) || clientName.includes(searchInputVlaue));
                });
             });
          });
@@ -344,6 +475,7 @@
             });
          });
          /* DataModal END */
+        
       </script>
-   </body>
+   
 </html>

@@ -43,7 +43,7 @@
 	</select>
 
 	<select id="ClientNameSelectList">
-		select name from client
+		select cod as clientCod, name as clientName from client
 	</select>
 	
 	<insert id="EstimateInsert" parameterType="co.second.easyrp.estimate.service.EstimateVO">
@@ -103,6 +103,6 @@
 	    INSERT INTO estimatedetail (estimate_cod, num, product_cod, qty)
 	    VALUES (#{cod}, #{generatedIndex}, #{generatedProductCod}, #{qty});
 	</insert>
-	
+
 	
 </mapper>
