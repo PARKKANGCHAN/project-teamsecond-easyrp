@@ -77,34 +77,27 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                      let rows = '';
                      data.forEach(function (item) {
                         if (item.cod && item.deleteyn === 'N') {
-                           rows +=
-                              '<tr class="searchData" data-cod="' +
-                              item.cod +
-                              '" data-name="' +
-                              item.name +
-                              '">' +
-                              '<td>' +
-                              item.cod +
-                              '</td>' +
-                              '<td>' +
-                              item.name +
-                              '</td>' +
-                              '<td>' +
-                              '<div class="btn-group">' +
-                              '<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">' +
-                              '<i class="fa-solid fa-gear"></i>' +
-                              '</button>' +
-                              '<ul class="dropdown-menu">' +
-                              '<li><a class="dropdown-item" href="javascript:void(0);" data-cod="' +
-                              item.cod +
-                              '">수정</a></li>' +
-                              '<li><a class="dropdown-item delete-data" href="javascript:void(0);" data-cod="' +
-                              item.cod +
-                              '">삭제</a></li>' +
-                              '</ul>' +
-                              '</div>' +
-                              '</td>' +
-                              '</tr>';
+                           rows += `<tr class="searchData" data-cod="\${item.cod}" data-name="\${item.name}">
+                                   <td>\${item.cod}</td>
+                                   <td class="hyunwoo-flex-wrap">
+                                   <input type="text" id="updateName\${item.cod}" name="name" class="form-control hyunwoo-input-disabled" value="\${item.name}" disabled />
+                                   <div class="updateSubmitBtn" data-target="\${item.cod}" style="display : none;">
+                                   <button class="btn btn-primary update-data" data-target="\${item.cod}" style="margin-right : 0.5rem;">등록</button>
+                                   <button class="btn btn-secondary cancel-update" data-target="\${item.cod}" data-content="\${item.name}" style="display : block;">취소</button>
+                                   </div>
+                                   </td>
+                                   <td>
+                                   <div class="btn-group">
+                                   <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                   <i class="fa-solid fa-gear"></i>
+                                   </button>
+                                   <ul class="dropdown-menu">
+                                   <li><a class="dropdown-item showUpdateForm" href="javascript:void(0);" data-cod="\${item.cod}">수정</a></li>
+                                   <li><a class="dropdown-item delete-data" href="javascript:void(0);" data-cod="\${item.cod}">삭제</a></li>
+                                   </ul>
+                                   </div>
+                                   </td>
+                                   </tr>`;
                         }
                      });
                      $('#modalDataTableBody').html(rows);
@@ -166,13 +159,12 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             });
 
             $(document).on('click', '.update-data', function () {
-               let cod = $(this).data('cod');
-               let updatedName = $('#unitupdatename').val();
+            let cod = $(this).data('target');
+               let updatedName = $(`#unitupdatename\${cod}`).val();
                if (updatedName.length === 0) {
                   alert('단위명을 입력해주세요.');
                   return;
                }
-
                $.ajax({
                   url: 'unitupdatefn',
                   type: 'POST',
@@ -195,32 +187,19 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                });
             });
 
-            function showUpdateForm(element, cod) {
-               var row = $(element).closest('tr');
-               var nextRow = row.next();
+            $(document).on('click', '.showUpdateForm', function () {
+                let cod = $(this).data('cod');
+                $(`#updateName\${cod}`).removeClass('hyunwoo-input-disabled').attr('disabled', false);
+                $(`[data-target='\${cod}'].updateSubmitBtn`).css('display', 'flex');
+             });
 
-               if (nextRow.attr('id') === 'updateRow') {
-                  nextRow.toggle();
-               } else {
-                  var updateFormHtml =
-                     '<tr id="updateRow"><td colspan="3">' +
-                     '<input type="text" name="name" id="unitupdatename" value="' +
-                     row.find('td:nth-child(2)').text() +
-                     '" class="form-control" placeholder="단위 명을 입력하세요." required />' +
-                     '<button type="button" class="btn btn-primary update-data" data-cod="' +
-                     cod +
-                     '">저장</button>' +
-                     '<button type="button" onclick="$(this).parent().parent().remove();" class="btn btn-secondary">취소</button>' +
-                     '</td></tr>';
-
-                  row.after(updateFormHtml);
-               }
-            }
-
-            $(document).on('click', '#modalDataTableBody .dropdown-item', function () {
-               let cod = $(this).data('cod');
-               showUpdateForm(this, cod);
-            });
+             $(document).on('click', '.cancel-update', function () {
+            	let name = $(this).data('content');
+                let cod = $(this).data('target');
+                $(`#updateName\${cod}`).addClass('hyunwoo-input-disabled').attr('disabled', true);
+                $(`[data-target='\${cod}'].updateSubmitBtn`).css('display', 'none');
+                $(`#updateName\${cod}`).val(name);
+             });
 
             /* 검색기능 START */
             $('#modalSearch').on('keyup', function () {

@@ -76,10 +76,7 @@
 																aria-label="Default select example">
 																	<option value="" ${searchAccount == '' ? "selected" : ""} >제품형태 선택</option>
 																	<option value="완제품" ${searchAccount == '완제품' ? "selected" : ""}>완제품</option>
-																	<option value="반제품" ${searchAccount == '반제품' ? "selected" : ""}>반제품</option>
-																	<option value="제품" ${searchAccount == '제품' ? "selected" : ""}>제품</option>
 																	<option value="원재료" ${searchAccount == '원재료' ? "selected" : ""}>원재료</option>
-																	<option value="부재료" ${searchAccount == '부재료' ? "selected" : ""}>부재료</option>
 															</select></td>
 															<td width="6%">제품그룹</td>
 															<td colspan="3"><input type="text" id="searchProductGroup"

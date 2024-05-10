@@ -35,3 +35,13 @@ body {
 	margin-left : 0.5rem !important;
 	width : 5vw;
 }
+
+.hyunwoo-input-disabled {
+	background-color : transparent !important; 
+	border : 0rem !important;
+}
+
+.hyunwoo-flex-wrap {
+	display : flex !important;
+	flex-wrap : wrap !important;
+}

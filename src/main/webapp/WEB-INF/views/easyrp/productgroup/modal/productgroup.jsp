@@ -75,41 +75,38 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                   method: 'GET',
                   success: function (data) {
                      let rows = '';
-                     data.forEach(function (item) {
+                     let strCod = data[0].cod.substring(0, 6);
+                     let intCod = parseInt(data[0].cod.substring(6));
+                     let stringChangeCod = String(intCod + 1).padStart(3, '0');
+                     let maxCod = strCod.concat(stringChangeCod);
+                     data.forEach(function (item, index) {
                         if (item.cod && item.deleteyn === 'N') {
-                           rows +=
-                              '<tr class="searchData" data-cod="' +
-                              item.cod +
-                              '" data-name="' +
-                              item.name +
-                              '">' +
-                              '<td>' +
-                              item.cod +
-                              '</td>' +
-                              '<td>' +
-                              item.name +
-                              '</td>' +
-                              '<td>' +
-                              '<div class="btn-group">' +
-                              '<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">' +
-                              '<i class="fa-solid fa-gear"></i>' +
-                              '</button>' +
-                              '<ul class="dropdown-menu">' +
-                              '<li><a class="dropdown-item" href="javascript:void(0);" data-cod="' +
-                              item.cod +
-                              '">수정</a></li>' +
-                              '<li><a class="dropdown-item delete-data" href="javascript:void(0);" data-cod="' +
-                              item.cod +
-                              '">삭제</a></li>' +
-                              '</ul>' +
-                              '</div>' +
-                              '</td>' +
-                              '</tr>';
+                           rows += `<tr class="searchData" data-cod="\${item.cod}" data-name="\${item.name}">
+                              <td>\${item.cod}</td>
+                              <td class="hyunwoo-flex-wrap">
+                              <input type="text" id="updateName\${item.cod}" name="name" class="form-control hyunwoo-input-disabled" value="\${item.name}" disabled />
+                              <div class="updateSubmitBtn" data-target="\${item.cod}" style="display : none;">
+                              <button class="btn btn-primary update-data" data-target="\${item.cod}" style="margin-right : 0.5rem;">등록</button>
+                              <button class="btn btn-secondary cancel-update" data-target="\${item.cod}" data-content="\${item.name}" style="display : block;">취소</button>
+                              </div>
+                              </td>
+                              <td>
+                              <div class="btn-group">
+                              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="fa-solid fa-gear"></i>
+                              </button>
+                              <ul class="dropdown-menu">
+                              <li><a class="dropdown-item showUpdateForm" href="javascript:void(0);" data-cod="\${item.cod}">수정</a></li>
+                              <li><a class="dropdown-item delete-data" href="javascript:void(0);" data-cod="\${item.cod}">삭제</a></li>
+                              </ul>
+                              </div>
+                              </td>
+                              </tr>`;
                         }
                      });
                      $('#modalDataTableBody').html(rows);
-                     $('#unitinsertname').val('');
-                     $('#unitinsertcod').val(data[0].cod + 1);
+                     $('#name').val('');
+                     $('#cod').val(maxCod);
                   },
                   error: function (xhr, status, error) {
                      alert('데이터 로드에 실패했습니다: ' + error);
@@ -118,41 +115,41 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             }
 
             $('#insertbtn').click(function () {
-               let unitCod = $('#unitinsertcod').val();
-               let unitName = $('#unitinsertname').val();
+               let cod = $('#cod').val();
+               let name = $('#name').val();
 
-               if (unitCod.length == 0 || unitName.length == 0) {
+               if (cod.length == 0 || name.length == 0) {
                   alert('데이터가 입력되지 않았습니다.');
                   return;
                } else {
                   $.ajax({
-                     url: 'unitinsertfn',
-                     data: { cod: unitCod, name: unitName },
+                     url: 'productgroupinsertfn',
+                     data: { cod: cod, name: name },
                      type: 'post',
                      success: function (response) {
                         if (response === 'complete') {
-                           alert('단위가 성공적으로 등록이 되었습니다.');
+                           alert('제품 그룹이 성공적으로 등록이 되었습니다.');
                            loadData();
                         }
                      },
                      error: function () {
-                        alert('단위가 등록되지 않았습니다.');
+                        alert('제품 그룹이 등록되지 않았습니다.');
                      },
                   });
                }
             });
 
             $(document).on('click', '.delete-data', function () {
-               var cod = $(this).data('cod');
-
+               let cod = $(this).data('cod');
+               console.log(cod);
                if (confirm('이 항목을 삭제하시겠습니까?')) {
                   $.ajax({
-                     url: 'unitdeletefn',
+                     url: 'productgrodeletefn',
                      type: 'POST',
                      data: { cod: cod },
                      success: function (response) {
                         if (response === 'complete') {
-                           alert('단위가 성공적으로 삭제되었습니다.');
+                           alert('제품 그룹이 성공적으로 삭제되었습니다.');
                            loadData();
                         } else {
                            alert('삭제가 되지 않았습니다. 다시 시도해주세요.');
@@ -166,15 +163,16 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             });
 
             $(document).on('click', '.update-data', function () {
-               let cod = $(this).data('cod');
-               let updatedName = $('#unitupdatename').val();
+               let cod = $(this).data('target');
+               let updatedName = $(`#updateName\${cod}`).val();
+               console.log(cod);
+               console.log(updatedName);
                if (updatedName.length === 0) {
-                  alert('단위명을 입력해주세요.');
+                  alert('제품 그룹명이 입력되지 않았습니다.');
                   return;
                }
-
                $.ajax({
-                  url: 'unitupdatefn',
+                  url: 'productgroupupdatefn',
                   type: 'POST',
                   data: {
                      cod: cod,
@@ -182,8 +180,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                   },
                   success: function (response) {
                      if (response === 'complete') {
-                        alert('단위가 성공적으로 수정되었습니다.');
-                        $('#updateRow').remove();
+                        alert('제품 그룹이 성공적으로 수정되었습니다.');
                         loadData();
                      } else {
                         alert('수정을 완료하지 못했습니다. 다시 시도해주세요.');
@@ -195,39 +192,26 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                });
             });
 
-            function showUpdateForm(element, cod) {
-               var row = $(element).closest('tr');
-               var nextRow = row.next();
-
-               if (nextRow.attr('id') === 'updateRow') {
-                  nextRow.toggle();
-               } else {
-                  var updateFormHtml =
-                     '<tr id="updateRow"><td colspan="3">' +
-                     '<input type="text" name="name" id="unitupdatename" value="' +
-                     row.find('td:nth-child(2)').text() +
-                     '" class="form-control" placeholder="단위 명을 입력하세요." required />' +
-                     '<button type="button" class="btn btn-primary update-data" data-cod="' +
-                     cod +
-                     '">저장</button>' +
-                     '<button type="button" onclick="$(this).parent().parent().remove();" class="btn btn-secondary">취소</button>' +
-                     '</td></tr>';
-
-                  row.after(updateFormHtml);
-               }
-            }
-
-            $(document).on('click', '#modalDataTableBody .dropdown-item', function () {
+            $(document).on('click', '.showUpdateForm', function () {
                let cod = $(this).data('cod');
-               showUpdateForm(this, cod);
+               $(`#updateName\${cod}`).removeClass('hyunwoo-input-disabled').attr('disabled', false);
+               $(`[data-target='\${cod}'].updateSubmitBtn`).css('display', 'flex');
+            });
+
+            $(document).on('click', '.cancel-update', function () {
+               let name = $(this).data('content');
+               let cod = $(this).data('target');
+               $(`#updateName\${cod}`).addClass('hyunwoo-input-disabled').attr('disabled', true);
+               $(`[data-target='\${cod}'].updateSubmitBtn`).css('display', 'none');
+               $(`#updateName\${cod}`).val(name);
             });
 
             /* 검색기능 START */
             $('#modalSearch').on('keyup', function () {
-               var searchInputValue = $(this).val().toLowerCase();
+               let searchInputValue = $(this).val().toLowerCase();
                $('.searchData').each(function () {
-                  var cod = $(this).data('cod').toString().toLowerCase();
-                  var name = $(this).data('name').toString().toLowerCase();
+                  let cod = $(this).data('cod').toString().toLowerCase();
+                  let name = $(this).data('name').toString().toLowerCase();
                   if (cod.includes(searchInputValue) || name.includes(searchInputValue)) {
                      $(this).show();
                   } else {
