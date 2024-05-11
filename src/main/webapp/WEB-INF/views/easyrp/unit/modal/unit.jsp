@@ -80,8 +80,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                            rows += `<tr class="searchData" data-cod="\${item.cod}" data-name="\${item.name}">
                                    <td>\${item.cod}</td>
                                    <td class="hyunwoo-flex-wrap">
-                                   <input type="text" id="updateName\${item.cod}" name="name" class="form-control hyunwoo-input-disabled" value="\${item.name}" disabled />
-                                   <div class="updateSubmitBtn" data-target="\${item.cod}" style="display : none;">
+                                   <input type="text" id="unitupdatename\${item.cod}" name="name" class="form-control hyunwoo-input-disabled" value="\${item.name}" disabled />
+                                   <div class="updateSubmitBtn" data-target="\${item.cod}" style="display : none; margin-top : 0.5rem;">
                                    <button class="btn btn-primary update-data" data-target="\${item.cod}" style="margin-right : 0.5rem;">등록</button>
                                    <button class="btn btn-secondary cancel-update" data-target="\${item.cod}" data-content="\${item.name}" style="display : block;">취소</button>
                                    </div>
@@ -189,16 +189,16 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
             $(document).on('click', '.showUpdateForm', function () {
                 let cod = $(this).data('cod');
-                $(`#updateName\${cod}`).removeClass('hyunwoo-input-disabled').attr('disabled', false);
+                $(`#unitupdatename\${cod}`).removeClass('hyunwoo-input-disabled').attr('disabled', false);
                 $(`[data-target='\${cod}'].updateSubmitBtn`).css('display', 'flex');
              });
 
              $(document).on('click', '.cancel-update', function () {
             	let name = $(this).data('content');
                 let cod = $(this).data('target');
-                $(`#updateName\${cod}`).addClass('hyunwoo-input-disabled').attr('disabled', true);
+                $(`#unitupdatename\${cod}`).addClass('hyunwoo-input-disabled').attr('disabled', true);
                 $(`[data-target='\${cod}'].updateSubmitBtn`).css('display', 'none');
-                $(`#updateName\${cod}`).val(name);
+                $(`#unitupdatename\${cod}`).val(name);
              });
 
             /* 검색기능 START */

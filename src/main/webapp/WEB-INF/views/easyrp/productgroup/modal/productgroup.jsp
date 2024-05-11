@@ -85,7 +85,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                               <td>\${item.cod}</td>
                               <td class="hyunwoo-flex-wrap">
                               <input type="text" id="updateName\${item.cod}" name="name" class="form-control hyunwoo-input-disabled" value="\${item.name}" disabled />
-                              <div class="updateSubmitBtn" data-target="\${item.cod}" style="display : none;">
+                              <div class="updateSubmitBtn" data-target="\${item.cod}" style="display : none; margin-top : 0.5rem;">
                               <button class="btn btn-primary update-data" data-target="\${item.cod}" style="margin-right : 0.5rem;">등록</button>
                               <button class="btn btn-secondary cancel-update" data-target="\${item.cod}" data-content="\${item.name}" style="display : block;">취소</button>
                               </div>
