@@ -48,42 +48,31 @@
 											<div class="col-12 col-md-6 order-md-1 order-last">
 												<h3>검색</h3>
 											</div>
-											<form id="searchForm" action="inventorymovement" method="get">
+											<form id="searchForm" action="inventorycount" method="get">
 												<div class="mb-4" style="text-align: center">
 													<table class="table table-bordered" id="searchTable">
 														<tr>
 															<td width="100">이동 번호</td>
-															<td><input type="text" id="Cod"
-																name="Cod" class="form-control"
-																value="${Cod}" placeholder="이동 번호를 입력해주세요." /></td>
-															<td width="100">출고 창고</td>
-															<td><input type="text" id="oboundWarehouse"
-																name="oboundWarehouse" class="form-control"
-																value="${oboundWarehouse}" placeholder="출고 창고를 입력해주세요." /></td>
-															<td width="100">출고 장소</td>
-															<td><input type="text" id="oboundLocation"
-																name="oboundLocation" class="form-control"
-																value="${oboundLocation}" placeholder="출고 장소를 입력해주세요." /></td>
-															<td width="100">입고 창고</td>
-															<td><input type="text" id="iboundWarehouse"
-																name="iboundWarehouse" class="form-control"
-																value="${iboundWarehouse}" placeholder="입고 창고를 입력해주세요." /></td>
-															<td width="100">입고 장소</td>
-															<td><input type="text" id="iboundLocation"
-																name="iboundLocation" class="form-control"
-																value="${iboundLocation}" placeholder="출고 장소를 입력해주세요." /></td>
-															<td width="100">담당자</td>
-															<td><input type="text" id="employeeCod"
-																name="employeeCod" class="form-control"
-																value="${employeeCod}" placeholder="담당자 코드를 입력해주세요." /></td>
+															<td><input type="text" id="searchCod"
+																name="searchCod" class="form-control"
+																value="${searchCod}" placeholder="실사 번호를 입력해주세요." /></td>
+															<td width="100">창고</td>
+															<td><input type="text" id="searchWarehouse"
+																name="searchWarehouse" class="form-control"
+																value="${searchWarehouse}" placeholder="창고를 입력해주세요." /></td>
+															<td width="100">장소</td>
+															<td><input type="text" id="searchProduct"
+																name="searchProduct" class="form-control"
+																value="${searchProduct}" placeholder="품명를 입력해주세요." /></td>
+															<td width="100">품명</td>
+															<td><input type="text" id="searchEmployee"
+																name="searchEmployee" class="form-control"
+																value="${searchEmployee}" placeholder="담당자명을 입력해주세요." /></td>
 															<td width="100">발주 번호</td>
-															<td><input type="text" id="purchaseDetailCod"
-																name="purchaseDetailCod" class="form-control"
-																value="${iboundLocation}" placeholder="발주 번호를 입력해주세요." /></td>
-															<td width="100">제품코드</td>
-															<td><input type="text" id="productCod"
-																name="productCod" class="form-control"
-																value="${productCod}" placeholder="제품코드를 입력해주세요." /></td>
+															<td><input type="text" id="searchInventory"
+																name="searchInventory" class="form-control"
+																value="${searchInventory}" placeholder="자재명을 입력해주세요." /></td>
+															<td width="100">자재명</td>
 														</tr>
 														<tr>
 															<td width="100">검색 날짜</td>
@@ -123,19 +112,16 @@
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach var="inventoryMovementList" items="${inventoryMovementList }">
+											<c:forEach var="inventoryCountList" items="${inventoryCountList}">
 												<tr>
-													<td class="text-bold-500">${inventoryMovementList.cod }</td>
-													<td>${inventoryMovementList.moveDate}</td>
-													<td class="text-bold-500">${inventoryMovementList.oboundWarehouse}</td>
-													<td>${inventoryMovementList.oboundLocation}</td>
-													<td>${inventoryMovementList.iboundWarehouse}</td>
-													<td>${inventoryMovementList.iboundLocation}</td>
-													<td>${inventoryMovementList.employeeCod}</td>
-													<td>${inventoryMovementList.productCod}</td>
-													<td>${inventoryMovementList.productName}</td>
-													<td>${inventoryMovementList.unit}</td>
-													<td>${inventoryMovementList.qty}</td>
+													<td class="text-bold-500">${inventoryCountList.cod }</td>
+													<td>${inventoryCountList.countDate}</td>
+													<td class="text-bold-500">${inventoryCountList.invDate}</td>
+													<td>${inventoryCountList.warehouse}</td>
+													<td>${inventoryCountList.location}</td>
+													<td>${inventoryCountList.countclass}</td>
+													<td>${inventoryCountList.employee}</td>
+													<td>${inventoryCountList.note}</td>
 													<td>
 														<div class="btn-group">
 															<button type="button"
@@ -145,9 +131,9 @@
 															</button>
 															<ul class="dropdown-menu">
 																<li><a class="dropdown-item"
-																	href="updateInventoryMovement?cod=${inventoryMovementList.cod}">수정</a></li>
+																	href="updateinventoryCount?cod=${inventoryCountList.cod}">수정</a></li>
 																<li><a class="dropdown-item"
-																	href="deleteInventoryMovement?cod=${inventoryMovementList.cod}">삭제</a></li>
+																	href="deleteinventoryCount?cod=${inventoryCountList.cod}">삭제</a></li>
 															</ul>
 														</div>
 													</td>
@@ -166,7 +152,7 @@
 							<li
 								class="page-item <c:if test='${startPage == 1}'>disabled</c:if>">
 								<a class="page-link"
-								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&size=${pageSize}&searchNumber=${param.searchNumber}&searchTitle=${param.searchTitle}&searchContent=${param.searchContent}&searchAuthor=${param.searchAuthor}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">이전
+								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&searchCod=${searchVO.searchCod}&searchWarehouse=${searchVO.searchWarehouse}&searchProduct=${searchVO.searchProduct}&searchLocation=${searchVO.searchLocation}&searchInventory=${searchVO.searchInventory}&searchCountClass=${searchVO.searchCountClass}&searchEmployee=${searchVO.searchEmployee}&searchAccount=${searchVO.searchAccount}&preSearchDate=${searchVO.preSearchDate}&postSearchDate=${searchVO.postSearchDate}</c:if>">이전
 									10 페이지</a>
 							</li>
 
@@ -174,14 +160,14 @@
 								<li
 									class="page-item <c:if test='${i == currentPage}'>active</c:if>">
 									<a class="page-link"
-									href="?page=${i}&size=${pageSize}&searchNumber=${param.searchNumber}&searchTitle=${param.searchTitle}&searchContent=${param.searchContent}&searchAuthor=${param.searchAuthor}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}">${i}</a>
+									href="?page=${i}&searchCod=${searchVO.searchCod}&searchWarehouse=${searchVO.searchWarehouse}&searchProduct=${searchVO.searchProduct}&searchLocation=${searchVO.searchLocation}&searchInventory=${searchVO.searchInventory}&searchCountClass=${searchVO.searchCountClass}&searchEmployee=${searchVO.searchEmployee}&searchAccount=${searchVO.searchAccount}&preSearchDate=${searchVO.preSearchDate}&postSearchDate=${searchVO.postSearchDate}">${i}</a>
 								</li>
 							</c:forEach>
 
 							<li
 								class="page-item <c:if test='${endPage == totalPages}'>disabled</c:if>">
 								<a class="page-link"
-								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&size=${pageSize}&searchNumber=${param.searchNumber}&searchTitle=${param.searchTitle}&searchContent=${param.searchContent}&searchAuthor=${param.searchAuthor}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">다음
+								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&searchCod=${searchVO.searchCod}&searchWarehouse=${searchVO.searchWarehouse}&searchProduct=${searchVO.searchProduct}&searchLocation=${searchVO.searchLocation}&searchInventory=${searchVO.searchInventory}&searchCountClass=${searchVO.searchCountClass}&searchEmployee=${searchVO.searchEmployee}&searchAccount=${searchVO.searchAccount}&preSearchDate=${searchVO.preSearchDate}&postSearchDate=${searchVO.postSearchDate}</c:if>">다음
 									10 페이지</a>
 							</li>
 						</ul>
@@ -192,7 +178,7 @@
 						style="padding-bottom: 0.5rem; padding-top: 0.5rem;">
 						<div class="col-md-6">
 							<button type="button" class="btn btn-primary">
-								<a href="inventorymovementinsert" style="color: white">등록</a>
+								<a href="inventoryCountinsert" style="color: white">등록</a>
 							</button>
 						</div>
 					</div>
@@ -204,12 +190,13 @@
 	    <script type="text/javascript">
         function resetSearchForm() {
             $('#cod').val('');
-            $('#oboundWarehouse').val('');
-            $('#oboundLocation').val('');
-            $('#iboundWarehouse').val('');
-            $('#iboundLocation').val('');
-            $('#employeeCod').val('');
-            $('#productCod').val('');
+            $('#searchWarehouse').val('');
+            $('#searchProduct').val('');
+            $('#searchLocation').val('');
+            $('#searchInventory').val('');
+            $('#searchCountClass').val('');
+            $('#searchEmployee').val('');
+            $('#searchAccount').val('');
             $('#preSearchDate').val('');
             $('#postSearchDate').val('');
             

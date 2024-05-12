@@ -1,15 +1,18 @@
 package co.second.easyrp.inventorycount.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
 
 import co.second.easyrp.inventorycount.mapper.InventoryCountMapper;
 import co.second.easyrp.inventorycount.service.InventoryCountService;
 import co.second.easyrp.inventorycount.service.InventoryCountVO;
 import co.second.easyrp.inventorycount.service.SearchVO;
 
+@Service
+@Primary
 public class InventoryCountSerivceImpl implements InventoryCountService {
 
 	@Autowired

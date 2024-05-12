@@ -3,8 +3,8 @@
 <mapper
 	namespace="co.second.easyrp.inventorycount.mapper.InventoryCountMapper">
 	<select id="inventoryCountList">
-		SELECT 
-			ic.cod,
+SELECT 
+			i.cod,
 			e.name AS employee,
 			w.name AS warehouse,
 			l.name AS location,
@@ -13,71 +13,78 @@
 			ic.countclass,
 			ic.account,
 			ic.note
-		FROM inventorycountdetail icd
+		FROM inventorycount ic
+		LEFT JOIN inventorycountdetail icd
+		ON ic.cod = icd.inventorycount_cod
 		LEFT JOIN inventory i
-		ON icd.inv_cod = i.cod
+		ON icd.inventory_cod = i.cod
 		LEFT JOIN product p
-		ON icd.product_cod=p.cod
-		LEFT JOIN inventorycount ic
-		ON icd.count_cod=ic.cod
+		ON icd.product_cod = p.cod
 		LEFT JOIN employee e
 		ON ic.employee_cod = e.cod
 		LEFT JOIN warehouse w
 		ON ic.warehouse_cod = w.cod
 		LEFT JOIN location l
 		ON ic.location_cod = l.cod
-		WHERE deleteyn = 'N'
+		WHERE ic.deleteyn = 'N'
 		<if test="searchCod != null and searchCod != ''">
-			AND cod = #{cod}
+			AND ic.cod = #{searchCod}
 		</if>
-		<if test="employee != null and employee != ''">
-			AND employee LIKE CONCAT('%', #{employee}, '%')
+		<if test="searchEmployee != null and searchEmployee != ''">
+			AND employee LIKE CONCAT('%', #{searchEmployee}, '%')
 		</if>
-		<if test="warehouse != null and warehouse != ''">
-			AND warehouse LIKE CONCAT('%', #{warehouse}, '%')
+		<if test="searchWarehouse != null and searchWarehouse != ''">
+			AND warehouse LIKE CONCAT('%', #{searchWarehouse}, '%')
 		</if>
-		<if test="location != null and location != ''">
-			AND location LIKE CONCAT('%', #{location}, '%')
+		<if test="searchLocation != null and searchLocation != ''">
+			AND location LIKE CONCAT('%', #{searchLocation}, '%')
 		</if>
-		<if test="invCod != null and invCod != ''">
-			AND inv_cod = #{invCod}
+		<if test="searchInventory != null and searchInventory != ''">
+			AND i.name = #{searchInventory}
+		</if>
+				<if test="searchProduct!= null and searchProduct != ''">
+			AND p.name = #{searchProduct}
 		</if>
 		<if test="preSearchDate != null and postSearchDate != null">
 			AND ic.count_date BETWEEN #{preSearchDate} AND #{postSearchDate}
 		</if>
-		ORDER BY ic.cod, icd.cod DESC
+		ORDER BY ic.cod DESC
 		LIMIT #{pageSize} OFFSET #{offset}
 	</select>
 	<select id="countInventoryCountLists">
-		SELECT count(*)
-		FROM inventorycountdetail icd
+SELECT 
+			count(*)
+		FROM inventorycount ic
+		LEFT JOIN inventorycountdetail icd
+		ON ic.cod = icd.inventorycount_cod
 		LEFT JOIN inventory i
-		ON icd.inv_cod = i.cod
+		ON icd.inventory_cod = i.cod
 		LEFT JOIN product p
-		ON icd.product_cod=p.cod
-		LEFT JOIN inventorycount ic
-		ON icd.count_cod=ic.cod
+		ON icd.product_cod = p.cod
 		LEFT JOIN employee e
 		ON ic.employee_cod = e.cod
 		LEFT JOIN warehouse w
 		ON ic.warehouse_cod = w.cod
 		LEFT JOIN location l
 		ON ic.location_cod = l.cod
-		WHERE deleteyn = 'N'
+		WHERE ic.deleteyn = 'N'
 		<if test="searchCod != null and searchCod != ''">
-			AND cod = #{cod}
+			AND ic.cod = #{searchCod}
 		</if>
-		<if test="employee != null and employee != ''">
-			AND employee LIKE CONCAT('%', #{employee}, '%')
+		<if test="searchEmployee != null and searchEmployee != ''">
+			AND employee LIKE CONCAT('%', #{searchEmployee}, '%')
 		</if>
-		<if test="warehouse != null and warehouse != ''">
-			AND warehouse LIKE CONCAT('%', #{warehouse}, '%')
+		<if test="searchWarehouse != null and searchWarehouse != ''">
+			AND warehouse LIKE CONCAT('%', #{searchWarehouse}, '%')
 		</if>
-		<if test="location != null and location != ''">
-			AND location LIKE CONCAT('%', #{location}, '%')
+		<if test="searchLocation != null and searchLocation != ''">
+			AND location LIKE CONCAT('%', #{searchLocation}, '%')
 		</if>
-		<if test="invCod != null and invCod != ''">
-			AND inv_cod = #{invCod}
+		<if test="searchInventory != null and searchInventory != ''">
+			AND i.name = #{searchInventory}
+		</if>
+				<if test="searchProduct!= null and searchProduct != ''">
+			AND p.name = #{searchProduct}
 		</if>
 		<if test="preSearchDate != null and postSearchDate != null">
 			AND ic.count_date BETWEEN #{preSearchDate} AND #{postSearchDate}

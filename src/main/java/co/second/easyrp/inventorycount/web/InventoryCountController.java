@@ -25,27 +25,27 @@ public class InventoryCountController {
 								 @RequestParam(defaultValue="1") int page,
 								 @RequestParam(defaultValue="10") int pageSize,
 								 @RequestParam(required = false) String searchCod,
-								 @RequestParam(required = false) String searchLocationName,
-								 @RequestParam(required = false) String searchWarehouseName,
-								 @RequestParam(required = false) String searchProductName,
-								 @RequestParam(required = false) String searchInventoryName,
+								 @RequestParam(required = false) String searchLocation,
+								 @RequestParam(required = false) String searchWarehouse,
+								 @RequestParam(required = false) String searchProduct,
+								 @RequestParam(required = false) String searchInventory,
 								 @RequestParam(required = false) String searchCountClass,
-								 @RequestParam(required = false) String searchEmployeeName,
+								 @RequestParam(required = false) String searchEmployee,
 								 @RequestParam(required = false) String searchAccount,
 								 @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date preSearchDate,
 						         @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date postSearchDate) {
 		
 		searchVO.setSearchCod(searchCod);
-		searchVO.setSearchLocationName(searchLocationName);
-		searchVO.setSearchWarehouseName(searchWarehouseName);
-		searchVO.setSearchProductName(searchProductName);
-		searchVO.setSearchInventoryName(searchInventoryName);
+		searchVO.setSearchWarehouse(searchWarehouse);
+		searchVO.setSearchProduct(searchProduct);
+		searchVO.setSearchLocation(searchLocation);
+		searchVO.setSearchInventory(searchInventory);
 		searchVO.setSearchCountClass(searchCountClass);
-		searchVO.setSearchEmployeeName(searchEmployeeName);
+		searchVO.setSearchEmployee(searchEmployee);
 		searchVO.setSearchAccount(searchAccount);
 		searchVO.setOffset((page-1)*pageSize);
 		
-		List<InventoryCountVO> inventoryCountVO=inventorycountservice.inventoryCountList(searchVO);
+		List<InventoryCountVO> inventoryCountList=inventorycountservice.inventoryCountList(searchVO);
 		
 		int totalRecords = inventorycountservice.countInventoryCountLists(searchVO);
 		
@@ -57,7 +57,7 @@ public class InventoryCountController {
 		int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
 		
 		model.addAttribute("searchVO", searchVO);
-		model.addAttribute("inventorycount", inventorycount);
+		model.addAttribute("inventoryCountList", inventoryCountList);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("startPage", startPage);
