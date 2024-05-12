@@ -36,16 +36,6 @@
                         <div class="card-header py-3">
                            <div class="d-flex" style="justify-content: space-between">
                               <h5 class="m-0">견적 기본 정보</h5>
-                              <button
-                                 type="button"
-                                 class="btn btn-primary"
-                                 id="loadDatas"
-                                 data-bs-toggle="modal"
-                                 data-bs-target="#dataModal"
-                                 style="float: left; width: 10%"
-                              >
-                                 데이터 가져오기
-                              </button>
                            </div>
                         </div>
                         <div class="card-body mb-3">
@@ -72,7 +62,7 @@
                                           <button
                                              type="button"
                                              class="btn btn-primary"
-                                             id="loadValues"
+                                             id="clientNameList"
                                              data-bs-toggle="modal"
                                              data-bs-target="#kvModal"
                                              style="margin-left: 2rem; width: 10%"
@@ -147,22 +137,17 @@
 							<td colspan="1" id="totalvax"></td>
 							<td colspan="1" id="totalsum"></td>
 						</tr>
-						<tr>
-							<td colspan="6" style="border-bottom-width: 0px">
-                                <button type="button" class="btn btn-primary" id="addColumnButton" onClick="addcolumn()">제품 추가</button>
-							</td>
-						</tr>
 					</table>
 				</div>
 			</div>
 			               <!-- 공통등록 Button START -->
                               <div style="text-align: center">
                                  <button type="submit" class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
-                                    공통등록
+                                    	공통등록
                                  </button>
-								<a href="salesplanmanagement">
+								<a href="estimatemanagement">
                                   <button type="button" class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
-                                       등록취소
+                                       	등록취소
                                   </button>
                                  </a>
                               </div>
@@ -257,10 +242,16 @@
    </body>
    
 <script type="text/javascript">
+
+	$(document).ready(function() {
+	    addcolumn();
+	});
    
 	function addcolumn() {			
 		
 		var newRow = $('<tr class="generatedRow">');
+		
+		var Counter = $('.generatedRow').length;
 		
 		newRow.append($('<td>').attr({
 			'id': 'productCod',
@@ -270,13 +261,14 @@
 		    'type': 'text',
 		    'readonly': 'readonly',
 		    'class': 'form-control',
-		    'name': 'productName', 
-			    'id': 'productName', 
+		    'name': 'productName_' + Counter, 
+			'id': 'productName_' + Counter,
+			'data-target': '#productName_' + Counter,
 		    'placeholder': '상품 선택',
 			}).css('width', '140px').on('click', function() {
  		    $('#kvModal').modal('show'); // 자식 모달 열기
- 		    console.log('자식 모달 오픈');
- 		    searchModalOpen();
+//  		    console.log('자식 모달 오픈');
+ 		    searchModalOpen($(this).closest('tr').index());
 		})
 		));
 		
@@ -292,28 +284,35 @@
 		newRow.append($('<td>').text("--"));
 		newRow.append($('<td>').text("--"));
 		
-        var checkButton = $('<button>').text('확인').attr({ 'type': 'button' }).addClass('btn btn-primary').css('margin-right', '2px');	        	       	   
-        var cancelButton = $('<button>').text('취소').addClass('btn btn-primary');
+        var checkButton = $('<button>').text('추가').attr({ 'type': 'button' }).addClass('btn btn-primary').css('margin-right', '2px');	        	       	   
+        var cancelButton = $('<button>').text('제거').addClass('btn btn-primary');
         var buttonGroup = $('<div>').append(checkButton).append(cancelButton);
         
 	    newRow.append($('<td>').attr({
-	    	'id': 'buttonrow'
+	    	'id': 'buttonrow',
+	    	'class': 'buttonrow'
 	    }).append(buttonGroup));
 	     		    		    
 	    checkButton.on("click", function() {
-	    	console.log("확인 버튼 누름");
-	    	var estimateCodValue = $('#estimateCod').text();
-	    	var productName = $('#productName').val();
-	    	var productQty = $('#productQty').val();
-	    	
-	    	insertAjax(productName, productQty ,estimateCodValue);				
+			addcolumn();
     	});
 	    
 	    
 	    cancelButton.on('click', function() {
-	    	
-		    	$(this).closest('tr').remove(); // 새로 추가된 행 삭제
-	    	$('#addColumnButton').prop('disabled', false);
+	        // 생성된 <tr> 태그의 개수가 1개보다 많을 경우에만 삭제 가능하도록 조건 추가
+	    if ($('.generatedRow').length > 1) {
+	        $(this).closest('tr').remove(); // 새로 추가된 행 삭제
+	        
+	        $('.generatedRow').each(function(index) {
+                var counter = index;
+                $(this).find('input[type=text]').attr('name', 'productName_' + counter); // productName name 속성 재설정
+                $(this).find('input[type=text]').attr('id', 'productName_' + counter); // productName id 속성 재설정
+                $(this).find('input[type=text]').attr('data-target', '#productName_' + counter);
+            });
+	        
+	        } else {
+	            // 마지막 <tr>은 삭제가 안되도록
+	        }
 	    });
 	    
 		
@@ -324,20 +323,23 @@
 	} 
 	
 	// 제품 목록 모달
-    function searchModalOpen() {
+    function searchModalOpen(Counter) {
         $.ajax({
            url: 'productnamelist',
            method: 'GET',
            success: function (data) {
+        	  console.log(Counter);
               let rows = '';
               data.forEach(function (item, index) {
-//				console.log(item);
+            	  
+            	var productDataTarget = '#productName_' + Counter;  
+            	console.log(productDataTarget);
                     rows += `
-                       <tr onclick="setValue(item.cod ,item.prodName)" class="searchValue" data-cod="item.cod" data-value="item.prodName" style='cursor: pointer'> 
-                       <td>(index + 1)</td> 
-                       <td>item.cod</td> 
-                       <td>item.prodName</td>
-                       </tr>`;
+                       <tr onclick="setProductName('\${productDataTarget}', '\${item.cod}' ,'\${item.prodName}')" class="searchValue" data-cod="'\${item.cod}'" data-value="'\${item.prodName}'" style='cursor: pointer'> 
+                       <td>\${index + 1}</td> 
+                       <td>\${item.cod}</td> 
+                       <td>\${item.prodName}</td>
+                       </tr> `;
 						
               });
               $('#modalTableBody').html(rows);
@@ -349,6 +351,7 @@
         });
      }
 	
+	
     $('#searchInput').on('keyup', function () {
         var searchInputValue = $(this).val().toLowerCase();
         $('.searchValue').each(function () {
@@ -358,15 +361,29 @@
         });
      });
 
-         /* valueModal START */
-         function setValue(cod, value) {
-            $('#clientName').val(value);
-            $('#kvModal').modal('hide');
-            $('.modal-backdrop').remove();
+         function setProductName(productDataTarget ,cod, value) {
+        	console.log(productDataTarget);
+//         	var productId = '#productName_' + Counter;
+        	 
+        	var currentProductName = $(productDataTarget).val(); // 현재 설정 중인 productName 가져오기
+    
+			    // 다른 input 요소의 productName과 비교하여 중복 여부 확인
+			var isDuplicate = $('.generatedRow').find('input.form-control').filter(function() {
+			    return $(this).attr('id') !== $(productDataTarget).attr('id') && $(this).val() === value;
+			}).length > 0;
+			    
+			if (!isDuplicate) {
+			    $(productDataTarget).val(value);
+            	$('#kvModal').modal('hide');
+           		$('.modal-backdrop').remove();
+			} else {
+			    alert("다른 제품과 중복됩니다. 다른 제품을 선택해주세요.");
+			}
+			    
          }
 
          $(document).ready(function () {
-            $('#loadValues').on('click', function () {
+            $('#clientNameList').on('click', function () {
                $.ajax({
                   url: 'api/get-client',
                   method: 'GET',
@@ -375,7 +392,7 @@
                      let rows = '';
                      data.forEach(function (item, index) {
                     	 
-                    	 console.log(item);
+//                     	 console.log(item);
                     	 
                         if (item.clientCod && item.clientName) {
                            rows +=
@@ -410,71 +427,22 @@
             });
 
             $('#searchInput').on('keyup', function () {
-               var searchInputVlaue = $(this).val().toLowerCase()
+               var searchInputValue = $(this).val().toLowerCase()
                $('.searchValue').each(function () {
                   var clientCod = $(this).data('cod').toLowerCase()
                   var clientName = $(this).data('value').toLowerCase()
-                  $(this).toggle(clientCod.includes(searchInputVlaue) || clientName.includes(searchInputVlaue));
+                  $(this).toggle(clientCod.includes(searchInputValue) || clientName.includes(searchInputValue));
                });
             });
          });
-         /* valueModal END */
-
-         /* DataModal START */
-         function setData(title, content, author) {
-            $('#title').val(title);
-            $('#content').val(content);
-            $('#dataModal').modal('hide');
+         
+         function setValue(cod, value) {
+            $('#clientName').val(value);
+            $('#kvModal').modal('hide');
             $('.modal-backdrop').remove();
          }
+         
 
-         $(document).ready(function () {
-            $('#loadDatas').on('click', function () {
-               $.ajax({
-                  url: 'api/get-data',
-                  method: 'GET',
-                  success: function (data) {
-                     let rows = '';
-                     data.forEach(function (item) {
-                        if (item.title && item.content) {
-                           rows +=
-                              '<tr onclick="setData(\'' +
-                              item.title +
-                              "', '" +
-                              item.content +
-                              '\')" ' +
-                              'class="searchData" data-title="' +
-                              item.title +
-                              '" data-author="' +
-                              item.author +
-                              '" style= "' +
-                              'cursor: pointer' +
-                              '">' +
-                              '<td>' +
-                              item.title +
-                              '</td>' +
-                              '<td>' +
-                              item.author +
-                              '</td>' +
-                              '</tr>';
-                        }
-                     });
-                     $('#modalDataTableBody').html(rows);
-                     $('#dataModal').modal('show');
-                  },
-               });
-            });
-            
-            $('#searchDataInput').on('keyup', function () {
-               let searchInputData = $(this).val();
-               $('.searchData').each(function () {
-                  let title = $(this).data('title');
-                  let author = $(this).data('author');
-                  $(this).toggle(title.includes(searchInputData) || author.includes(searchInputData));
-               });
-            });
-         });
-         /* DataModal END */
         
       </script>
    

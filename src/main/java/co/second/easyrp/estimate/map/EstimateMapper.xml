@@ -51,12 +51,16 @@
 		INSERT INTO estimate (cod, client_cod, employee_cod, price)
 		SELECT 
 		    CONCAT('est', LPAD(COALESCE(MAX(SUBSTRING(cod, 4)), 0) + 1, 3, '0')),
-		    #{clientCod},
-		    #{employeeCod},
+		    (SELECT cod FROM client WHERE name = #{clientName}),
+		    (SELECT cod FROM employee WHERE name = #{empName}),
 		    #{price}
 		FROM estimate;
 		
 	</insert>
+	
+	<select id="EstimateRecentCodSelect">
+		SELECT cod FROM estimate ORDER BY cod DESC LIMIT 1;
+	</select>
 	
 	<select id="EstimateDetailSelectList" parameterType="String">
 		SELECT e.estimate_cod as cod , e.num, e2.est_date , p.cod as productcod , p.prodname, e.qty, e.total, c.name as clientname,  e2.employee_cod as employeecod , e3.name as empname, d.name as deptname, p.unitprice

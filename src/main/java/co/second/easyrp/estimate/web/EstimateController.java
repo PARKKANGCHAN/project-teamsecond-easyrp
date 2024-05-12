@@ -111,7 +111,7 @@ public class EstimateController {
     	
     	List<EstimateVO> productNameList = new ArrayList<EstimateVO>();
     	productNameList = estimateService.ProductNameSelectList();
-//    	System.out.println(productNameList);
+    	System.out.println(productNameList);
     
 
     	return productNameList;
@@ -134,20 +134,28 @@ public class EstimateController {
     	
     	List<EstimateVO> ClientNames = new ArrayList<EstimateVO>();
     	ClientNames = estimateService.ClientNameSelectList();
-    	System.out.println(ClientNames);
+//    	System.out.println(ClientNames);
     	
         return ClientNames;
     }
 	
    
-//    @RequestMapping(value = "/estimateinsertFn", method = RequestMethod.POST)
-//    public String salesplanInsert(@RequestParam("ClientName") String ClientName) {
-//    	
-//
-//    	
-//    	
-//    	return "redirect:/salesplanmanagement";
-//    }
+    @RequestMapping(value = "/estimateinsertFn", method = RequestMethod.POST)
+    public String estimateInsertFn(@RequestParam("clientName") String clientName,
+    							   @RequestParam("employeeName") String empName,
+    							   @RequestParam("price") int price,
+    							   @RequestParam("prodname") String prodname,
+    							   @RequestParam("qty") int qty) {
+    	
+    	int result = estimateService.EstimateInsert(clientName, empName, price);
+    	
+    	String cod = estimateService.EstimateRecentCodSelect();
+    	
+    	int result2 = estimateService.EstimateDetailInsert(cod, prodname, qty);
+    	
+    	
+    	return "redirect:/salesplanmanagement";
+    }
 	
 	
 //	@PostMapping("/salesplanupdateFn")

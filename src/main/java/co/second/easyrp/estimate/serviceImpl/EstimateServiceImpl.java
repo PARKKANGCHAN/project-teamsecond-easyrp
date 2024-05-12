@@ -33,9 +33,9 @@ public class EstimateServiceImpl implements EstimateService {
 	}
 
 	@Override
-	public int EstimateInsert(EstimateVO vo) {
+	public int EstimateInsert(String clientName, String empName, int price) {
 		// TODO Auto-generated method stub
-		return estimateMapper.EstimateInsert(vo);
+		return estimateMapper.EstimateInsert(clientName, empName, price);
 	}
 
 	@Override
@@ -86,6 +86,13 @@ public class EstimateServiceImpl implements EstimateService {
 		// TODO Auto-generated method stub
 		return estimateMapper.EstimateDetailInsert(cod, prodname, qty);
 	}
+
+	@Override
+	public String EstimateRecentCodSelect() {
+		// TODO Auto-generated method stub
+		return estimateMapper.EstimateRecentCodSelect();
+	}
+
 
 
 

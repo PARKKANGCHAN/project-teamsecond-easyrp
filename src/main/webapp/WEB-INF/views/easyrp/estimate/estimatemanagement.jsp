@@ -112,7 +112,9 @@
 										<tbody>
 											<c:forEach items="${estimate }" var="estimate" >
 												<tr>
-													<td class="text-bold-500">${estimate.cod }</td>
+													<td class="text-bold-500">
+    													<a href="#" id="loadDetail" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="estimateDetail('${estimate.cod}')">${estimate.cod}</a>
+													</td>
 													<td>${estimate.estDate }</td>
 													<td>${estimate.clientCod }</td>
 													<td class="text-bold-500">${estimate.employeeCod }</td>
@@ -132,9 +134,9 @@
 																	href="estimateupdate?cod=${estimate.cod}">수정</a></li>
 																<li><a class="dropdown-item"
 																	href="estimatedeleteFn?cod=${estimate.cod}">삭제</a></li>
-																<%-- <li id="loadDetail" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="estimateDetail('${estimate.cod}')"> --%>
-																<li id="loadDetail" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="estimateDetail('${estimate.cod}')">
-																	모달
+																<li><a class="dropdown-item" href="#" id="loadDetail" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="estimateDetail('${estimate.cod}')">
+																	상세 보기
+																	</a>
 																</li>
 															</ul>
 														</div>
