@@ -15,12 +15,12 @@ import co.second.easyrp.productmgmt.service.UnitVO;
 
 @Controller
 public class ProductGroupController {
-	
+
 	@Autowired
 	ProductGroupService productGroupService;
-	
-	@GetMapping("/productgroup")
-	public String productGroup() {
+
+	@GetMapping("/productgroupmodal")
+	public String productGroupModal() {
 		return "easyrp/productgroup/modal/productgroup";
 	}
 
@@ -29,26 +29,31 @@ public class ProductGroupController {
 	public List<ProductGroupVO> getProdGroupData() {
 		return productGroupService.tableAllList();
 	}
-	
+
+	@GetMapping("/searchproductgroupmodal")
+	public String warehouseModal() {
+		return "easyrp/productgroup/modal/searchproductgroupmodal";
+	}
+
 	@PostMapping("/productgroupinsertfn")
 	@ResponseBody
 	public String productGroupInsertFn(ProductGroupVO productGroupVO) {
 		productGroupService.insertFn(productGroupVO);
 		return "complete";
 	}
-	
+
 	@PostMapping("/productgroupupdatefn")
 	@ResponseBody
 	public String productGroupUpdateFn(ProductGroupVO productGroupVO) {
 		productGroupService.updateFn(productGroupVO);
 		return "complete";
 	}
-	
+
 	@PostMapping("/productgrodeletefn")
 	@ResponseBody
 	public String productGroupDeleteFn(ProductGroupVO productGroupVO) {
 		productGroupService.deleteFn(productGroupVO);
 		return "complete";
 	}
-	
+
 }

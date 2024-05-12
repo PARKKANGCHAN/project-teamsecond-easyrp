@@ -135,7 +135,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                      </a>
                      <ul class="submenu">
                         <li class="submenu-item"><a href="warehouse" class="submenu-link">창고 관리</a></li>
-                        <li class="submenu-item"><a href="productmgmt" class="submenu-link">제품 및 자재 관리</a></li>
+                        <li class="submenu-item"><a href="productmgmt" class="submenu-link">제품 관리</a></li>
+                        <li class="submenu-item"><a href="inventorymgmt" class="submenu-link">자재 관리</a></li>
                      </ul>
                   </li>
                   <!-- 기초 정보 관리 / 공장&창고&제품 관리 END -->

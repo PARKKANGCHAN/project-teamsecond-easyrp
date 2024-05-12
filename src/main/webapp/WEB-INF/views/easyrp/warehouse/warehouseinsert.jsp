@@ -67,6 +67,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                              name="name"
                                              class="form-control"
                                              placeholder="창고명을 입력해주세요."
+                                             maxlength="100"
                                              required
                                           />
                                        </td>

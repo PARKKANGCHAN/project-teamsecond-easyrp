@@ -1,10 +1,10 @@
-package co.second.easyrp.productmgmt.service;
+package co.second.easyrp.inventorymgmt.service;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-//(2024년 5월12일 오후 2시 3분 박현우)
+//(2024년 5월12일 오후 7시 12분 박현우)
 @Getter
 @Setter
 @ToString

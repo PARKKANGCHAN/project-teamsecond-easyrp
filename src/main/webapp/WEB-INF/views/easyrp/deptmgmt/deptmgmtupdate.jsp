@@ -226,14 +226,14 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             });
 
             $('#loadWrkSearch').on('keyup', function () {
-               var searchInputVlaue = $(this).val()
-               $('.searchValue').each(function () {
-                  var cod = $(this).data('cod')
-                  var value = $(this).data('value')
-                  $(this).toggle(cod.includes(searchInputVlaue) || value.includes(searchInputVlaue));
-               });
-            });
-         });
+                var searchInputVlaue = $(this).val().toLowerCase();
+                $('.searchValue').each(function () {
+                   var cod = $(this).data('cod').toString().toLowerCase();
+                   var value = $(this).data('value').toString().toLowerCase();
+                   $(this).toggle(cod.includes(searchInputVlaue) || value.includes(searchInputVlaue));
+                });
+             });
+          });
          /* 사업장 검색 Modal END */
       </script>
    </body>

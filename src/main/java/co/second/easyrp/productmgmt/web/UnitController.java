@@ -19,9 +19,19 @@ public class UnitController {
 	UnitService unitService;
 
 
-	@GetMapping("/unit")
-	public String unit(Model model) {
+	@GetMapping("/unitmodal")
+	public String unitModal() {
 		return "easyrp/unit/modal/unit";
+	}
+	
+	@GetMapping("/setvalueunitmodal")
+	public String setValueUnitModal() {
+		return "easyrp/unit/modal/setvalueunitmodal";
+	}
+	
+	@GetMapping("/setvaluemgmtunitmodal")
+	public String setValueMgmtUnitModal() {
+		return "easyrp/unit/modal/setvaluemgmtunitmodal";
 	}
 	
 	@GetMapping("/api/get-unit")

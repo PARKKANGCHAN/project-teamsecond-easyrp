@@ -9,6 +9,8 @@ public interface WareHouseService {
 	
 	WareHouseVO getWareHouseData(String cod);
 	
+	List<WareHouseVO> apiGetWarehouse();
+	
 	String getMaxCode();
 	
 	int warehouseInsertFn(WareHouseVO houseVO);

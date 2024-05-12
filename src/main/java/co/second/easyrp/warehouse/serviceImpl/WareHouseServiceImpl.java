@@ -65,4 +65,9 @@ public class WareHouseServiceImpl implements WareHouseService {
 		return houseMapper.countWarehouseTable(searchVo);
 	}
 
+	@Override
+	public List<WareHouseVO> apiGetWarehouse() {
+		return houseMapper.apiGetWarehouse();
+	}
+
 }

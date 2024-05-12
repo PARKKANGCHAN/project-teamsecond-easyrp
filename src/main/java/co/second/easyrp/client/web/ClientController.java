@@ -58,7 +58,7 @@ public class ClientController {
 	}
 	
 	@PostMapping("/clientinsertfn")
-	public String clientInsertFn(ClientVO clientVO, Model model) {
+	public String clientInsertFn(ClientVO clientVO) {
 		clientService.clientInsertFn(clientVO);
 		return "redirect:/client";
 	}
