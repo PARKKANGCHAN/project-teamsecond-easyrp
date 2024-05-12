@@ -28,6 +28,8 @@ public interface MpsService {
 			@Param("preSearchDate") Date preSearchDate, 
 			@Param("postSearchDate") Date postSearchDate);
 	
+	List<MpsVO> mpsSelectListAllModal(); //모달에서 불러오기
+	
 	//개별조회
 	MpsVO mpsSelect(MpsVO mpsVo); 
 	

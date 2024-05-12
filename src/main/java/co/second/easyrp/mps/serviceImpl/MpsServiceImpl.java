@@ -74,4 +74,10 @@ public class MpsServiceImpl implements MpsService {
 		// TODO Auto-generated method stub
 		return mpsMapper.orderdetailMpsStateToN(mpsVo);
 	}
+
+	@Override
+	public List<MpsVO> mpsSelectListAllModal() {
+		// TODO Auto-generated method stub
+		return mpsMapper.mpsSelectListAllModal();
+	}
 }

@@ -52,7 +52,7 @@
 								</div>
 							</div>
 							<div class="card-body mb-3">
-								<form action="mrpinsertfn" method="post">
+								<form id="formContainer" action="mrpinsertfn" method="post">
 									<div class="mb-4">
 										<table class="table table-bordered">
 											<!-- 품번 INPUT -->
@@ -69,7 +69,7 @@
 													class="form-control" placeholder="품명을 불러오세요." required readonly/>
 												</td>
 											</tr>
-											<!-- 규격 INPUT (로그인 시 자동으로 값 입력 readonly) -->
+											<!-- 규격 INPUT -->
 											<tr>
 												<td width="150">규격</td>
 												<td><input type="text" id="spec" name="spec"
@@ -77,17 +77,17 @@
 													placeholder="규격을 불러오세요." required readonly/>
 												</td>
 											</tr>
-											<!-- 소요일자 INPUT -->
+											<!-- 계획일 INPUT -->
 											<tr>
-												<td width="150">소요일자</td>
+												<td width="150">계획일</td>
 												<td><input type="text" id="takeDate" name="takeDate"
-													class="form-control" placeholder="소요일자를 입력해주세요." required/>
+													class="form-control" placeholder="계획일를 입력해주세요." required/>
 												</td>
 											</tr>
 										<!-- 예정발주일 INPUT -->
 											<tr>
 												<td width="150">예정발주일</td>
-												<td><input type="text" id="poDate" name="poDate"
+												<td><input type="date" id="poDate" name="poDate"
 													class="form-control" placeholder="예정발주일 입력해주세요." required/>
 												</td>
 											</tr>
@@ -98,11 +98,11 @@
 													class="form-control" placeholder="납기일을 불러오세요." required readonly/>
 												</td>
 											</tr>
-											<!-- 계획수량 INPUT -->
+											<!-- 예정수량 INPUT -->
 											<tr>
-												<td width="150">계획수량</td>
+												<td width="150">예정수량</td>
 												<td><input type="text" id="qty" name="qty"
-													class="form-control" placeholder="계획수량을 입력해주세요." required oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
+													class="form-control" placeholder="예정수량을 입력해주세요." required oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
 													maxlength="5"/>
 												</td>
 											</tr>
@@ -131,7 +131,7 @@
 										<button type="submit"
 											class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
 											등록</button>
-										<a href="mpsmanagement" class="me-2">
+										<a href="mrpmanagement" class="me-2">
 											<button type="button"
 												class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
 												등록취소</button>
@@ -200,10 +200,9 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th scope="col"></th>
 								<th scope="col">품번</th>
 								<th scope="col">품명</th>
-								<th scope="col">소요일자</th>
+								<th scope="col">계획일</th>
 								<th scope="col">예정수량</th>
 								<th scope="col">단위</th>
 								<th scope="col">계정구분</th>
@@ -225,11 +224,13 @@
 <!-- Data Modal END  -->
      <script type="text/javascript">
          /* DataModal START */
-          function setData(cod, productCod, prodname, planDate, qty, unitName, account) {
-            $('#cod').val(cod);
+          function setData(productCod, prodname, spec, planDate, poDate, dday, qty, unitName, account) {
             $('#productCod').val(productCod);
             $('#prodname').val(prodname);
+            $('#spec').val(spec);
             $('#takeDate').val(planDate);
+            $('#poDate').val(poDate);
+            $('#dday').val(dday);
             $('#qty').val(qty);
             $('#unitName').val(unitName);
             $('#account').val(account);
@@ -246,19 +247,23 @@
                      let rows = '';
                      data.forEach(function (item) {
                         if (item.cod) {
+                           //예정발주일을 납기일의 이틀 전으로 자동으로 설정한다.
+                           let poDate = new Date(item.planDate);
+                           poDate.setDate(poDate.getDate()-2);
+                           
                            rows +=
                               '<tr onclick="setData(\'' +
-                              item.cod +
-                              "', '" +
                               item.productCod +
                               "', '" +
                               item.prodname +
                               "', '" +
+                              item.spec +
+                              "', '" +
                               item.planDate +
                               "', '" +
-                              item.qty +
+                              poDate.toISOString().slice(0, 10) +
                               "', '" +
-                              item.unitName +
+                              item.dday +
                               "', '" +
                               item.qty +
                               "', '" +
@@ -273,9 +278,6 @@
                               '" style= "' +
                               'cursor: pointer' +
                               '">' +
-                              '<td>' +
-                              item.cod +
-                              '</td>' +
                               '<td>' +
                               item.productCod +
                               '</td>' +
@@ -298,6 +300,7 @@
                         }
                      });
                      $('#modalDataTableBody').html(rows);
+                     
                      $('#dataModal').modal('show');
                   },
                });

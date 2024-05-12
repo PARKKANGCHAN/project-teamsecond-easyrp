@@ -3,7 +3,7 @@
 <mapper namespace="co.second.easyrp.mps.map.MpsMapper">
 	<!-- 2024.05.09 오후 12:11 손지은 / order by desc를 ask로 수정 -->
 	<select id="mpsSelectListAll">
-		SELECT m.cod, m.plan_date, m.product_cod, p.prodname, p.spec, u.name as 'unitName', od.delivery_date, o.dday, m.qty, c.name as 'clientName', m.note
+		SELECT m.cod, m.plan_date, m.product_cod, p.prodname, p.spec, u.name as 'unitName', od.delivery_date, o.dday, m.qty, c.name as 'clientName', m.note, p.spec, o.dday, m.account
 		FROM mps m
 		JOIN product p 
 		ON m.product_cod =  p.cod 
@@ -35,6 +35,24 @@
 		</if>
 		ORDER BY m.plan_date
 		LIMIT #{pageSize} OFFSET #{offset}
+	</select>
+	
+	<select id="mpsSelectListAllModal">
+		SELECT m.cod, m.plan_date, m.product_cod, p.prodname, p.spec, u.name as 'unitName', od.delivery_date, o.dday, m.qty, c.name as 'clientName', m.note, p.spec, o.dday, m.account
+		FROM mps m
+		JOIN product p 
+		ON m.product_cod =  p.cod 
+		JOIN unit u 
+		ON p.unit_cod = u.cod 
+		JOIN orders o 
+		ON m.order_cod = o.cod 
+		JOIN orderdetail od 
+		ON o.cod = od.cod and m.orderdetail_num = od.num 
+		JOIN client c 
+		ON o.client_cod = c.cod 
+		WHERE m.deleteyn = 'N'
+		AND m.closing = 'N'
+		ORDER BY m.plan_date
 	</select>
 	
 	<select id="countMpsTables" resultType="int">

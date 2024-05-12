@@ -72,6 +72,6 @@ public class MrpController {
     @GetMapping("/api/get-mpsval")
     @ResponseBody
     public List<MpsVO> getMpsValues() {
-        return mpsService.mpsSelectListAll(0, 0, null, null, null, null, null, null);
+        return mpsService.mpsSelectListAllModal();
     }
 }
