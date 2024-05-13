@@ -131,8 +131,6 @@
 															</button>
 															<ul class="dropdown-menu">
 																<li><a class="dropdown-item"
-																	href="estimateupdate?cod=${estimate.cod}">수정</a></li>
-																<li><a class="dropdown-item"
 																	href="estimatedeleteFn?cod=${estimate.cod}">삭제</a></li>
 																<li><a class="dropdown-item" href="#" id="loadDetail" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="estimateDetail('${estimate.cod}')">
 																	상세 보기

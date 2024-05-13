@@ -43,7 +43,7 @@
 	</select>
 
 	<select id="ClientNameSelectList">
-		select cod as clientCod, name as clientName from client
+		SELECT cod AS clientCod, name AS clientName FROM client
 	</select>
 	
 	<insert id="EstimateInsert" parameterType="co.second.easyrp.estimate.service.EstimateVO">
@@ -68,25 +68,25 @@
 		LEFT JOIN product p ON e.product_cod = p.cod
 		LEFT JOIN estimate e2 ON e.estimate_cod = e2.cod 
 		LEFT JOIN client c ON e2.client_cod = c.cod
-		left join employee e3 on e2.employee_cod = e3.cod 
-		left join department d on e3.department_cod = d.cod
+		LEFT JOIN employee e3 ON e2.employee_cod = e3.cod 
+		LEFT JOIN department d ON e3.department_cod = d.cod
 		WHERE estimate_cod = #{cod}
 	</select>
 	
 	<update id="EstimateUpdate" parameterType="map">
-		update estimatedetail
-		set qty = #{qty}
-		where estimate_cod = #{cod} and num = #{num}
+		UPDATE estimatedetail
+		SET qty = #{qty}
+		WHERE estimate_cod = #{cod} and num = #{num}
 	</update>
 	
 	<delete id="EstimateDetailDelete">
-		delete from estimatedetail 
-		where product_cod = #{productCod} and estimate_cod = #{cod}
+		DELETE FROM estimatedetail 
+		WHERE product_cod = #{productCod} AND estimate_cod = #{cod}
 	</delete>
 	
 	<select id="ProductNameSelectList">
-		select cod, prodname
-		from product
+		SELECT cod, prodname
+		FROM product
 	</select>
 	
 	
