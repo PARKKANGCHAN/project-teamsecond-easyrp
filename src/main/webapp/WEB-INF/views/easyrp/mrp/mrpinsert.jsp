@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,11 +44,11 @@
 										<button type="button" class="btn btn-primary mx-2" id="loadDatas"
 										data-bs-toggle="modal" data-bs-target="#dataModal"
 										style="float: left; width: 24%">
-											수주정보로 전개</button>
+											수주정보 가져오기</button>
 										<button type="button" class="btn btn-primary" id="loadDatas"
 											data-bs-toggle="modal" data-bs-target="#dataModal"
 											style="float: left; width: 24%">
-											판매계획으로 전개</button>
+											판매계획 가져오기</button>
 									</div>
 								</div>
 							</div>
@@ -121,6 +122,62 @@
 												</td>
 											</tr>
 										</table>
+										<br/>
+										<table class="table table-hover mb-0">
+										<thead>
+											<tr>
+												<th></th>
+												<th>품번</th>
+												<th>품명</th>
+												<th>규격</th>
+												<th>소요일자</th>
+												<th>예정발주일</th>
+												<th>납기일</th>
+												<th>계획수량</th>
+												<th>단위</th>
+												<th>계정구분</th>
+												<th>기능</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:if test="${not empty mrpTable }">
+												<c:forEach var="mpsTable" items="${mrpTable }">
+													<tr>
+														<td><input type="checkbox" name="checkbox"></td>
+														<td>${mrpTable.productCod}</td>
+														<td>${mpsTable.prodname }</td>
+														<td>${mpsTable.spec }</td>
+														<td><fmt:formatDate value="${mrpTable.takeDate }" pattern="yyyy-MM-dd"/></td>
+														<td><fmt:formatDate value="${mpsTable.poDate }" pattern="yyyy-MM-dd"/></td>
+														<td><fmt:formatDate value="${mpsTable.dday }" pattern="yyyy-MM-dd"/></td>
+														<td>${mpsTable.qty }</td>
+														<td>${mpsTable.unitName }</td>
+														<td>${mpsTable.account }</td>
+														<td>
+															<div class="btn-group">
+																<button type="button"
+																	class="btn btn-primary dropdown-toggle"
+																	data-bs-toggle="dropdown" aria-expanded="false">
+																	<i class="fa-solid fa-gear"></i>
+																</button>
+																<ul class="dropdown-menu">
+																	<li><a class="dropdown-item"
+																		href="mpsupdate?cod=${mpsTable.cod}">수정</a></li>
+																	<li><a class="dropdown-item"
+																		href="mpsdeletefn?cod=${mpsTable.cod}">삭제</a></li>
+																</ul>
+															</div>
+														</td>
+													</tr>
+												</c:forEach>
+											</c:if>
+											<c:if test="${empty mrpTable }">
+												<tr>
+													<td colspan="11" align="center">소요량전개 내역이 없습니다.</td>
+												</tr>
+											</c:if>
+										</tbody>
+									</table>
 									</div>
 									<div>
 										<input type="hidden" id="employeeCod" name="employeeCod" value="${empCode}" />

@@ -74,4 +74,13 @@ public class MrpController {
     public List<MpsVO> getMpsValues() {
         return mpsService.mpsSelectListAllModal();
     }
+    
+    @GetMapping("/api/get-mrpdeployment")
+    @ResponseBody
+    public List<MrpVO> getMrpDeployment(String productCod) {
+    	mrpService.
+    	// 제품번호를 통해 bom에서 자품목의 자재번호를 가지고 온다.
+    	// 
+        return 
+    }
 }
