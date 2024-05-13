@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import co.second.easyrp.client.service.ClientVO;
 import co.second.easyrp.inventorymgmt.service.InventoryMgmtService;
 import co.second.easyrp.inventorymgmt.service.InventoryMgmtVO;
 import co.second.easyrp.inventorymgmt.service.SearchVO;
@@ -54,9 +55,17 @@ public class InventoryMgmtController {
 
 	@PostMapping("/inventorymgmtinsertfn")
 	public String inventoryMgmtInsertFn(InventoryMgmtVO inventoryMgmtVO) {
-		System.out.println("실행 되었습니다.");
 		inventoryMgmtService.insertFn(inventoryMgmtVO);
 		return "redirect:/inventorymgmt";
+	}
+	
+	@GetMapping("/inventorymgmtupdate")
+	public String inventoryMgmtUpdate(@RequestParam("cod") String cod, Model model) {
+		InventoryMgmtVO getInventoryData = inventoryMgmtService.getData(cod);
+		
+		
+		model.addAttribute("getInventoryData", getInventoryData);
+		return "easyrp/inventorymgmt/inventorymgmtupdate";
 	}
 
 //	@GetMapping("/productmgmtupdate")

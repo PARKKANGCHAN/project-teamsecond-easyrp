@@ -50,4 +50,14 @@ public class InventoryMgmtServiceImpl implements InventoryMgmtService {
 		return null;
 	}
 
+	@Override
+	public int updateFn(InventoryMgmtVO inventoryMgmtVO) {
+		return inventoryMgmtMapper.updateFn(inventoryMgmtVO);
+	}
+
+	@Override
+	public InventoryMgmtVO getData(String cod) {
+		return inventoryMgmtMapper.getData(cod);
+	}
+
 }
