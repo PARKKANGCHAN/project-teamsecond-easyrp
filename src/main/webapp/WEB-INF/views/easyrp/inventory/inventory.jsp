@@ -158,6 +158,10 @@
 					<nav aria-label="Page navigation">
 						<ul class="pagination justify-content-center">
 							<!-- Previous 10 Pages -->
+							<c:if test="${empty inventoryList}">
+							<tr>
+							</c:if>
+							<c:if test="${not empty inventoryList}">
 							<li
 								class="page-item <c:if test='${startPage == 1}'>disabled</c:if>">
 								<a class="page-link"
@@ -179,6 +183,7 @@
 								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&size=${pageSize}&searchNumber=${param.searchNumber}&searchTitle=${param.searchTitle}&searchContent=${param.searchContent}&searchAuthor=${param.searchAuthor}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">다음
 									10 페이지</a>
 							</li>
+							</c:if>	
 						</ul>
 					</nav>
 					<!-- 페이지네이션 END -->
@@ -309,10 +314,14 @@
 					<nav aria-label="Page navigation">
 						<ul class="pagination justify-content-center">
 							<!-- Previous 10 Pages -->
+							<c:if test="${empty productList}">
+							<tr>
+							</c:if>
+							<c:if test= "${not empty productList}">
 							<li
 								class="page-item <c:if test='${startPage == 1}'>disabled</c:if>">
 								<a class="page-link"
-								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&size=${pageSize}&searchNumber=${param.searchNumber}&searchTitle=${param.searchTitle}&searchContent=${param.searchContent}&searchAuthor=${param.searchAuthor}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">이전
+								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&size=${pageSize}&cod=${param.cod}&warehouse=${param.warehouse}&employee=${param.employee}&account=${param.account}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">이전
 									10 페이지</a>
 							</li>
 
@@ -320,16 +329,17 @@
 								<li
 									class="page-item <c:if test='${i == currentPage}'>active</c:if>">
 									<a class="page-link"
-									href="?page=${i}&size=${pageSize}&searchNumber=${param.searchNumber}&searchTitle=${param.searchTitle}&searchContent=${param.searchContent}&searchAuthor=${param.searchAuthor}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}">${i}</a>
+									href="?page=${startPage - 10}&size=${pageSize}&cod=${param.cod}&warehouse=${param.warehouse}&employee=${param.employee}&account=${param.account}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}">${i}</a>
 								</li>
 							</c:forEach>
 
 							<li
 								class="page-item <c:if test='${endPage == totalPages}'>disabled</c:if>">
 								<a class="page-link"
-								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&size=${pageSize}&searchNumber=${param.searchNumber}&searchTitle=${param.searchTitle}&searchContent=${param.searchContent}&searchAuthor=${param.searchAuthor}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">다음
+								href="<c:if test='${endPage < totalPages}'>?page=${startPage - 10}&size=${pageSize}&cod=${param.cod}&warehouse=${param.warehouse}&employee=${param.employee}&account=${param.account}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">다음
 									10 페이지</a>
 							</li>
+							</c:if>
 						</ul>
 					</nav>
 					<!-- 페이지네이션 END -->

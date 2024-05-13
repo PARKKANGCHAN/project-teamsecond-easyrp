@@ -112,6 +112,7 @@
 											</tr>
 										</thead>
 										<tbody>
+										<c:if test="${not empty inventoryCountList}">
 											<c:forEach var="inventoryCountList" items="${inventoryCountList}">
 												<tr>
 													<td class="text-bold-500">${inventoryCountList.cod }</td>
@@ -139,6 +140,12 @@
 													</td>
 												</tr>
 											</c:forEach>
+											</c:if>
+											<c:if test="${empty inventoryCountList}">
+											<tr>
+												<td colspan="4">해당 재고가 없습니다.</td>
+											</tr>
+											</c:if>
 										</tbody>
 									</table>
 								</div>
@@ -149,6 +156,10 @@
 					<nav aria-label="Page navigation">
 						<ul class="pagination justify-content-center">
 							<!-- Previous 10 Pages -->
+							<c:if test="${empty inventoryCountList}">
+							<tr>
+							</c:if>
+							<c:if test="${not empty inventoryCountList}">						
 							<li
 								class="page-item <c:if test='${startPage == 1}'>disabled</c:if>">
 								<a class="page-link"
@@ -170,6 +181,7 @@
 								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&searchCod=${searchVO.searchCod}&searchWarehouse=${searchVO.searchWarehouse}&searchProduct=${searchVO.searchProduct}&searchLocation=${searchVO.searchLocation}&searchInventory=${searchVO.searchInventory}&searchCountClass=${searchVO.searchCountClass}&searchEmployee=${searchVO.searchEmployee}&searchAccount=${searchVO.searchAccount}&preSearchDate=${searchVO.preSearchDate}&postSearchDate=${searchVO.postSearchDate}</c:if>">다음
 									10 페이지</a>
 							</li>
+							</c:if>		
 						</ul>
 					</nav>
 

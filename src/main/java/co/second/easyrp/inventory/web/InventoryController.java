@@ -36,16 +36,12 @@ public class InventoryController {
 				            Model model
 							) {
 		List<InventoryVO> inventoryList=inventoryservice.inventoryList(page, size, cod, warehouse, employee, account, preSearchDate, postSearchDate);
-			System.out.println(inventoryList);
 			int totalRecords = inventoryservice.countInventoryLists(cod, warehouse, employee, account, preSearchDate, postSearchDate);
-			System.out.println(totalRecords);
 			int totalPages = (int) Math.ceil((double) totalRecords / size);
 
 			List<ProductVO> productList=productservice.productList(page, size, cod, warehouse, employee, account, preSearchDate, postSearchDate);
-			System.out.println(productList);
 			int totalProductRecords = productservice.countProductLists(cod, warehouse, employee, account, preSearchDate, postSearchDate);
-			System.out.println(totalProductRecords);
-			int totalProductPages = (int) Math.ceil((double) totalRecords / size);	
+			int totalProductPages = (int) Math.ceil((double) totalProductRecords / size);	
 		
 		int pageGroupSize = 10;
 		int currentPageGroup = (page - 1) / pageGroupSize;
