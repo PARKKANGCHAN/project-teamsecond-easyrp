@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.second.easyrp.invoicedetail.mapper.InvoicedetailMapper">	
+	<!-- 발주등록페이지에 있는 청구적용 저장값불러오기에서 modal에 뿌려줄 청구리스트를 가져오기위한 메소드(승인된 청구리스트만 가져옵니다) -->	
+	<select id="applyInvoice">
+		SELECT i.inq_date,
+			   i2.invoice_cod,
+			   i2.num,
+			   i2.product_cod,
+			   i2.inq_qry,
+			   i2.unitprice,
+			   i2.supprice,
+			   i2.vax,
+			   i2.total
+		FROM invoice i
+		JOIN invoicedetail i2 ON i.cod = i2.invoice_cod AND
+		     i2.closing = 'N'
+		WHERE i.inv_class = '구매' AND
+			  i.inq_class = 'Y' AND
+			  i.deleteyn = 'N'
+		;
+	</select>
+</mapper>

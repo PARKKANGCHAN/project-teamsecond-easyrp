@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -96,6 +97,15 @@ public class ClientController {
 	public List<discountVO> getDiscountData() {
 		System.out.println(clientService.getDiscountData());
 		return clientService.getDiscountData();
+	}
+	
+	//거래처찾기 Modal
+	//2024년 5월 3일 오전 11시 11분 하서현
+	@RequestMapping("/clientSearch")
+	@ResponseBody
+	public List<ClientVO> clientSearch() {
+		List<ClientVO> returnList = clientService.clientAllList();
+		return returnList;
 	}
 
 }

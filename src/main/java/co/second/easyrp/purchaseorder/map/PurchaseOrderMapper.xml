@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="co.second.easyrp.purchaseorder.map.PurchaseOrderMapper">
+	
+	<!-- 순수 발주리스트를 가져오기위한 쿼리(발주관리) -->
+	<!-- 2024년 5월 9일 오전 11시 28분 -->
+	<select id="poMgmtList">
+		SELECT  p.cod,
+			p.po_date,
+			p.closing_date,
+			p.client_cod,
+			(SELECT c.name FROM client c WHERE p.client_cod = c.cod) as 'clientName',
+			(SELECT t.name FROM taxdivision t  WHERE p.taxdivision_cod = t.cod) as 'taxDivName',
+			p.employee_cod_writer,
+			(SELECT e.name FROM employee e  WHERE p.employee_cod_writer = e.cod) as 'empNameWriter',
+			p.employee_cod_po,
+			(SELECT e.name FROM employee e  WHERE p.employee_cod_po = e.cod) as 'empNamePo',
+			p.employee_cod_ibound,
+			(SELECT e.name FROM employee e  WHERE p.employee_cod_ibound = e.cod) as 'empNameIbound',
+			p.printcnt,
+			p.closing,
+			p.note,
+			p.deleteyn
+		FROM purchaseorder p 
+	</select>
+	<sql id="poMgmtList">
+		SELECT  p.cod,
+			p.po_date,
+			p.closing_date,
+			p.client_cod,
+			(SELECT c.name FROM client c WHERE p.client_cod = c.cod) as 'clientName',
+			(SELECT t.name FROM taxdivision t  WHERE p.taxdivision_cod = t.cod) as 'taxDivName',
+			p.employee_cod_writer,
+			(SELECT e.name FROM employee e  WHERE p.employee_cod_writer = e.cod) as 'empNameWriter',
+			p.employee_cod_po,
+			(SELECT e.name FROM employee e  WHERE p.employee_cod_po = e.cod) as 'empNamePo',
+			p.employee_cod_ibound,
+			(SELECT e.name FROM employee e  WHERE p.employee_cod_ibound = e.cod) as 'empNameIbound',
+			p.printcnt,
+			p.closing,
+			p.note,
+			p.deleteyn
+		FROM purchaseorder p 
+	</sql>
+	
+	
+	<!-- 페이징 및 검색조건이 적용된 발주리스트를 가져오기위한 쿼리(발주관리) -->
+	<!-- 2024년 5월 9일 오전 11시 28분 -->
+	<select id="poMgmtListPaged">
+	SELECT *
+		FROM (
+		<include refid="poMgmtList" />
+		) as p
+		WHERE deleteyn = 'N'
+		<if test="searchCod != null and searchCod != ''">
+			AND cod = #{searchCod}
+		</if>
+		<if test="searchFromPoDate != null and searchFromPoDate != ''">
+			AND po_date <![CDATA[>=]]> #{searchFromPoDate}
+		</if>
+		<if test="searchToPoDate != null and searchToPoDate != ''">
+			AND	po_date <![CDATA[<=]]> #{searchToPoDate}
+		</if>
+		<if test="searchClientName != null and searchClientName != ''">
+			AND clientName LIKE CONCAT('%', #{searchClientName}, '%')
+		</if>
+		<if test="searchClientCod != null and searchClientCod != ''">
+			AND client_cod LIKE CONCAT('%', #{searchClientCod}, '%')
+		</if>
+		<if test="searchEmpCodIbound != null and searchEmpCodIbound != ''">
+			AND employee_cod_ibound LIKE CONCAT('%', #{searchEmpCodIbound}, '%')
+		</if>
+		<if test="searchEmpNameIbound != null and searchEmpNameIbound != ''">
+			AND empNameIbound LIKE CONCAT('%', #{searchEmpNameIbound}, '%')
+		</if>
+		<if test="searchEmpNamePo != null and searchEmpNamePo != ''">
+			AND empNamePo LIKE CONCAT('%', #{searchEmpNamePo}, '%')
+		</if>
+		<if test="searchEmpCodPo != null and searchEmpCodPo != ''">
+			AND employee_cod_po LIKE CONCAT('%', #{searchEmpCodPo}, '%')
+		</if>
+		<if test="searchClosing != null and searchClosing != ''">
+			AND closing LIKE CONCAT('%', #{searchClosing},
+			'%')
+		</if>
+		<if test="searchFromClosingDate != null and searchFromClosingDate != ''">
+			AND closing_date <![CDATA[>=]]> #{searchFromClosingDate}
+		</if>
+		<if test="searchToClosingDate != null and searchToClosingDate != ''">
+			AND closing_date <![CDATA[<=]]> #{searchToClosingDate}
+		</if>
+		ORDER BY cod DESC
+		LIMIT #{size} OFFSET #{offset}
+	</select>
+	
+	
+	<!-- 검색조건이 적용된 발주리스트의 갯수를 가져오기위한 쿼리(발주관리) -->
+	<!-- 2024년 5월 9일 오전 11시 28분 -->
+	<select id="countPoMgmtList">
+	SELECT COUNT(*)
+		FROM (
+		<include refid="poMgmtList" />
+		) as p
+		WHERE p.deleteyn = 'N'
+		<if test="searchCod != null and searchCod != ''">
+			AND cod = #{searchCod}
+		</if>
+		<if test="searchFromPoDate != null and searchFromPoDate != ''">
+			AND po_date <![CDATA[>=]]> #{searchFromPoDate}
+		</if>
+		<if test="searchToPoDate != null and searchToPoDate != ''">
+			AND	po_date <![CDATA[<=]]> #{searchToPoDate}
+		</if>
+		<if test="searchClientName != null and searchClientName != ''">
+			AND clientName LIKE CONCAT('%', #{searchClientName}, '%')
+		</if>
+		<if test="searchClientCod != null and searchClientCod != ''">
+			AND client_cod LIKE CONCAT('%', #{searchClientCod}, '%')
+		</if>
+		<if test="searchEmpCodIbound != null and searchEmpCodIbound != ''">
+			AND employee_cod_ibound LIKE CONCAT('%', #{searchEmpCodIbound}, '%')
+		</if>
+		<if test="searchEmpNameIbound != null and searchEmpNameIbound != ''">
+			AND empNameIbound LIKE CONCAT('%', #{searchEmpNameIbound}, '%')
+		</if>
+		<if test="searchEmpNamePo != null and searchEmpNamePo != ''">
+			AND empNamePo LIKE CONCAT('%', #{searchEmpNamePo}, '%')
+		</if>
+		<if test="searchEmpCodPo != null and searchEmpCodPo != ''">
+			AND employee_cod_po LIKE CONCAT('%', #{searchEmpCodPo}, '%')
+		</if>
+		<if test="searchClosing != null and searchClosing != ''">
+			AND closing LIKE CONCAT('%', #{searchClosing},
+			'%')
+		</if>
+		<if test="searchFromClosingDate != null and searchFromClosingDate != ''">
+			AND closing_date <![CDATA[>=]]> #{searchFromClosingDate}
+		</if>
+		<if test="searchToClosingDate != null and searchToClosingDate != ''">
+			AND closing_date <![CDATA[<=]]> #{searchToClosingDate}
+		</if>
+	</select>
+	
+	<!-- 과세구분리스트를 가져오기위한 쿼리 -->
+	<select id="taxDivList">
+		SELECT *
+		FROM taxdivision
+	</select>
+</mapper>
