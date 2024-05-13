@@ -22,7 +22,7 @@
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
 						<h3>자재 등록</h3>
-						<p class="text-subtitle text-muted">자재의 기초 등록 및 BOM 등록을 위한 페이지</p>
+						<p class="text-subtitle text-muted">자재 기초 등록 페이지</p>
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
 						<nav aria-label="breadcrumb"

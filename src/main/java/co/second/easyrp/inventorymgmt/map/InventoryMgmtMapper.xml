@@ -10,7 +10,7 @@
 		parameterType="co.second.easyrp.inventorymgmt.service.SearchVO"
 		resultType="co.second.easyrp.inventorymgmt.service.InventoryMgmtVO">
 		SELECT i.cod, i.name, p2.name as
-		'prodGroupName', w.name as
+		'productGroupName', w.name as
 		'warehouseName', i.cur_inv_qty
 		FROM inventory i
 		LEFT JOIN warehouse w ON
@@ -40,6 +40,27 @@
 		</if>
 		ORDER BY i.cod DESC
 		LIMIT #{pageSize} OFFSET #{offset}
+	</select>
+
+	<select id="getData"
+		resultType="co.second.easyrp.inventorymgmt.service.InventoryMgmtVO">
+		SELECT
+		p.*,
+		p2.name as 'productGroupName',
+		w.name as
+		'warehouseName',
+		u.name AS 'unitName',
+		um.name AS 'mgmtUnitName'
+		FROM
+		inventory p
+		LEFT JOIN warehouse w ON p.warehouse_cod = w.cod
+		LEFT JOIN
+		productgroup p2 ON p.productgroup_cod = p2.cod
+		LEFT JOIN unit u ON
+		p.unit_cod = u.cod
+		LEFT JOIN unit um ON p.mgmt_unit_cod = um.cod
+		WHERE
+		p.cod = #{cod}
 	</select>
 
 	<!-- 완료 -->
@@ -132,13 +153,16 @@
 		qty = #{qty},
 		unitprice = #{unitprice},
 		cur_inv_qty = #{curInvQty},
-		cur_inv_price = #{curInvPrice},
+		cur_inv_price =
+		#{curInvPrice},
 		spec = #{spec},
 		unit_cod = #{unitCod},
-		safety_inv_qty = #{safetyInvQty},
+		safety_inv_qty =
+		#{safetyInvQty},
 		cod = #{cod},
 		name = #{name},
-		mgmt_unit_cod = #{mgmtUnitCod},
+		mgmt_unit_cod =
+		#{mgmtUnitCod},
 		note = #{note},
 		productgroup_cod = #{productGroupCod}
 		WHERE cod = #{cod};

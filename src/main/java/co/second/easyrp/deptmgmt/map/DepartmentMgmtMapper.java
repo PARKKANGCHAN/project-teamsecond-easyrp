@@ -2,7 +2,6 @@ package co.second.easyrp.deptmgmt.map;
 
 import java.util.List;
 
-import co.second.easyrp.commontable.service.CommonTableVO;
 import co.second.easyrp.deptmgmt.service.DepartmentMgmtVO;
 import co.second.easyrp.deptmgmt.service.SearchVO;
 import co.second.easyrp.deptmgmt.service.WorkplaceVO;

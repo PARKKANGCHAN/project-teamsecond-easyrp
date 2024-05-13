@@ -146,7 +146,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                        <tr class="commonDetailTable">
                                           <td class="text-bold-500">${inventoryMgmt.cod}</td>
                                           <td>${inventoryMgmt.name}</td>
-                                          <td class="text-bold-500">${inventoryMgmt.prodGroupName}</td>
+                                          <td class="text-bold-500">${inventoryMgmt.productGroupName}</td>
                                           <td>${inventoryMgmt.warehouseName }</td>
                                           <td>${inventoryMgmt.curInvQty }</td>
                                           <td>
