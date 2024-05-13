@@ -293,7 +293,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                 	  console.log(data);
                      let rows = '';
                      data.forEach(function (item) {
-                        if (item.cod && item.name && item. procclass) {
+                        if (item.cod && item.name && item.procclass) {
                            rows +=
                               '<tr onclick="setData(\'' +item.movecod +
                               "', '" +
@@ -316,7 +316,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                         }
                      });
                      console.log(rows);
-                     $('#purchaseOrderModalDataTableBody').html(rows);
+                     $('#productInventoryModalTableBody').html(rows);
                      
                      $('#dataPurchaseOrderModal').modal('show');
                   },
