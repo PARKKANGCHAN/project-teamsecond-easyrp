@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.second.easyrp.mps.map.MpsMapper">
+	<!-- 2024.05.09 오후 12:11 손지은 / order by desc를 ask로 수정 -->
 	<select id="mpsSelectListAll">
-		SELECT m.cod, m.plan_date, m.product_cod, p.prodname, p.spec, u.name as 'unitName', od.delivery_date, o.dday, m.qty, c.name as 'clientName', m.note
+		SELECT m.cod, m.plan_date, m.product_cod, p.prodname, p.spec, u.name as 'unitName', od.delivery_date, o.dday, m.qty, c.name as 'clientName', m.note, p.spec, o.dday, m.account
 		FROM mps m
 		JOIN product p 
 		ON m.product_cod =  p.cod 
@@ -32,8 +33,26 @@
 			AND m.plan_date BETWEEN #{preSearchDate} AND
 			#{postSearchDate}
 		</if>
-		ORDER BY m.plan_date DESC
+		ORDER BY m.plan_date
 		LIMIT #{pageSize} OFFSET #{offset}
+	</select>
+	
+	<select id="mpsSelectListAllModal">
+		SELECT m.cod, m.plan_date, m.product_cod, p.prodname, p.spec, u.name as 'unitName', od.delivery_date, o.dday, m.qty, c.name as 'clientName', m.note, p.spec, o.dday, m.account
+		FROM mps m
+		JOIN product p 
+		ON m.product_cod =  p.cod 
+		JOIN unit u 
+		ON p.unit_cod = u.cod 
+		JOIN orders o 
+		ON m.order_cod = o.cod 
+		JOIN orderdetail od 
+		ON o.cod = od.cod and m.orderdetail_num = od.num 
+		JOIN client c 
+		ON o.client_cod = c.cod 
+		WHERE m.deleteyn = 'N'
+		AND m.closing = 'N'
+		ORDER BY m.plan_date
 	</select>
 	
 	<select id="countMpsTables" resultType="int">
@@ -70,7 +89,7 @@
 	</select>
 	
 	<select id="mpsSelect">
-		SELECT m.cod, m.plan_date, m.product_cod, p.prodname, p.spec, u.name as 'unitName', od.delivery_date, o.dday, m.qty, c.name as 'clientName', m.note
+		SELECT m.cod, m.order_cod, m.orderdetail_num, m.plan_date, m.product_cod, p.prodname, p.spec, u.name as 'unitName', od.delivery_date, o.dday, m.qty, c.name as 'clientName', m.note, m.account
 		FROM mps m
 		JOIN product p 
 		ON m.product_cod =  p.cod 
@@ -104,8 +123,12 @@
 		WHERE COD = #{cod}
 	</delete>
 	
-	<update id="orderdetailMpsStateUpdate">
+	<update id="orderdetailMpsStateToY">
 		UPDATE orderdetail SET mps_state = 'Y' WHERE cod = #{orderCod} AND num = #{orderdetailNum}
+	</update>
+	
+	<update id="orderdetailMpsStateToN">
+		UPDATE orderdetail SET mps_state = 'N' WHERE cod = #{orderCod} AND num = #{orderdetailNum}
 	</update>
 
 	<select id="selectMaxCod">

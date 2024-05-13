@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import co.second.easyrp.client.service.ClientVO;
 import co.second.easyrp.productmgmt.service.ProductMgmtService;
 import co.second.easyrp.productmgmt.service.ProductMgmtVO;
 import co.second.easyrp.productmgmt.service.SearchVO;
