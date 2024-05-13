@@ -25,4 +25,8 @@ public interface ClientMapper {
 	
 	int countClientTable(SearchVO searchVO);
 	
+	//페이징 및 검색조건이 적용되어있지않은 순수 거래처리스트를 가져오는 메소드
+	//2024년 5월 13일 오전 10시 20분 하서현
+	List<ClientVO> clientAllList();
+	
 }

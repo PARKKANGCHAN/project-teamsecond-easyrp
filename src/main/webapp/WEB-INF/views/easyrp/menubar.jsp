@@ -271,7 +271,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                         <span style="font-weight: 800 !important">발주 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">발주 관리</a></li>
+                        <li class="submenu-item"><a href="purchaseordermgmttable" class="submenu-link">발주 관리</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">발주 마감 관리</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">발주 현황 조회</a></li>
                      </ul>

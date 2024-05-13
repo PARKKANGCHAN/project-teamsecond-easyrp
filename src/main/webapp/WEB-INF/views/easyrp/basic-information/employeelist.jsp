@@ -45,7 +45,6 @@
 										<div class="card-body mb-3" style="padding: 0.5rem">
 											<div class="col-12 col-md-6 order-md-1 order-last">
 												<h3>검색</h3>
-												<a href="employeeregis">사원등록</a>
 											</div>
 											<form id="searchForm" action="employeelist" method="get">
 												<div class="mb-4" style="text-align: center">
@@ -181,6 +180,14 @@
 					</nav>
 
 					<!-- 페이지네이션 END -->
+					<div class="d-flex"
+						style="padding-bottom: 0.5rem; padding-top: 0.5rem;">
+						<div class="col-md-6">
+							<button type="button" class="btn btn-primary">
+								<a href="employeeregis" style="color: white">사원등록</a>
+							</button>
+						</div>
+					</div>
 				</div>
 			</section>
 		</div>
