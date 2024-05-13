@@ -93,7 +93,8 @@ public class DepartmentMgmtController {
 		return "redirect:/departmentmgmt";
 	}
 	
-	@GetMapping("/get-wrkdata")
+	@GetMapping("/api/get-wrkdata")
+	@ResponseBody
 	public List<WorkplaceVO> getWrkData() {
 		return departmentMgmtService.getAllWorkplaceValues();
 	}

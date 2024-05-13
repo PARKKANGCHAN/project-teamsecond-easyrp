@@ -12,4 +12,5 @@ public class WareHouseVO {
 	private String cod;
 	private String name;
 	private String location;
+	private String deleteyn;
 }

@@ -20,9 +20,13 @@ public interface EstimateService {
 		);
 	
 	EstimateVO EstimateSelect(EstimateVO vo);
-	int EstimateInsert(EstimateVO vo);
+	
+	int EstimateInsert(String clientName, String empName, int price);
+	String EstimateRecentCodSelect();
+	
 	int EstimateUpdate(String cod, int qty, int num);
 	int EstimateDelete(EstimateVO vo);
+	int EstimateDetailDelete(String productCod, String cod);
 	
 	int countSalesTables(
 			@Param("pageSize") int pageSize, 
@@ -35,7 +39,11 @@ public interface EstimateService {
 		);
 	
 	List<EstimateVO> ClientNameSelectList();
+	List<EstimateVO> ProductNameSelectList();
 	
 	List<EstimateVO> EstimateDetailSelectList(String cod);
+	
+	int EstimateDetailInsert(String cod, String prodname, int qty);
+	
 	
 }

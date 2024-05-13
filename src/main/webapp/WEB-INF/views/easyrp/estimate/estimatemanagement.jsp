@@ -5,8 +5,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8" />
-<title>Insert title here</title>
 </head>
 <body>
 	<!-- (2024년 4월 30일 추가 박현우) -->
@@ -114,7 +112,9 @@
 										<tbody>
 											<c:forEach items="${estimate }" var="estimate" >
 												<tr>
-													<td class="text-bold-500">${estimate.cod }</td>
+													<td class="text-bold-500">
+    													<a href="#" id="loadDetail" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="estimateDetail('${estimate.cod}')">${estimate.cod}</a>
+													</td>
 													<td>${estimate.estDate }</td>
 													<td>${estimate.clientCod }</td>
 													<td class="text-bold-500">${estimate.employeeCod }</td>
@@ -131,11 +131,10 @@
 															</button>
 															<ul class="dropdown-menu">
 																<li><a class="dropdown-item"
-																	href="estimateupdate?cod=${estimate.cod}">수정</a></li>
-																<li><a class="dropdown-item"
 																	href="estimatedeleteFn?cod=${estimate.cod}">삭제</a></li>
-																<li id="loadDetail" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="estimateDetail('${estimate.cod}')">
-																	모달
+																<li><a class="dropdown-item" href="#" id="loadDetail" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="estimateDetail('${estimate.cod}')">
+																	상세 보기
+																	</a>
 																</li>
 															</ul>
 														</div>
@@ -194,12 +193,12 @@
 		<!-- 상세페이지 모달 START -->
 	<div class="modal fade" id="detailModal" tabindex="-1"
 		aria-labelledby="detailModalLabel" aria-hidden="true" data-bs-backdrop='static' data-bs-keyboard='false'>
-		<div class="modal-dialog modal-xl">
+		<div class="modal-dialog modal-xl" style="width: 1400px;">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="detailModalLabel">공통 상세 페이지</h5>
+					<h5 class="modal-title" id="detailModalLabel">견적 상세 페이지</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+						aria-label="Close" onClick="Modalclose()"></button>
 				</div>
 				<div class="modal-body">
 					<table class="table">
@@ -221,15 +220,17 @@
 							<td id="estimateEmpName"></td>
 							<td></td>
 						</tr>
+						</table>
+						<table class="table">
 						<tr id="detailList">
 							<th colspan="1">상품 코드</th>
-							<th colspan="1">상품 명</th>
+							<th colspan="1" style="width: 160px;">상품 명</th>
 							<th colspan="1">수 량</th>
 							<th colspan="1">단 가</th>
 							<th colspan="1">공급가액</th>
 							<th colspan="1">부가세</th>
 							<th colspan="1">금 액</th>
-							<th colspan="1">수정 삭제</th>
+							<th colspan="1">수정 및 삭제</th>
 
 						<tr>
 							<th colspan="1">총 합</th>
@@ -242,14 +243,11 @@
 						</tr>
 						<tr>
 							<td colspan="6" style="border-bottom-width: 0px">
-								<button type="button" class="btn btn-primary" onClick="estimateChange()">견적 수정</button>
 								<button type="button" class="btn btn-primary">전표 생성</button>
 								<button type="button" class="btn btn-primary">출력</button>
 								<button type="button" class="btn btn-primary">이메일 보내기</button>
-                                <button type="button" class="btn btn-primary" id="loadValues" data-bs-toggle="modal" data-bs-target="#kvModal">
-                                 	 제품 검색
-                                </button>
-                                <button type="button" class="btn btn-primary" onClick="addcolumn()">제품 추가</button>
+								<button type="button" class="btn btn-primary" onClick="estimateChange()">견적 수정</button>
+                                <button type="button" class="btn btn-primary" id="addColumnButton" onClick="addcolumn()">제품 추가</button>
 							</td>
 						</tr>
 					</table>
@@ -260,7 +258,7 @@
 				
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">닫기</button>
+						data-bs-dismiss="modal" onClick="Modalclose()">닫기</button>
 				</div>
 			</div>
 		</div>
@@ -272,12 +270,12 @@
          <div class="modal-dialog">
             <div class="modal-content">
                <div class="modal-header">
-                  <h5 class="modal-title" id="kvModalLabel">코드-값 선택</h5>
+                  <h5 class="modal-title" id="kvModalLabel">코드-상품 선택</h5>
                   <input
                      type="text"
                      id="searchInput"
                      class="form-control"
-                     placeholder="코드 또는 값을 입력해주세요."
+                     placeholder="코드 또는 상품명을 입력해주세요."
                      style="margin-left: 10px; width: auto; flex-grow: 1"
                   />
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -286,9 +284,9 @@
                   <table class="table">
                      <thead>
                         <tr>
-                           <th scope="col">#</th>
+                           <th scope="col">Index</th>
                            <th scope="col">Code</th>
-                           <th scope="col">Value</th>
+                           <th scope="col">상품 명</th>
                         </tr>
                      </thead>
                      <tbody id="modalTableBody">
@@ -311,154 +309,171 @@
 </body>
 
 
-    <script type="text/javascript">
-    
-		/*
-		fetch(url[, options])
-	    .then(response => {
-	        // 응답을 처리하는 로직
-	    })
-	    .catch(error => {
-	        // 에러를 처리하는 로직
-	    });
-		*/
+   <script type="text/javascript">
+
+
+    function estimateDetail(estimateCod) {
     	
-		function estimateDetail(estimateCod) {
-			
-			$.ajax({
-				url: 'estimatedetail',
-				type: 'GET',
-				data: {cod : estimateCod},
-				dataType: 'JSON',
-				success: function(response) {
-					
-				    var totalPrice = 0; // 총 가격 합계 초기값 설정
-				    var totalVat = 0; // 부가세 합계 초기값 설정
-				    var totalSum = 0; // 총합 합계 초기값 설정
-					
-					$('#estimateCod').text(response[0].cod);
-					$('#clientName').text(response[0].clientName);
-					$('#estimateDate').text(response[0].estDate);
-					$('#estimateDept').text(response[0].deptName);
-					$('#estimateEmp').text(response[0].employeeCod);
-					$('#estimateEmpName').text(response[0].empName);
+    	$.ajax({
+    		url: 'estimatedetail',
+    		type: 'GET',
+    		data: {cod : estimateCod},
+    		dataType: 'JSON',
+    		success: function(response) {
+    			
+    		    var totalPrice = 0; // 총 가격 합계 초기값 설정
+    		    var totalVat = 0; // 부가세 합계 초기값 설정
+    		    var totalSum = 0; // 총합 합계 초기값 설정
+    			
+    			$('#estimateCod').text(response[0].cod);
+    			$('#clientName').text(response[0].clientName);
+    			$('#estimateDate').text(response[0].estDate);
+    			$('#estimateDept').text(response[0].deptName);
+    			$('#estimateEmp').text(response[0].employeeCod);
+    			$('#estimateEmpName').text(response[0].empName);
 
-					
-					response.forEach(function(item) {
-						
-						var newRow = $('<tr class="generatedRow">');
-						
-						newRow.append($('<td>').text(item.productCod));
-						
-						newRow.append($('<td>').append($('<input>').attr({
-						    'type': 'text',
-						    'readonly': 'readonly',
-						    'class': 'form-control',
-						}).css('width', '150px').val(item.prodName)));
-						
-						newRow.append($('<td>').append($('<input>').attr({
-							'id': 'qty_' + item.num,
-						    'type': 'number',
-						    'readonly': 'readonly',
-						    'class': 'form-control',
-						}).css('width', '150px').val(item.qty)));
+    			
+    			response.forEach(function(item) {
+    				
+    				var newRow = $('<tr class="generatedRow">');
+    				
+    				newRow.append($('<td>').text(item.productCod));
+    				newRow.append($('<td>').text(item.prodName)); 				
+    				newRow.append($('<td>').append($('<input>').attr({
+    					'id': 'qty_' + item.num,
+    				    'type': 'number',
+    				    'readonly': 'readonly',
+    				    'class': 'form-control',
+    				}).css('width', '120px').val(item.qty)));
 
-						
-						newRow.append($('<td>').text(item.unitprice.toLocaleString()));
-						
-						
-				        // 각 항목의 총 가격 계산 및 표시
-				        var totalPriceItem = item.unitprice * item.qty;
-				        newRow.append($('<td>').text(totalPriceItem.toLocaleString())); // 숫자를 형식화하여 표시
-				        totalPrice += totalPriceItem; // 총 가격 합계 누적
-				        
-				        // 각 항목의 부가세 계산 및 표시
-				        var vat = Math.floor(totalPriceItem * 0.1);
-				        newRow.append($('<td>').text(vat.toLocaleString())); 
-				        totalVat += vat; // 부가세 합계 누적
-				        
-				        // 각 항목의 총합 계산 및 표시
-				        var totalItem = totalPriceItem + vat;
-				        newRow.append($('<td>').text(totalItem.toLocaleString())); 
-				        totalSum += totalItem; // 총합 합계 누적
-						
-				        var editButton = $('<button>').text('수정').addClass('btn btn-primary').css('margin-right', '2px');
-				        var deleteButton = $('<button>').text('삭제').addClass('btn btn-primary');
-				        var buttonGroup = $('<div>').append(editButton).append(deleteButton);
-				        
-					    newRow.append($('<td>').append(buttonGroup));
-					    
-						$('#detailList').after(newRow);
-						
-						editButton.on('click', function() {
-						    var productCod = item.productCod;
-						    var estimateCod = response[0].cod;
-						    var num = item.num;
-						    var qty = $('#qty_' + item.num).val();
-						    
-						    console.log(qty);
-						    
-						    $.ajax({
-						    	url: 'estimateupdate',
-						    	type: 'POST',
-						    	data: {
-						    		cod : estimateCod,
-						    		qty : qty,
-						    		num : num
-						    	},
-						    	dataType: 'JSON',
-						    	success: function(response){
-						    		console.log('성공');
-						    		alert('수정이 완료되었습니다.');
-						    		
-						            // 성공 시 기존 데이터 삭제
-						            $('.generatedRow').remove();
-						            
-						            // 수정 성공 시 해당 함수를 호출하여 전체적으로 다시 렌더링
-						            estimateDetail(estimateCod);
-						            
-						    	},
-						    	error: function(xhr, status, error) {
-									console.error('실패');
-									console.log(xhr,status);
-								}
-						    });
-						    
-						});
+    				
+    				newRow.append($('<td>').text(item.unitprice.toLocaleString()));
+    				
+    				
+    		        // 각 항목의 총 가격 계산 및 표시
+    		        var totalPriceItem = item.unitprice * item.qty;
+    		        newRow.append($('<td>').text(totalPriceItem.toLocaleString())); // 숫자를 형식화하여 표시
+    		        totalPrice += totalPriceItem; // 총 가격 합계 누적
+    		        
+    		        // 각 항목의 부가세 계산 및 표시
+    		        var vat = Math.floor(totalPriceItem * 0.1);
+    		        newRow.append($('<td>').text(vat.toLocaleString())); 
+    		        totalVat += vat; // 부가세 합계 누적
+    		        
+    		        // 각 항목의 총합 계산 및 표시
+    		        var totalItem = totalPriceItem + vat;
+    		        newRow.append($('<td>').text(totalItem.toLocaleString())); 
+    		        totalSum += totalItem; // 총합 합계 누적
+    				
+    		        var editButton = $('<button>').text('수정').addClass('btn btn-primary').css('margin-right', '2px');
+    		        var deleteButton = $('<button>').text('삭제').addClass('btn btn-primary');
+    		        var buttonGroup = $('<div>').append(editButton).append(deleteButton);
+    		        
+    			    newRow.append($('<td>').append(buttonGroup));
+    			    
+    				$('#detailList').after(newRow);
+    				
+    				editButton.on('click', function() {
+    				    var productCod = item.productCod;
+    				    var estimateCod = response[0].cod;
+    				    var num = item.num;
+    				    var qty = $('#qty_' + item.num).val();
+    				    
+    				    console.log(qty);
+    				    
+    				    $.ajax({
+    				    	url: 'estimateupdate',
+    				    	type: 'POST',
+    				    	data: {
+    				    		cod : estimateCod,
+    				    		qty : qty,
+    				    		num : num
+    				    	},
+    				    	dataType: 'JSON',
+    				    	success: function(response){
+    				    		console.log('성공');
+    				    		alert('수정이 완료되었습니다.');
+    				    		
+    				            // 성공 시 기존 데이터 삭제
+    				            $('.generatedRow').remove();
+    				            
+    				            // 수정 성공 시 해당 함수를 호출하여 전체적으로 다시 렌더링
+    				            estimateDetail(estimateCod);
+    				            
+    				    	},
+    				    	error: function(xhr, status, error) {
+    							console.error('실패');
+    							console.log(xhr,status);
+    						}
+    				    });
+    				    
+    				});
 
-						deleteButton.on('click', function() {
-						    var productCod = $(this).closest('tr').find('td:first-child').text(); // 상품 코드 가져오기
-						    var estimateCod = $('#estimateCod').text(); // 견적 코드 가져오기
-						    // 여기서 AJAX를 사용하여 서버에 데이터를 보내고 처리할 수 있습니다.
-						    // 예시: $.ajax({ ... });
-						});
-						
-						
-					});
-					
-				    $('#totalprice').text(totalPrice.toLocaleString());
-				    $('#totalvax').text(totalVat.toLocaleString());
-				    $('#totalsum').text(totalSum.toLocaleString());
-						
-						
-					$('#detailModal').on('hidden.bs.modal', function () {
-						    // 모달이 닫힐 때 생성된 tr 요소 제거
-						    $('.generatedRow').remove();
-						
-					});	
-					
-				},
-				error: function(xhr, status, error) {
-					console.error('실패');
-				}
-			});
-		}
-		
-		
+    				deleteButton.on('click', function() {
+    					var productCod = item.productCod;
+    				    var estimateCod = response[0].cod;
+    				    var num = item.num;
+    				    var qty = $('#qty_' + item.num).val();
+    				    
+    				    console.log(qty);
+    				    
+    				    $.ajax({
+    				    	url: 'estimatedetaildelete',
+    				    	type: 'POST',
+    				    	data: {
+    				    		productCod : productCod,
+    				    		cod: estimateCod,
+    				    	},
+    				    	dataType: 'JSON',
+    				    	success: function(response){
+    				    		console.log('삭제 성공');
+    				    		alert('삭제가 완료되었습니다.');
+    				    		
+    				            // 성공 시 기존 데이터 삭제
+    				            $('.generatedRow').remove();
+    				            
+    				            // 삭제 성공 시 해당 함수를 호출하여 전체적으로 다시 렌더링
+    				            estimateDetail(estimateCod);
+    				            
+    				    	},
+    				    	error: function(xhr, status, error) {
+    							console.error('실패');
+    							console.log(xhr,status);
+    						}
+    				    });
+    					
+    				});
+    				
+    				
+    			});
+    			
+    		    $('#totalprice').text(totalPrice.toLocaleString());
+    		    $('#totalvax').text(totalVat.toLocaleString());
+    		    $('#totalsum').text(totalSum.toLocaleString());
+    				
+    				
+    			$('#detailModal').on('hidden.bs.modal', function () {
+    				    // 모달이 닫힐 때 생성된 tr 요소 제거
+    				    $('.generatedRow').remove();
+    				
+    			});	
+    			
+    		},
+    		error: function(xhr, status, error) {
+    			console.error('실패');
+    		}
+    	});
+    	
+    	// 제품 추가 버튼 활성화
+		$('#addColumnButton').prop('disabled', false);
+    	
+    }
+
 		
 		function estimateChange() {
 			$('input').removeAttr('readonly');
 		}
+<<<<<<< HEAD
     
 
 		function addcolumn() {
@@ -480,67 +495,181 @@
 
             $('#detailList').after(newRow);
         } 
+=======
+	
+		function addcolumn() {			
+			
+			var newRow = $('<tr class="generatedRow">');
+			
+			newRow.append($('<td>').attr({
+				'id': 'productCod',
+			}).text("--"));
+			
+			newRow.append($('<td>').append($('<input>').attr({
+			    'type': 'text',
+			    'readonly': 'readonly',
+			    'class': 'form-control',
+			    'name': 'productName', 
+ 			    'id': 'productName', 
+			    'placeholder': '상품 선택',
+ 			}).css('width', '140px').on('click', function() {
+	 		    $('#kvModal').modal('show'); // 자식 모달 열기
+	 		    console.log('자식 모달 오픈');
+	 		    searchModalOpen();
+			})
+			));
+			
+			newRow.append($('<td>').append($('<input>').attr({
+			    'type': 'number',
+			    'readonly': 'readonly',
+			    'class': 'form-control',
+			    'name': 'productQty', 
+			    'id': 'productQty', 
+			    'placeholder': '수량 입력', 
+			}).css('width', '120px')));
+			newRow.append($('<td>').text("--"));
+			newRow.append($('<td>').text("--"));
+			newRow.append($('<td>').text("--"));
+			newRow.append($('<td>').text("--"));
+			
+	        var checkButton = $('<button>').text('확인').attr({ 'type': 'button' }).addClass('btn btn-primary').css('margin-right', '2px');	        	       	   
+	        var cancelButton = $('<button>').text('취소').addClass('btn btn-primary');
+	        var buttonGroup = $('<div>').append(checkButton).append(cancelButton);
+	        
+		    newRow.append($('<td>').attr({
+		    	'id': 'buttonrow'
+		    }).append(buttonGroup));
+		     		    		    
+		    checkButton.on("click", function() {
+		    	console.log("확인 버튼 누름");
+		    	var estimateCodValue = $('#estimateCod').text();
+		    	var productName = $('#productName').val();
+		    	var productQty = $('#productQty').val();
+		    	
+		    	insertAjax(productName, productQty ,estimateCodValue);				
+	    	});
+		    
+		    
+		    cancelButton.on('click', function() {
+		    	
+ 		    	$(this).closest('tr').remove(); // 새로 추가된 행 삭제
+		    	$('#addColumnButton').prop('disabled', false);
+		    });
+		    
+			
+			$('#detailList').after(newRow);
+			
+			$('#addColumnButton').prop('disabled', true);
+			
+		} 
 		
+		
+		function insertAjax(productName, productQty, estimateCodValue) {
+			
+			$.ajax({
+	    		url: 'estimatedetailinsert',
+	    		type: 'GET',
+	    		dataType: 'JSON',
+	    		data: {
+    				prodname: productName,
+	    			qty: productQty,
+	    			cod: estimateCodValue,
+	    		},
+	    		success: function(response){
+	    			console.log('ajax 성공');
+	    			alert('상품 항목이 추가되었습니다.');
+	    			
+		            // 성공 시 기존 데이터 삭제
+		            $('.generatedRow').remove();
+	    			
+	    			estimateDetail(estimateCodValue);
+	    			
+	    			$('#addColumnButton').prop('disabled', false);
+	    			
+	    		},
+	    		error: function(xhr, status, error){
+	    			console.error('ajax 실패');
+	    			alert('같은 제품이 이미 존재합니다.');
+	    		}
+		    });		    	
+		}
+>>>>>>> 44cfa7d602872fe9f38d9b1419efe75acbf4963e
+		
+		
+		function Modalclose() {
+			
+			$('#addColumnButton').prop('disabled', false);
+		}
+			
 		
         /* valueModal START */
-        function setValue(cod, value) {
-           $('#modalInput').val(value);
-           $('#kvModal').modal('hide');
-           $('.modal-backdrop').remove();
+        function setValue(cod, productName) {
+           $('#productName').val(productName);
+            $('#kvModal').modal('hide');
+            $('.modal-backdrop').remove();
         }
 
-        $(document).ready(function () {
-           $('#loadValues').on('click', function () {
+		
+           function searchModalOpen() {
               $.ajax({
-                 url: 'api/get-kv',
+                 url: 'productnamelist',
                  method: 'GET',
                  success: function (data) {
                     let rows = '';
-                    data.forEach(function (item) {
-                       if (item.id && item.cod) {
+                    data.forEach(function (item, index) {
+                    	
+//  					console.log(item);
                           rows +=
                              '<tr onclick="setValue(\'' +
                              item.cod +
                              "', '" +
-                             item.value +
+                             item.prodName +
                              '\')" ' +
                              'class="searchValue" data-cod="' +
                              item.cod +
                              '" data-value="' +
-                             item.value +
+                             item.prodName +
                              '" style= "' +
                              'cursor: pointer' +
                              '">' +
                              '<td>' +
-                             item.id +
+                             (index + 1) +
                              '</td>' +
                              '<td>' +
                              item.cod +
                              '</td>' +
                              '<td>' +
-                             item.value +
+                             item.prodName +
                              '</td>' +
                              '</tr>';
-                       }
+
                     });
                     $('#modalTableBody').html(rows);
-                    $('#kvModal').modal('show');
+                     $('#kvModal').modal('show');
                  },
+                 error: function (xhr, status, error) {
+                     console.error("실패")
+                 }
+              });
+           }
+
+
+           $('#searchInput').on('keyup', function () {
+              var searchInputValue = $(this).val().toLowerCase();
+              $('.searchValue').each(function () {
+                 var cod = $(this).data('cod').toLowerCase();
+                 var productName = $(this).data('value').toLowerCase();
+                 $(this).toggle(cod.includes(searchInputValue) || productName.includes(searchInputValue));
               });
            });
 
-           $('#searchInput').on('keyup', function () {
-              var searchInputVlaue = $(this).val().toLowerCase()
-              $('.searchValue').each(function () {
-                 var cod = $(this).data('cod').toLowerCase()
-                 var value = $(this).data('value').toLowerCase()
-                 $(this).toggle(cod.includes(searchInputVlaue) || value.includes(searchInputVlaue));
-              });
-           });
-        });
         /* valueModal END */
 		
-		
+// 		function estimateLisetInsert() {
+//         	console.log('등록');
+        	
+        	
+//         }
         
     </script>
 

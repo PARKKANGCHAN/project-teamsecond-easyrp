@@ -11,4 +11,5 @@ import lombok.ToString;
 public class UnitVO {
 	private int cod;
 	private String name;
+	private String deleteyn;
 }

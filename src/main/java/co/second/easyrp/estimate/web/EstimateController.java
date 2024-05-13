@@ -56,7 +56,7 @@ public class EstimateController {
     }
     
     @RequestMapping(value = "/estimateinsert", method = RequestMethod.GET)
-    public String commonInsert(EstimateVO vo, Model model) {
+    public String estimateinsert(EstimateVO vo, Model model) {
     	
     	
     	List<EstimateVO> ClientNames = new ArrayList<EstimateVO>();
@@ -74,7 +74,7 @@ public class EstimateController {
     							 Model model) {
     	
         List<EstimateVO> estimateDetailList = estimateService.EstimateDetailSelectList(estimateCod);
-        System.out.println(estimateDetailList);
+//        System.out.println(estimateDetailList);
         model.addAttribute("estimateDetail", estimateDetailList);
         
         return estimateDetailList;
@@ -87,20 +87,75 @@ public class EstimateController {
 								 @RequestParam("qty") int qty,
 								 @RequestParam("num") int num) {
 		
-		System.out.println(qty);
+//		System.out.println(qty);
 		int result = estimateService.EstimateUpdate(cod, qty, num);
 		
 		return ResponseEntity.ok().body("{\"message\": \"success\"}");
 	}
+	
+	@RequestMapping(value = "/estimatedetaildelete", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<String> estimatedetailDelete(@RequestParam("productCod") String productCod,
+													   @RequestParam("") String cod) {
+		
+//		System.out.println(productCod);
+		int result = estimateService.EstimateDetailDelete(productCod, cod);
+		
+		return ResponseEntity.ok().body("{\"message\": \"success\"}");
+	}
+	
+	
+	@RequestMapping(value = "/productnamelist", method = RequestMethod.GET)
+    @ResponseBody
+    public List<EstimateVO> productnameList() {
+    	
+    	List<EstimateVO> productNameList = new ArrayList<EstimateVO>();
+    	productNameList = estimateService.ProductNameSelectList();
+    	System.out.println(productNameList);
+    
+
+    	return productNameList;
+    }
+	
+	@RequestMapping(value = "/estimatedetailinsert", method = RequestMethod.GET)
+	@ResponseBody
+	public List<EstimateVO> estimatedetailInsert(@RequestParam("prodname") String prodname,
+												 @RequestParam("qty") int qty,
+												 @RequestParam("cod") String cod) {
+		
+		int result = estimateService.EstimateDetailInsert(cod, prodname, qty);
+		
+		return new ArrayList<>();
+	}
+
+    @GetMapping("/api/get-client")
+    @ResponseBody
+    public List<EstimateVO> clientNameSelectList() {
+    	
+    	List<EstimateVO> ClientNames = new ArrayList<EstimateVO>();
+    	ClientNames = estimateService.ClientNameSelectList();
+//    	System.out.println(ClientNames);
+    	
+        return ClientNames;
+    }
+	
    
-//    @RequestMapping(value = "/estimateinsertFn", method = RequestMethod.POST)
-//    public String salesplanInsert(@RequestParam("ClientName") String ClientName) {
-//    	
-//
-//    	
-//    	
-//    	return "redirect:/salesplanmanagement";
-//    }
+    @RequestMapping(value = "/estimateinsertFn", method = RequestMethod.POST)
+    public String estimateInsertFn(@RequestParam("clientName") String clientName,
+    							   @RequestParam("employeeName") String empName,
+    							   @RequestParam("price") int price,
+    							   @RequestParam("prodname") String prodname,
+    							   @RequestParam("qty") int qty) {
+    	
+    	int result = estimateService.EstimateInsert(clientName, empName, price);
+    	
+    	String cod = estimateService.EstimateRecentCodSelect();
+    	
+    	int result2 = estimateService.EstimateDetailInsert(cod, prodname, qty);
+    	
+    	
+    	return "redirect:/salesplanmanagement";
+    }
 	
 	
 //	@PostMapping("/salesplanupdateFn")
@@ -128,16 +183,7 @@ public class EstimateController {
 //    	return "redirect:/salesplanmanagement";
 //    }
     
-//    @GetMapping("/api/get-kv")
-//    @ResponseBody
-//    public List<KeyValueVO> getKeyValues() {
-//        return commonTableService.getAllKeyValues();
-//   }
     
-//    @GetMapping("/api/get-data")
-//   @ResponseBody
-//    public List<CommonTableCopyVO> getDatas() {
-//        return commonTableService.getAllCopyDatas();
-//    }
+
 	
 }

@@ -33,9 +33,9 @@ public class EstimateServiceImpl implements EstimateService {
 	}
 
 	@Override
-	public int EstimateInsert(EstimateVO vo) {
+	public int EstimateInsert(String clientName, String empName, int price) {
 		// TODO Auto-generated method stub
-		return estimateMapper.EstimateInsert(vo);
+		return estimateMapper.EstimateInsert(clientName, empName, price);
 	}
 
 	@Override
@@ -68,5 +68,32 @@ public class EstimateServiceImpl implements EstimateService {
 		// TODO Auto-generated method stub
 		return estimateMapper.EstimateDetailSelectList(cod);
 	}
+
+	@Override
+	public int EstimateDetailDelete(String productCod, String cod) {
+		// TODO Auto-generated method stub
+		return estimateMapper.EstimateDetailDelete(productCod, cod);
+	}
+	
+	@Override
+	public List<EstimateVO> ProductNameSelectList() {
+		
+		return estimateMapper.ProductNameSelectList();
+	}
+
+	@Override
+	public int EstimateDetailInsert(String cod, String prodname, int qty) {
+		// TODO Auto-generated method stub
+		return estimateMapper.EstimateDetailInsert(cod, prodname, qty);
+	}
+
+	@Override
+	public String EstimateRecentCodSelect() {
+		// TODO Auto-generated method stub
+		return estimateMapper.EstimateRecentCodSelect();
+	}
+
+
+
 
 }

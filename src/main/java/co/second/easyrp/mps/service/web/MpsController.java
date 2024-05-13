@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+<<<<<<< HEAD
 import co.second.easyrp.commontable.service.CommonTableVO;
+=======
+>>>>>>> 44cfa7d602872fe9f38d9b1419efe75acbf4963e
 import co.second.easyrp.mps.service.MpsService;
 import co.second.easyrp.mps.service.MpsVO;
 import co.second.easyrp.orderdetail.service.OrderdetailService;
@@ -113,5 +116,9 @@ public class MpsController {
     @ResponseBody
     public List<OrderdetailVO> getOrderdetailValues() {
         return orderdetailService.orderdetailSelectListAll();
+<<<<<<< HEAD
     }
+=======
+	}
+>>>>>>> 44cfa7d602872fe9f38d9b1419efe75acbf4963e
 }
