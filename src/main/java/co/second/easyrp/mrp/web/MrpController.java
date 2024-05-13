@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import co.second.easyrp.inventorymgmt.service.InventoryMgmtService;
+import co.second.easyrp.inventorymgmt.service.InventoryMgmtVO;
 import co.second.easyrp.mps.service.MpsService;
 import co.second.easyrp.mps.service.MpsVO;
 import co.second.easyrp.mrp.service.MrpService;
@@ -21,6 +23,7 @@ import co.second.easyrp.mrp.service.MrpVO;
 public class MrpController {
 	@Autowired MrpService mrpService;
 	@Autowired MpsService mpsService;
+	@Autowired InventoryMgmtService inventoryMgmtService;
 	
 	//소요량전개 관리 페이지
 	@GetMapping("/mrpmanagement")
@@ -75,12 +78,18 @@ public class MrpController {
         return mpsService.mpsSelectListAllModal();
     }
     
-    @GetMapping("/api/get-mrpdeployment")
-    @ResponseBody
-    public List<MrpVO> getMrpDeployment(String productCod) {
-    	mrpService.
-    	// 제품번호를 통해 bom에서 자품목의 자재번호를 가지고 온다.
-    	// 
-        return 
-    }
+//    @GetMapping("/api/get-mrpdeployment")
+//    @ResponseBody
+//    public List<MrpVO> getMrpDeployment(String productCod) {
+//    	List<String> invCodList = mrpService.selectBom(productCod);
+//    	MrpVO mrpVo = new MrpVO();
+//    	mrpVo.setProduct_cod(invCodList.get(0));
+//    	
+//    	InventoryMgmtVO inventoryMgmtVo = new InventoryMgmtVO();
+//    	inventoryMgmtService
+//    	
+//    	mrpVo.setProdname()
+//    	List<MrpVO> 
+//        return 
+//    }
 }

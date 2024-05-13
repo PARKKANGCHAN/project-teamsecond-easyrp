@@ -27,4 +27,5 @@ public class MrpVO {
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date dday;
 	private String account;
+	private String prodname;
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import co.second.easyrp.mps.service.MpsVO;
 import co.second.easyrp.mrp.map.MrpMapper;
 import co.second.easyrp.mrp.service.MrpService;
 import co.second.easyrp.mrp.service.MrpVO;
@@ -70,6 +71,12 @@ public class MrpServiceImpl implements MrpService {
 	public int mpsClosingUpdateToN(MrpVO mrpVo) {
 		// TODO Auto-generated method stub
 		return mrpMapper.mpsClosingUpdateToN(mrpVo);
+	}
+
+	@Override
+	public List<String> selectBom(String productCod) {
+		// TODO Auto-generated method stub
+		return mrpMapper.selectBom(productCod);
 	}
 
 }

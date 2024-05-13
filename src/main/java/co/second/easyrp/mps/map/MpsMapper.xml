@@ -89,7 +89,7 @@
 	</select>
 	
 	<select id="mpsSelect">
-		SELECT m.cod, m.order_cod, m.orderdetail_num, m.plan_date, m.product_cod, p.prodname, p.spec, u.name as 'unitName', od.delivery_date, o.dday, m.qty, c.name as 'clientName', m.note
+		SELECT m.cod, m.order_cod, m.orderdetail_num, m.plan_date, m.product_cod, p.prodname, p.spec, u.name as 'unitName', od.delivery_date, o.dday, m.qty, c.name as 'clientName', m.note, m.account
 		FROM mps m
 		JOIN product p 
 		ON m.product_cod =  p.cod 
