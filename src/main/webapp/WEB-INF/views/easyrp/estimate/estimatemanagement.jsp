@@ -659,7 +659,7 @@
 		function estimateChange() {
 			$('input').removeAttr('readonly');
 		}
-<<<<<<< HEAD
+
     
 
 		function addcolumn() {
@@ -681,7 +681,7 @@
 
             $('#detailList').after(newRow);
         } 
-=======
+
 	
 		function addcolumn() {
 			
@@ -780,7 +780,7 @@
 	    		}
 		    });		    	
 		}
->>>>>>> 44cfa7d602872fe9f38d9b1419efe75acbf4963e
+
 		
 		function registerModalclose() {
 			
