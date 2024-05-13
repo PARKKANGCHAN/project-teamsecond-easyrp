@@ -20,4 +20,7 @@ public interface InventoryMgmtMapper {
 	// 코드의 최대값을 가져와서 값을 자동 삽입 해주기 위한 인터페이스
 	String getMaxCode();
 	
+	// 데이터베이스에 데이터를 삽입하기 위한 기능 인터페이스
+	int updateFn(InventoryMgmtVO inventoryMgmtVO);
+	
 }
