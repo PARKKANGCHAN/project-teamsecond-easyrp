@@ -110,16 +110,16 @@ SELECT
 		LEFT JOIN adjustmentdetail_num=
 		</select>
 			<select id="getAllProductInventoryList">
-		SELECT i.name as inventory, i.cod as inventorycode, p.cod
+		SELECT i.name as name,  i.cod as cod, i.cur_inv_qty as computingQty 
 		 FROM product p
 		 LEFT JOIN inventory i
 		 ON p.cod=i.cod
-		 
-		 SELECT *
+		 UNION 
+		 SELECT p.prodname as name, p.cod as cod, p.cur_inv_qty as computingQty
 		 FROM inventory i
 		 LEFT JOIN product p
 		 ON i.cod = p.cod
-		WHERE i.cod = #{inventoryCod}
-		   OR p.cod = #{productCod}
+		WHERE i.cod = #{cod}
+		   OR p.cod = #{cod}
 	</select>
 </mapper>

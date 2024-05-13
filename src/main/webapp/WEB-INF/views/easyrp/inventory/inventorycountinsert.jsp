@@ -46,7 +46,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                <table class="table table-hover mb-0">
                               <!-- 재고 목록 모달 -->
 							<tr>
-                              <button type="button" class="btn btn-primary" id="loadValues" data-bs-toggle="modal" data-bs-target="#productInventoryModal" style="margin-right: 2rem; width: 10%">재고목록 가져오기</button>
+                              <button type="button" class="btn btn-primary" id="loadProdInv" data-bs-toggle="modal" data-bs-target="#dataProductInventoryModal" style="margin-right: 2rem; width: 10%">재고목록 가져오기</button>
 							</tr>
 										<thead>
 											<tr>
@@ -103,7 +103,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                   <h5 class="modal-title" id="productInventoryModalLabel">재고목록</h5>
                   <input
                      type="text"
-                     id="searchInput"
+                     id="searchDataInput"
                      class="form-control"
                      placeholder="재고코드 또는 품명을 입력해주세요."
                      style="margin-left: 10px; width: auto; flex-grow: 1"
@@ -116,7 +116,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                         <tr>
                            <th scope="col">품번</th>
                            <th scope="col">품명</th>
-                           <th scope="col">처리구분</th>
                         </tr>
                      </thead>
                      <tbody id="productInventorymodalTableBody">
@@ -211,7 +210,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
          /* valueModal START */
          function setValue(cod, value) {
             $('#unit').val(value);
-            $('#productInventoryModal').modal('hide');
+            $('#kvModal').modal('hide');
             $('.modal-backdrop').remove();
          }
 
@@ -249,8 +248,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                               '</tr>';
                         }
                      });
-                     $('#productInventoryModalTableBody').html(rows);
-                     $('#productInventoryModal').modal('show');
+                     $('#modalTableBody').html(rows);
+                     $('#kvModal').modal('show');
                   },
                });
             });
@@ -267,42 +266,33 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
          /* valueModal END */
 
          /*Product&InventoryModalTable START */
-         function setData(movecod, movedate, manager,oboundwarehouse,oboundlocation, iboundwarehouse,iboundlocation,prodcod,prodname,unit,qty) {
-            $('#movecod').val(moveCod);
-            $('#movedate').val(moveDate);
-            $('#manager').val(employeeCod);
-            $('#oboundwarehouse').val(oboundWarehouse);
-            $('#oboundlocation').val(oboundLocation);
-            $('#iboundwarehouse').val(iboundWarehouse);
-            $('#iboundlocation').val(iboundLocation);
-            $('#prodcod').val(prodCod);
-            $('#prodname').val(prodName);
-            $('#unit').val(unit);
-            $('#qty').val(qty);
-            $('#dataPurchaseOrderModal').modal('hide');
+         function setData(cod, name) {
+            $('#cod').val(cod);
+            $('#name').val(name);
+            $('#dataProductInventoryModal').modal('hide');
 
             $('.modal-backdrop').remove();
          }
 
          $(document).ready(function () {
-            $('#loadDatas').on('click', function () {
+            $('#loadProdInv').on('click', function () {
                $.ajax({
                   url: 'api/get-prodinv',
                   method: 'GET',
                   success: function (data) {
-                	  console.log(data);
                      let rows = '';
                      data.forEach(function (item) {
-                        if (item.cod && item.name && item.procclass) {
+                        if (item.cod && item.name) {
                            rows +=
-                              '<tr onclick="setData(\'' +item.movecod +
+                              '<tr onclick="setData(\'' 
+                              +item.cod +
                               "', '" +
-                              item.manager +
+                              item.name +
                               '\')" ' +
                               'class="searchData" data-cod="' +
                               item.cod +
-                              '" data-manager="' +
-                              item.manager +
+                              '" data-name="' +
+                              item.name +
                               '" style= "' +
                               'cursor: pointer' +
                               '">' +
@@ -310,25 +300,23 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                               item.cod +
                               '</td>' +
                               '<td>' +
-                              item.manager +
+                              item.name +
                               '</td>' +
                               '</tr>';
                         }
                      });
-                     console.log(rows);
-                     $('#productInventoryModalTableBody').html(rows);
-                     
-                     $('#dataPurchaseOrderModal').modal('show');
+                     $('#productInventoryModalTableBody').html(rows);  
+                     $('#dataProductInventoryModal').modal('show');
                   },
                });
             });
             
             $('#searchDataInput').on('keyup', function () {
-               let searchInputData = $(this).val();
+               var searchInputData = $(this).val();
                $('.searchData').each(function () {
-                  let movecod = $(this).data('movecod');
-                  let manager = $(this).data('manager');
-                  $(this).toggle(movecod.includes(searchInputData) || movecod.includes(searchInputData));
+                  var cod = $(this).data('cod');
+                  var name = $(this).data('name');
+                  $(this).toggle(cod.includes(searchInputData) || name.includes(searchInputData));
                });
             });
          });
