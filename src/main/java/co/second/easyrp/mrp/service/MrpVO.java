@@ -14,18 +14,22 @@ import lombok.ToString;
 public class MrpVO {
 	private String cod;
 	private int num;
-	private String mps_cod;
-	private String product_cod;
+	private String mpsCod;
+	private String productCod;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
-	private Date take_date;
+	private Date takeDate;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
-	private Date po_date;
+	private Date poDate;
 	private int qty;
-	private String employee_cod;
+	private String employeeCod;
 	private String closing;
 	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date dday;
 	private String account;
 	private String prodname;
+	private String spec;
+	private String unitName;
+	private String invCod;
+	private int invQty;
 }

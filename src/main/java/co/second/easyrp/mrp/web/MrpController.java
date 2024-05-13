@@ -1,5 +1,6 @@
 package co.second.easyrp.mrp.web;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -78,18 +79,37 @@ public class MrpController {
         return mpsService.mpsSelectListAllModal();
     }
     
-//    @GetMapping("/api/get-mrpdeployment")
-//    @ResponseBody
-//    public List<MrpVO> getMrpDeployment(String productCod) {
-//    	List<String> invCodList = mrpService.selectBom(productCod);
-//    	MrpVO mrpVo = new MrpVO();
-//    	mrpVo.setProduct_cod(invCodList.get(0));
-//    	
-//    	InventoryMgmtVO inventoryMgmtVo = new InventoryMgmtVO();
-//    	inventoryMgmtService
-//    	
-//    	mrpVo.setProdname()
-//    	List<MrpVO> 
-//        return 
-//    }
+    @GetMapping("/api/get-mrpdeployment")
+    @ResponseBody
+    public List<MrpVO> getMrpDeployment(String productCod) {
+    	List<MrpVO> bomList = mrpService.selectBom(productCod);
+    	List<MrpVO> mrpVoList = new ArrayList<MrpVO>();
+    	InventoryMgmtVO inventoryMgmtVo = new InventoryMgmtVO();
+    	
+    	for(int i=0; i<bomList.size(); i++) {
+    		MrpVO mrpVo = new MrpVO();
+    		int maxNumber = mrpService.selectMaxCod() + 2 + i;
+    		String newCode = String.format("%03d", maxNumber);
+    		inventoryMgmtVo = inventoryMgmtService.getData(bomList.get(i).getInvCod());
+    		
+    		mrpVo.setCod("mrp" + newCode);
+    		mrpVo.setInvCod(bomList.get(i).getInvCod());
+    		mrpVo.setProdname(inventoryMgmtVo.getName());
+    		mrpVo.setSpec(inventoryMgmtVo.getSpec());
+    		mrpVo.setUnitName(inventoryMgmtVo.getUnitName());
+    		mrpVo.setAccount(inventoryMgmtVo.getAccount());
+    		mrpVo.setInvQty(bomList.get(i).getInvQty());
+    		
+    		mrpVoList.add(mrpVo);
+    	}
+    	
+    	MrpVO mrpVo = new MrpVO();
+    	int maxNumber = mrpService.selectMaxCod() + 1;
+		String newCode = String.format("%03d", maxNumber);
+    	mrpVo.setCod("mrp" + newCode);
+    	mrpVoList.add(0, mrpVo);
+    	
+    	System.out.println("mrplist: " + mrpVoList);
+        return mrpVoList;
+    }
 }

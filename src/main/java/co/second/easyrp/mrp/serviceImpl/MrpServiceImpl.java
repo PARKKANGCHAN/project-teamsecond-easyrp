@@ -74,7 +74,7 @@ public class MrpServiceImpl implements MrpService {
 	}
 
 	@Override
-	public List<String> selectBom(String productCod) {
+	public List<MrpVO> selectBom(String productCod) {
 		// TODO Auto-generated method stub
 		return mrpMapper.selectBom(productCod);
 	}

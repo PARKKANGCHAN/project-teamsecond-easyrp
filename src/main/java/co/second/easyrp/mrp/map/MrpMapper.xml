@@ -13,5 +13,13 @@
 	<delete id="mrpDelete"></delete>
 	<update id="mpsClosingUpdateToY"></update>
 	<update id="mpsClosingUpdateToN"></update>
-	<select id="selectMaxCod"></select>
+	<select id="selectMaxCod">
+		SELECT COALESCE(MAX(CAST(RIGHT (cod,3) AS SIGNED)), 0) AS cod FROM mrp
+	</select>
+	
+	<select id="selectBom">
+		SELECT inv_cod, quantity as 'invQty'
+		FROM bom
+		WHERE prod_cod = #{productCod}
+	</select>
 </mapper>

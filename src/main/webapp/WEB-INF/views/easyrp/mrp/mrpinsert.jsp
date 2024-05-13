@@ -19,7 +19,7 @@
 			<div class="page-title">
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
-						<h3>소요량 등록</h3>
+						<h3>소요량 등록(insert미구현)</h3>
 						<p class="text-subtitle text-muted">소요량을 등록해주세요.</p>
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
@@ -122,62 +122,33 @@
 												</td>
 											</tr>
 										</table>
+										<div style="text-align: center">
+											<button type="button" onclick="callAjax()"
+												class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
+												소요량전개</button>
+										</div>
 										<br/>
 										<table class="table table-hover mb-0">
-										<thead>
-											<tr>
-												<th></th>
-												<th>품번</th>
-												<th>품명</th>
-												<th>규격</th>
-												<th>소요일자</th>
-												<th>예정발주일</th>
-												<th>납기일</th>
-												<th>계획수량</th>
-												<th>단위</th>
-												<th>계정구분</th>
-												<th>기능</th>
-											</tr>
-										</thead>
-										<tbody>
-											<c:if test="${not empty mrpTable }">
-												<c:forEach var="mpsTable" items="${mrpTable }">
-													<tr>
-														<td><input type="checkbox" name="checkbox"></td>
-														<td>${mrpTable.productCod}</td>
-														<td>${mpsTable.prodname }</td>
-														<td>${mpsTable.spec }</td>
-														<td><fmt:formatDate value="${mrpTable.takeDate }" pattern="yyyy-MM-dd"/></td>
-														<td><fmt:formatDate value="${mpsTable.poDate }" pattern="yyyy-MM-dd"/></td>
-														<td><fmt:formatDate value="${mpsTable.dday }" pattern="yyyy-MM-dd"/></td>
-														<td>${mpsTable.qty }</td>
-														<td>${mpsTable.unitName }</td>
-														<td>${mpsTable.account }</td>
-														<td>
-															<div class="btn-group">
-																<button type="button"
-																	class="btn btn-primary dropdown-toggle"
-																	data-bs-toggle="dropdown" aria-expanded="false">
-																	<i class="fa-solid fa-gear"></i>
-																</button>
-																<ul class="dropdown-menu">
-																	<li><a class="dropdown-item"
-																		href="mpsupdate?cod=${mpsTable.cod}">수정</a></li>
-																	<li><a class="dropdown-item"
-																		href="mpsdeletefn?cod=${mpsTable.cod}">삭제</a></li>
-																</ul>
-															</div>
-														</td>
-													</tr>
-												</c:forEach>
-											</c:if>
-											<c:if test="${empty mrpTable }">
+											<thead>
 												<tr>
-													<td colspan="11" align="center">소요량전개 내역이 없습니다.</td>
+													<th>품번</th>
+													<th>품명</th>
+													<th>규격</th>
+													<th>계획일</th>
+													<th>예정발주일</th>
+													<th>납기일</th>
+													<th>예정수량</th>
+													<th>단위</th>
+													<th>계정구분</th>
 												</tr>
-											</c:if>
-										</tbody>
-									</table>
+											</thead>
+											<tbody id="mrpTableBody">
+												<!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
+												<tr>
+													<td colspan="9" align="center">소요량 전개 버튼을 눌러주세요.</td>
+												</tr>
+											</tbody>
+										</table>
 									</div>
 									<div>
 										<input type="hidden" id="employeeCod" name="employeeCod" value="${empCode}" />
@@ -294,6 +265,91 @@
             $('#dataModal').modal('hide');
             $('.modal-backdrop').remove();
          }
+         
+          function callAjax(){
+          	$.ajax({
+          		url: 'api/get-mrpdeployment',
+                  method: 'GET',
+                  data: {
+                  	productCod: $('#productCod').val()
+                  },
+                  success: function (data) {
+                  	let firstRow = '';
+                  	let otherRows = '';
+                  	
+                  	if(data.length > 0){
+                  		let firstItem = data[0];
+                  		if(firstItem.cod){
+                  			firstRow +=
+	                       	   '<tr>'+
+	                              '<td>' +
+	                              $('#productCod').val() +
+	                              '</td>' +
+	                              '<td>' +
+	                              $('#prodname').val() +
+	                              '</td>' +
+	                              '<td>' +
+	                              $('#spec').val() +
+	                              '</td>' +
+	                              '<td>' +
+	                              $('#takeDate').val() +
+	                              '</td>' +
+	                              '<td><input type="date" value="' +
+	                              $('#poDate').val() +
+	                              '"></td>' +
+	                              '<td>'+
+	                              $('#dday').val() +
+	                              '</td>'+
+	                              '<td>' +
+	                              $('#qty').val() +
+	                              '</td>' +
+	                              '<td>' +
+	                              $('#unitName').val() +
+	                              '</td>' +
+	                              '<td>' +
+	                              $('#account').val() +
+	                              '</td>' +
+	                              '</tr>';
+                  		}
+                  	}
+                  	 data.slice(1).forEach(function (item) {
+                          if (item.cod) {
+                             otherRows +=
+                          	  '<tr>'+
+                                '<td>' +
+                                item.invCod +
+                                '</td>' +
+                                '<td>' +
+                                item.prodname +
+                                '</td>' +
+                                '<td>' +
+                                item.spec +
+                                '</td>' +
+                                '<td>' +
+                                $('#takeDate').val() +
+                                '</td>' +
+                                '<td><input type="date" value="' +
+                                $('#poDate').val() +
+                                '"></td>' +
+                                '<td>'+
+                                $('#dday').val() +
+                                '</td>'+
+                                '<td>' +
+                                ($('#qty').val() * item.invQty) +
+                                '</td>' +
+                                '<td>' +
+                                item.unitName +
+                                '</td>' +
+                                '<td>' +
+                                item.account +
+                                '</td>' +
+                                '</tr>';
+                          }
+                       });
+                       $('#mrpTableBody').html(firstRow + otherRows);
+                  }
+          	})
+          }
 
          $(document).ready(function () {
             $('#loadDatas').on('click', function () {
@@ -302,6 +358,7 @@
                   method: 'GET',
                   success: function (data) {
                      let rows = '';
+                     let rows2 = '';
                      data.forEach(function (item) {
                         if (item.cod) {
                            //예정발주일을 납기일의 이틀 전으로 자동으로 설정한다.
@@ -358,6 +415,10 @@
                      });
                      $('#modalDataTableBody').html(rows);
                      
+                     rows2 +=
+                    	 '<tr><td colspan="9" align="center">소요량 전개 버튼을 눌러주세요.</td></tr>'
+                  	 $('#mrpTableBody').html(rows2);
+                  		
                      $('#dataModal').modal('show');
                   },
                });
@@ -372,6 +433,7 @@
                });
             });
          });
+         
          /* DataModal END */
 	</script>
 </html>
