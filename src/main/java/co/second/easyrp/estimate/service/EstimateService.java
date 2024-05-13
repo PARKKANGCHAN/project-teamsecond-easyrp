@@ -19,7 +19,7 @@ public interface EstimateService {
 		    @Param("postSearchDate") Date postSearchDate
 		);
 	
-	EstimateVO EstimateSelect(EstimateVO vo);
+	EstimateVO EstimateSelect(String cod);
 	
 	int EstimateInsert(String clientName, String empName, int price);
 	String EstimateRecentCodSelect();

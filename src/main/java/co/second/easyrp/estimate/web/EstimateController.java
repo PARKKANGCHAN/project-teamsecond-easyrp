@@ -2,6 +2,7 @@ package co.second.easyrp.estimate.web;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,14 +71,22 @@ public class EstimateController {
     
     @GetMapping(value = "/estimatedetail")
     @ResponseBody
-    public List<EstimateVO> estimateDetail(@RequestParam("cod") String estimateCod,
+    public Map<String, Object> estimateDetail(@RequestParam("cod") String estimateCod,
     							 Model model) {
     	
         List<EstimateVO> estimateDetailList = estimateService.EstimateDetailSelectList(estimateCod);
 //        System.out.println(estimateDetailList);
         model.addAttribute("estimateDetail", estimateDetailList);
         
-        return estimateDetailList;
+        EstimateVO estimateSelect = estimateService.EstimateSelect(estimateCod);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("estimateDetailList", estimateDetailList);
+        response.put("estimateSelect", estimateSelect);
+        
+        System.out.println(response);
+        
+        return response;
     	
     }
 

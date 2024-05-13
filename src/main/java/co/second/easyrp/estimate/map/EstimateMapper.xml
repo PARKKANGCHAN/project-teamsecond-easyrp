@@ -68,6 +68,25 @@
 		SELECT cod FROM estimate ORDER BY cod DESC LIMIT 1;
 	</select>
 	
+	<select id="EstimateSelect" parameterType="String">
+
+	SELECT
+	    e.cod,
+	    c.name AS clientName,
+	    emp.name AS empName,
+	    e.client_cod,
+	    e.employee_cod,
+	    e.est_date,
+	    dept.name AS deptName
+	FROM estimate e
+	JOIN client c ON e.client_cod = c.cod
+	JOIN employee emp ON e.employee_cod = emp.cod
+	JOIN department dept ON emp.department_cod = dept.cod
+	WHERE e.cod = #{cod};
+
+		
+	</select>
+	
 	<select id="EstimateDetailSelectList" parameterType="String">
 		SELECT e.estimate_cod as cod , e.num, e2.est_date , p.cod as productcod , p.prodname, e.qty, e.total, c.name as clientname,  e2.employee_cod as employeecod , e3.name as empname, d.name as deptname, p.unitprice
 		FROM estimatedetail e 
@@ -99,15 +118,18 @@
 	<insert id="EstimateDetailInsert">
 	
 	<selectKey keyColumn="generatedIndex,generatedProductCod" keyProperty="generatedIndex,generatedProductCod" resultType="map" order="BEFORE">
-		SELECT 
-		    IFNULL(MAX(ed.num), 0) + 1 AS generatedIndex, 
-		    p.cod AS generatedProductCod
-		FROM 
-		    estimatedetail ed
-		CROSS JOIN 
-		    (SELECT cod FROM product WHERE prodName = #{prodname}) AS p
-		WHERE 
-		    ed.estimate_cod = #{cod};
+	    SELECT 
+	        IFNULL(MAX(ed.num), 0) + 1 AS generatedIndex, 
+	        (
+	            SELECT p.cod 
+	            FROM product p 
+	            WHERE p.prodName = #{prodname}
+	            LIMIT 1
+	        ) AS generatedProductCod
+	    FROM 
+	        estimatedetail ed
+	    WHERE 
+	        ed.estimate_cod = #{cod};
 	</selectKey>
 	
 	    INSERT INTO estimatedetail (estimate_cod, num, product_cod, qty)

@@ -19,7 +19,7 @@ public interface EstimateMapper {
 		    @Param("postSearchDate") Date postSearchDate
 		);
 	
-	EstimateVO EstimateSelect(EstimateVO vo);
+	EstimateVO EstimateSelect(String cod);
 	
 	int EstimateInsert(@Param("clientName") String clientName, @Param("empName") String empName, @Param("price") int price);
 	String EstimateRecentCodSelect();

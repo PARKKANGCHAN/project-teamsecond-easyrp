@@ -27,9 +27,9 @@ public class EstimateServiceImpl implements EstimateService {
 	}
 
 	@Override
-	public EstimateVO EstimateSelect(EstimateVO vo) {
+	public EstimateVO EstimateSelect(String cod) {
 		// TODO Auto-generated method stub
-		return estimateMapper.EstimateSelect(vo);
+		return estimateMapper.EstimateSelect(cod);
 	}
 
 	@Override

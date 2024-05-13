@@ -279,7 +279,7 @@
 					<table class="table">
 						<tr>
 							<th scope="col">견적 번호</th>
-							<td id="estimateCod">테스트</td>
+							<td id="registerEstimateCod">테스트</td>
 							<th scope="col">거래처 명</th>
 							<td>
 								<input type="text" readonly="readonly" class="form-control" name="registerClientName"  id="registerClientName" placeholder="거래처 선택" style="width: 140px;" onClick="clientModalOpen()">
@@ -430,19 +430,32 @@
     		dataType: 'JSON',
     		success: function(response) {
     			
+    			console.log("estimateDetail 함수  실행 후 estimateCod 값 : "+estimateCod);
+    			console.log("response hashmap : " + response)
+    			
     		    var totalPrice = 0; // 총 가격 합계 초기값 설정
     		    var totalVat = 0; // 부가세 합계 초기값 설정
     		    var totalSum = 0; // 총합 합계 초기값 설정
     			
-    			$('#estimateCod').text(response[0].cod);
-    			$('#clientName').text(response[0].clientName);
-    			$('#estimateDate').text(response[0].estDate);
-    			$('#estimateDept').text(response[0].deptName);
-    			$('#estimateEmp').text(response[0].employeeCod);
-    			$('#estimateEmpName').text(response[0].empName);
+                var estimateDetailList = response.estimateDetailList;
+                
+                // estimateSelect 가져오기
+                var estimateSelect = response.estimateSelect;
+                var clientName = estimateSelect.clientName;
+                var estDate = estimateSelect.estDate;
+                var deptName = estimateSelect.deptName;
+                var employeeCod = estimateSelect.employeeCod;
+                var empName = estimateSelect.empName;
+    		    
+    			$('#estimateCod').text(estimateCod);
+    			$('#clientName').text(clientName);
+     			$('#estimateDate').text(estDate);
+    			$('#estimateDept').text(deptName);
+    			$('#estimateEmp').text(employeeCod);
+    			$('#estimateEmpName').text(empName);
 
     			
-    			response.forEach(function(item) {
+    			estimateDetailList.forEach(function(item) {
     				
     				var newRow = $('<tr class="generatedRow">');
     				
@@ -484,7 +497,7 @@
     				
     				editButton.on('click', function() {
     				    var productCod = item.productCod;
-    				    var estimateCod = response[0].cod;
+     				    var estimateCod = estimateCod;
     				    var num = item.num;
     				    var qty = $('#qty_' + item.num).val();
     				    
@@ -729,6 +742,7 @@
 		    checkButton.on("click", function() {
 		    	console.log("확인 버튼 누름");
 		    	var estimateCodValue = $('#estimateCod').text();
+		    	console.log("estimateCod : " + estimateCodValue);
 		    	var productName = $('#productName').val();
 		    	var productQty = $('#productQty').val();
 		    	
