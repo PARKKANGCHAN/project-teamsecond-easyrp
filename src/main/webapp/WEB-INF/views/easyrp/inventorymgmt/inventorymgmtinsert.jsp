@@ -118,7 +118,7 @@
 											</tr>
 											<tr>
 												<td width="150">재고 단위</td>
-												<td><input type="text" id="inventoryUnitName"
+												<td><input type="text" id="unitName"
 													class="form-control" style="width: 70%; float: left"
 													placeholder="우측 재고 단위 조회 버튼을 통해 재고 단위를 선택해주세요." disabled
 													required /> <input

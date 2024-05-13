@@ -60,4 +60,9 @@ public class InventoryMgmtServiceImpl implements InventoryMgmtService {
 		return inventoryMgmtMapper.getData(cod);
 	}
 
+	@Override
+	public int deleteFn(String cod) {
+		return inventoryMgmtMapper.deleteFn(cod);
+	}
+
 }

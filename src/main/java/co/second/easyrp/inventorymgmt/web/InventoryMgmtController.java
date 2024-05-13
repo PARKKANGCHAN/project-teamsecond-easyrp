@@ -67,25 +67,16 @@ public class InventoryMgmtController {
 		model.addAttribute("getInventoryData", getInventoryData);
 		return "easyrp/inventorymgmt/inventorymgmtupdate";
 	}
+	
+	@PostMapping("/inventorymgmtupdatefn")
+	public String inventoryMgmtUpdateFn(InventoryMgmtVO inventoryMgmtVO) {
+		inventoryMgmtService.updateFn(inventoryMgmtVO);
+		return "redirect:/inventorymgmt";
+	}
 
-//	@GetMapping("/productmgmtupdate")
-//	public String productMgmtUpdate(@RequestParam("cod") String cod, Model model) {
-//		ProductMgmtVO getProdMgmtData = productMgmtService.getData(cod);
-//
-//		model.addAttribute("getProdMgmtData", getProdMgmtData);
-//		return "easyrp/productmgmt/productmgmtupdate";
-//	}
-//
-//	@PostMapping("/productmgmtupdatefn")
-//	public String productMgmtUpdateFn(ProductMgmtVO productMgmtVO) {
-//		productMgmtService.updateFn(productMgmtVO);
-//		return "redirect:/productmgmt";
-//	}
-//
-//	@GetMapping("/productmgmtdeletefn")
-//	public String productDeleteFn(@RequestParam("cod") String cod) {
-//		productMgmtService.deleteFn(cod);
-//		return "redirect:/productmgmt";
-//	}
-
+	@GetMapping("/inventorymgmtdeletefn")
+	public String inventoryMgmtDeleteFn(@RequestParam("cod") String cod) {
+		inventoryMgmtService.deleteFn(cod);
+		return "redirect:/inventorymgmt";
+	}
 }

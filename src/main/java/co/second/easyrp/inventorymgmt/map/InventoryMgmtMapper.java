@@ -27,4 +27,8 @@ public interface InventoryMgmtMapper {
 	// 데이터베이스에 데이터를 삽입하기 위한 기능 인터페이스
 	int updateFn(InventoryMgmtVO inventoryMgmtVO);
 	
+	// 데이터베이스에 데이터를 삭제하기 위한 기능 인터페이스
+	int deleteFn(String cod);
+	
+	
 }

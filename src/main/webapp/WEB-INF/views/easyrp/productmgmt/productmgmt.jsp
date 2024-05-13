@@ -102,9 +102,9 @@
 										<thead>
 											<tr>
 												<th width="5%">제품번호</th>
-												<th width="50%">제품명</th>
-												<th width="10%">제품그룹</th>
-												<th width="5%">제품창고</th>
+												<th width="40%">제품명</th>
+												<th width="15%">제품그룹</th>
+												<th width="10%">제품창고</th>
 												<th width="5%">개 수</th>
 												<th width="5%">기 능</th>
 											</tr>

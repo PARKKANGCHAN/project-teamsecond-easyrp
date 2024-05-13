@@ -11,13 +11,16 @@
 		resultType="co.second.easyrp.inventorymgmt.service.InventoryMgmtVO">
 		SELECT i.cod, i.name, p2.name as
 		'productGroupName', w.name as
-		'warehouseName', i.cur_inv_qty
+		'warehouseName', i.cur_inv_qty,
+		u.name AS 'unitName',
+		um.name AS 'mgmtUnitName'
 		FROM inventory i
 		LEFT JOIN warehouse w ON
 		i.warehouse_cod =
 		w.cod
-		LEFT JOIN productgroup p2 ON i.productgroup_cod
-		= p2.cod
+		LEFT JOIN productgroup p2 ON i.productgroup_cod = p2.cod
+		LEFT JOIN unit u ON i.unit_cod = u.cod
+		LEFT JOIN unit um ON i.mgmt_unit_cod = um.cod
 		WHERE
 		i.deleteyn = 'N'
 		<if test="searchCod != null and searchCod != ''">
@@ -42,6 +45,7 @@
 		LIMIT #{pageSize} OFFSET #{offset}
 	</select>
 
+	<!-- 완료 -->
 	<select id="getData"
 		resultType="co.second.easyrp.inventorymgmt.service.InventoryMgmtVO">
 		SELECT
@@ -56,8 +60,7 @@
 		LEFT JOIN warehouse w ON p.warehouse_cod = w.cod
 		LEFT JOIN
 		productgroup p2 ON p.productgroup_cod = p2.cod
-		LEFT JOIN unit u ON
-		p.unit_cod = u.cod
+		LEFT JOIN unit u ON p.unit_cod = u.cod
 		LEFT JOIN unit um ON p.mgmt_unit_cod = um.cod
 		WHERE
 		p.cod = #{cod}
@@ -142,7 +145,8 @@
 		#{productGroupCod}
 		);
 	</insert>
-
+	
+	<!-- 완료 -->
 	<update id="updateFn"
 		parameterType="co.second.easyrp.inventorymgmt.service.InventoryMgmtVO">
 		UPDATE inventory
@@ -168,6 +172,14 @@
 		WHERE cod = #{cod};
 	</update>
 
+	<!-- 완료 -->
+	<update id="deleteFn"
+		parameterType="co.second.easyrp.inventorymgmt.service.InventoryMgmtVO">
+		UPDATE inventory
+		SET
+		DELETEYN = 'Y'
+		WHERE cod = #{cod};
+	</update>
 
 
 </mapper>
