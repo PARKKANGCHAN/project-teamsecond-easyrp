@@ -14,11 +14,11 @@ public class ProductMgmtVO {
 	private int stdprice;
 	private int unitprice;
 	private int basicInvQty;
-	private int basicInvPrice;
+	private long basicInvPrice;
 	private String spec;
 	private int safteyInvQty;
 	private int curInvQty;
-	private int curInvPrice;
+	private long curInvPrice;
 	private String warehouseCod;
 	private String productGroupCod;
 	private int unitCod;

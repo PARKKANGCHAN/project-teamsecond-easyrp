@@ -69,7 +69,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                let unitCod = $(this).data('cod');
                
                /* 제품등록부분 value 삽입 */
-               $(parent.document).find('#inventoryUnitName').val(unitName);
+               $(parent.document).find('#unitName').val(unitName);
                $(parent.document).find('#unitCod').val(unitCod);
 
                $('#loadModal', parent.document).modal('hide');

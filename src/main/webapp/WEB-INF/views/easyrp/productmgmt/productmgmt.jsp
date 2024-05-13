@@ -81,7 +81,7 @@
 																	id="prodGroupSearchModalBtn" data-bs-toggle="modal"
 																	data-bs-target="#loadModal" style="width: 15%"
 																	onclick="searchProductGroupModal()">제품 그룹 조회</button></td>
-																	<td width="5%">사원 코드</td>
+															<td width="5%">사원 코드</td>
 															<td><input type="text" id="searchEmployeeCod"
 																name="searchEmployeeCod" class="form-control"
 																value="${searchVO.searchEmployeeCod}"
@@ -102,9 +102,9 @@
 										<thead>
 											<tr>
 												<th width="5%">제품번호</th>
-												<th width="50%">제품명</th>
-												<th width="10%">제품그룹</th>
-												<th width="5%">제품창고</th>
+												<th width="40%">제품명</th>
+												<th width="15%">제품그룹</th>
+												<th width="10%">제품창고</th>
 												<th width="5%">개 수</th>
 												<th width="5%">기 능</th>
 											</tr>
@@ -195,6 +195,12 @@
 									onclick="productGroupModal();" role="button"
 									style="color: white">제품 그룹 관리</a>
 							</button>
+							<button type="button" class="btn btn-primary">
+								<a id="bomMgmt" data-bs-toggle="modal"
+									data-bs-target="#loadModal" href="javascript:void(0);"
+									onclick="bomModal();" role="button" style="color: white">BOM
+									등록</a>
+							</button>
 						</div>
 					</div>
 				</div>
@@ -216,6 +222,10 @@
 	<!-- 2024년 5월 5일 오전 7시 47분 추가  -->
 	<!-- 초기화 버튼 작동 자바스크립트  -->
 	<script type="text/javascript">
+		function bomModal() {
+			$('.modal-content').load('bommgmtinsertmodal');
+		}
+
 		function unitModal() {
 			$('.modal-content').load('unitmodal');
 		}

@@ -271,7 +271,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                         <span style="font-weight: 800 !important">발주 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">발주 관리</a></li>
+                        <li class="submenu-item"><a href="purchaseordermgmttable" class="submenu-link">발주 관리</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">발주 마감 관리</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">발주 현황 조회</a></li>
                      </ul>
@@ -304,8 +304,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                         <span style="font-weight: 800 !important">재고 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">재고 이동 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">재고 실사 관리</a></li>
+                        <li class="submenu-item"><a href="inventorymovement" class="submenu-link">재고 이동 관리</a></li>
+                        <li class="submenu-item"><a href="inventorycount" class="submenu-link">재고 실사 관리</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">재고 조정</a></li>
                      </ul>
                   </li>
@@ -317,7 +317,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                         <span style="font-weight: 800 !important">재고 현황</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">현 재고 현황</a></li>
+                        <li class="submenu-item"><a href="inventory" class="submenu-link">현 재고 현황</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">재고 수불 현황</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">과다 재고 현황</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">부동 재고 현황</a></li>

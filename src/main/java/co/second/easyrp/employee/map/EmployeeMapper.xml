@@ -10,7 +10,8 @@
 	<!--이 부분은 모든 VO객체에 값을 담을꺼라 * 사용했습니다. -->
 	<select id="employeeAllList">
 		SELECT *
-		FROM employee;
+		FROM employee
+		WHERE deleteyn = 'N'
 	</select>
 
 	<!-- 사원을 등록하기위한 쿼리 -->

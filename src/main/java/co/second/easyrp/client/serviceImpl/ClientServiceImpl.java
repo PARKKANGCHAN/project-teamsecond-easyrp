@@ -72,4 +72,10 @@ public class ClientServiceImpl implements ClientService {
 		return clientMapper.getDiscountData();
 	}
 
+	@Override
+	public List<ClientVO> clientAllList() {
+		// TODO Auto-generated method stub
+		return clientMapper.clientAllList();
+	}
+
 }

@@ -120,5 +120,9 @@
 	  where deleteyn = 'N';
 	</select>
 
+	<select id="clientAllList">
+		SELECT * FROM client 
+		WHERE deleteyn = 'N'
+	</select>
 
 </mapper>
