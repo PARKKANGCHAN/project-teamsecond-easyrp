@@ -473,7 +473,6 @@
 		function estimateChange() {
 			$('input').removeAttr('readonly');
 		}
-    
 	
 		function addcolumn() {			
 			

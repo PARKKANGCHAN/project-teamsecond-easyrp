@@ -65,6 +65,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                              name="name"
                                              class="form-control"
                                              value="${getWarehouseData.name }"
+                                             maxlength="100"
                                              placeholder="창고명을 입력해주세요."
                                              required
                                           />

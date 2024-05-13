@@ -87,5 +87,16 @@ public class WareHouseController {
 		houseService.warehouseDeleteFn(cod);
 		return "redirect:/warehouse";
 	}
+	
+	@GetMapping("/api/get-warehouse")
+	@ResponseBody
+	public List<WareHouseVO> apiGetWarehouse() {
+		return houseService.apiGetWarehouse();
+	}
+	
+	@GetMapping("/warehousemodal")
+	public String warehouseModal() {
+		return "easyrp/warehouse/modal/warehousemodal";
+	}
 
 }

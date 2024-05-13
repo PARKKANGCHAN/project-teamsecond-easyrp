@@ -10,6 +10,8 @@ public interface WareHouseMapper {
 	
 	List<WareHouseVO> warehouseTableAllList(SearchVO searchVo);
 	
+	List<WareHouseVO> apiGetWarehouse();
+	
 	WareHouseVO getWareHouseData(String cod);
 	
 	String getMaxCode();

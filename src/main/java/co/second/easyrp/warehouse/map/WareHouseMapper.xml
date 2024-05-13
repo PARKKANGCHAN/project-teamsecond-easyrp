@@ -19,6 +19,13 @@
 		LIMIT #{pageSize} OFFSET #{offset}
 	</select>
 	
+	<select id="apiGetWarehouse" resultType="co.second.easyrp.warehouse.service.WareHouseVO">
+		SELECT cod, name, location, deleteyn
+		FROM warehouse
+		WHERE deleteyn = 'N'
+		ORDER BY cod DESC;
+	</select>
+	
 	<select id="getWareHouseData" resultType="co.second.easyrp.warehouse.service.WareHouseVO">
         SELECT cod, name, location FROM warehouse WHERE cod = #{cod}
     </select>
