@@ -25,7 +25,7 @@ public interface EstimateService {
 	String EstimateRecentCodSelect();
 	
 	int EstimateUpdate(String cod, int qty, int num);
-	int EstimateDelete(EstimateVO vo);
+	int EstimateDelete(String cod);
 	int EstimateDetailDelete(String productCod, String cod);
 	
 	int countSalesTables(
