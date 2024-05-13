@@ -74,31 +74,15 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                        </td>
                                     </tr>
                                     <tr>
-                                       <td width="150">표준 원가</td>
-                                       <td>
-                                          <input
-                                             type="number"
-                                             id="stdprice"
-                                             name="stdprice"
-                                             class="form-control"
-                                             placeholder="표준 원가는 BOM 입력시 자동으로 계산되어 입력됩니다."
-                                             value="${getProdMgmtData.stdprice}"
-                                             readonly
-                                             required
-                                          />
-                                       </td>
-                                    </tr>
-                                    <tr>
-                                       <td width="150">제품 단가</td>
+                                       <td width="150">완제품 단가(원)</td>
                                        <td>
                                           <input
                                              type="number"
                                              id="unitprice"
                                              name="unitprice"
                                              class="form-control"
-                                             placeholder="제품 단가는 BOM 입력시 자동으로 계산되어 입력됩니다."
+                                             placeholder="완제품 판매 단가(공급가)를 기입해주세요." 
                                              value="${getProdMgmtData.unitprice}"
-                                             readonly
                                              required
                                           />
                                        </td>
@@ -197,7 +181,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                        <td>
                                           <input
                                              type="text"
-                                             id="inventoryUnitName"
+                                             id="unitName"
                                              class="form-control"
                                              style="width: 70%; float: left"
                                              placeholder="우측 재고 단위 조회 버튼을 통해 재고 단위를 선택해주세요."
@@ -324,8 +308,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                     </button>
                                  </a>
                               </div>
-                              <input type="hidden" id="curInvQty" name="curInvQty" readonly required />
-                              <input type="hidden" id="curInvPrice" name="curInvPrice" readonly required />
+                              <input type="hidden" id="curInvQty" name="curInvQty" value="${getProdMgmtData.curInvQty}"  readonly required />
+                              <input type="hidden" id="curInvPrice" name="curInvPrice" value="${getProdMgmtData.curInvPrice}" readonly required />
                            </form>
                         </div>
                      </div>
@@ -355,6 +339,19 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
       <!-- 공통 Modal END  -->
 
       <script type="text/javascript">
+		$(document).ready(function() {
+			$('#unitprice, #basicInvQty').on('input', function() {
+				let unitPrice = $('#unitprice').val();
+				let qty = $('#basicInvQty').val();
+				let price = unitPrice * qty;
+
+				$('#basicInvPrice').val(price);
+				$('#curInvQty').val(qty);
+				$('#curInvPrice').val(price);
+			});
+		});
+      
+      
          function openWarehouseModal() {
             $('.modal-content').load('warehousemodal');
          }
