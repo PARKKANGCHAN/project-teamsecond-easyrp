@@ -70,27 +70,22 @@
 																placeholder="제품이 있는 창고명을 입력해주세요." /></td>
 														</tr>
 														<tr class="text-center">
-															<td width="8%">제품형태</td>
-															<td><select class="form-select" name="searchAccount"
-															id="searchAccount"
-																aria-label="Default select example">
-																	<option value="" ${searchAccount == '' ? "selected" : ""} >제품형태 선택</option>
-																	<option value="완제품" ${searchAccount == '완제품' ? "selected" : ""}>완제품</option>
-																	<option value="반제품" ${searchAccount == '반제품' ? "selected" : ""}>반제품</option>
-																	<option value="제품" ${searchAccount == '제품' ? "selected" : ""}>제품</option>
-																	<option value="원재료" ${searchAccount == '원재료' ? "selected" : ""}>원재료</option>
-																	<option value="부재료" ${searchAccount == '부재료' ? "selected" : ""}>부재료</option>
-															</select></td>
-															<td width="6%">제품그룹</td>
-															<td colspan="3"><input type="text" id="searchProductGroup"
-																name="searchProductGroup" class="form-control"
-																value="${searchVO.searchProductGroup}"
+															<td width="6%">제품 그룹</td>
+															<td colspan="3"><input type="text"
+																id=searchProductGroupName name="searchProductGroupName"
+																class="form-control"
+																value="${searchVO.searchProductGroupName}"
 																style="width: 70%; float: left"
 																placeholder="제품 그룹을 우측 버튼을 이용하거나 직접 입력해주세요." />
 																<button type="button" class="btn btn-primary"
-																	id="loadData" data-bs-toggle="modal"
-																	data-bs-target="#loadDataModal"
-																	style="width: 15%">제품 그룹 조회</button></td>
+																	id="prodGroupSearchModalBtn" data-bs-toggle="modal"
+																	data-bs-target="#loadModal" style="width: 15%"
+																	onclick="searchProductGroupModal()">제품 그룹 조회</button></td>
+															<td width="5%">사원 코드</td>
+															<td><input type="text" id="searchEmployeeCod"
+																name="searchEmployeeCod" class="form-control"
+																value="${searchVO.searchEmployeeCod}"
+																placeholder="제품 등록 사원 코드를 입력해주세요." /></td>
 														</tr>
 													</table>
 												</div>
@@ -107,21 +102,21 @@
 										<thead>
 											<tr>
 												<th width="5%">제품번호</th>
-												<th width="50%">제품명</th>
-												<th width="10%">제품그룹</th>
-												<th width="5%">제품창고</th>
+												<th width="40%">제품명</th>
+												<th width="15%">제품그룹</th>
+												<th width="10%">제품창고</th>
 												<th width="5%">개 수</th>
 												<th width="5%">기 능</th>
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach var="productmgmt" items="${productmgmt}">
+											<c:forEach var="productmgmt" items="${productMgmt}">
 												<tr class="commonDetailTable">
 													<td class="text-bold-500">${productmgmt.cod}</td>
-													<td>${productmgmt.name}</td>
-													<td class="text-bold-500">${productmgmt.group}</td>
-													<td>${productmgmt.warehouse }</td>
-													<td>${productmgmt.currentQuantity }</td>
+													<td>${productmgmt.prodname}</td>
+													<td class="text-bold-500">${productmgmt.prodGroupName}</td>
+													<td>${productmgmt.warehouseName }</td>
+													<td>${productmgmt.curInvQty }</td>
 													<td>
 														<div class="btn-group">
 															<button type="button"
@@ -139,7 +134,7 @@
 													</td>
 												</tr>
 											</c:forEach>
-											<c:if test="${empty client}">
+											<c:if test="${empty productMgmt}">
 												<tr>
 													<td colspan="5" class="text-center">데이터가 존재하지 않습니다.</td>
 												</tr>
@@ -158,7 +153,7 @@
 								class="page-item <c:if test='${startPage == 1}'>disabled</c:if>">
 								<a class="page-link"
 								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&searchCod=${searchVO.searchCod }&searchName=${searchVO.searchName}&searchWarehouseName=${searchVO.searchWarehouseName}
-								&searchAccount=${searchVO.searchAccount}&searchProductGroup=${searchVO.searchProductGroup }</c:if>">이전
+								&searchProductGroupName=${searchVO.searchProductGroupName }&searchEmployeeCod=${searchVO.searchEmployeeCod }</c:if>">이전
 									10 페이지</a>
 							</li>
 
@@ -167,7 +162,7 @@
 									class="page-item <c:if test='${i == currentPage}'>active</c:if>">
 									<a class="page-link"
 									href="?page=${i}&searchCod=${searchVO.searchCod }&searchName=${searchVO.searchName}&searchWarehouseName=${searchVO.searchWarehouseName}
-								&searchAccount=${searchVO.searchAccount}&searchProductGroup=${searchVO.searchProductGroup }">${i}</a>
+								&searchProductGroupName=${searchVO.searchProductGroupName }&searchEmployeeCod=${searchVO.searchEmployeeCod }">${i}</a>
 								</li>
 							</c:forEach>
 
@@ -175,7 +170,7 @@
 								class="page-item <c:if test='${endPage == totalPages}'>disabled</c:if>">
 								<a class="page-link"
 								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&&searchCod=${searchVO.searchCod }&searchName=${searchVO.searchName}&searchWarehouseName=${searchVO.searchWarehouseName}
-								&searchAccount=${searchVO.searchAccount}&searchProductGroup=${searchVO.searchProductGroup }</c:if>">다음
+								&searchProductGroupName=${searchVO.searchProductGroupName }&searchEmployeeCod=${searchVO.searchEmployeeCod }</c:if>">다음
 									10 페이지</a>
 							</li>
 						</ul>
@@ -189,10 +184,22 @@
 								<a href="productmgmtinsert" style="color: white">등록</a>
 							</button>
 							<button type="button" class="btn btn-primary">
-								<a id="unitmgmt" data-bs-toggle="modal" data-bs-target="#loadModal" href="javascript:void(0);" onclick="unitModal();" role="button" style="color: white">단위 관리</a>
+								<a id="unitmgmt" data-bs-toggle="modal"
+									data-bs-target="#loadModal" href="javascript:void(0);"
+									onclick="unitModal();" role="button" style="color: white">단위
+									관리</a>
 							</button>
 							<button type="button" class="btn btn-primary">
-								<a id="productGroupmgmt" data-bs-toggle="modal" data-bs-target="#loadModal" href="javascript:void(0);" onclick="productGroupModal();" role="button" style="color: white">그룹 관리</a>
+								<a id="productGroupmgmt" data-bs-toggle="modal"
+									data-bs-target="#loadModal" href="javascript:void(0);"
+									onclick="productGroupModal();" role="button"
+									style="color: white">제품 그룹 관리</a>
+							</button>
+							<button type="button" class="btn btn-primary">
+								<a id="bomMgmt" data-bs-toggle="modal"
+									data-bs-target="#loadModal" href="javascript:void(0);"
+									onclick="bomModal();" role="button" style="color: white">BOM
+									등록</a>
 							</button>
 						</div>
 					</div>
@@ -200,37 +207,44 @@
 			</section>
 		</div>
 	</div>
-	
+
 	<!-- 공통 Modal START  -->
-      <div class="modal fade" id="loadModal" tabindex="-1" data-bs-backdrop='static' data-bs-keyboard='false' aria-labelledby="loadModalLabel" aria-hidden="true">
+	<div class="modal fade" id="loadModal" tabindex="-1"
+		data-bs-backdrop='static' data-bs-keyboard='false'
+		aria-labelledby="loadModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
-            <div class="modal-content">
-            </div>
-         </div>
-      </div>
-    <!-- 공통 Modal END  -->
-	
+			<div class="modal-content"></div>
+		</div>
+	</div>
+	<!-- 공통 Modal END  -->
+
 	<!-- 제품 관리 테이블 END -->
 	<!-- 2024년 5월 5일 오전 7시 47분 추가  -->
 	<!-- 초기화 버튼 작동 자바스크립트  -->
 	<script type="text/javascript">
-	
-	function unitModal() {
-		$('.modal-content').load('unit');
-	}
-	
-	function productGroupModal() {
-		$('.modal-content').load('productgroup');
-	}
-	
-	
-	function resetSearchForm() {
-		$('#searchCod').val('');
-		$('#searchName').val('');
-		$('#searchWarehouseName').val('');
-		$('#searchAccount').val('');
-		$('#searchProductGroup').val('');
-	}
+		function bomModal() {
+			$('.modal-content').load('bommgmtinsertmodal');
+		}
+
+		function unitModal() {
+			$('.modal-content').load('unitmodal');
+		}
+
+		function productGroupModal() {
+			$('.modal-content').load('productgroupmodal');
+		}
+
+		function searchProductGroupModal() {
+			$('.modal-content').load('searchproductgroupmodal');
+		}
+
+		function resetSearchForm() {
+			$('#searchCod').val('');
+			$('#searchName').val('');
+			$('#searchWarehouseName').val('');
+			$('#searchProductGroupName').val('');
+			$('#searchEmployeeCod').val('');
+		}
 	</script>
 </body>
 </html>

@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import co.second.easyrp.commontable.service.CommonTableVO;
-import co.second.easyrp.commontable.service.KeyValueVO;
 import co.second.easyrp.deptmgmt.service.DepartmentMgmtService;
 import co.second.easyrp.deptmgmt.service.DepartmentMgmtVO;
 import co.second.easyrp.deptmgmt.service.SearchVO;
@@ -93,7 +91,8 @@ public class DepartmentMgmtController {
 		return "redirect:/departmentmgmt";
 	}
 	
-	@GetMapping("/get-wrkdata")
+	@GetMapping("/api/get-wrkdata")
+	@ResponseBody
 	public List<WorkplaceVO> getWrkData() {
 		return departmentMgmtService.getAllWorkplaceValues();
 	}

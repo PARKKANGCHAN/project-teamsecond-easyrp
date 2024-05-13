@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import co.second.easyrp.common.service.UnitService;
-import co.second.easyrp.common.service.UnitVO;
-import co.second.easyrp.commontable.service.CommonTableVO;
 import co.second.easyrp.mps.service.MpsService;
 import co.second.easyrp.mps.service.MpsVO;
 import co.second.easyrp.orderdetail.service.OrderdetailService;
@@ -25,7 +22,6 @@ import co.second.easyrp.orderdetail.service.OrderdetailVO;
 public class MpsController {
 	@Autowired MpsService mpsService;
 	@Autowired OrderdetailService orderdetailService;
-	//@Autowired UnitService unitService;
 	
 	//주계획 관리 페이지	
     @GetMapping("/mpsmanagement")
@@ -64,19 +60,25 @@ public class MpsController {
 	
 	//주문적용 페이지
 	//사용자가 선택한 수주 정보 리스트를 보여주고, 수주에 대한 계획일을 설정하는 페이지
+    //2024.05.09 15:30 손지은 수정 / 메소드 이름 order~ -> mpsInsert로 수정
+    //파라미터 model 안써서 삭제
 	@RequestMapping("mpsinsert")
-	public String mpsOrderList(Model model) {
+	public String mpsInsert() {
 		return "easyrp/mps/mpsinsert";
 	}
 
 	//주계획을 등록하는 함수
+	// 2024.05.09 14:23 수정 손지은
+	// orderdetailMpsStateUpdate -> orderdetailMpsStateToY 메소드명 변경
+	// 메소드명 mpsCompleted -> mpsInsertFn으로 수정
+	// model 파라미터 삭제
 	@RequestMapping("mpsinsertfn")
-	public String mpsCompleted(Model model, MpsVO mpsVo) {
+	public String mpsInsertFn(MpsVO mpsVo) {
 		int maxNumber = mpsService.selectMaxCod() + 1;
 		String newCode = String.format("%03d", maxNumber);
 		mpsVo.setCod("mps" + newCode);
 		mpsService.mpsInsert(mpsVo);
-		mpsService.orderdetailMpsStateUpdate(mpsVo);
+		mpsService.orderdetailMpsStateToY(mpsVo);
 		return "redirect:/mpsmanagement";
 	}
 	
@@ -88,16 +90,20 @@ public class MpsController {
 		return "easyrp/mps/mpsupdate";
 	}
 	
+	// 2024.05.09 14:23 수정 손지은 / sysout 삭제
 	@PostMapping("/mpsupdatefn")
 	public String mpsUpdateFn(MpsVO mpsVo) {
-		System.out.println(mpsVo);
 		mpsService.mpsUpdate(mpsVo);
 		return "redirect:/mpsmanagement";
 	}
 
+	// 2024.05.09 14:23 수정 손지은 / orderdetailMpsStateToN 한줄 추가함
+	// 삭제하면 수주테이블의 주계획작성상태가 N으로 변경되게함
 	@GetMapping("/mpsdeletefn")
 	public String mpsDeleteFn(MpsVO mpsVo, @RequestParam("cod") String cod) {
 		mpsVo.setCod(cod);
+		mpsVo = mpsService.mpsSelect(mpsVo);
+		mpsService.orderdetailMpsStateToN(mpsVo);
 		mpsService.mpsDelete(mpsVo);
 		return "redirect:/mpsmanagement";
 	}
@@ -107,10 +113,4 @@ public class MpsController {
     public List<OrderdetailVO> getOrderdetailValues() {
         return orderdetailService.orderdetailSelectListAll();
     }
-    
-    @GetMapping("/api/get-unit")
-	@ResponseBody
-	public List<UnitVO> getUnitValues() {
-		return unitService.unitSelectListAll();
-	}
 }

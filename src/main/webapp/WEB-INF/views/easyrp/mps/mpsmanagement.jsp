@@ -207,6 +207,7 @@
         }
     </script>
     
+    <!-- 셀렉트박스 고정 자바스크립트 -->
     <script type="text/javascript">
     	window.onload = function(){
     		document.getElementById('searchPlan').value = '${searchPlan}';

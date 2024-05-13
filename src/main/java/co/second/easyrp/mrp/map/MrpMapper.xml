@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.second.easyrp.mrp.map.MrpMapper">
+	<select id="mrpSelectListAll">
+		
+	</select>
+	<select id="countMrpTables"></select>
+	<select id="mrpSelect"></select>
+	<insert id="mrpInsert">
+		
+	</insert>
+	<update id="mrpUpdate"></update>
+	<delete id="mrpDelete"></delete>
+	<update id="mpsClosingUpdateToY"></update>
+	<update id="mpsClosingUpdateToN"></update>
+	<select id="selectMaxCod">
+		SELECT COALESCE(MAX(CAST(RIGHT (cod,3) AS SIGNED)), 0) AS cod FROM mrp
+	</select>
+	
+	<select id="selectBom">
+		SELECT inv_cod, quantity as 'invQty'
+		FROM bom
+		WHERE prod_cod = #{productCod}
+	</select>
+</mapper>

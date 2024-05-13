@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -24,17 +25,9 @@ public class ClientController {
 	ClientService clientService;
 
 	@GetMapping("/client")
-	public String cleint(SearchVO searchVO, Model model, @RequestParam(defaultValue = "1") int page,
-			@RequestParam(defaultValue = "10") int pageSize, @RequestParam(required = false) String searchCod, @RequestParam(required = false) String searchName,
-			@RequestParam(required = false) String searchAddress, @RequestParam(required = false) String searchRepresentative,
-			@RequestParam(required = false) String searchManagerName) {
+	public String cleint(SearchVO searchVO, Model model, @RequestParam(defaultValue = "1") int page) {
 		
-		searchVO.setSearchCod(searchCod);
-		searchVO.setSearchName(searchName);
-		searchVO.setSearchAddress(searchAddress);
-		searchVO.setSearchRepresentative(searchRepresentative);
-		searchVO.setSearchManagerName(searchManagerName);
-		searchVO.setOffset((page - 1) * pageSize);
+		searchVO.setOffset((page - 1) * searchVO.getPageSize());
 		
 		List<ClientVO> client = clientService.clientTableAllList(searchVO);
 		
@@ -42,10 +35,10 @@ public class ClientController {
 		int totalRecords = clientService.countClientTable(searchVO);
 
 		// 제품 개수 / 10(페이지사이즈)를 해서, 총 페이지 개수를 정한다.
-		int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+		int totalPages = (int) Math.ceil((double) totalRecords / searchVO.getPageSize());
 		int pageGroupSize = 10;
 		// 페이지네이션에서 한 그룹 당 페이지개수는 10개까지 보여주기 위한 변수
-		int currentPageGroup = (pageSize - 1) / pageGroupSize;
+		int currentPageGroup = (searchVO.getPageSize() - 1) / pageGroupSize;
 		int startPage = currentPageGroup * pageGroupSize + 1;
 		int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
 		
@@ -66,7 +59,7 @@ public class ClientController {
 	}
 	
 	@PostMapping("/clientinsertfn")
-	public String clientInsertFn(ClientVO clientVO, Model model) {
+	public String clientInsertFn(ClientVO clientVO) {
 		clientService.clientInsertFn(clientVO);
 		return "redirect:/client";
 	}
@@ -94,8 +87,16 @@ public class ClientController {
 	@GetMapping("/api/get-discount")
 	@ResponseBody
 	public List<discountVO> getDiscountData() {
-		System.out.println(clientService.getDiscountData());
 		return clientService.getDiscountData();
+	}
+	
+	//거래처찾기 Modal
+	//2024년 5월 3일 오전 11시 11분 하서현
+	@RequestMapping("/clientSearch")
+	@ResponseBody
+	public List<ClientVO> clientSearch() {
+		List<ClientVO> returnList = clientService.clientAllList();
+		return returnList;
 	}
 
 }

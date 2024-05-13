@@ -8,20 +8,20 @@
 		FROM commontable
 		WHERE DELETEYN = 'N'
 		<if test="searchNumber != null and searchNumber != ''">
-			AND cod = #{cod}
+			AND post_id = #{postId};
 		</if>
 		<if test="searchTitle != null and searchTitle != ''">
-			AND client_cod LIKE CONCAT('%', #{clientCod}, '%')
+			AND title LIKE CONCAT('%', #{title}, '%')
 		</if>
 		<if test="searchContent != null and searchContent != ''">
-			AND product_cod LIKE CONCAT('%', #{productCod}, '%')
+			AND content LIKE CONCAT('%', #{content}, '%')
 		</if>
 		<if test="preSearchDate != null and postSearchDate != null">
-			AND plan_date BETWEEN #{preSearchDate} AND
+			AND created_at BETWEEN #{preSearchDate} AND
 			#{postSearchDate}
 		</if>
-		ORDER BY cod DESC
-		LIMIT #{} OFFSET #{offset}
+		ORDER BY post_id DESC
+		LIMIT #{pageSize} OFFSET #{offset}
 	</select>
 
 

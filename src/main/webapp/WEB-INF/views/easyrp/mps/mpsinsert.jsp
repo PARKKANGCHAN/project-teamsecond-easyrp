@@ -27,8 +27,7 @@
 							class="breadcrumb-header float-start float-lg-end">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="/easyrp">home</a></li>
-								<li class="breadcrumb-item active" aria-current="page">공통
-									테이블</li>
+								<li class="breadcrumb-item active" aria-current="page">주계획 등록</li>
 							</ol>
 						</nav>
 					</div>
@@ -40,11 +39,17 @@
 						<div class="card mb-4">
 							<div class="card-header py-3">
 								<div class="d-flex" style="justify-content: space-between">
-									<h5 class="m-0">등록</h5>
-									<button type="button" class="btn btn-primary" id="loadDatas"
+									<h5 class="m-0 col-6">등록</h5>
+									<div class="d-flex col-6 justify-content-end">
+										<button type="button" class="btn btn-primary mx-2" id="loadDatas"
 										data-bs-toggle="modal" data-bs-target="#dataModal"
-										style="float: left; width: 10%">
-										데이터 가져오기</button>
+										style="float: left; width: 24%">
+											수주정보 가져오기</button>
+										<button type="button" class="btn btn-primary" id="loadDatas"
+											data-bs-toggle="modal" data-bs-target="#dataModal"
+											style="float: left; width: 24%">
+											판매계획 가져오기</button>
+									</div>
 								</div>
 							</div>
 							<div class="card-body mb-3">
@@ -263,6 +268,7 @@
 			</div>
 		</div>
 	</div>
+</body>
 	<!-- Data Modal END  -->
      <script type="text/javascript">
          /* valueModal START */

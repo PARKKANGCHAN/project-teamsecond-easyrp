@@ -36,9 +36,9 @@ public class MpsServiceImpl implements MpsService {
 	}
 
 	@Override
-	public int orderdetailMpsStateUpdate(MpsVO mpsVo) {
+	public int orderdetailMpsStateToY(MpsVO mpsVo) {
 		// TODO Auto-generated method stub
-		return mpsMapper.orderdetailMpsStateUpdate(mpsVo);
+		return mpsMapper.orderdetailMpsStateToY(mpsVo);
 	}
 
 	@Override
@@ -67,5 +67,17 @@ public class MpsServiceImpl implements MpsService {
 	public MpsVO mpsSelect(MpsVO mpsVo) {
 		// TODO Auto-generated method stub
 		return mpsMapper.mpsSelect(mpsVo);
+	}
+
+	@Override
+	public int orderdetailMpsStateToN(MpsVO mpsVo) {
+		// TODO Auto-generated method stub
+		return mpsMapper.orderdetailMpsStateToN(mpsVo);
+	}
+
+	@Override
+	public List<MpsVO> mpsSelectListAllModal() {
+		// TODO Auto-generated method stub
+		return mpsMapper.mpsSelectListAllModal();
 	}
 }

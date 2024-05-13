@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import co.second.easyrp.client.service.ClientVO;
 import co.second.easyrp.commontable.service.CommonTableVO;
 import co.second.easyrp.employee.service.EmployeeService;
 import co.second.easyrp.employee.service.EmployeeVO;
@@ -148,5 +149,13 @@ public class EmployeeController {
 			employeeService.delQuitdate(vo);
 		}
 		return "redirect:/employeelist";
+	}
+	
+	// 사원찾기 Modal
+	@RequestMapping("/empSearch")
+	@ResponseBody
+	public List<EmployeeVO> empSearch() {
+		List<EmployeeVO> returnList = employeeService.employeeAllList();
+		return returnList;
 	}
 }

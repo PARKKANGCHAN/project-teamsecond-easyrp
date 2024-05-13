@@ -28,6 +28,8 @@ public interface MpsService {
 			@Param("preSearchDate") Date preSearchDate, 
 			@Param("postSearchDate") Date postSearchDate);
 	
+	List<MpsVO> mpsSelectListAllModal(); //모달에서 불러오기
+	
 	//개별조회
 	MpsVO mpsSelect(MpsVO mpsVo); 
 	
@@ -35,7 +37,11 @@ public interface MpsService {
 	int mpsUpdate(MpsVO mpsVo); //수정
 	int mpsDelete(MpsVO mpsVo); //삭제
 	
-	int orderdetailMpsStateUpdate(MpsVO mpsVo); //orderdetail의 mps_state 컬럼을 N에서 Y로 바꿔준다.
+	//2024.05.09 14:28 손지은 수정
+	//메소드 이름 orderdetailMpsStateUpdate -> orderdetailMpsStateToN 로 변경
+	//메소드 orderdetailMpsStateToY 추가
+	int orderdetailMpsStateToN(MpsVO mpsVo); //orderdetail의 mps_state 컬럼을 N에서 Y로 바꿔준다.
+	int orderdetailMpsStateToY(MpsVO mpsVo); //orderdetail의 mps_state 컬럼을 Y에서 N으로 바꿔준다.
 	
 	int selectMaxCod(); //숫자가 제일 높은 코드의 숫자를 구한다.
 }
