@@ -33,8 +33,7 @@
 			AND p2.name LIKE CONCAT('%', #{searchProductGroupName}, '%')
 		</if>
 		<if test="searchEmployeeCod != null and searchEmployeeCod != ''">
-			AND p.employee_cod LIKE CONCAT('%', #{searchEmployeeCod},
-			'%')
+			AND p.employee_cod LIKE CONCAT('%', #{searchEmployeeCod}, '%')
 		</if>
 		ORDER BY p.cod DESC
 		LIMIT #{pageSize} OFFSET #{offset}

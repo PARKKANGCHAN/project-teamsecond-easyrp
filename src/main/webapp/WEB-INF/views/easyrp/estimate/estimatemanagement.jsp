@@ -474,7 +474,7 @@
 			$('input').removeAttr('readonly');
 		}
 	
-		function addcolumn() {			
+		function addcolumn() {
 			
 			var newRow = $('<tr class="generatedRow">');
 			
@@ -538,7 +538,7 @@
 			
 			$('#addColumnButton').prop('disabled', true);
 			
-		} 
+		}
 		
 		
 		function insertAjax(productName, productQty, estimateCodValue) {
@@ -573,7 +573,6 @@
 		
 		
 		function Modalclose() {
-			
 			$('#addColumnButton').prop('disabled', false);
 		}
 			
