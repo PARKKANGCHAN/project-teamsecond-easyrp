@@ -117,6 +117,18 @@ public class EstimateController {
     	return productNameList;
     }
 	
+	@RequestMapping(value = "/clientnamelist", method = RequestMethod.GET)
+	@ResponseBody
+	public List<EstimateVO> clientnameList() {
+		
+		List<EstimateVO> clientNameList = new ArrayList<EstimateVO>();
+		clientNameList = estimateService.ClientNameSelectList();
+		System.out.println(clientNameList);
+		
+		
+		return clientNameList;
+	}
+	
 	@RequestMapping(value = "/estimatedetailinsert", method = RequestMethod.GET)
 	@ResponseBody
 	public List<EstimateVO> estimatedetailInsert(@RequestParam("prodname") String prodname,
@@ -156,6 +168,15 @@ public class EstimateController {
     	
     	return "redirect:/salesplanmanagement";
     }
+    
+    @RequestMapping(value = "/estimatedeleteFn", method = RequestMethod.GET)
+    public String estimateInsertFn(@RequestParam("cod") String cod) {
+    	
+    	int result = estimateService.EstimateDelete(cod);
+
+    	return "redirect:/estimatemanagement";
+    }
+    
 	
 	
 //	@PostMapping("/salesplanupdateFn")

@@ -45,9 +45,9 @@ public class EstimateServiceImpl implements EstimateService {
 	}
 
 	@Override
-	public int EstimateDelete(EstimateVO vo) {
+	public int EstimateDelete(String cod) {
 		// TODO Auto-generated method stub
-		return estimateMapper.EstimateDelete(vo);
+		return estimateMapper.EstimateDelete(cod);
 	}
 
 	@Override

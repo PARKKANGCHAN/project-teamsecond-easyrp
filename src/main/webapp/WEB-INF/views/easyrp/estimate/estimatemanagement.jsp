@@ -179,8 +179,8 @@
 					<div class="d-flex"
 						style="padding-bottom: 0.5rem; padding-top: 0.5rem;">
 						<div class="col-md-6">
-							<button type="button" class="btn btn-primary">
-								<a href="estimateinsert" style="color: white">등록</a>
+							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegisterModal">
+								등록
 							</button>
 						</div>
 					</div>
@@ -265,6 +265,115 @@
 	</div>
 	<!-- 상세페이지 모달 END  -->
 	
+		<!-- 등록페이지 모달 START -->
+	<div class="modal fade" id="RegisterModal" tabindex="-1"
+		aria-labelledby="detailModalLabel" aria-hidden="true" data-bs-backdrop='static' data-bs-keyboard='false'>
+		<div class="modal-dialog modal-xl" style="width: 1400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="detailModalLabel">견적 등록 페이지</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close" onClick="registerModalclose()"></button>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+							<th scope="col">견적 번호</th>
+							<td id="estimateCod">테스트</td>
+							<th scope="col">거래처 명</th>
+							<td>
+								<input type="text" readonly="readonly" class="form-control" name="registerClientName"  id="registerClientName" placeholder="거래처 선택" style="width: 140px;" onClick="clientModalOpen()">
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<th scope="col">견적 담당 부서</th>
+							<td id="estimateDept">${empDeptCode}</td>
+							<th scope="col">견적 담당 사원코드</th>
+							<td id="estimateEmp">${empCode }</td>
+							<th scope="col">견적 담당자 명</th>
+							<td id="estimateEmpName">${empName }</td>
+							<td></td>
+						</tr>
+						</table>
+						<table class="table">
+						<tr id="RegisterList">
+							<th colspan="1">상품 코드</th>
+							<th colspan="1" style="width: 160px;">상품 명</th>
+							<th colspan="1">수 량</th>
+							<th colspan="1">단 가</th>
+							<th colspan="1">공급가액</th>
+							<th colspan="1">부가세</th>
+							<th colspan="1">금 액</th>
+							<th colspan="1">수정 및 삭제</th>
+
+						<tr>
+							<th colspan="1">총 합</th>
+							<td colspan="1"></td>
+							<td colspan="1"></td>
+							<td colspan="1"></td>
+							<td colspan="1" id="totalprice"></td>
+							<td colspan="1" id="totalvax"></td>
+							<td colspan="1" id="totalsum"></td>
+						</tr>
+						<tr>
+							<td colspan="6" style="border-bottom-width: 0px">
+								<button type="button" class="btn btn-primary" onClick="estimateChange()">견적 수정</button>
+                                <button type="button" class="btn btn-primary" id="registerAddColumnButton" onClick="registerAddcolumn()">제품 추가</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+				
+				     
+				
+				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal" onClick="registerModalclose()">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 등록페이지 모달 END  -->
+	
+	<!-- clientName Modal START  -->
+	 <div class="modal fade" id="clientNameModal" tabindex="-1" aria-labelledby="kvModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="kvModalLabel">코드-상품 선택</h5>
+                  <input
+                     type="text"
+                     id="searchInput"
+                     class="form-control"
+                     placeholder="코드 또는 거래처명을 입력해주세요."
+                     style="margin-left: 10px; width: auto; flex-grow: 1"
+                  />
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  <table class="table">
+                     <thead>
+                        <tr>
+                           <th scope="col">Index</th>
+                           <th scope="col">Code</th>
+                           <th scope="col">거래처명</th>
+                        </tr>
+                     </thead>
+                     <tbody id="ClientmodalTableBody">
+                        <!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
+                     </tbody>
+                  </table>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- clientName Modal END  -->
+      
 	<!-- Value Modal START  -->
 	 <div class="modal fade" id="kvModal" tabindex="-1" aria-labelledby="kvModalLabel" aria-hidden="true">
          <div class="modal-dialog">
@@ -468,6 +577,83 @@
 		$('#addColumnButton').prop('disabled', false);
     	
     }
+			
+    	function registerAddcolumn() {
+    		console.log("registerAddcolumn");
+    		
+			var newRow = $('<tr class="generatedRow">');
+			
+			var Counter = $('.generatedRow').length + 1;
+			
+			newRow.append($('<td>').attr({
+				'id': 'productCod',
+			}).text("--"));
+			
+			newRow.append($('<td>').append($('<input>').attr({
+			    'type': 'text',
+			    'readonly': 'readonly',
+			    'class': 'form-control',
+			    'name': 'RegisterProductName' + Counter, 
+ 			    'id': 'RegisterProductName' + Counter, 
+			    'placeholder': '상품 선택',
+ 			}).css('width', '140px').on('click', function() {
+	 		    $('#kvModal').modal('show'); // 자식 모달 열기
+	 		    console.log('자식 모달 오픈');
+	 		    searchModalOpen();
+			})
+			));
+			
+			newRow.append($('<td>').append($('<input>').attr({
+			    'type': 'number',
+			    'class': 'form-control',
+			    'name': 'RegisterProductQty' + Counter, 
+			    'id': 'RegisterProductQty' + Counter, 
+			    'placeholder': '수량 입력', 
+			}).css('width', '120px')));
+			newRow.append($('<td>').text("--"));
+			newRow.append($('<td>').text("--"));
+			newRow.append($('<td>').text("--"));
+			newRow.append($('<td>').text("--"));
+			
+	        var checkButton = $('<button>').text('등록').attr({ 'type': 'button' }).addClass('btn btn-primary').css('margin-right', '2px');	        	       	   
+	        var cancelButton = $('<button>').text('취소').addClass('btn btn-primary');
+	        var buttonGroup = $('<div>').append(checkButton).append(cancelButton);
+	        
+		    newRow.append($('<td>').attr({
+		    	'id': 'buttonrow'
+		    }).append(buttonGroup));
+		     		    		    
+		    checkButton.on("click", function() {
+		    	console.log("등록 버튼 누름");
+		    	
+		    	var RegisterProductName = $('#RegisterProductName').val();
+		    	var RegisterProductQty = $('#RegisterProductQty').val();
+		    	var registerClientName = $('#registerClientName').val();
+		    	
+		    	registerAjax(RegisterProductName, RegisterProductQty, registerClientName);
+		    					
+		    	$('#registerAddColumnButton').prop('disabled', false);
+	    	});
+		    
+		    
+		    cancelButton.on('click', function() {
+		    	
+ 		    	$(this).closest('tr').remove(); // 새로 추가된 행 삭제
+		    	$('#registerAddColumnButton').prop('disabled', false);
+		    });
+		    
+			
+			$('#RegisterList').after(newRow);
+			
+			$('#registerAddColumnButton').prop('disabled', true);
+    		
+    	}
+    	
+    	function registerAjax(RegisterProductName, RegisterProductQty, registerClientName) {
+    		console.log('RegisterAjax 실행');
+    		
+    		
+    	}
 
 		
 		function estimateChange() {
@@ -542,6 +728,7 @@
 		
 		
 		function insertAjax(productName, productQty, estimateCodValue) {
+
 			
 			$.ajax({
 	    		url: 'estimatedetailinsert',
@@ -571,17 +758,55 @@
 		    });		    	
 		}
 		
+		function registerModalclose() {
+			
+			$('#registerAddColumnButton').prop('disabled', false);
+		}
 		
 		function Modalclose() {
 			$('#addColumnButton').prop('disabled', false);
 		}
-			
+		
+		
+        function setClientValue(clientCod, clientName) {
+        	console.log("setClientValue 실행");
+        	console.log(clientName);
+           $('#registerClientName').val(clientName);
+            $('#clientNameModal').modal('hide');
+            $('.modal-backdrop').remove();
+        }
 		
         /* valueModal START */
         function setValue(cod, productName) {
            $('#productName').val(productName);
             $('#kvModal').modal('hide');
             $('.modal-backdrop').remove();
+        }
+        
+        function clientModalOpen() {
+        	console.log("거래처 모달");
+        	$('#clientNameModal').modal('show');
+        	$.ajax({
+        		url: 'clientnamelist',
+        		method: 'GET',
+        		success: function (data) {
+        			let rows = '';
+        			data.forEach(function (item, index) {
+        				rows += `
+        					<tr onclick="setClientValue('\${item.clientCod}', '\${item.clientName}')" class="searchValue" data-cod="'\${item.clientCod}'" data-value="'\${item.clientName}'" sytle="cursor : pointer">
+        					<td>\${(index + 1)}</td>
+        					<td>\${item.clientCod}</td>
+        					<td>\${item.clientName}</td>
+        					</tr>
+        				`;
+        			});
+        				$('#ClientmodalTableBody').html(rows);
+                        $('#RegisterModal').modal('show');
+        		},
+                error: function (xhr, status, error) {
+                    console.error("실패")
+                }
+        	});
         }
 
 		

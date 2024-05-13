@@ -58,6 +58,12 @@
 		
 	</insert>
 	
+	<update id="EstimateDelete">
+		update estimate
+		set deleteyn = 'Y'
+		where cod = #{cod}
+	</update>
+	
 	<select id="EstimateRecentCodSelect">
 		SELECT cod FROM estimate ORDER BY cod DESC LIMIT 1;
 	</select>

@@ -25,7 +25,7 @@ public interface EstimateMapper {
 	String EstimateRecentCodSelect();
 	
 	int EstimateUpdate(@Param("cod") String cod, @Param("qty") int qty, @Param("num") int num);
-	int EstimateDelete(EstimateVO vo);
+	int EstimateDelete(String cod);
 	int EstimateDetailDelete(@Param("productCod") String productCod, @Param("cod") String cod);
 	
 	int countSalesTables(
