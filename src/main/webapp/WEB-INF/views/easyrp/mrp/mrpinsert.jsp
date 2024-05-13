@@ -89,7 +89,7 @@
 											<tr>
 												<td width="150">예정발주일</td>
 												<td><input type="date" id="poDate" name="poDate"
-													class="form-control" placeholder="예정발주일 입력해주세요." required/>
+													class="form-control" placeholder="예정발주일 입력해주세요." required readonly/>
 												</td>
 											</tr>
 											<!-- 납기일 INPUT -->
