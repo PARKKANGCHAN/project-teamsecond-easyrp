@@ -52,27 +52,26 @@
 												<div class="mb-4" style="text-align: center">
 													<table class="table table-bordered" id="searchTable">
 														<tr>
-															<td width="100">이동 번호</td>
-															<td><input type="text" id="searchCod"
-																name="searchCod" class="form-control"
-																value="${searchCod}" placeholder="실사 번호를 입력해주세요." /></td>
+															<td width="100">실사 번호</td>
+															<td>
+																<input type="text" id="searchCod" name="searchCod" class="form-control" value="${searchCod}" placeholder="실사 번호를 입력해주세요." />
+															</td>
 															<td width="100">창고</td>
-															<td><input type="text" id="searchWarehouse"
-																name="searchWarehouse" class="form-control"
-																value="${searchWarehouse}" placeholder="창고를 입력해주세요." /></td>
-															<td width="100">장소</td>
-															<td><input type="text" id="searchProduct"
-																name="searchProduct" class="form-control"
-																value="${searchProduct}" placeholder="품명를 입력해주세요." /></td>
+															<td>
+																<input type="text" id="searchWarehouse" name="searchWarehouse" class="form-control" value="${searchWarehouse}" placeholder="창고를 입력해주세요." />
+															</td>
 															<td width="100">품명</td>
-															<td><input type="text" id="searchEmployee"
-																name="searchEmployee" class="form-control"
-																value="${searchEmployee}" placeholder="담당자명을 입력해주세요." /></td>
-															<td width="100">발주 번호</td>
-															<td><input type="text" id="searchInventory"
-																name="searchInventory" class="form-control"
-																value="${searchInventory}" placeholder="자재명을 입력해주세요." /></td>
+															<td>
+																<input type="text" id="searchProduct" name="searchProduct" class="form-control" value="${searchProduct}" placeholder="품명를 입력해주세요." />
+															</td>
+															<td width="100">담당자</td>
+															<td>
+																<input type="text" id="searchEmployee" name="searchEmployee" class="form-control" value="${searchEmployee}" placeholder="담당자명을 입력해주세요." />
+															</td>
 															<td width="100">자재명</td>
+															<td>
+																<input type="text" id="searchInventory" name="searchInventory" class="form-control" value="${searchInventory}" placeholder="자재명을 입력해주세요." />
+															</td>
 														</tr>
 														<tr>
 															<td width="100">검색 날짜</td>
@@ -190,7 +189,7 @@
 						style="padding-bottom: 0.5rem; padding-top: 0.5rem;">
 						<div class="col-md-6">
 							<button type="button" class="btn btn-primary">
-								<a href="inventoryCountinsert" style="color: white">등록</a>
+								<a href="inventorycountinsert" style="color: white">등록</a>
 							</button>
 						</div>
 					</div>

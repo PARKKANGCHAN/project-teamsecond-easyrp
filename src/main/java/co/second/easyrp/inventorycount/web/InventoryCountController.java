@@ -8,11 +8,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import co.second.easyrp.inventorycount.service.InventoryCountDetailVO;
 import co.second.easyrp.inventorycount.service.InventoryCountService;
 import co.second.easyrp.inventorycount.service.InventoryCountVO;
+import co.second.easyrp.inventorycount.service.ProductInventoryVO;
 import co.second.easyrp.inventorycount.service.SearchVO;
+import co.second.easyrp.purchaseorderdetail.service.PurchaseOrderDetailVO;
 
 @Controller
 public class InventoryCountController {
@@ -64,5 +69,17 @@ public class InventoryCountController {
 
 		return "easyrp/inventory/inventorycount";
 		
+	}
+	
+	@RequestMapping("/inventorycountinsert")
+	public String inventoryCountInsert(InventoryCountVO inventorycountvo, InventoryCountDetailVO inventorycountdetailvo, Model model) {
+		
+		return "easyrp/inventory/inventorycountinsert";
+	}
+	
+	@GetMapping("/api/get-prodinv")
+	@ResponseBody
+	public List<ProductInventoryVO> getProdInv(){
+		return inventorycountservice.getAllProductInventoryList();
 	}
 }

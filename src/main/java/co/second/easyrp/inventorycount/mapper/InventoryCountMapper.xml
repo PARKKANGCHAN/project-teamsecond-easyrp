@@ -90,4 +90,36 @@ SELECT
 			AND ic.count_date BETWEEN #{preSearchDate} AND #{postSearchDate}
 		</if>
 		</select>
+		<select id="selectInventoryCountList">
+		SELECT cod, count_date, inv_date, warehouse, location, countclass, employee, note
+		  FROM inventorycount
+		 WHERE deleteyn = 'N'
+		   AND cod= #{cod}
+		</select>
+		<select id="selectedInventoryCountDetailList">
+		SELECT num, inventorycount_cod, product_cod, spec
+		  FROM inventorycountdetail icd
+		LEFT JOIN inventorycount ic
+		  ON icd.inventorycount_cod = ic.cod
+		LEFT JOIN product p
+		  ON icd.product_cod = p.cod
+		LEFT JOIN inventory i
+		  ON icd.inventory_cod = i.cod
+		LEFT JOIN unit u
+		  ON icd.unit_cod = u.cod
+		LEFT JOIN adjustmentdetail_num=
+		</select>
+			<select id="getAllProductInventoryList">
+		SELECT i.name as inventory, i.cod as inventorycode, p.cod
+		 FROM product p
+		 LEFT JOIN inventory i
+		 ON p.cod=i.cod
+		 
+		 SELECT *
+		 FROM inventory i
+		 LEFT JOIN product p
+		 ON i.cod = p.cod
+		WHERE i.cod = #{inventoryCod}
+		   OR p.cod = #{productCod}
+	</select>
 </mapper>

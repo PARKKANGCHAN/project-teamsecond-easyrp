@@ -7,8 +7,10 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import co.second.easyrp.inventorycount.mapper.InventoryCountMapper;
+import co.second.easyrp.inventorycount.service.InventoryCountDetailVO;
 import co.second.easyrp.inventorycount.service.InventoryCountService;
 import co.second.easyrp.inventorycount.service.InventoryCountVO;
+import co.second.easyrp.inventorycount.service.ProductInventoryVO;
 import co.second.easyrp.inventorycount.service.SearchVO;
 
 @Service
@@ -48,5 +50,24 @@ public class InventoryCountSerivceImpl implements InventoryCountService {
 		// TODO Auto-generated method stub
 		return inventorycountmapper.countInventoryCountLists(searchVo);
 	}
+
+	@Override
+	public List<InventoryCountVO> selectInventoryCountList(InventoryCountVO vo) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.selectInventoryCountList(vo);
+	}
+
+	@Override
+	public List<InventoryCountDetailVO> selectedInventoryCountDetailList(InventoryCountVO vo) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.selectedInventoryCountDetailList(vo);
+	}
+
+	@Override
+	public List<ProductInventoryVO> getAllProductInventoryList() {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.getAllProductInventoryList();
+	}
+
 
 }

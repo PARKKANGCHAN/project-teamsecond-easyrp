@@ -63,9 +63,7 @@
 			#{postSearchDate}
 		</if>
 	</select>
-	<insert id="insertInventory">
-	INSERT INTO Inventory VALUES()
-	</insert>
+	<insert id="insertInventory"></insert>
 	<update id="updateInventory"></update>
 	<delete id="deleteInventory"></delete>
 </mapper>

@@ -57,7 +57,6 @@ public class InventoryController {
 		model.addAttribute("inventoryList", inventoryList);
 		model.addAttribute("productList", productList);
 		model.addAttribute("currentPage", page);
-//		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("totalPages", Math.max(totalPages, totalProductPages));
 		model.addAttribute("pageSize", size);
 		model.addAttribute("endPage", endPage);
