@@ -21,7 +21,9 @@ public interface EstimateMapper {
 	
 	EstimateVO EstimateSelect(String cod);
 	
-	int EstimateInsert(@Param("clientName") String clientName, @Param("empName") String empName, @Param("price") int price);
+	int EstimateInsert(EstimateVO estimatevo);
+	int EstimateInsert2(@Param("cod") String cod, @Param("prodName") String prodName, @Param("qty") int qty);
+	
 	String EstimateRecentCodSelect();
 	
 	int EstimateUpdate(@Param("cod") String cod, @Param("qty") int qty, @Param("num") int num);

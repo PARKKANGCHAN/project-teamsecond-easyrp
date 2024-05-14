@@ -17,6 +17,7 @@ public class EstimateVO {
 	private String clientCod;
 	private String employeeCod;
 	private int price;
+	private int subtotal;
 	private String deleteyn;
 	private int total;
 	private String orderyn;

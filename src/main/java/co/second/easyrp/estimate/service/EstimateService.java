@@ -21,7 +21,9 @@ public interface EstimateService {
 	
 	EstimateVO EstimateSelect(String cod);
 	
-	int EstimateInsert(String clientName, String empName, int price);
+	int EstimateInsert(EstimateVO estimatevo);
+	int EstimateInsert2(String cod, String prodName, int qty);
+	
 	String EstimateRecentCodSelect();
 	
 	int EstimateUpdate(String cod, int qty, int num);

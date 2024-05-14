@@ -118,7 +118,7 @@
 													<td>${estimate.estDate }</td>
 													<td>${estimate.clientCod }</td>
 													<td class="text-bold-500">${estimate.employeeCod }</td>
-													<td>${estimate.price }</td>
+													<td>${estimate.subtotal }</td>
 													<td>10%</td>
 													<td>${estimate.total }</td>
 													<td>${estimate.orderyn }</td>
@@ -290,7 +290,7 @@
 							<th scope="col">견적 담당 부서</th>
 							<td id="estimateDept">${empDeptCode}</td>
 							<th scope="col">견적 담당 사원코드</th>
-							<td id="estimateEmp">${empCode }</td>
+							<td id="estimateEmp1">${empCode }</td>
 							<th scope="col">견적 담당자 명</th>
 							<td id="estimateEmpName">${empName }</td>
 							<td></td>
@@ -320,6 +320,7 @@
 							<td colspan="6" style="border-bottom-width: 0px">
 								<button type="button" class="btn btn-primary" onClick="estimateChange()">견적 수정</button>
                                 <button type="button" class="btn btn-primary" id="registerAddColumnButton" onClick="registerAddcolumn()">제품 추가</button>
+                                <button type="button" class="btn btn-primary" id="registerEstimate" onClick="estimateRegister()">견적 등록</button>                                
 							</td>
 						</tr>
 					</table>
@@ -593,10 +594,9 @@
 			
     	function registerAddcolumn() {
     		console.log("registerAddcolumn");
+    		var uniqueId = generateUniqueId();
     		
 			var newRow = $('<tr class="generatedRow">');
-			
-			var Counter = $('.generatedRow').length + 1;
 			
 			newRow.append($('<td>').attr({
 				'id': 'productCod',
@@ -606,21 +606,21 @@
 			    'type': 'text',
 			    'readonly': 'readonly',
 			    'class': 'form-control',
-			    'name': 'RegisterProductName' + Counter, 
- 			    'id': 'RegisterProductName' + Counter, 
+			    'name': 'RegisterProductName' + uniqueId, 
+ 			    'id': 'RegisterProductName' + uniqueId, 
 			    'placeholder': '상품 선택',
  			}).css('width', '140px').on('click', function() {
 	 		    $('#kvModal').modal('show'); // 자식 모달 열기
 	 		    console.log('자식 모달 오픈');
-	 		    searchModalOpen();
+	 		    RegisterProductSearchModalOpen(uniqueId);
 			})
 			));
 			
 			newRow.append($('<td>').append($('<input>').attr({
 			    'type': 'number',
 			    'class': 'form-control',
-			    'name': 'RegisterProductQty' + Counter, 
-			    'id': 'RegisterProductQty' + Counter, 
+			    'name': 'RegisterProductQty' + uniqueId, 
+			    'id': 'RegisterProductQty' + uniqueId, 
 			    'placeholder': '수량 입력', 
 			}).css('width', '120px')));
 			newRow.append($('<td>').text("--"));
@@ -628,9 +628,9 @@
 			newRow.append($('<td>').text("--"));
 			newRow.append($('<td>').text("--"));
 			
-	        var checkButton = $('<button>').text('등록').attr({ 'type': 'button' }).addClass('btn btn-primary').css('margin-right', '2px');	        	       	   
 	        var cancelButton = $('<button>').text('취소').addClass('btn btn-primary');
-	        var buttonGroup = $('<div>').append(checkButton).append(cancelButton);
+	        var buttonGroup = $('<div>').append(cancelButton);
+	        var checkButton = $('<button>').text('등록').attr({ 'type': 'button' }).addClass('btn btn-primary').css('margin-right', '2px');	        	       	   
 	        
 		    newRow.append($('<td>').attr({
 		    	'id': 'buttonrow'
@@ -657,16 +657,10 @@
 		    
 			
 			$('#RegisterList').after(newRow);
-			
-			$('#registerAddColumnButton').prop('disabled', true);
     		
     	}
     	
-    	function registerAjax(RegisterProductName, RegisterProductQty, registerClientName) {
-    		console.log('RegisterAjax 실행');
-    		
-    		
-    	}
+
 
 		
 		function estimateChange() {
@@ -763,6 +757,30 @@
 			
 		}
 		
+    	function registerAjax(RegisterProductName, RegisterProductQty, registerClientName) {
+    		console.log('RegisterAjax 실행');
+    		$.ajax({
+    			url: 'estimateRegister',
+    			type: 'GET',
+    			dataType: 'JSON',
+    			data: {
+    				prodname: RegisterProductName,
+    				qty: RegisterProductQty,
+    				clientName: registerClientName
+    			},
+    			success: function(){
+    				console.log("RegisterAjax 성공");
+    				alert('상품 항목이 추가되었습니다.');
+    				
+    			},
+    			error: function(xhr, status, error){
+	    			console.error('ajax 실패');
+	    			alert('같은 제품이 이미 존재합니다.');
+	    		}
+    		});
+    		
+    	}
+		
 		
 		function insertAjax(productName, productQty, estimateCodValue) {
 
@@ -797,7 +815,6 @@
 
 		
 		function registerModalclose() {
-			
 			$('#registerAddColumnButton').prop('disabled', false);
 		}
 		
@@ -817,7 +834,15 @@
         /* valueModal START */
         function setValue(cod, productName) {
            $('#productName').val(productName);
-            $('#kvModal').modal('hide');
+           $('#kvModal').modal('hide');
+           $('.modal-backdrop').remove();
+        }
+        
+        function setRegisterProductValue(uniqueId, cod, productName) {
+        	var inputId = '#RegisterProductName' + uniqueId; 
+        	
+        	$(inputId).val(productName);
+        	$('#kvModal').modal('hide');
             $('.modal-backdrop').remove();
         }
         
@@ -846,7 +871,33 @@
                 }
         	});
         }
+			
+        
+		function RegisterProductSearchModalOpen(uniqueId) {
+			$.ajax({
+                url: 'productnamelist',
+                method: 'GET',
+                success: function (data) {
+                   let rows = '';
+                   data.forEach(function (item, index) {
+                   	
+                         rows += `
+                         	<tr onclick="setRegisterProductValue('\${uniqueId}' ,'\${item.cod}', '\${item.prodName}')" class="searchValue" data-cod="\${item.cod}" data-value="\${item.prodName}" style='cursor: pointer'>
+                            	<td>\${(index + 1)}</td> 
+                            	<td>\${item.cod}</td>
+                            	<td>\${item.prodName}</td>
+                            </tr>
+                            `;
 
+                   });
+                   $('#modalTableBody').html(rows);
+                    $('#kvModal').modal('show');
+                },
+                error: function (xhr, status, error) {
+                    console.error("실패")
+                }
+             });
+		}		
 		
            function searchModalOpen() {
               $.ajax({
@@ -903,11 +954,54 @@
 
         /* valueModal END */
 		
-// 		function estimateLisetInsert() {
-//         	console.log('등록');
+        function estimateRegister() {
+        	console.log('estimateRegister 함수 실행');
+        	
+            var rows = $('.generatedRow');
+            
+            // 서버로 전송할 데이터를 저장할 배열을 생성합니다.
+            var dataToSend = [];
+			
+            var clientName = $('#registerClientName').val();
+            var employeeCod = $('#estimateEmp1').text();
+            rows.each(function() {
+            	
+            	
+                var uniqueId = $(this).find('input[name^="RegisterProductName"]').attr('name').replace('RegisterProductName', '');
+                var productName = $(this).find('input[name="RegisterProductName' + uniqueId + '"]').val();
+                var productQty = $(this).find('input[name="RegisterProductQty' + uniqueId + '"]').val();
+                
+                var rowData = {
+                	employeeCod: employeeCod,
+                	clientName: clientName,
+                    prodName: productName,
+                    qty: productQty,
+                };
+
+                dataToSend.push(rowData);
+            });
+
+            $.ajax({
+                url: 'estimateinsertFn',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(dataToSend),
+                success: function(response) {
+                    console.log('성공적으로 전송되었습니다:', response);
+                },
+                error: function(xhr, status, error) {
+                    console.error('전송 실패:', error);
+                }
+            });
         	
         	
-//         }
+        }
+        
+        function generateUniqueId() {
+            // 현재 타임스탬프를 이용하여 고유한 ID 생성
+            return Date.now();
+        }
+
         
     </script>
 

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -162,24 +163,38 @@ public class EstimateController {
 	
    
     @RequestMapping(value = "/estimateinsertFn", method = RequestMethod.POST)
-    public String estimateInsertFn(@RequestParam("clientName") String clientName,
-    							   @RequestParam("employeeName") String empName,
-    							   @RequestParam("price") int price,
-    							   @RequestParam("prodname") String prodname,
-    							   @RequestParam("qty") int qty) {
+    @ResponseBody
+    public String estimateInsertFn(@RequestBody List<EstimateVO> dataToSend) {
     	
-    	int result = estimateService.EstimateInsert(clientName, empName, price);
+    	System.out.println("dataToSend : " + dataToSend);
     	
-    	String cod = estimateService.EstimateRecentCodSelect();
+    	String employeeCod = dataToSend.get(0).getEmployeeCod();
+    	String clientName = dataToSend.get(0).getClientName();
     	
-    	int result2 = estimateService.EstimateDetailInsert(cod, prodname, qty);
+    	EstimateVO estimatevo = new EstimateVO();
+    	estimatevo.setEmployeeCod(employeeCod);
+    	estimatevo.setClientName(clientName);
     	
+    	estimateService.EstimateInsert(estimatevo);
     	
-    	return "redirect:/salesplanmanagement";
+    	String cod = estimatevo.getCod();
+
+    	
+    	for (EstimateVO vo : dataToSend) {
+    		
+    		String prodName = vo.getProdName();
+    		int qty = vo.getQty();
+    		System.out.println("prodName : " + prodName);
+    		System.out.println("qty : " + qty);
+    		
+    		estimateService.EstimateInsert2(cod, prodName, qty);
+    	}
+    	
+    	return "success";
     }
     
     @RequestMapping(value = "/estimatedeleteFn", method = RequestMethod.GET)
-    public String estimateInsertFn(@RequestParam("cod") String cod) {
+    public String estimateDeleteFn(@RequestParam("cod") String cod) {
     	
     	int result = estimateService.EstimateDelete(cod);
 
