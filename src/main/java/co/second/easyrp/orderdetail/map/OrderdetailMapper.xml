@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.second.easyrp.orderdetail.map.OrderdetailMapper">
+	<!-- 2024.05.14 14:53 손지은 / 셀렉트에 cur_remain_qty 추가 -->
 	<select id="orderdetailSelectListAll">
-		SELECT  od.cod, od.num, o.order_date, c.name as 'clientName', od.product_cod, p.prodname, u.name as 'unitName', od.qty, od.delivery_date, od.note 
+		SELECT  od.cod, od.num, o.order_date, c.name as 'clientName', od.product_cod, p.prodname, u.name as 'unitName', od.qty, od.delivery_date, od.note, od.cur_remain_qty  
 		FROM orderdetail od 
 		JOIN orders o
 		ON o.cod = od.cod 
@@ -12,7 +13,9 @@
 		ON od.product_cod = p.cod 
 		JOIN unit u 
 		ON p.unit_cod = u.cod 
-		WHERE mps_state = 'N'
+		WHERE od.mps_state = 'N'
+		AND od.deleteyn = 'N'
+		AND od.cur_remain_qty > 0
 	</select>
 	<select id="orderdetailSelectList"></select>
 	<insert id="orderdetailInsert"></insert>

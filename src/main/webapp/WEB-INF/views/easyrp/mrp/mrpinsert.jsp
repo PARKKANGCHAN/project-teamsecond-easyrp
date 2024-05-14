@@ -19,7 +19,7 @@
 			<div class="page-title">
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
-						<h3>소요량 등록(insert미구현)</h3>
+						<h3>소요량 등록</h3>
 						<p class="text-subtitle text-muted">소요량을 등록해주세요.</p>
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
@@ -56,6 +56,20 @@
 								<form id="formContainer" action="mrpinsertfn" method="post">
 									<div class="mb-4">
 										<table class="table table-bordered">
+											<!-- mps 번호 INPUT -->
+											<tr>
+												<td width="150">계획번호</td>
+												<td><input type="text" id="mpsCod" name="mpsCod"
+													class="form-control" placeholder="계획번호를 불러오세요." required readonly/>
+												</td>
+											</tr>
+											<!-- 등록자 INPUT -->
+											<tr>
+												<td width="150">등록자</td>
+												<td><input type="text" id="employeeName" name="employeeName" value="${empName }"
+													class="form-control" placeholder="로그인하면 자동으로 불러옵니다." required readonly/>
+												</td>
+											</tr>
 											<!-- 품번 INPUT -->
 											<tr>
 												<td width="150">품번</td>
@@ -122,6 +136,9 @@
 												</td>
 											</tr>
 										</table>
+										<div>
+											<input type="hidden" id="employeeCod" name="employeeCod" value="${empCode}" />
+										</div>
 										<div style="text-align: center">
 											<button type="button" onclick="callAjax()"
 												class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
@@ -131,6 +148,7 @@
 										<table class="table table-hover mb-0">
 											<thead>
 												<tr>
+													<th>Num</th>
 													<th>품번</th>
 													<th>품명</th>
 													<th>규격</th>
@@ -149,10 +167,6 @@
 												</tr>
 											</tbody>
 										</table>
-									</div>
-									<div>
-										<input type="hidden" id="employeeCod" name="employeeCod" value="${empCode}" />
-										<input type="hidden" id="plan" name="plan" value='수주' />
 									</div>
 									<!-- 등록 Button START -->
 									<div style="text-align: center">
@@ -252,7 +266,8 @@
 <!-- Data Modal END  -->
      <script type="text/javascript">
          /* DataModal START */
-          function setData(productCod, prodname, spec, planDate, poDate, dday, qty, unitName, account) {
+          function setData(cod, productCod, prodname, spec, planDate, poDate, dday, qty, unitName, account) {
+        	$('#mpsCod').val(cod);
             $('#productCod').val(productCod);
             $('#prodname').val(prodname);
             $('#spec').val(spec);
@@ -282,6 +297,9 @@
                   		if(firstItem.cod){
                   			firstRow +=
 	                       	   '<tr>'+
+		                       	  '<td>' +
+		                       	  firstItem.cod +
+	                              '</td>' +
 	                              '<td>' +
 	                              $('#productCod').val() +
 	                              '</td>' +
@@ -294,7 +312,7 @@
 	                              '<td>' +
 	                              $('#takeDate').val() +
 	                              '</td>' +
-	                              '<td><input type="date" value="' +
+	                              '<td><input type="date" name="poDateList" value="' +
 	                              $('#poDate').val() +
 	                              '"></td>' +
 	                              '<td>'+
@@ -313,9 +331,15 @@
                   		}
                   	}
                   	 data.slice(1).forEach(function (item) {
+                  		  let poDate = new Date($('#takeDate').val());
+                          poDate.setDate(poDate.getDate()-3);
+                          let formattedPoDate = poDate.getFullYear() + '-' + ('0' + (poDate.getMonth() + 1)).slice(-2) + '-' + ('0' + poDate.getDate()).slice(-2);
                           if (item.cod) {
                              otherRows +=
                           	  '<tr>'+
+	                           	'<td>' +
+	                            item.cod + 
+	                            '</td>' +
                                 '<td>' +
                                 item.invCod +
                                 '</td>' +
@@ -328,8 +352,8 @@
                                 '<td>' +
                                 $('#takeDate').val() +
                                 '</td>' +
-                                '<td><input type="date" value="' +
-                                $('#poDate').val() +
+                                '<td><input type="date" name="poDateList" value="' +
+                                formattedPoDate +
                                 '"></td>' +
                                 '<td>'+
                                 $('#dday').val() +
@@ -367,6 +391,8 @@
                            
                            rows +=
                               '<tr onclick="setData(\'' +
+                              item.cod +
+                              "', '" +
                               item.productCod +
                               "', '" +
                               item.prodname +

@@ -7,12 +7,21 @@
 	<select id="countMrpTables"></select>
 	<select id="mrpSelect"></select>
 	<insert id="mrpInsert">
-		
+		INSERT INTO mrp (cod, mps_cod, product_cod, inventory_cod, take_date, po_date, qty, employee_cod, account)
+		VALUES (#{cod}, #{mpsCod}, #{productCod}, #{inventoryCod}, #{takeDate}, #{poDate}, #{qty}, #{employeeCod}, #{account})
 	</insert>
 	<update id="mrpUpdate"></update>
 	<delete id="mrpDelete"></delete>
-	<update id="mpsClosingUpdateToY"></update>
-	<update id="mpsClosingUpdateToN"></update>
+	<update id="mpsClosingUpdateToY">
+		UPDATE mps
+		SET closing = 'Y'
+		WHERE cod = #{mpsCod}
+	</update>
+	<update id="mpsClosingUpdateToN">
+		UPDATE mps
+		SET closing = 'N'
+		WHERE cod = #{mpsCod}
+	</update>
 	<select id="selectMaxCod">
 		SELECT COALESCE(MAX(CAST(RIGHT (cod,3) AS SIGNED)), 0) AS cod FROM mrp
 	</select>

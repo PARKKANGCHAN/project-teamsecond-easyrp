@@ -26,7 +26,7 @@ public interface MrpService {
 		@Param("postSearchDate") Date postSearchDate);
 	
 	MrpVO mrpSelect(MrpVO mrpVo);
-	int mrpInsert(List<MrpVO> mrpVo);
+	int mrpInsert(MrpVO mrpVo);
 	int mrpUpdate(MrpVO mrpVo);
 	int mrpDelete(MrpVO mrpVo);
 	

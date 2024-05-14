@@ -1,8 +1,11 @@
 package co.second.easyrp.mrp.web;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -66,9 +69,41 @@ public class MrpController {
 	}
 	
 	@RequestMapping("mrpinsertfn")
-	public String mrpInsertFn(List<MrpVO> mrpVos) {
-		int maxNumber = mrpService.selectMaxCod() + 1;
-		mrpService.mrpInsert(mrpVos);
+	public String mrpInsertFn(String productCod, String mpsCod, String employeeCod, HttpServletRequest req) {
+		String[] poDateList = req.getParameterValues("poDateList");
+		List<MrpVO> bomList = mrpService.selectBom(productCod);
+		MpsVO mpsVo = new MpsVO();
+		mpsVo.setCod(mpsCod);
+		mpsVo = mpsService.mpsSelect(mpsVo);
+		
+		for(int i=0; i<poDateList.length; i++) {
+			MrpVO mrpVo = new MrpVO();
+    		int maxNumber = mrpService.selectMaxCod() + 1;
+    		String newCode = String.format("%03d", maxNumber);
+    		
+    		mrpVo.setCod("mrp" + newCode);
+    		mrpVo.setMpsCod(mpsCod);
+    		mrpVo.setProductCod(productCod);
+    		mrpVo.setTakeDate(mpsVo.getPlanDate());
+    		java.sql.Date poDate = java.sql.Date.valueOf(poDateList[i]);
+    		mrpVo.setPoDate(poDate);
+    		int qty = 0;
+    		if(i == 0) {
+    			// 완제품
+    			qty = mpsVo.getQty();
+    			mrpVo.setAccount("완제");
+    		}else {
+    			// 원자재
+    			qty = mpsVo.getQty() * bomList.get(i-1).getInvQty();
+    			mrpVo.setInventoryCod(bomList.get(i-1).getInvCod());
+    			mrpVo.setAccount("자재");
+    		}
+    		mrpVo.setQty(qty);
+    		mrpVo.setEmployeeCod(employeeCod);
+    		
+    		mrpService.mrpInsert(mrpVo);
+    		mrpService.mpsClosingUpdateToY(mrpVo);
+		}
 		
 		return "redirect:/mrpmanagement";
 	}
@@ -109,7 +144,6 @@ public class MrpController {
     	mrpVo.setCod("mrp" + newCode);
     	mrpVoList.add(0, mrpVo);
     	
-    	System.out.println("mrplist: " + mrpVoList);
         return mrpVoList;
     }
 }

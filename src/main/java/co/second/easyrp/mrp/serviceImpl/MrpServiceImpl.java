@@ -38,7 +38,7 @@ public class MrpServiceImpl implements MrpService {
 	}
 
 	@Override
-	public int mrpInsert(List<MrpVO> mrpVo) {
+	public int mrpInsert(MrpVO mrpVo) {
 		// TODO Auto-generated method stub
 		return mrpMapper.mrpInsert(mrpVo);
 	}
