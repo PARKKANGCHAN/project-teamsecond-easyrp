@@ -72,8 +72,8 @@
 														<tr class="text-center">
 															<td width="6%">제품 그룹</td>
 															<td colspan="3"><input type="text"
-																id=searchProductGroupName name="searchProductGroupName"
-																class="form-control"
+																id="searchProductGroupName"
+																name="searchProductGroupName" class="form-control"
 																value="${searchVO.searchProductGroupName}"
 																style="width: 70%; float: left"
 																placeholder="제품 그룹을 우측 버튼을 이용하거나 직접 입력해주세요." />
@@ -126,9 +126,15 @@
 															</button>
 															<ul class="dropdown-menu">
 																<li><a class="dropdown-item"
-																	href="productmgmtupdate?cod=${productmgmt.cod}">수정</a></li>
+																	href="productmgmtupdate?cod=${productmgmt.cod}">수정</a>
+																</li>
 																<li><a class="dropdown-item"
-																	href="productmgmtdeletefn?cod=${productmgmt.cod}">삭제</a></li>
+																	href="productmgmtdeletefn?cod=${productmgmt.cod}">삭제</a>
+																</li>
+																<li><a class="dropdown-item"
+																	href="javascript:void(0);" data-bs-toggle="modal"
+																	data-bs-target="#loadModal" onclick="bomModal();">BOM
+																		등록</a></li>
 															</ul>
 														</div>
 													</td>
@@ -140,7 +146,6 @@
 												</tr>
 											</c:if>
 										</tbody>
-
 									</table>
 								</div>
 							</div>
@@ -178,7 +183,7 @@
 
 					<!-- 페이지네이션 END -->
 					<div class="d-flex"
-						style="padding-bottom: 0.5rem; padding-top: 0.5rem;">
+						style="padding-bottom: 0.5rem; padding-top: 0.5rem">
 						<div class="col-md-6">
 							<button type="button" class="btn btn-primary">
 								<a href="productmgmtinsert" style="color: white">등록</a>
@@ -195,12 +200,6 @@
 									onclick="productGroupModal();" role="button"
 									style="color: white">제품 그룹 관리</a>
 							</button>
-							<button type="button" class="btn btn-primary">
-								<a id="bomMgmt" data-bs-toggle="modal"
-									data-bs-target="#loadModal" href="javascript:void(0);"
-									onclick="bomModal();" role="button" style="color: white">BOM
-									등록</a>
-							</button>
 						</div>
 					</div>
 				</div>
@@ -210,41 +209,61 @@
 
 	<!-- 공통 Modal START  -->
 	<div class="modal fade" id="loadModal" tabindex="-1"
-		data-bs-backdrop='static' data-bs-keyboard='false'
+		data-bs-backdrop="static" data-bs-keyboard="false"
 		aria-labelledby="loadModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content"></div>
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<!-- 이곳에 JSP파일이 들어갑니다 -->
+			</div>
 		</div>
 	</div>
 	<!-- 공통 Modal END  -->
+
+	<!-- Sub 공통 Modal START (메인 모달 밖으로 이동) -->
+	<div class="modal fade" id="loadSubModal" tabindex="-1"
+		data-bs-backdrop="static" data-bs-keyboard="false"
+		aria-labelledby="loadSubModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="subModal-content">
+				<!-- 여기에 Modal JSP가 삽입됩니다. -->
+			</div>
+		</div>
+	</div>
+	<!-- Sub 공통 Modal END -->
 
 	<!-- 제품 관리 테이블 END -->
 	<!-- 2024년 5월 5일 오전 7시 47분 추가  -->
 	<!-- 초기화 버튼 작동 자바스크립트  -->
 	<script type="text/javascript">
-		function bomModal() {
-			$('.modal-content').load('bommgmtinsertmodal');
-		}
+         function bomModal() {
+            $('.modal-content').load('bominsertmodal');
+         }
 
-		function unitModal() {
-			$('.modal-content').load('unitmodal');
-		}
+         function unitModal() {
+            $('.modal-content').load('unitmodal');
+         }
 
-		function productGroupModal() {
-			$('.modal-content').load('productgroupmodal');
-		}
+         function productGroupModal() {
+            $('.modal-content').load('productgroupmodal');
+         }
 
-		function searchProductGroupModal() {
-			$('.modal-content').load('searchproductgroupmodal');
-		}
+         function searchProductGroupModal() {
+            $('.modal-content').load('searchproductgroupmodal');
+         }
+         
+         // 제품 선택 서브 모달 열기
+         function setValueInventoryModal() {
+             $('.subModal-content').load('setvalueinventorymodal');
+           }
 
-		function resetSearchForm() {
-			$('#searchCod').val('');
-			$('#searchName').val('');
-			$('#searchWarehouseName').val('');
-			$('#searchProductGroupName').val('');
-			$('#searchEmployeeCod').val('');
-		}
-	</script>
+
+         function resetSearchForm() {
+            $('#searchCod').val('');
+            $('#searchName').val('');
+            $('#searchWarehouseName').val('');
+            $('#searchProductGroupName').val('');
+            $('#searchEmployeeCod').val('');
+         }
+      </script>
 </body>
 </html>

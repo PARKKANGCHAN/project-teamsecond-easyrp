@@ -180,6 +180,13 @@
 		DELETEYN = 'Y'
 		WHERE cod = #{cod};
 	</update>
+	
+	<select id="apiTableAllList"
+		resultType="co.second.easyrp.inventorymgmt.service.InventoryMgmtVO">
+		SELECT cod, name, deleteyn
+		FROM inventory
+		ORDER BY cod DESC
+	</select>
 
 
 </mapper>

@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.second.easyrp.client.service.ClientVO;
 import co.second.easyrp.inventorymgmt.service.InventoryMgmtService;
@@ -78,5 +79,16 @@ public class InventoryMgmtController {
 	public String inventoryMgmtDeleteFn(@RequestParam("cod") String cod) {
 		inventoryMgmtService.deleteFn(cod);
 		return "redirect:/inventorymgmt";
+	}
+	
+	@GetMapping("/api/get-inventory")
+	@ResponseBody
+	public List<InventoryMgmtVO> getInventoryData() {
+		return inventoryMgmtService.apiTableAllList();
+	}
+	
+	@GetMapping("/setvalueinventorymodal")
+	public String setValueInventoryModal() {
+		return "easyrp/inventorymgmt/modal/setvalueinventorymodal";
 	}
 }
