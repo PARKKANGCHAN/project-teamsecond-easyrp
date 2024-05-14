@@ -109,17 +109,26 @@ SELECT
 		  ON icd.unit_cod = u.cod
 		LEFT JOIN adjustmentdetail_num=
 		</select>
-			<select id="getAllProductInventoryList">
-		SELECT i.name as name,  i.cod as cod, i.cur_inv_qty as computingQty 
+	<select id="getAllProductInventoryList">
+		 SELECT  p.prodname as name, p.cod as cod, p.cur_inv_qty as computingQty, ia.procclass
 		 FROM product p
-		 LEFT JOIN inventory i
-		 ON p.cod=i.cod
+		 LEFT JOIN inventorycountdetail icd
+		 ON icd.inventory_cod = p.cod
+		 LEFT JOIN inventoryadjustmentdetail iad
+		 ON icd.adjustmentdetail_num = iad.num
+		 LEFT JOIN inventoryadjustment ia
+		 ON ia.cod = iad.inventoryadjustment_cod
+		 
 		 UNION 
-		 SELECT p.prodname as name, p.cod as cod, p.cur_inv_qty as computingQty
+		 
+		 SELECT i.name as name, i.cod as cod, i.cur_inv_qty as computingQty, ia.procclass
 		 FROM inventory i
-		 LEFT JOIN product p
-		 ON i.cod = p.cod
-		WHERE i.cod = #{cod}
-		   OR p.cod = #{cod}
+		 LEFT JOIN inventorycountdetail icd
+		 ON icd.inventory_cod = i.cod
+		 LEFT JOIN inventoryadjustmentdetail iad
+		 ON icd.adjustmentdetail_num = iad.num
+		 		 LEFT JOIN inventoryadjustment ia
+		 ON ia.cod = iad.inventoryadjustment_cod
+		 
 	</select>
 </mapper>

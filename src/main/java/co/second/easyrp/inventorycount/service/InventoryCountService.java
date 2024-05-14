@@ -12,11 +12,8 @@ public interface InventoryCountService {
 	int deleteInventoryCount(InventoryCountVO vo);
 	List<InventoryCountVO> selectInventoryCountList(InventoryCountVO vo);
 	List<InventoryCountDetailVO> selectedInventoryCountDetailList(InventoryCountVO vo);
-//	List<KeyValueVO> getAllKeyValues();
-	
-//	List<PurchaseOrderDetailVO> getAllPurchaseOrderDatas();
-	
-//	CommonTableVO getCommonData(int postId);
+
 	List<ProductInventoryVO> getAllProductInventoryList();
+	
 	int countInventoryCountLists(SearchVO searchVo);
 }
