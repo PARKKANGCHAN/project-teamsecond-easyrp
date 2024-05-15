@@ -57,33 +57,26 @@ public class EstimateController {
         return "easyrp/estimate/estimatemanagement";
     }
     
-    @RequestMapping(value = "/estimateinsert", method = RequestMethod.GET)
-    public String estimateinsert(EstimateVO vo, Model model) {
-    	
-    	
-    	List<EstimateVO> ClientNames = new ArrayList<EstimateVO>();
-    	ClientNames = estimateService.ClientNameSelectList();
-    	model.addAttribute("ClientNames", ClientNames);
-    	
-    	
-    	
-    	return "easyrp/estimate/estimateinsert";
-    }
-    
     @GetMapping(value = "/estimatedetail")
     @ResponseBody
     public Map<String, Object> estimateDetail(@RequestParam("cod") String estimateCod,
-    							 Model model) {
+    							 			  Model model) {
     	
+    	// 해당 견적코드에 해당하는 견적 상세 목록을 estimateDetailList에 저장(estimatedetail 테이블의 데이터)
         List<EstimateVO> estimateDetailList = estimateService.EstimateDetailSelectList(estimateCod);
-//        System.out.println(estimateDetailList);
         model.addAttribute("estimateDetail", estimateDetailList);
         
+        // 해당 견적코드에 해당하는 기본 정보를 estimateSelect에 저장(estimate 테이블의 데이터)
         EstimateVO estimateSelect = estimateService.EstimateSelect(estimateCod);
         
         Map<String, Object> response = new HashMap<>();
         response.put("estimateDetailList", estimateDetailList);
         response.put("estimateSelect", estimateSelect);
+        
+        /* 
+        	response라는 map 객체를 생성하고 "estimateDetailList", "estimateSelect" 라는 키에
+        	estimateDetailList, estimateSelect 객체를 넣어서 JSON 형태로 반환 했습니다.
+        */
         
         System.out.println(response);
         
@@ -190,7 +183,7 @@ public class EstimateController {
     		estimateService.EstimateInsert2(cod, prodName, qty);
     	}
     	
-    	return "success";
+    	return "redirect:/estimatemanagement";
     }
     
     @RequestMapping(value = "/estimatedeleteFn", method = RequestMethod.GET)

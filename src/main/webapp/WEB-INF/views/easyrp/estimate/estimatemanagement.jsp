@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -115,12 +116,12 @@
 													<td class="text-bold-500">
     													<a href="#" id="loadDetail" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="estimateDetail('${estimate.cod}')">${estimate.cod}</a>
 													</td>
-													<td>${estimate.estDate }</td>
+													<td><fmt:formatDate value="${estimate.estDate}" pattern="yyyy-MM-dd" /></td>
 													<td>${estimate.clientCod }</td>
 													<td class="text-bold-500">${estimate.employeeCod }</td>
-													<td>${estimate.subtotal }</td>
+													<td><fmt:formatNumber value="${estimate.subtotal}" pattern="###,###"></fmt:formatNumber></td>
 													<td>10%</td>
-													<td>${estimate.total }</td>
+													<td><fmt:formatNumber value="${estimate.total}" pattern="###,###"></fmt:formatNumber></td>
 													<td>${estimate.orderyn }</td>
 													<td>
 														<div class="btn-group">
@@ -247,7 +248,7 @@
 								<button type="button" class="btn btn-primary">출력</button>
 								<button type="button" class="btn btn-primary">이메일 보내기</button>
 								<button type="button" class="btn btn-primary" onClick="estimateChange()">견적 수정</button>
-                                <button type="button" class="btn btn-primary" id="addColumnButton" onClick="addcolumn()">제품 추가</button>
+                                <button type="button" class="btn btn-primary" id="addRowButton" onClick="addRow()">제품 추가</button>
 							</td>
 						</tr>
 					</table>
@@ -279,7 +280,7 @@
 					<table class="table">
 						<tr>
 							<th scope="col">견적 번호</th>
-							<td id="registerEstimateCod">테스트</td>
+							<td id="registerEstimateCod">--</td>
 							<th scope="col">거래처 명</th>
 							<td>
 								<input type="text" readonly="readonly" class="form-control" name="registerClientName"  id="registerClientName" placeholder="거래처 선택" style="width: 140px;" onClick="clientModalOpen()">
@@ -318,8 +319,7 @@
 						</tr>
 						<tr>
 							<td colspan="6" style="border-bottom-width: 0px">
-								<button type="button" class="btn btn-primary" onClick="estimateChange()">견적 수정</button>
-                                <button type="button" class="btn btn-primary" id="registerAddColumnButton" onClick="registerAddcolumn()">제품 추가</button>
+                                <button type="button" class="btn btn-primary" id="registeraddRowButton" onClick="registeraddRow()">제품 추가</button>
                                 <button type="button" class="btn btn-primary" id="registerEstimate" onClick="estimateRegister()">견적 등록</button>                                
 							</td>
 						</tr>
@@ -420,10 +420,232 @@
 
 
    <script type="text/javascript">
+	
+   // 견적 등록 모달 관련 함수 시작
 
 
+ 	
+ 	
+		// 견적 등록 모달에서 '제품 추가'버튼 함수
+    	function registeraddRow() {
+    		console.log("registeraddRow");
+    		var uniqueId = generateUniqueId();
+    		
+			var newRow = $('<tr class="generatedRow">');
+			
+			newRow.append($('<td>').attr({
+				'id': 'productCod',
+			}).text("--"));
+			
+			newRow.append($('<td>').append($('<input>').attr({
+			    'type': 'text',
+			    'readonly': 'readonly',
+			    'class': 'form-control',
+			    'name': 'RegisterProductName' + uniqueId, 
+ 			    'id': 'RegisterProductName' + uniqueId, 
+			    'placeholder': '상품 선택',
+ 			}).css('width', '140px').on('click', function() {
+	 		    $('#kvModal').modal('show'); // 자식 모달 열기
+	 		    console.log('견적 등록 모달에서 제품 목록 모달');
+	 		    RegisterProductSearchModalOpen(uniqueId);
+			})
+			));
+			
+			newRow.append($('<td>').append($('<input>').attr({
+			    'type': 'number',
+			    'class': 'form-control',
+			    'name': 'RegisterProductQty' + uniqueId, 
+			    'id': 'RegisterProductQty' + uniqueId, 
+			    'placeholder': '수량 입력', 
+			}).css('width', '120px')));
+			newRow.append($('<td>').text("--"));
+			newRow.append($('<td>').text("--"));
+			newRow.append($('<td>').text("--"));
+			newRow.append($('<td>').text("--"));
+			
+	        var cancelButton = $('<button>').text('취소').addClass('btn btn-primary');
+	        var buttonGroup = $('<div>').append(cancelButton);
+	        	        	       	   
+	        
+		    newRow.append($('<td>').attr({
+		    	'id': 'buttonrow'
+		    }).append(buttonGroup));
+		     		    		    
+		    
+		    
+		    cancelButton.on('click', function() {
+		    	
+ 		    	$(this).closest('tr').remove(); // 새로 추가된 행 삭제
+		    	$('#registeraddRowButton').prop('disabled', false);
+		    });
+		    
+			
+			$('#RegisterList').after(newRow);
+    		
+    	}
+    	// 견적 등록 모달에서 '제품 추가'버튼 함수 끝
+		
+
+
+		// 견적 처음 등록하는 모달 끄기
+		function registerModalclose() {
+			$('#registeraddRowButton').prop('disabled', false);
+		}
+		
+
+		
+		// 고객리스트에서 input에 set하는 함수
+        function setClientValue(clientCod, clientName) {
+        	console.log("setClientValue 실행");
+        	console.log(clientName);
+           $('#registerClientName').val(clientName);
+            $('#clientNameModal').modal('hide');
+            $('.modal-backdrop').remove();
+        }
+		
+
+        
+        // 견적 처음 등록시 완제품 목록을 보여주는 모달 오픈
+        function setRegisterProductValue(uniqueId, cod, productName) {
+        	var inputId = '#RegisterProductName' + uniqueId; 
+        	
+        	$(inputId).val(productName);
+        	$('#kvModal').modal('hide');
+            $('.modal-backdrop').remove();
+        }
+        
+        // 거래처 목록을 보여주는 모달 오픈
+        function clientModalOpen() {
+        	console.log("거래처 모달");
+        	$('#clientNameModal').modal('show');
+        	$.ajax({
+        		url: 'clientnamelist',
+        		method: 'GET',
+        		success: function (data) {
+        			let rows = '';
+        			data.forEach(function (item, index) {
+        				rows += `
+        					<tr onclick="setClientValue('\${item.clientCod}', '\${item.clientName}')" class="searchValue" data-cod="'\${item.clientCod}'" data-value="'\${item.clientName}'" sytle="cursor : pointer">
+        					<td>\${(index + 1)}</td>
+        					<td>\${item.clientCod}</td>
+        					<td>\${item.clientName}</td>
+        					</tr>
+        				`;
+        			});
+        				$('#ClientmodalTableBody').html(rows);
+                        $('#RegisterModal').modal('show');
+        		},
+                error: function (xhr, status, error) {
+                    console.error("실패")
+                }
+        	});
+        }
+			
+        // 견적 등록 모달에서 완제품 목록 모달을 띄울 때 제품리스트를 가져오는 함수입니다.
+		function RegisterProductSearchModalOpen(uniqueId) {
+			$.ajax({
+                url: 'productnamelist',
+                method: 'GET',
+                success: function (data) {
+                   let rows = '';
+                   data.forEach(function (item, index) {
+                   	
+                         rows += `
+                         	<tr onclick="setRegisterProductValue('\${uniqueId}' ,'\${item.cod}', '\${item.prodName}')" class="searchValue" data-cod="\${item.cod}" data-value="\${item.prodName}" style='cursor: pointer'>
+                            	<td>\${(index + 1)}</td> 
+                            	<td>\${item.cod}</td>
+                            	<td>\${item.prodName}</td>
+                            </tr>
+                            `;
+
+                   });
+                   $('#modalTableBody').html(rows);
+                    $('#kvModal').modal('show');
+                },
+                error: function (xhr, status, error) {
+                    console.error("실패")
+                }
+             });
+		}		
+		
+
+
+            // 제품 리스트 모달에서 검색용
+           $('#searchInput').on('keyup', function () {
+              var searchInputValue = $(this).val().toLowerCase();
+              $('.searchValue').each(function () {
+                 var cod = $(this).data('cod').toLowerCase();
+                 var productName = $(this).data('value').toLowerCase();
+                 $(this).toggle(cod.includes(searchInputValue) || productName.includes(searchInputValue));
+              });
+           });
+
+        
+		// 견적 등록 모달에서 '견적 등록' 버튼. 견적내용을 새로 등록하는 함수
+        function estimateRegister() {
+        	console.log('estimateRegister 함수 실행');
+        	
+            var rows = $('.generatedRow');
+            
+            // 서버로 전송할 데이터를 저장할 배열을 생성합니다.
+            var dataToSend = [];
+			
+            var clientName = $('#registerClientName').val();
+            var employeeCod = $('#estimateEmp1').text();
+            rows.each(function() {
+            	
+            	
+                var uniqueId = $(this).find('input[name^="RegisterProductName"]').attr('name').replace('RegisterProductName', '');
+                var productName = $(this).find('input[name="RegisterProductName' + uniqueId + '"]').val();
+                var productQty = $(this).find('input[name="RegisterProductQty' + uniqueId + '"]').val();
+                
+                var rowData = {
+                	employeeCod: employeeCod,
+                	clientName: clientName,
+                    prodName: productName,
+                    qty: productQty,
+                };
+
+                dataToSend.push(rowData);
+            });
+
+            $.ajax({
+                url: 'estimateinsertFn',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(dataToSend),
+                success: function(response) {
+                    console.log('성공적으로 전송되었습니다:', response);
+                    alert('등록이 완료되었습니다');
+                    window.location.href = '/easyrp/estimatemanagement';
+                },
+                error: function(xhr, status, error) {
+                    console.error('전송 실패:', error);
+                }
+            });
+        	
+        	
+        }
+        
+        function generateUniqueId() {
+            // 현재 타임스탬프를 이용하여 고유한 ID 생성
+            return Date.now();
+        }
+
+   
+   // 견적 등록 모달 관련 함수 끝
+
+   
+   
+   
+   
+   // 견적 상세 모달 관련 함수 시작
+   
+    // estimateDetail(estimateCod) 시작
+	// 견적 상세 모달에서 목록을 불러오는 함수입니다. 여기서 금액계산을 하고, 견적 상세 목록의 수정, 삭제하는 함수도 정의하였습니다. 함수안에 함수가 정의되어 있어서 헷갈릴 수 있습니다.
     function estimateDetail(estimateCod) {
     	
+    	// estimatedetail ajax 통신 시작
     	$.ajax({
     		url: 'estimatedetail',
     		type: 'GET',
@@ -439,23 +661,24 @@
     		    var totalSum = 0; // 총합 합계 초기값 설정
     			
                 var estimateDetailList = response.estimateDetailList;
-                
-                // estimateSelect 가져오기
                 var estimateSelect = response.estimateSelect;
+                
                 var clientName = estimateSelect.clientName;
                 var estDate = estimateSelect.estDate;
                 var deptName = estimateSelect.deptName;
                 var employeeCod = estimateSelect.employeeCod;
                 var empName = estimateSelect.empName;
     		    
+                // 견적 상세 모달 상단에 넣은 값입니다.
     			$('#estimateCod').text(estimateCod);
     			$('#clientName').text(clientName);
      			$('#estimateDate').text(estDate);
     			$('#estimateDept').text(deptName);
     			$('#estimateEmp').text(employeeCod);
     			$('#estimateEmpName').text(empName);
-
-    			
+				
+    			// estimateDetialList.forEach 상세 리스트의 각 요소에 적용하는 함수 시작
+    			// 견적 상세 모달에서 각 상세 목록들에 들어가는 요소들 입니다.
     			estimateDetailList.forEach(function(item) {
     				
     				var newRow = $('<tr class="generatedRow">');
@@ -473,6 +696,7 @@
     				newRow.append($('<td>').text(item.unitprice.toLocaleString()));
     				
     				
+    				// 계산을 앞단에서 했는데 db에서 트리거를 사용해서 먼저 계산한 다음 뿌려줘도 될 것 같습니다.
     		        // 각 항목의 총 가격 계산 및 표시
     		        var totalPriceItem = item.unitprice * item.qty;
     		        newRow.append($('<td>').text(totalPriceItem.toLocaleString())); // 숫자를 형식화하여 표시
@@ -488,6 +712,7 @@
     		        newRow.append($('<td>').text(totalItem.toLocaleString())); 
     		        totalSum += totalItem; // 총합 합계 누적
     				
+    		        // 각 견적 상세 목록에 수정과 삭제 버튼을 달아주었고 onclick 함수를 바로 정의했습니다.
     		        var editButton = $('<button>').text('수정').addClass('btn btn-primary').css('margin-right', '2px');
     		        var deleteButton = $('<button>').text('삭제').addClass('btn btn-primary');
     		        var buttonGroup = $('<div>').append(editButton).append(deleteButton);
@@ -498,11 +723,10 @@
     				
     				editButton.on('click', function() {
     				    var productCod = item.productCod;
-     				    var estimateCod = estimateCod;
+     				    var estimateCod = item.cod;
     				    var num = item.num;
     				    var qty = $('#qty_' + item.num).val();
     				    
-    				    console.log(qty);
     				    
     				    $.ajax({
     				    	url: 'estimateupdate',
@@ -534,7 +758,7 @@
 
     				deleteButton.on('click', function() {
     					var productCod = item.productCod;
-    				    var estimateCod = response[0].cod;
+    				    var estimateCod = item.cod;
     				    var num = item.num;
     				    var qty = $('#qty_' + item.num).val();
     				    
@@ -569,12 +793,13 @@
     				
     				
     			});
+    			// estimateDetialList.forEach 상세 리스트의 각 요소에 적용하는 함수 끝
     			
     		    $('#totalprice').text(totalPrice.toLocaleString());
     		    $('#totalvax').text(totalVat.toLocaleString());
     		    $('#totalsum').text(totalSum.toLocaleString());
     				
-    				
+    			// 견적 상세 모달에서 새로운 상품을 추가할 때 '제품추가'버튼을 누르는데 새로운 상품을 추가하지 않고 그냥 모달을 끄고난 뒤에 다시 모달을 열면 'generatedRow'가 추가된 채로 열려서 모달이 닫힐 때 생성한 요소를 삭제시킵니다.
     			$('#detailModal').on('hidden.bs.modal', function () {
     				    // 모달이 닫힐 때 생성된 tr 요소 제거
     				    $('.generatedRow').remove();
@@ -586,111 +811,22 @@
     			console.error('실패');
     		}
     	});
+    	// estimatedetail ajax 통신 끝
     	
     	// 제품 추가 버튼 활성화
-		$('#addColumnButton').prop('disabled', false);
+		$('#addRowButton').prop('disabled', false);
     	
     }
-			
-    	function registerAddcolumn() {
-    		console.log("registerAddcolumn");
-    		var uniqueId = generateUniqueId();
-    		
-			var newRow = $('<tr class="generatedRow">');
-			
-			newRow.append($('<td>').attr({
-				'id': 'productCod',
-			}).text("--"));
-			
-			newRow.append($('<td>').append($('<input>').attr({
-			    'type': 'text',
-			    'readonly': 'readonly',
-			    'class': 'form-control',
-			    'name': 'RegisterProductName' + uniqueId, 
- 			    'id': 'RegisterProductName' + uniqueId, 
-			    'placeholder': '상품 선택',
- 			}).css('width', '140px').on('click', function() {
-	 		    $('#kvModal').modal('show'); // 자식 모달 열기
-	 		    console.log('자식 모달 오픈');
-	 		    RegisterProductSearchModalOpen(uniqueId);
-			})
-			));
-			
-			newRow.append($('<td>').append($('<input>').attr({
-			    'type': 'number',
-			    'class': 'form-control',
-			    'name': 'RegisterProductQty' + uniqueId, 
-			    'id': 'RegisterProductQty' + uniqueId, 
-			    'placeholder': '수량 입력', 
-			}).css('width', '120px')));
-			newRow.append($('<td>').text("--"));
-			newRow.append($('<td>').text("--"));
-			newRow.append($('<td>').text("--"));
-			newRow.append($('<td>').text("--"));
-			
-	        var cancelButton = $('<button>').text('취소').addClass('btn btn-primary');
-	        var buttonGroup = $('<div>').append(cancelButton);
-	        var checkButton = $('<button>').text('등록').attr({ 'type': 'button' }).addClass('btn btn-primary').css('margin-right', '2px');	        	       	   
-	        
-		    newRow.append($('<td>').attr({
-		    	'id': 'buttonrow'
-		    }).append(buttonGroup));
-		     		    		    
-		    checkButton.on("click", function() {
-		    	console.log("등록 버튼 누름");
-		    	
-		    	var RegisterProductName = $('#RegisterProductName').val();
-		    	var RegisterProductQty = $('#RegisterProductQty').val();
-		    	var registerClientName = $('#registerClientName').val();
-		    	
-		    	registerAjax(RegisterProductName, RegisterProductQty, registerClientName);
-		    					
-		    	$('#registerAddColumnButton').prop('disabled', false);
-	    	});
-		    
-		    
-		    cancelButton.on('click', function() {
-		    	
- 		    	$(this).closest('tr').remove(); // 새로 추가된 행 삭제
-		    	$('#registerAddColumnButton').prop('disabled', false);
-		    });
-		    
-			
-			$('#RegisterList').after(newRow);
-    		
-    	}
-    	
+ 	// estimateDetail(estimateCod) 끝
 
-
-		
+    		// readonly 없애는 함수
 		function estimateChange() {
 			$('input').removeAttr('readonly');
 		}
 
-    
 
-		function addcolumn() {
-            var newRow = $('<tr class="generatedRow">');
-
-            newRow.append($('<td>').append($('<input>')).text("ex"));
-            newRow.append($('<td>').text("ex"));
-            newRow.append($('<td>').text("ex"));
-            newRow.append($('<td>').text("ex"));
-            newRow.append($('<td>').text("ex"));
-            newRow.append($('<td>').text("ex"));
-            newRow.append($('<td>').text("ex"));
-
-            var editButton = $('<button>').text('수정').addClass('btn btn-primary').css('margin-right', '2px');
-            var deleteButton = $('<button>').text('삭제').addClass('btn btn-primary');
-            var buttonGroup = $('<div>').append(editButton).append(deleteButton);
-
-            newRow.append($('<td>').append(buttonGroup));
-
-            $('#detailList').after(newRow);
-        } 
-
-	
-		function addcolumn() {
+		// 견적 상세 모달에서 '제품 추가' 버튼
+		function addRow() {
 			
 			var newRow = $('<tr class="generatedRow">');
 			
@@ -707,7 +843,7 @@
 			    'placeholder': '상품 선택',
  			}).css('width', '140px').on('click', function() {
 	 		    $('#kvModal').modal('show'); // 자식 모달 열기
-	 		    console.log('자식 모달 오픈');
+	 		    console.log('견적 상세 모달에서 제품 목록 모달');
 	 		    searchModalOpen();
 			})
 			));
@@ -747,44 +883,20 @@
 		    cancelButton.on('click', function() {
 		    	
  		    	$(this).closest('tr').remove(); // 새로 추가된 행 삭제
-		    	$('#addColumnButton').prop('disabled', false);
+		    	$('#addRowButton').prop('disabled', false);
 		    });
 		    
 			
 			$('#detailList').after(newRow);
 			
-			$('#addColumnButton').prop('disabled', true);
+			$('#addRowButton').prop('disabled', true);
 			
 		}
-		
-    	function registerAjax(RegisterProductName, RegisterProductQty, registerClientName) {
-    		console.log('RegisterAjax 실행');
-    		$.ajax({
-    			url: 'estimateRegister',
-    			type: 'GET',
-    			dataType: 'JSON',
-    			data: {
-    				prodname: RegisterProductName,
-    				qty: RegisterProductQty,
-    				clientName: registerClientName
-    			},
-    			success: function(){
-    				console.log("RegisterAjax 성공");
-    				alert('상품 항목이 추가되었습니다.');
-    				
-    			},
-    			error: function(xhr, status, error){
-	    			console.error('ajax 실패');
-	    			alert('같은 제품이 이미 존재합니다.');
-	    		}
-    		});
-    		
-    	}
-		
-		
+		// 견적 상세 모달에서 '제품 추가' 버튼 함수 끝
+
+		// 견적 상세 모달에서 새로운 제품을 insert할 때 사용하는 ajax 함수
 		function insertAjax(productName, productQty, estimateCodValue) {
 
-			
 			$.ajax({
 	    		url: 'estimatedetailinsert',
 	    		type: 'GET',
@@ -803,7 +915,7 @@
 	    			
 	    			estimateDetail(estimateCodValue);
 	    			
-	    			$('#addColumnButton').prop('disabled', false);
+	    			$('#addRowButton').prop('disabled', false);
 	    			
 	    		},
 	    		error: function(xhr, status, error){
@@ -813,196 +925,66 @@
 		    });		    	
 		}
 
-		
-		function registerModalclose() {
-			$('#registerAddColumnButton').prop('disabled', false);
-		}
-		
-		function Modalclose() {
-			$('#addColumnButton').prop('disabled', false);
-		}
-		
-		
-        function setClientValue(clientCod, clientName) {
-        	console.log("setClientValue 실행");
-        	console.log(clientName);
-           $('#registerClientName').val(clientName);
-            $('#clientNameModal').modal('hide');
-            $('.modal-backdrop').remove();
-        }
-		
-        /* valueModal START */
-        function setValue(cod, productName) {
-           $('#productName').val(productName);
-           $('#kvModal').modal('hide');
-           $('.modal-backdrop').remove();
-        }
-        
-        function setRegisterProductValue(uniqueId, cod, productName) {
-        	var inputId = '#RegisterProductName' + uniqueId; 
-        	
-        	$(inputId).val(productName);
-        	$('#kvModal').modal('hide');
-            $('.modal-backdrop').remove();
-        }
-        
-        function clientModalOpen() {
-        	console.log("거래처 모달");
-        	$('#clientNameModal').modal('show');
-        	$.ajax({
-        		url: 'clientnamelist',
-        		method: 'GET',
-        		success: function (data) {
-        			let rows = '';
-        			data.forEach(function (item, index) {
-        				rows += `
-        					<tr onclick="setClientValue('\${item.clientCod}', '\${item.clientName}')" class="searchValue" data-cod="'\${item.clientCod}'" data-value="'\${item.clientName}'" sytle="cursor : pointer">
-        					<td>\${(index + 1)}</td>
-        					<td>\${item.clientCod}</td>
-        					<td>\${item.clientName}</td>
-        					</tr>
-        				`;
-        			});
-        				$('#ClientmodalTableBody').html(rows);
-                        $('#RegisterModal').modal('show');
-        		},
-                error: function (xhr, status, error) {
-                    console.error("실패")
-                }
-        	});
-        }
-			
-        
-		function RegisterProductSearchModalOpen(uniqueId) {
-			$.ajax({
-                url: 'productnamelist',
-                method: 'GET',
-                success: function (data) {
-                   let rows = '';
-                   data.forEach(function (item, index) {
-                   	
-                         rows += `
-                         	<tr onclick="setRegisterProductValue('\${uniqueId}' ,'\${item.cod}', '\${item.prodName}')" class="searchValue" data-cod="\${item.cod}" data-value="\${item.prodName}" style='cursor: pointer'>
-                            	<td>\${(index + 1)}</td> 
-                            	<td>\${item.cod}</td>
-                            	<td>\${item.prodName}</td>
-                            </tr>
-                            `;
-
-                   });
-                   $('#modalTableBody').html(rows);
-                    $('#kvModal').modal('show');
-                },
-                error: function (xhr, status, error) {
-                    console.error("실패")
-                }
-             });
-		}		
-		
+		   // 견적 상세 모달에서 제품 목록 모달을 띄울 때 제품리스트를 가져오는 함수입니다.
            function searchModalOpen() {
-              $.ajax({
-                 url: 'productnamelist',
-                 method: 'GET',
-                 success: function (data) {
-                    let rows = '';
-                    data.forEach(function (item, index) {
-                    	
-//  					console.log(item);
-                          rows +=
-                             '<tr onclick="setValue(\'' +
-                             item.cod +
-                             "', '" +
-                             item.prodName +
-                             '\')" ' +
-                             'class="searchValue" data-cod="' +
-                             item.cod +
-                             '" data-value="' +
-                             item.prodName +
-                             '" style= "' +
-                             'cursor: pointer' +
-                             '">' +
-                             '<td>' +
-                             (index + 1) +
-                             '</td>' +
-                             '<td>' +
-                             item.cod +
-                             '</td>' +
-                             '<td>' +
-                             item.prodName +
-                             '</td>' +
-                             '</tr>';
-
-                    });
-                    $('#modalTableBody').html(rows);
-                     $('#kvModal').modal('show');
-                 },
-                 error: function (xhr, status, error) {
-                     console.error("실패")
-                 }
-              });
-           }
-
-
-           $('#searchInput').on('keyup', function () {
-              var searchInputValue = $(this).val().toLowerCase();
-              $('.searchValue').each(function () {
-                 var cod = $(this).data('cod').toLowerCase();
-                 var productName = $(this).data('value').toLowerCase();
-                 $(this).toggle(cod.includes(searchInputValue) || productName.includes(searchInputValue));
-              });
-           });
-
-        /* valueModal END */
-		
-        function estimateRegister() {
-        	console.log('estimateRegister 함수 실행');
-        	
-            var rows = $('.generatedRow');
-            
-            // 서버로 전송할 데이터를 저장할 배열을 생성합니다.
-            var dataToSend = [];
-			
-            var clientName = $('#registerClientName').val();
-            var employeeCod = $('#estimateEmp1').text();
-            rows.each(function() {
-            	
-            	
-                var uniqueId = $(this).find('input[name^="RegisterProductName"]').attr('name').replace('RegisterProductName', '');
-                var productName = $(this).find('input[name="RegisterProductName' + uniqueId + '"]').val();
-                var productQty = $(this).find('input[name="RegisterProductQty' + uniqueId + '"]').val();
-                
-                var rowData = {
-                	employeeCod: employeeCod,
-                	clientName: clientName,
-                    prodName: productName,
-                    qty: productQty,
-                };
-
-                dataToSend.push(rowData);
-            });
-
             $.ajax({
-                url: 'estimateinsertFn',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(dataToSend),
-                success: function(response) {
-                    console.log('성공적으로 전송되었습니다:', response);
-                },
-                error: function(xhr, status, error) {
-                    console.error('전송 실패:', error);
-                }
-            });
-        	
-        	
-        }
-        
-        function generateUniqueId() {
-            // 현재 타임스탬프를 이용하여 고유한 ID 생성
-            return Date.now();
-        }
+               url: 'productnamelist',
+               method: 'GET',
+               success: function (data) {
+                  let rows = '';
+                  data.forEach(function (item, index) {
+                      
+//  					console.log(item);
+                        rows +=
+                           '<tr onclick="setValue(\'' +
+                           item.cod +
+                           "', '" +
+                           item.prodName +
+                           '\')" ' +
+                           'class="searchValue" data-cod="' +
+                           item.cod +
+                           '" data-value="' +
+                           item.prodName +
+                           '" style= "' +
+                           'cursor: pointer' +
+                           '">' +
+                           '<td>' +
+                           (index + 1) +
+                           '</td>' +
+                           '<td>' +
+                           item.cod +
+                           '</td>' +
+                           '<td>' +
+                           item.prodName +
+                           '</td>' +
+                           '</tr>';
 
-        
+                  });
+                  $('#modalTableBody').html(rows);
+                   $('#kvModal').modal('show');
+               },
+               error: function (xhr, status, error) {
+                   console.error("실패")
+               }
+            });
+         }        
+
+        // 견적 상세모달에서 제품리스트 input 에 set 하는 함수
+        function setValue(cod, productName) {
+            $('#productName').val(productName);
+            $('#kvModal').modal('hide');
+            $('.modal-backdrop').remove();
+         }
+
+		// 견적 상세 모달 끄기
+		function Modalclose() {
+			$('#addRowButton').prop('disabled', false);
+		}
+   
+   // 견적 상세 모달 관련 함수 끝
+   
+   
+   
     </script>
 
 </html>

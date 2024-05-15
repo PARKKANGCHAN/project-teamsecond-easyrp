@@ -62,10 +62,10 @@
 	</insert>
 	
 	<insert id="EstimateInsert2">
-		insert into estimateDetail (estimate_cod, num, product_cod, qty)
+		insert into estimatedetail (estimate_cod, num, product_cod, qty)
 		values (
 			#{cod}, 
-			(SELECT ifnull(max(num), 0) + 1 as num from estimatedetail where estimate_cod = #{cod}), 
+			(SELECT ifnull(max(e.num), 0) + 1 as num from estimatedetail e where e.estimate_cod = #{cod}), 
 			(SELECT cod from product p where prodname = #{prodName}),
 			#{qty}
 		)
