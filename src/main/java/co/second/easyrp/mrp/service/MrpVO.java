@@ -35,4 +35,7 @@ public class MrpVO {
 	private String unitName;
 	private String invCod;
 	private int invQty;
+	private String invname;
+	private String invSpec;
+	private String invUnitName;
 }

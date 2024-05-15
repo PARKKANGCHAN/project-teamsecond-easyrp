@@ -49,7 +49,7 @@
 											<div class="col-12 col-md-6 order-md-1 order-last">
 												<h3>검색</h3>
 											</div>
-											<form id="searchForm" action="mpsmanagement" method="get">
+											<form id="searchForm" action="mrpmanagement" method="get">
 												<div class="mb-4" style="text-align: center">
 													<table class="table table-bordered" id="searchTable">
 														<tr>
@@ -94,11 +94,10 @@
 									<table class="table table-hover mb-0">
 										<thead>
 											<tr>
-												<th></th>
 												<th>품번</th>
 												<th>품명</th>
 												<th>규격</th>
-												<th>소요일자</th>
+												<th>계획일자</th>
 												<th>예정발주일</th>
 												<th>납기일</th>
 												<th>계획수량</th>
@@ -109,18 +108,29 @@
 										</thead>
 										<tbody>
 											<c:if test="${not empty mrpTable }">
-												<c:forEach var="mpsTable" items="${mrpTable }">
+												<c:forEach var="mrpTable" items="${mrpTable }">
 													<tr>
-														<td><input type="checkbox" name="checkbox"></td>
-														<td>${mrpTable.productCod}</td>
-														<td>${mpsTable.prodname }</td>
-														<td>${mpsTable.spec }</td>
+														<td>
+															<c:if test="${mrpTable.account eq '완제'}">${mrpTable.productCod}</c:if>
+															<c:if test="${mrpTable.account eq '자재'}">${mrpTable.inventoryCod}</c:if>
+														</td>
+														<td>
+															<c:if test="${mrpTable.account eq '완제'}">${mrpTable.prodname}</c:if>
+															<c:if test="${mrpTable.account eq '자재'}">${mrpTable.invname}</c:if>
+														</td>
+														<td>
+															<c:if test="${mrpTable.account eq '완제'}">${mrpTable.spec }</c:if>
+															<c:if test="${mrpTable.account eq '자재'}">${mrpTable.invSpec }</c:if>
+														</td>
 														<td><fmt:formatDate value="${mrpTable.takeDate }" pattern="yyyy-MM-dd"/></td>
-														<td><fmt:formatDate value="${mpsTable.poDate }" pattern="yyyy-MM-dd"/></td>
-														<td><fmt:formatDate value="${mpsTable.dday }" pattern="yyyy-MM-dd"/></td>
-														<td>${mpsTable.qty }</td>
-														<td>${mpsTable.unitName }</td>
-														<td>${mpsTable.account }</td>
+														<td><fmt:formatDate value="${mrpTable.poDate }" pattern="yyyy-MM-dd"/></td>
+														<td><fmt:formatDate value="${mrpTable.dday }" pattern="yyyy-MM-dd"/></td>
+														<td>${mrpTable.qty }</td>
+														<td>
+															<c:if test="${mrpTable.account eq '완제'}">${mrpTable.unitName }</c:if>
+															<c:if test="${mrpTable.account eq '자재'}">${mrpTable.invUnitName }</c:if>
+														</td>
+														<td>${mrpTable.account }</td>
 														<td>
 															<div class="btn-group">
 																<button type="button"
@@ -130,9 +140,9 @@
 																</button>
 																<ul class="dropdown-menu">
 																	<li><a class="dropdown-item"
-																		href="mpsupdate?cod=${mpsTable.cod}">수정</a></li>
+																		href="mrpupdate?cod=${mrpTable.cod}">수정</a></li>
 																	<li><a class="dropdown-item"
-																		href="mpsdeletefn?cod=${mpsTable.cod}">삭제</a></li>
+																		href="mrpdeletefn?cod=${mrpTable.cod}">삭제</a></li>
 																</ul>
 															</div>
 														</td>
@@ -141,7 +151,7 @@
 											</c:if>
 											<c:if test="${empty mrpTable }">
 												<tr>
-													<td colspan="11" align="center">소요량전개 내역이 없습니다.</td>
+													<td colspan="10" align="center">소요량전개 내역이 없습니다.</td>
 												</tr>
 											</c:if>
 										</tbody>

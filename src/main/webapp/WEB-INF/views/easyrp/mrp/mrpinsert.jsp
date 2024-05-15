@@ -148,7 +148,6 @@
 										<table class="table table-hover mb-0">
 											<thead>
 												<tr>
-													<th>Num</th>
 													<th>품번</th>
 													<th>품명</th>
 													<th>규격</th>
@@ -294,12 +293,8 @@
                   	
                   	if(data.length > 0){
                   		let firstItem = data[0];
-                  		if(firstItem.cod){
                   			firstRow +=
 	                       	   '<tr>'+
-		                       	  '<td>' +
-		                       	  firstItem.cod +
-	                              '</td>' +
 	                              '<td>' +
 	                              $('#productCod').val() +
 	                              '</td>' +
@@ -328,18 +323,14 @@
 	                              $('#account').val() +
 	                              '</td>' +
 	                              '</tr>';
-                  		}
                   	}
                   	 data.slice(1).forEach(function (item) {
                   		  let poDate = new Date($('#takeDate').val());
                           poDate.setDate(poDate.getDate()-3);
                           let formattedPoDate = poDate.getFullYear() + '-' + ('0' + (poDate.getMonth() + 1)).slice(-2) + '-' + ('0' + poDate.getDate()).slice(-2);
-                          if (item.cod) {
+                          if (item.invCod) {
                              otherRows +=
                           	  '<tr>'+
-	                           	'<td>' +
-	                            item.cod + 
-	                            '</td>' +
                                 '<td>' +
                                 item.invCod +
                                 '</td>' +

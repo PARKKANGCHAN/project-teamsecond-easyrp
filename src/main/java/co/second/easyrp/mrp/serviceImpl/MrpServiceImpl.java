@@ -1,16 +1,15 @@
 package co.second.easyrp.mrp.serviceImpl;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import co.second.easyrp.mps.service.MpsVO;
 import co.second.easyrp.mrp.map.MrpMapper;
 import co.second.easyrp.mrp.service.MrpService;
 import co.second.easyrp.mrp.service.MrpVO;
+import co.second.easyrp.mrp.service.SearchVO;
 
 @Service
 @Primary
@@ -18,17 +17,15 @@ public class MrpServiceImpl implements MrpService {
 	@Autowired MrpMapper mrpMapper;
 
 	@Override
-	public List<MrpVO> mrpSelectListAll(int pageSize, int offset, String searchPlan, String searchProdCod,
-			String searchProdName, Date preSearchDate, Date postSearchDate) {
+	public List<MrpVO> mrpSelectListAll(SearchVO searchVo) {
 		// TODO Auto-generated method stub
-		return mrpMapper.mrpSelectListAll(pageSize, offset, searchPlan, searchProdCod, searchProdName, preSearchDate, postSearchDate);
+		return mrpMapper.mrpSelectListAll(searchVo);
 	}
 
 	@Override
-	public int countMrpTables(String searchPlan, String searchProdCod, String searchProdName, Date preSearchDate,
-			Date postSearchDate) {
+	public int countMrpTables(SearchVO searchVo) {
 		// TODO Auto-generated method stub
-		return mrpMapper.countMrpTables(searchPlan, searchProdCod, searchProdName, preSearchDate, postSearchDate);
+		return mrpMapper.countMrpTables(searchVo);
 	}
 
 	@Override

@@ -1,17 +1,15 @@
 package co.second.easyrp.mrp.web;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +20,7 @@ import co.second.easyrp.mps.service.MpsService;
 import co.second.easyrp.mps.service.MpsVO;
 import co.second.easyrp.mrp.service.MrpService;
 import co.second.easyrp.mrp.service.MrpVO;
+import co.second.easyrp.mrp.service.SearchVO;
 
 @Controller
 public class MrpController {
@@ -31,33 +30,24 @@ public class MrpController {
 	
 	//소요량전개 관리 페이지
 	@GetMapping("/mrpmanagement")
-	public String mrpManagement(@RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "수주") String searchPlan,
-            @RequestParam(required = false) String searchProdCod,
-            @RequestParam(required = false) String searchProdName,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date preSearchDate,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date postSearchDate,
-            Model model) {
-		//List<MrpVO> mrpTable = mrpService.mrpSelectListAll(page, size, searchPlan, searchProdCod, searchProdName, preSearchDate, postSearchDate);
-        //int totalRecords = mrpService.countMrpTables(searchPlan, searchProdCod, searchProdName, preSearchDate, postSearchDate);
-        //int totalPages = (int) Math.ceil((double) totalRecords / size);
+	public String mrpManagement(SearchVO searchVo, Model model) {
+		List<MrpVO> mrpTable = mrpService.mrpSelectListAll(searchVo);
+        int totalRecords = mrpService.countMrpTables(searchVo);
+        int size = searchVo.getPageSize();
+        int page = searchVo.getOffset();
+        int totalPages = (int) Math.ceil((double) totalRecords / size);
 
         int pageGroupSize = 10;
         int currentPageGroup = (page - 1) / pageGroupSize;
         int startPage = currentPageGroup * pageGroupSize + 1;
-        //int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
+        int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
 
-        model.addAttribute("searchPlan", searchPlan);
-        model.addAttribute("searchProdCod", searchProdCod);
-        model.addAttribute("searchProdName", searchProdName);
-        model.addAttribute("preSearchDate", preSearchDate);
-        model.addAttribute("postSearchDate", postSearchDate);
-        //model.addAttribute("mrpTable", mrpTable);
+        model.addAttribute("search", searchVo);
+        model.addAttribute("mrpTable", mrpTable);
         model.addAttribute("currentPage", page);
-        //model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalPages", totalPages);
         model.addAttribute("pageSize", size);
-        //model.addAttribute("endPage", endPage);
+        model.addAttribute("endPage", endPage);
         model.addAttribute("startPage", startPage);
         
 		return "easyrp/mrp/mrpmanagement";
@@ -105,6 +95,29 @@ public class MrpController {
     		mrpService.mpsClosingUpdateToY(mrpVo);
 		}
 		
+		return "redirect:/mrpmanagement";
+	}
+	
+	@RequestMapping("mrpupdate")
+	public String mrpUpdate(Model model, @RequestParam("cod") String cod) {
+		MrpVO mrpVo = new MrpVO();
+		mrpVo.setCod(cod);
+		model.addAttribute("mrpData", mrpService.mrpSelect(mrpVo));
+		return "easyrp/mrp/mrpupdate";
+	}
+	
+	@PostMapping("mrpupdatefn")
+	public String mrpUpdateFn(MrpVO mrpVo) {
+		mrpService.mrpUpdate(mrpVo);
+		return "redirect:/mrpmanagement";
+	}
+	
+	@GetMapping("mrpdeletefn")
+	public String mrpDeleteFn(MrpVO mrpVo, @RequestParam("cod") String cod) {
+		mrpVo.setCod(cod);
+		mrpVo = mrpService.mrpSelect(mrpVo);
+		mrpService.mpsClosingUpdateToN(mrpVo);
+		mrpService.mrpDelete(mrpVo);
 		return "redirect:/mrpmanagement";
 	}
 	
