@@ -24,7 +24,6 @@ public class BomController {
 	@GetMapping("/api/get-productdata")
 	@ResponseBody
 	public BomVO getProductData(BomVO bomVo) {
-		System.out.println(bomService.getData(bomVo));
 		return bomService.getData(bomVo);
 	}
 	

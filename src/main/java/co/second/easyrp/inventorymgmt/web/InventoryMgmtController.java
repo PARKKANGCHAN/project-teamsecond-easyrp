@@ -84,6 +84,7 @@ public class InventoryMgmtController {
 	@GetMapping("/api/get-inventory")
 	@ResponseBody
 	public List<InventoryMgmtVO> getInventoryData() {
+		System.out.println("호출되었습니다");
 		return inventoryMgmtService.apiTableAllList();
 	}
 	

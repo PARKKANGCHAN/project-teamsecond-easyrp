@@ -79,8 +79,10 @@
 																placeholder="제품 그룹을 우측 버튼을 이용하거나 직접 입력해주세요." />
 																<button type="button" class="btn btn-primary"
 																	id="prodGroupSearchModalBtn" data-bs-toggle="modal"
-																	data-bs-target="#loadModal" style="width: 15%"
-																	onclick="searchProductGroupModal()">제품 그룹 조회</button></td>
+																	data-bs-target="#productGroupSearchModal"
+																	style="width: 15%"
+																	onclick="loadProductGroupSearchData()">제품 그룹
+																	조회</button></td>
 															<td width="5%">사원 코드</td>
 															<td><input type="text" id="searchEmployeeCod"
 																name="searchEmployeeCod" class="form-control"
@@ -102,7 +104,8 @@
 										<thead>
 											<tr>
 												<th width="5%">제품번호</th>
-												<th width="40%">제품명</th>
+												<th width="35%">제품명</th>
+												<th width="5%">BOM 등록 유무</th>
 												<th width="15%">제품그룹</th>
 												<th width="10%">제품창고</th>
 												<th width="5%">개 수</th>
@@ -114,6 +117,7 @@
 												<tr class="commonDetailTable">
 													<td class="text-bold-500">${productmgmt.cod}</td>
 													<td>${productmgmt.prodname}</td>
+													<th width="5%">N</th>
 													<td class="text-bold-500">${productmgmt.prodGroupName}</td>
 													<td>${productmgmt.warehouseName }</td>
 													<td>${productmgmt.curInvQty }</td>
@@ -131,10 +135,11 @@
 																<li><a class="dropdown-item"
 																	href="productmgmtdeletefn?cod=${productmgmt.cod}">삭제</a>
 																</li>
-																<li><a class="dropdown-item"
-																	href="javascript:void(0);" data-bs-toggle="modal"
-																	data-bs-target="#loadModal" onclick="bomModal();">BOM
-																		등록</a></li>
+																<li><a class="dropdown-item" href="#"
+																	id="loadDetail" data-bs-toggle="modal"
+																	data-bs-target="#detailModal"
+																	onclick="getProductDetails('${productmgmt.cod}')">
+																		BOM 보기 </a></li>
 															</ul>
 														</div>
 													</td>
@@ -207,63 +212,550 @@
 		</div>
 	</div>
 
+
+
 	<!-- 공통 Modal START  -->
 	<div class="modal fade" id="loadModal" tabindex="-1"
 		data-bs-backdrop="static" data-bs-keyboard="false"
 		aria-labelledby="loadModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-xl">
+		<div class="modal-dialog">
 			<div class="modal-content">
-				<!-- 이곳에 JSP파일이 들어갑니다 -->
+				<!-- 여기에 값이 들어갑니다. -->
 			</div>
 		</div>
 	</div>
 	<!-- 공통 Modal END  -->
 
-	<!-- Sub 공통 Modal START (메인 모달 밖으로 이동) -->
-	<div class="modal fade" id="loadSubModal" tabindex="-1"
-		data-bs-backdrop="static" data-bs-keyboard="false"
-		aria-labelledby="loadSubModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="subModal-content">
-				<!-- 여기에 Modal JSP가 삽입됩니다. -->
+
+
+	<!-- BOM 등록 Modal START  -->
+	<div class="modal fade" id="detailModal" tabindex="-1"
+		aria-labelledby="detailModalLabel" aria-hidden="true"
+		data-bs-backdrop="static" data-bs-keyboard="false">
+		<div class="modal-dialog modal-xl" style="width: 1400px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="detailModalLabel">BOM 등록 페이지</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close" onClick="Modalclose()"></button>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<tr>
+							<th scope="col">완제품 번호</th>
+							<td id="productCod"></td>
+							<th scope="col">완제품 명</th>
+							<td id="productName"></td>
+							<th scope="col">창고 위치</th>
+							<td id="warehouseName"></td>
+						</tr>
+						<tr>
+							<th scope="col">담당 부서</th>
+							<td id="deptName"></td>
+							<th scope="col">담당 사원코드</th>
+							<td id="empCod"></td>
+							<th scope="col">담당자 명</th>
+							<td id="empName"></td>
+						</tr>
+					</table>
+					<table class="table">
+						<tr id="detailList">
+							<th style="width: 140px">원자재 코드</th>
+							<th style="width: 160px">원자재 명</th>
+							<th>수 량</th>
+							<th>단 가</th>
+							<th>공급가액</th>
+							<th>부가세</th>
+							<th>금 액</th>
+							<th>수정 및 삭제</th>
+						</tr>
+						<tr>
+							<th>총 합</th>
+							<td colspan="3"></td>
+							<td id="totalprice"></td>
+							<td id="totalvax"></td>
+							<td id="totalsum"></td>
+						</tr>
+						<tr>
+							<td colspan="7" style="border-bottom-width: 0px">
+								<button type="button" class="btn btn-primary">전표 생성</button>
+								<button type="button" class="btn btn-primary">출력</button>
+								<button type="button" class="btn btn-primary">이메일 보내기</button>
+								<button type="button" class="btn btn-primary">BOM 수정</button>
+								<button type="button" class="btn btn-primary"
+									id="addColumnButton" onClick="addColumn();">제품 추가</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal" onClick="Modalclose()">닫기</button>
+				</div>
 			</div>
 		</div>
 	</div>
-	<!-- Sub 공통 Modal END -->
+	<!-- BOM 등록 Modal END  -->
+
+	<!-- 원자재 선택 Modal START  -->
+	<div class="modal fade" id="inventoryModal" tabindex="-1"
+		aria-labelledby="inventoryModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="inventoryModalLabel">코드-원자재 선택</h5>
+					<input type="text" id="inventorySearchInput" class="form-control"
+						placeholder="코드 또는 상품명을 입력해주세요."
+						style="margin-left: 10px; width: auto; flex-grow: 1" />
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Code</th>
+								<th scope="col">상품 명</th>
+							</tr>
+						</thead>
+						<tbody id="modalTableBody">
+							<!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 원자재 선택 Modal END  -->
+
+
+	<!-- 제품 그룹 조회 Modal START  -->
+	<div class="modal fade" id="productGroupSearchModal" tabindex="-1"
+		aria-labelledby="productGroupSearchModalLabel" aria-hidden="true"
+		data-bs-backdrop="static" data-bs-keyboard="false">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="productGroupSearchModalLabel">제품
+						그룹 목록</h5>
+					<input type="text" id="productGroupSearchInput"
+						class="form-control" placeholder="검색어를 입력해주세요."
+						style="margin-left: 10px; width: auto; flex-grow: 1" />
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">제품 그룹 코드</th>
+								<th scope="col">제품 그룹명</th>
+							</tr>
+						</thead>
+						<tbody id="productGroupModalBody">
+							<!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 제품 그룹 조회 Modal END  -->
+
+	<!-- 제품 그룹 CRUD Modal START  -->
+	<div class="modal fade" id="productGroupMgmtModal" tabindex="-1"
+		aria-labelledby="productGroupMgmtModalLabel" aria-hidden="true"
+		data-bs-backdrop="static" data-bs-keyboard="false">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="productGroupMgmtModalLabel">제품 그룹
+						목록</h5>
+					<input type="text" id="productGroupSearchInput"
+						class="form-control" placeholder="검색어를 입력해주세요."
+						style="margin-left: 10px; width: auto; flex-grow: 1" />
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">제품 그룹 코드</th>
+								<th scope="col">제품 그룹명</th>
+							</tr>
+						</thead>
+						<tbody id="productGroupModalBody">
+							<!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 제품 그룹 조회 Modal END  -->
+
+
 
 	<!-- 제품 관리 테이블 END -->
+
+
+
 	<!-- 2024년 5월 5일 오전 7시 47분 추가  -->
 	<!-- 초기화 버튼 작동 자바스크립트  -->
 	<script type="text/javascript">
-         function bomModal() {
-            $('.modal-content').load('bominsertmodal');
-         }
+	
+    function unitModal() {
+        $('.modal-content').load('unitmodal');
+     }
 
-         function unitModal() {
-            $('.modal-content').load('unitmodal');
-         }
+     function productGroupModal() {
+        $('.modal-content').load('productgroupmodal');
+     }
+	
+         // 예시: 제품 상세 정보를 가져오는 함수
+         const getProductDetails = (estimateCod) => {
+            $.ajax({
+               url: 'api/get-productdata',
+               type: 'GET',
+               data: { productCod: estimateCod },
+               dataType: 'json',
+               success: (response) => {
+                  populateProductDetails(response);
+               },
+               error: (xhr, status, error) => {
+                  console.error('실패', error);
+               },
+            });
+         };
 
-         function productGroupModal() {
-            $('.modal-content').load('productgroupmodal');
-         }
+         // 예시: 제품 상세 정보를 화면에 표시하는 함수
+         const populateProductDetails = (details) => {
+            const detailList = $('#detailList');
+            let totalPrice = 0,
+               totalVat = 0,
+               totalSum = 0;
 
-         function searchProductGroupModal() {
-            $('.modal-content').load('searchproductgroupmodal');
+            $('#productCod').text(details.productCod);
+            $('#productName').text(details.productName);
+            $('#warehouseName').text(details.warehouseName);
+            $('#deptName').text(details.deptName);
+            $('#empCod').text(details.empCod);
+            $('#empName').text(details.empName);
+
+            details.forEach((item) => {
+               const totalPriceItem = item.unitprice * item.qty;
+               const vat = Math.floor(totalPriceItem * 0.1);
+               const totalItem = totalPriceItem + vat;
+
+               totalPrice += totalPriceItem;
+               totalVat += vat;
+               totalSum += totalItem;
+
+               const newRow = $(`
+	            <tr class="generatedRow">
+	                <td>${item.productCod}</td>
+	                <td>${item.prodName}</td>
+	                <td><input type="number" id="qty_${item.num}" readonly class="form-control" value="${
+                  item.qty
+               }" style="width: 120px;"></td>
+	                <td>${item.unitprice.toLocaleString()}</td>
+	                <td>${totalPriceItem.toLocaleString()}</td>
+	                <td>${vat.toLocaleString()}</td>
+	                <td>${totalItem.toLocaleString()}</td>
+	                <td>
+	                    <div>
+	                        <button class="btn btn-primary" onclick="editProduct(${item.num}, ${item.productCod}, ${
+                  details[0].cod
+               })" style="margin-right: 2px;">수정</button>
+	                        <button class="btn btn-primary" onclick="deleteProduct(${item.productCod}, ${
+                  details[0].cod
+               })">삭제</button>
+	                    </div>
+	                </td>
+	            </tr>
+	        `);
+               detailList.after(newRow);
+            });
+
+            $('#totalprice').text(totalPrice.toLocaleString());
+            $('#totalvax').text(totalVat.toLocaleString());
+            $('#totalsum').text(totalSum.toLocaleString());
+         };
+
+         // 제품 수정 함수
+         const editProduct = (num, productCod, estimateCod) => {
+            const qty = $(`#qty_${num}`).val();
+            $.ajax({
+               url: 'estimateupdate',
+               type: 'POST',
+               data: { cod: estimateCod, qty: qty, num: num },
+               dataType: 'json',
+               success: (response) => {
+                  console.log('수정 성공');
+                  alert('수정이 완료되었습니다.');
+                  $('.generatedRow').remove();
+                  getProductDetails(estimateCod);
+               },
+               error: (xhr, status, error) => {
+                  console.error('수정 실패', error);
+               },
+            });
+         };
+
+         // 제품 삭제 함수
+         const deleteProduct = (productCod, estimateCod) => {
+            $.ajax({
+               url: 'estimatedetaildelete',
+               type: 'POST',
+               data: { productCod: productCod, cod: estimateCod },
+               dataType: 'json',
+               success: (response) => {
+                  console.log('삭제 성공');
+                  alert('삭제가 완료되었습니다.');
+                  $('.generatedRow').remove();
+                  getProductDetails(estimateCod);
+               },
+               error: (xhr, status, error) => {
+                  console.error('삭제 실패', error);
+               },
+            });
+         };
+
+         // 모달 닫기 함수
+         const closeModal = () => {
+            $('#addColumnButton').prop('disabled', false);
+         };
+
+         /* 원자재 행 추가 START */
+         function addColumn() {
+            const newRowHtml = `
+        <tr class="generatedRow">
+            <td>
+            	<input type="text" class="form-control hyunwoo-input-disabled" name="inventoryCod" id="inventoryCod" placeholder="원자재 코드" readonly>
+            </td>
+            <td>
+                <input type="text" readonly class="form-control" name="inventoryName" id="inventoryName" placeholder="원자재 선택" style="width: 140px;">
+            </td>
+            <td>
+                <input type="number" class="form-control" name="inventoryQty" id="inventoryQty" placeholder="수량 입력" style="width: 120px;">
+            </td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td id="buttonrow">
+                <div>
+                    <button type="button" class="btn btn-primary" style="margin-right: 2px;">확인</button>
+                    <button class="btn btn-primary">취소</button>
+                </div>
+            </td>
+        </tr>
+    `;
+
+            const newRow = $(newRowHtml);
+
+            newRow.find('input#inventoryName').on('click', function () {
+               $('#inventoryModal').modal('show'); // 자식 모달 열기
+               loadInventoryData();
+            });
+
+            /* 개별 등록 Ajax 호출 START */
+            newRow.find('button:contains("확인")').on('click', function () {
+               console.log('확인 버튼 누름');
+               const estimateCodValue = $('#estimateCod').text();
+               const productName = $('#productName').val();
+               const productQty = $('#productQty').val();
+
+               insertAjax(productName, productQty, estimateCodValue);
+            });
+            /* 개별 등록 Ajax 호출 END */
+
+            /* 개별 취소 버튼 눌렀을 때, tr input 태그 삭제 START  */
+            newRow.find('button:contains("취소")').on('click', function () {
+               $(this).closest('tr').remove(); // 새로 추가된 행 삭제
+               $('#addColumnButton').prop('disabled', false);
+            });
+
+            $('#detailList').after(newRow);
+
+            $('#addColumnButton').prop('disabled', true);
+            
+            /* 개별 취소 버튼 눌렀을 때, tr input 태그 삭제 END  */
          }
          
-         // 제품 선택 서브 모달 열기
-         function setValueInventoryModal() {
-             $('.subModal-content').load('setvalueinventorymodal');
-           }
+         
+         /* 원자재 행 추가 END */
+
+         // 제품 등록 함수
+         const registerProduct = () => {
+            const productName = $('#RegisterProductName').val();
+            const productQty = $('#RegisterProductQty').val();
+            const estimateCodValue = $('#estimateCod').text();
+
+            $.ajax({
+               url: 'estimatedetailinsert',
+               type: 'GET',
+               data: { prodname: productName, qty: productQty, cod: estimateCodValue },
+               dataType: 'json',
+               success: (response) => {
+                  console.log('등록 성공');
+                  alert('상품 항목이 추가되었습니다.');
+                  $('.generatedRow').remove();
+                  getProductDetails(estimateCodValue);
+                  $('#addColumnButton').prop('disabled', false);
+               },
+               error: (xhr, status, error) => {
+                  console.error('등록 실패');
+                  alert('같은 제품이 이미 존재합니다.');
+               },
+            });
+         };
+         
+
+         
+         
+         /* 원자재 모달 API DATA START */
+         
+         /* inventory setValue START */
+         function inventorySetValue(cod, name) {
+        	  $('#inventoryCod').val(cod);
+              $('#inventoryName').val(name);
+              $('#inventoryModal').modal('hide');
+              $('.modal-backdrop').remove();
+          }
+         /* inventory setValue END */
+         
+			function loadInventoryData() {
+				$.ajax({
+					url: 'api/get-inventory',
+					method: 'GET',
+					success: function(data) {
+						console.log(data);
+						let rows = '';
+						data.forEach(function(item, index) {
+							if (item.cod && item.deleteyn === 'N') {
+								rows += `<tr class="searchData hyunwoo-pointer" onclick="inventorySetValue('\${item.cod}', '\${item.name}')" data-cod="\${item.cod}" data-name="\${item.name}" >
+									<td>\${item.cod}</td>
+									<td class="hyunwoo-flex-wrap">
+									<input type="text" class="form-control hyunwoo-input-disabled hyunwoo-pointer" value="\${item.name}" readonly />
+									</td>
+								</tr>`;
+							}
+						});
+						$('#modalTableBody').html(rows);
+						$('#inventoryModal').modal('show');
+					},
+					error: function(xhr, status, error) {
+						alert('데이터 로드에 실패했습니다: ' + error);
+					},
+				});
+			}
+
+			
+			/* 검색기능 START */
+			$('#inventorySearchInput').on('keyup', function() {
+				let searchInputValue = $(this).val().toLowerCase();
+				$('.searchData').each(function() {
+					let cod = $(this).data('cod').toString().toLowerCase();
+					let name = $(this).data('name').toString().toLowerCase();
+					if (cod.includes(searchInputValue) || name.includes(searchInputValue)) {
+						$(this).show();
+					} else {
+						$(this).hide();
+					}
+				});
+			});
+			/* 검색기능 END */
+			/* 원자재 모달 API DATA END */
+			
+			
+			
+		/* 제품 그룹 찾기 모달 API DATA START */
+		
+		/* productSearchSetValue START */
+         function productSearchSetValue(name) {
+              $('#searchProductGroupName').val(name);
+              $('#productGroupSearchModal').modal('hide');
+              $('.modal-backdrop').remove();
+          }
+         /* productSearchSetValue END */
+         
+         
+		 function loadProductGroupSearchData() {
+               $.ajax({
+                  url: 'api/get-productgroup',
+                  method: 'GET',
+                  success: function (data) {
+                     let rows = '';
+                     data.forEach(function (item, index) {
+                        if (item.cod && item.deleteyn === 'N') {
+                           rows += `<tr class="searchData hyunwoo-pointer" onclick="productSearchSetValue('\${item.name}')" data-cod="\${item.cod}" data-name="\${item.name}" >
+                              <td>\${item.cod}</td>
+                              <td class="hyunwoo-flex-wrap">
+                              <input type="text" id="updateName\${item.cod}" name="name" class="form-control hyunwoo-input-disabled hyunwoo-pointer" value="\${item.name}" readonly />
+                              </td>
+                              </tr>`;
+                        }
+                     });
+                     $('#productGroupModalBody').html(rows);
+                     $('#productGroupSearchModal').modal('show');
+                  },
+                  error: function (xhr, status, error) {
+                     alert('데이터 로드에 실패했습니다: ' + error);
+                  },
+               });
+            }
 
 
-         function resetSearchForm() {
+            /* 검색기능 START */
+            $('#productGroupSearchInput').on('keyup', function () {
+               let searchInputValue = $(this).val().toLowerCase();
+               $('.searchData').each(function () {
+                  let cod = $(this).data('cod').toString().toLowerCase();
+                  let name = $(this).data('name').toString().toLowerCase();
+                  if (
+                     cod.includes(searchInputValue) ||
+                     name.includes(searchInputValue)
+                  ) {
+                     $(this).show();
+                  } else {
+                     $(this).hide();
+                  }
+               });
+            });
+			
+			
+         // 제품 추가 행 취소 함수
+         const cancelProductRow = () => {
+            $(this).closest('tr').remove();
+            $('#addColumnButton').prop('disabled', false);
+         };
+         
+     	/* 제품 그룹 찾기 모달 API DATA END */
+     	
+     	
+     	/* 전체 검색 기능 초기화 버튼 */
+     	function resetSearchForm() {
             $('#searchCod').val('');
             $('#searchName').val('');
             $('#searchWarehouseName').val('');
             $('#searchProductGroupName').val('');
             $('#searchEmployeeCod').val('');
          }
+     	/* 전체 검색 기능 초기화 버튼 */
       </script>
 </body>
 </html>

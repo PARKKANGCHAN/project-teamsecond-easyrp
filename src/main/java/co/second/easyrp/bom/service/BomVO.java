@@ -15,4 +15,8 @@ public class BomVO {
 	private String empCod;
 	private String empName;
 	private String warehouseName;
+	// BOM DB 테이블 부분 VO
+	private String prodCod;
+	private String invCod;
+	private int quantity;
 }

@@ -12,13 +12,53 @@
 		d.name AS 'deptName',
 		e.cod AS 'empCod',
 		e.name AS 'empName',
-		w.name AS 'warehouseName'
+		w.name AS
+		'warehouseName'
 		FROM product p
-		LEFT JOIN employee e ON p.employee_cod = e.cod
+		LEFT JOIN employee e ON p.employee_cod =
+		e.cod
 		LEFT JOIN department d ON e.department_cod = d.cod
-		LEFT JOIN warehouse w ON p.warehouse_cod = w.cod
+		LEFT JOIN
+		warehouse w ON p.warehouse_cod = w.cod
 		WHERE p.cod = #{productCod}
 	</select>
+
+	<insert id="insertFn"
+		parameterType="co.second.easyrp.bom.service.BomVO">
+		INSERT INTO bom (
+		prod_cod,
+		inv_cod,
+		quantity)
+		VALUES(
+		#{prodCod},
+		#{invCod},
+		#{quantity}
+		);
+	</insert>
+
+	<update id="updateFn"
+		parameterType="co.second.easyrp.bom.service.BomVO">
+		UPDATE bom
+		SET
+		prod_cod = #{prodCod},
+		inv_cod = #{invCod},
+		quantity = #{quantity}
+		WHERE prod_cod = #{prodCod}
+	</update>
+
+	<!-- BOM 전체 삭제 -->
+	<delete id="deleteFn"
+		parameterType="co.second.easyrp.bom.service.BomVO">
+		delete from bom
+		WHERE prod_cod = #{prodCod};
+	</delete>
+
+	<!-- BOM 개별 삭제 -->
+	<delete id="eachDeleteFn"
+		parameterType="co.second.easyrp.bom.service.BomVO">
+		DELETE FROM bom
+		WHERE prod_cod = #{prodCod} AND inv_cod = #{invCod};
+	</delete>
 
 
 

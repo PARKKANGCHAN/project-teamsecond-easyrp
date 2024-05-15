@@ -20,4 +20,24 @@ public class BomServiceImpl implements BomService {
 	public BomVO getData(BomVO bomVo) {
 		return bomMapper.getData(bomVo);
 	}
+
+	@Override
+	public int insertFn(BomVO bomVO) {
+		return bomMapper.insertFn(bomVO);
+	}
+
+	@Override
+	public int updateFn(BomVO bomVO) {
+		return bomMapper.updateFn(bomVO);
+	}
+
+	@Override
+	public int deleteFn(String cod) {
+		return bomMapper.deleteFn(cod);
+	}
+
+	@Override
+	public int eachDeleteFn(BomVO bomVO) {
+		return bomMapper.eachDeleteFn(bomVO);
+	}
 }

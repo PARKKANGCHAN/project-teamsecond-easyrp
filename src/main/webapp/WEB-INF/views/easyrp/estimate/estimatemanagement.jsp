@@ -759,7 +759,6 @@
 		}
 		
 		function registerModalclose() {
-			
 			$('#registerAddColumnButton').prop('disabled', false);
 		}
 		
