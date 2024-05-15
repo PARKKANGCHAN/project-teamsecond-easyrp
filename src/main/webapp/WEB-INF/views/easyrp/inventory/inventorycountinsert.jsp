@@ -61,17 +61,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 											</tr>
 										</thead>
 										<tbody id="inventoryCountInsertBody">
-												<td class="text-bold-500" id="prodInvCod">${item.cod }</td>
-												<td id="prodInvName">${item.name}</td>
-												<td id="prodInvComputingQty"class="text-bold-500">${item.computingQty}</td>
-												<td id="prodInvCountQty"> <input type="text" id="countqty" class="form-control" placeholder="실사재고량을 입력해주세요." required/></td>
-												<td id="prodInvProcclass">${item.procclass }</td>
-												<td id="prodInvDiffQty">${item.diffQty}</td>
-												<td id="prodInvCountClass">${item.countclass}</td>
-												<td id="prodInvAdjQty">${item.adjQty}</td>
-												<td id="prodInvNote"><input type="text" id="countnote" class="form-control" placeholder="비고를 입력해주세요." /></td>
 											<!-- 모달에서 선택한 데이터 Ajax로 html속성 삽입 -->
-											
 										</tbody>
 									</table>
                               </div>
@@ -123,7 +113,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                   </table>
                </div>
                <div class="modal-footer">
-              	  <button type="button" id="countBtn" onclick="setData()" class="btn btn-primary" data-bs-dismiss="modal">적용</button>
+              	  <button type="button" id="countBtn" class="btn btn-primary" data-bs-dismiss="modal">적용</button>
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                </div>
             </div>
@@ -133,77 +123,98 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
      
       <script type="text/javascript">
          /*Product&InventoryModalTable START */
-         function setData(cod, name, computingQty, procclass) {
-            $('#prodInvCod').text(cod);
-            $('#prodInvName').text(name);
-            $('#prodInvComputingQty').text(computingQty);
-            $('#prodInvProcclass').text(procclass);
-            $('#productInventoryModal').modal('hide');
-            $('.modal-backdrop').remove();
-            $('#countBtn').click();
-            ;
-         }
-
+        
+        function setData(cod, name, computingQty, procclass) {
+    	          $('#cod').text(cod);
+    	          $('#name').text(name);
+    	          $('#computingQty').text(computingQty);
+    	          $('#procclass').text(procclass);
+    	          /*$('#prodInvAdjQty').text(adjQty);*/
+    	          $('#productInventoryModal').modal('hide');
+    	          $('.modal-backdrop').remove();
+    	 }
+         
          $(document).ready(function () {
-        	$('#countBtn').on('click').function(){
+        	$('#countBtn').on('click', function(){
+
+
+        		function checkedlist(){
+        		    	
+        			const selectedValues=[]; //체크된 값들 저장할 배열
+        			$('input[name="checkedValue"]:checked').each(function(){
+        				selectedValues.push($(this).val()); //배열에 값 추가
+        			});
+        		}
+        		
+        		checkedlist();
+        		
         		$.ajax({
         			url: 'api/get-count',
         			method: 'GET',
         			success: function (data){
+        				console.log(data);
         				let rows='';
         				data.forEach(function (item){
         					if(item.cod){
-        						'<'
+        						
+        						let diffQty = item.computingQty-item.countQty;
+        						
+        						 rows += 
+        							 `<tr class="searchData" data-cod="\${item.cod}" data-name="\${item.name}" style= "cursor: pointer">
+        						 			<td id="cod">${item.cod}</td>
+        						 			<td id="name">${item.name}</td>
+        						 			<td id="computingQty">${item.computingQty}</td>
+        						 			<td id="countQty"><input type="text" id="countqty" class="form-control" placeholder="실사재고량을 입력해주세요." required/></td>
+        						 			<td id="diffQty">${diffQty}</td>
+        						 			<td id="procclass">${item.procclass}</td>
+        						 			<td id="adjQty">${item.adjQty}</td>
+        						 			<td id="note"><input type="text" id="note" class="form-control" placeholder="비고를 입력해주세요."/></td>
+										</tr>`
         					}
-        				})
-        			}})
-        	}
-         }
+        				});
+        		                     $('#inventoryCountInsertBody').html(rows);
+        		                     $('#productInventoryModal').modal('hide');
+        					}
+        			});
+        		});
+        	
+        	  $('#countBtn').on('click', function() {
+        	        // 선택된 행의 데이터 추출
+        	        var selectedRow = $('.searchData.selected');
+        	        var cod = selectedRow.data('cod');
+        	        var name = selectedRow.data('name');
+        	        var computingQty = selectedRow.find('td:eq(2)').text(); // 전산재고
+        	        var procclass = selectedRow.find('td:eq(5)').text(); // 처리구분
+        	        //var adjQty = selectedRow.find('td:eq(6)').text(); // 조정수량
+        	        
+        	        // 데이터 설정 함수 호출
+        	        setData(cod, name, computingQty, procclass);
+        	    });
+        	  
+        	    $(document).on('click', '.searchData', function() {
+        	        $('.searchData').removeClass('selected');
+        	        $(this).addClass('selected');
+        	    });
+        	});
+         
          $(document).ready(function () {
             $('#loadProdInv').on('click', function () {
                $.ajax({
                   url: 'api/get-prodinv',
                   method: 'GET',
                   success: function (data) {
-                	  console.log(data);
                      let rows = '';
                      data.forEach(function (item) {
                         if (item.cod) {
-                        	   '<tr onclick="setData(\''+
-                               item.cod+
-                               "', '" +
-                               item.name+
-                               "', '" +
-                               item.computingQty+
-                               "', '" +
-                               item.diffQty+
-                               "', '" +
-                               item.procclass+
-                               "', '" +
-                               item.adjQty+
-                               "', '" +
-                               item.note+
-                               '\')" ' +
-                               'class="searchData" data-cod="' +
-                               item.cod +
-                               '"data-name="'+
-                               item.name+
-                               '" style= "' +
-                               'cursor: pointer' +
-                               '">' 
-                            'class="searchData" data-cod="' +
-                            item.cod +
-                            '"data-name="'+
-                            item.name+
-                            '" style= "' +
-                            'cursor: pointer' +
-                            '">' 
                            rows +=
                         	  '<tr>'+
                               '<td>' +
                               '<input type="checkbox" name="checkedValue" value="'+
                               item.cod+
-                              '">'+
+                              '"'+
+                              'id='+
+                              item.cod+
+                              '>'+
                               '</td>' +
                               '<td>' +
                               item.cod +
@@ -214,9 +225,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                               '</tr>';
                         }
                      });
-                     console.log(rows);
                      $('#productInventoryModalTableBody').html(rows);  
-                     
                      $('#productInventoryModal').modal('show');
                   },
                });

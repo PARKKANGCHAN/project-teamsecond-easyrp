@@ -82,4 +82,10 @@ public class InventoryCountController {
 	public List<ProductInventoryVO> getProdInv(){
 		return inventorycountservice.getAllProductInventoryList();
 	}
+	
+	@GetMapping("/api/get-count")
+	@ResponseBody
+	public List<ProductInventoryVO> getCount(){
+		return inventorycountservice.getAllSelectedCountList();
+	}
 }
