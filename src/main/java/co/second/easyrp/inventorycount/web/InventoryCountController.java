@@ -17,7 +17,6 @@ import co.second.easyrp.inventorycount.service.InventoryCountService;
 import co.second.easyrp.inventorycount.service.InventoryCountVO;
 import co.second.easyrp.inventorycount.service.ProductInventoryVO;
 import co.second.easyrp.inventorycount.service.SearchVO;
-import co.second.easyrp.purchaseorderdetail.service.PurchaseOrderDetailVO;
 
 @Controller
 public class InventoryCountController {
@@ -85,7 +84,7 @@ public class InventoryCountController {
 	
 	@GetMapping("/api/get-count")
 	@ResponseBody
-	public List<ProductInventoryVO> getCount(){
-		return inventorycountservice.getAllSelectedCountList();
+	public List<ProductInventoryVO> getCount(ProductInventoryVO prodInvVO){
+		return inventorycountservice.getAllSelectedCountList(prodInvVO);
 	}
 }

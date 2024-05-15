@@ -14,6 +14,6 @@ public interface InventoryCountService {
 	List<InventoryCountDetailVO> selectedInventoryCountDetailList(InventoryCountVO vo);
 
 	List<ProductInventoryVO> getAllProductInventoryList();
-	List<ProductInventoryVO> getAllSelectedCountList();
+	List<ProductInventoryVO> getAllSelectedCountList(ProductInventoryVO prodinvVO);
 	int countInventoryCountLists(SearchVO searchVo);
 }

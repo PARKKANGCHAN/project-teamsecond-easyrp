@@ -125,10 +125,10 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
          /*Product&InventoryModalTable START */
         
         function setData(cod, name, computingQty, procclass) {
-    	          $('#cod').text(cod);
-    	          $('#name').text(name);
-    	          $('#computingQty').text(computingQty);
-    	          $('#procclass').text(procclass);
+    	          $('.cod').text(cod);
+    	          $('.name').text(name);
+    	          $('.computingQty').text(computingQty);
+    	          $('.procclass').text(procclass);
     	          /*$('#prodInvAdjQty').text(adjQty);*/
     	          $('#productInventoryModal').modal('hide');
     	          $('.modal-backdrop').remove();
@@ -136,7 +136,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
          
          $(document).ready(function () {
         	$('#countBtn').on('click', function(){
-
+        		checkedlist();
+        	});
 
         		function checkedlist(){
         		    	
@@ -144,47 +145,52 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
         			$('input[name="checkedValue"]:checked').each(function(){
         				selectedValues.push($(this).val()); //배열에 값 추가
         			});
-        		}
-        		
-        		checkedlist();
-        		
+        			
+
         		$.ajax({
         			url: 'api/get-count',
         			method: 'GET',
+        			data: {
+        				itemList: selectedValues
+        			},
+        			contentType: "application/json",
         			success: function (data){
+        				console.log('AJAX요청이 보내졌습니다.');
         				console.log(data);
         				let rows='';
         				data.forEach(function (item){
         					if(item.cod){
-        						
         						let diffQty = item.computingQty-item.countQty;
-        						
         						 rows += 
         							 `<tr class="searchData" data-cod="\${item.cod}" data-name="\${item.name}" style= "cursor: pointer">
-        						 			<td id="cod">${item.cod}</td>
-        						 			<td id="name">${item.name}</td>
-        						 			<td id="computingQty">${item.computingQty}</td>
-        						 			<td id="countQty"><input type="text" id="countqty" class="form-control" placeholder="실사재고량을 입력해주세요." required/></td>
-        						 			<td id="diffQty">${diffQty}</td>
-        						 			<td id="procclass">${item.procclass}</td>
-        						 			<td id="adjQty">${item.adjQty}</td>
-        						 			<td id="note"><input type="text" id="note" class="form-control" placeholder="비고를 입력해주세요."/></td>
+        						 			<td class="cod">${item.cod}</td>
+        						 			<td class="name">${item.name}</td>
+        						 			<td class="computingQty">${item.computingQty}</td>
+        						 			<td class="countQty"><input type="text" class="form-control" placeholder="실사재고량을 입력해주세요." required/></td>
+        						 			<td class="diffQty">${diffQty}</td>
+        						 			<td class="procclass">${item.procclass}</td>
+        						 			<td class="adjQty">${item.adjQty}</td>
+        						 			<td class="note"><input type="text" class="form-control" placeholder="비고를 입력해주세요."/></td>
 										</tr>`
         					}
         				});
         		                     $('#inventoryCountInsertBody').html(rows);
         		                     $('#productInventoryModal').modal('hide');
-        					}
+        					},
+        		error: function(xhr, status, error) {
+        			console.error('AJAX 요청을 보낼 수 없습니다:', error);
+        		}
         			});
-        		});
+        		};
         	
-        	  $('#countBtn').on('click', function() {
+        	  $(document).on('click', '#countBtn', function() {
         	        // 선택된 행의 데이터 추출
         	        var selectedRow = $('.searchData.selected');
         	        var cod = selectedRow.data('cod');
         	        var name = selectedRow.data('name');
         	        var computingQty = selectedRow.find('td:eq(2)').text(); // 전산재고
         	        var procclass = selectedRow.find('td:eq(5)').text(); // 처리구분
+        	        var diffQty = selectedRow.find('td:eq(4)').text(); // diffQty 추출
         	        //var adjQty = selectedRow.find('td:eq(6)').text(); // 조정수량
         	        
         	        // 데이터 설정 함수 호출
