@@ -19,4 +19,5 @@ public class BomVO {
 	private String prodCod;
 	private String invCod;
 	private int quantity;
+	
 }

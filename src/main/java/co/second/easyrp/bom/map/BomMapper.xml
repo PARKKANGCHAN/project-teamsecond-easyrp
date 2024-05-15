@@ -5,8 +5,7 @@
 	<!-- (2024년 5월 14일 오전 9시 25분 박현우) -->
 
 	<!-- Product 테이블에서 단일 튜플을 가져오는 쿼리 -->
-	<select id="getData"
-		resultType="co.second.easyrp.bom.service.BomVO">
+	<select id="getData" resultType="co.second.easyrp.bom.service.BomVO">
 		SELECT p.cod AS 'productCod',
 		p.prodname AS 'productName',
 		d.name AS 'deptName',
@@ -23,8 +22,7 @@
 		WHERE p.cod = #{productCod}
 	</select>
 
-	<insert id="insertFn"
-		parameterType="co.second.easyrp.bom.service.BomVO">
+	<insert id="insertFn" parameterType="co.second.easyrp.bom.service.BomVO">
 		INSERT INTO bom (
 		prod_cod,
 		inv_cod,

@@ -235,9 +235,9 @@
 		<div class="modal-dialog modal-xl" style="width: 1400px">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="detailModalLabel">BOM 등록 페이지</h5>
+					<h5 class="modal-title" id="detailModalLabel">BOM 상세 관리 페이지</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close" onClick="Modalclose()"></button>
+						aria-label="Close" onClick="closeModal()"></button>
 				</div>
 				<div class="modal-body">
 					<table class="table">
@@ -290,7 +290,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal" onClick="Modalclose()">닫기</button>
+						data-bs-dismiss="modal" onClick="closeModal()">닫기</button>
 				</div>
 			</div>
 		</div>
@@ -426,11 +426,11 @@
      }
 	
          // 예시: 제품 상세 정보를 가져오는 함수
-         const getProductDetails = (estimateCod) => {
+         const getProductDetails = (productCod) => {
             $.ajax({
                url: 'api/get-productdata',
                type: 'GET',
-               data: { productCod: estimateCod },
+               data: { productCod: productCod },
                dataType: 'json',
                success: (response) => {
                   populateProductDetails(response);
@@ -547,7 +547,7 @@
             	<input type="text" class="form-control hyunwoo-input-disabled" name="inventoryCod" id="inventoryCod" placeholder="원자재 코드" readonly>
             </td>
             <td>
-                <input type="text" readonly class="form-control" name="inventoryName" id="inventoryName" placeholder="원자재 선택" style="width: 140px;">
+                <input type="text" readonly class="form-control" id="inventoryName" placeholder="원자재 선택" style="width: 140px;">
             </td>
             <td>
                 <input type="number" class="form-control" name="inventoryQty" id="inventoryQty" placeholder="수량 입력" style="width: 120px;">
@@ -575,13 +575,38 @@
             /* 개별 등록 Ajax 호출 START */
             newRow.find('button:contains("확인")').on('click', function () {
                console.log('확인 버튼 누름');
-               const estimateCodValue = $('#estimateCod').text();
-               const productName = $('#productName').val();
-               const productQty = $('#productQty').val();
+               const prodCod = $('#productCod').text();
+               const invCod = $('#inventoryCod').val();
+               const quantity = $('#inventoryQty').val();
 
-               insertAjax(productName, productQty, estimateCodValue);
+               insertAjax(prodCod, invCod, quantity);
             });
             /* 개별 등록 Ajax 호출 END */
+            
+         function insertAjax(prodCod, invCod, quantity) {
+			$.ajax({
+	    		url: 'bominsertfn',
+	    		type: 'POST',
+	    		data: {
+	    			prodCod: prodCod,
+	    			invCod: invCod,
+	    			quantity: quantity,
+	    		},
+                success: function (response) {
+                    if (response === 'complete') {
+                    	console.log('BOM 항목이 추가되었습니다.');
+                    	alert('BOM 항목이 추가되었습니다.');
+                    	$('.generatedRow').remove();
+                    	$('#addColumnButton').prop('disabled', false);
+                    	estimateDetail(prodCod);
+                    }
+                 },
+	    		error: function(xhr, status, error){
+	    			console.error('같은 원자재가 이미 존재합니다.');
+	    			alert('같은 원자재가 이미 존재합니다.');
+	    		}
+		    });		    	
+		}
 
             /* 개별 취소 버튼 눌렀을 때, tr input 태그 삭제 START  */
             newRow.find('button:contains("취소")').on('click', function () {
@@ -598,35 +623,8 @@
          
          
          /* 원자재 행 추가 END */
-
-         // 제품 등록 함수
-         const registerProduct = () => {
-            const productName = $('#RegisterProductName').val();
-            const productQty = $('#RegisterProductQty').val();
-            const estimateCodValue = $('#estimateCod').text();
-
-            $.ajax({
-               url: 'estimatedetailinsert',
-               type: 'GET',
-               data: { prodname: productName, qty: productQty, cod: estimateCodValue },
-               dataType: 'json',
-               success: (response) => {
-                  console.log('등록 성공');
-                  alert('상품 항목이 추가되었습니다.');
-                  $('.generatedRow').remove();
-                  getProductDetails(estimateCodValue);
-                  $('#addColumnButton').prop('disabled', false);
-               },
-               error: (xhr, status, error) => {
-                  console.error('등록 실패');
-                  alert('같은 제품이 이미 존재합니다.');
-               },
-            });
-         };
-         
-
-         
-         
+        
+            
          /* 원자재 모달 API DATA START */
          
          /* inventory setValue START */

@@ -159,7 +159,7 @@
 											</tr>
 										</table>
 									</div>
-									<div style="text-align: center">
+									<!-- 									<div style="text-align: center">
 										<button type="submit"
 											class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
 											제품 등록</button>
@@ -168,12 +168,64 @@
 												class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
 												등록취소</button>
 										</a>
-									</div>
+									</div> -->
 									<input type="hidden" id="curInvQty" name="curInvQty" readonly
 										required /> <input type="hidden" id="curInvPrice"
 										name="curInvPrice" readonly required />
 								</form>
 							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12">
+					<div class="card mb-4">
+						<div class="card-header py-3">
+							<div class="d-flex">
+								<h5 class="m-0">BOM 등록</h5>
+							</div>
+						</div>
+						<div class="card-body mb-3">
+							<form action="bominsertfn" method="post">
+								<div class="mb-4">
+									<table class="table table-bordered">
+										<tr>
+											<td width="150">제품 번호</td>
+											<td><input type="text" id="prodCod" name="prodCod"
+												class="form-control" value="${nextCod}"
+												placeholder="제품 번호를 입력해주세요." readonly required /></td>
+										</tr>
+										<tr>
+												<td width="150">자재명</td>
+												<td><input type="text" id="inventoryName"
+													class="form-control" style="width: 70%; float: left"
+													placeholder="우측 자재 조회 버튼을 통해 자재를 선택해주세요." disabled
+													required /> <input type="hidden" id="inventoryCod"
+													name="invCod" readonly required />
+													<button type="button" class="btn btn-primary"
+														id="setValueInventoryModalBtn" data-bs-toggle="modal"
+														data-bs-target="#loadModal"
+														style="margin-left: 2rem; width: 15%"
+														onclick="setValueInventoryModal()">자재 조회</button></td>
+											</tr>
+										<tr>
+											<td width="150">자재 필요 개수</td>
+											<td><input type="text" id="quantity" name="quantity"
+												class="form-control" placeholder="자재 필요 개수를 입력해주세요."
+												maxlength="100" required /></td>
+										</tr>
+									</table>
+								</div>
+								<div style="text-align: center">
+									<button type="submit"
+										class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
+										제품 등록</button>
+									<a href="productmgmt" class="me-2">
+										<button type="button"
+											class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
+											등록취소</button>
+									</a>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -226,6 +278,12 @@
 		function setValueMgmtUnitModal() {
 			$('.modal-content').load('setvaluemgmtunitmodal');
 		}
+		
+		function setValueInventoryModal() {
+			$('.modal-content').load('setvalueinventorymodal');
+		}
+		
+		
 	</script>
 </body>
 </html>

@@ -4,6 +4,7 @@ package co.second.easyrp.bom.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.second.easyrp.bom.service.BomService;
@@ -27,6 +28,11 @@ public class BomController {
 		return bomService.getData(bomVo);
 	}
 	
+	@PostMapping("/bominsertfn")
+	public String bomInsertFn(BomVO bomVO) {
+		bomService.insertFn(bomVO);
+		return "redirect:/productmgmt";
+	}
 	
 
 }
