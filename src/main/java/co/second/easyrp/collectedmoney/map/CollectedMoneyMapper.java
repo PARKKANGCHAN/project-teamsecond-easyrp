@@ -25,4 +25,7 @@ public interface CollectedMoneyMapper {
 	// 검색 후 페이지네이션을 위한 인터페이스
 	int countTable(SearchVO searchVO);
 	
+	// 수금완료 기능 인터페이스
+	int collectedMoneyCompleteFn(CollectedMoneyVO collectedMoneyVO);
+	
 }

@@ -19,5 +19,7 @@ public class CollectedMoneyVO {
 	private long colamount;
 	private long unrev;
 	private long balance;
+	private String empCod;
 	private String deleteyn;
+	private String stateName;
 }

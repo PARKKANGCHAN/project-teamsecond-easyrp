@@ -1,7 +1,5 @@
 package co.second.easyrp.collectedmoney.service;
 
-import java.sql.Date;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,8 +12,8 @@ public class SearchVO {
 	private String searchOrderCod;
 	private int searchCollectedMoneyState;
 	private String searchCollectedMoneyEmployeeCod;
-	private Date preSearchDate;
-	private Date postSearchDate;
+	private String preSearchDate;
+	private String postSearchDate;
 	private int pageSize = 10;
 	private int offset = 0;
 }

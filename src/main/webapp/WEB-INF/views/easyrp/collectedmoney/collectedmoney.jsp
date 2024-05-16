@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -62,10 +63,17 @@
 															<td width="10%"><select class="form-control"
 																id="searchCollectedMoneyState"
 																name="searchCollectedMoneyState">
-																	<option value="">선택</option>
-																	<option value="302">수금 대기</option>
-																	<option value="300">수금 중</option>
-																	<option value="301">수금 완료</option>
+																	<option value="0"
+																		${searchVO.searchCollectedMoneyState == 0 ? 'selected' : ''}>선택</option>
+																	<option value="302"
+																		${searchVO.searchCollectedMoneyState == 302 ? 'selected' : ''}>수금
+																		대기</option>
+																	<option value="300"
+																		${searchVO.searchCollectedMoneyState == 300 ? 'selected' : ''}>수금
+																		중</option>
+																	<option value="301"
+																		${searchVO.searchCollectedMoneyState == 301 ? 'selected' : ''}>수금
+																		완료</option>
 															</select></td>
 															<td width="7%">수금사원코드</td>
 															<td><input type="text"
@@ -76,7 +84,7 @@
 																placeholder="수금계획을 등록한 사원 코드를 입력해주세요." /></td>
 														</tr>
 														<tr class="text-center">
-															<td width="6%">수금 날짜</td>
+															<td width="6%">수금 완료 날짜</td>
 															<td colspan="4"><input type="date"
 																id="preSearchDate" name="preSearchDate"
 																value="${searchVO.preSearchDate}" class="form-control"
@@ -104,11 +112,10 @@
 										<thead>
 											<tr>
 												<th width="5%">수주번호</th>
-												<th width="20%">수주금액</th>
-												<th width="20%">잔 액</th>
+												<th width="10%">수주금액</th>
+												<th width="10%">잔 액</th>
 												<th width="10%">수금상태</th>
-												<th width="5%">초과일수</th>
-												<th width="10%">주의단계</th>
+												<th width="10%">초과일수</th>
 												<th width="5%">기 능</th>
 											</tr>
 										</thead>
@@ -117,16 +124,18 @@
 												<tr class="commonDetailTable">
 													<td class="text-bold-500">${collectedMoney.orderCod}</td>
 													<!-- 수주번호  -->
-													<td>${collectedMoney.colsum}원</td>
+													<td><fmt:formatNumber
+															value="${collectedMoney.colsum }" pattern="#,###" />원</td>
 													<!-- 수주금액  -->
-													<td>${collectedMoney.balance}원</td>
+													<td><fmt:formatNumber
+															value="${collectedMoney.balance}" pattern="#,###" />원</td>
 													<!-- 잔액  -->
 													<td>${collectedMoney.stateName }</td>
 													<!-- 수금상태 -->
-													<td>여기 초과일수</td>
+													<td class="overdueDays"
+														data-collected-start-date="${collectedMoney.collectedStartDate}">여기
+														초과일수</td>
 													<!-- 초과일수 -->
-													<td>여기 주의단계</td>
-													<!-- 주의단계  -->
 													<td>
 														<div class="btn-group">
 															<button type="button"
@@ -135,15 +144,23 @@
 																<i class="fa-solid fa-gear"></i>
 															</button>
 															<ul class="dropdown-menu">
-																<li><a class="dropdown-item"
-																	href="collectedmoneyComplete?cod=${collectedMoney.orderCod}">수금완료</a>
-																</li>
+																<c:if test="${collectedMoney.state == 300}">
+																	<li><a class="dropdown-item"
+																		href="collectedmoneycompletefn?cod=${collectedMoney.orderCod}"
+																		onclick="return confirmCompleteAction();">수금 완료</a></li>
+																</c:if>
+																<c:if test="${collectedMoney.state != 301}">
 																<li><a class="dropdown-item"
 																	href="collectedmoneyupdate?cod=${collectedMoney.orderCod}">수정</a>
 																</li>
 																<li><a class="dropdown-item"
-																	href="collectedmoneydeletefn?cod=${collectedMoney.orderCod}">삭제</a>
+																	href="collectedmoneydeletefn?orderCod=${collectedMoney.orderCod}" onclick="return confirmDeleteAction();">삭제</a>
 																</li>
+																</c:if>
+																<c:if test="${collectedMoney.state == 301}">
+																<li><a class="dropdown-item" href="#"><수금완료> 삭제 및 수정 불가</a>
+																</li>
+																</c:if>
 															</ul>
 														</div>
 													</td>
@@ -220,22 +237,54 @@
 
 
 	<script type="text/javascript">
-	
-	
-	
-	
-	
+		$(document)
+				.ready(
+						/* 현재 날짜 기준 경과 일수 innerHTML */
+						function() {
+							$(".overdueDays")
+									.each(
+											function() {
+												let collectedStartDate = $(this)
+														.data(
+																"collected-start-date");
+												if (collectedStartDate) {
+													let startDate = new Date(
+															collectedStartDate);
+													let currentDate = new Date();
+													let overdueDays = Math
+															.floor((currentDate - startDate)
+																	/ (1000 * 60 * 60 * 24));
+													$(this).text(
+															overdueDays
+																	+ "일 초과");
+												} else {
+													$(this).text("출고 완료 전");
+												}
+											});
+							/* 현재 날짜 기준 경과 일수 innerHTML */
+						});
+
 		/* 검색 form 초기화 START */
 		function resetSearchForm() {
 			$('#searchOrderCod').val('');
-			$("#searchCollectedMoneyState").val("").prop("selected", true);
+			$("#searchCollectedMoneyState").val("0").prop("selected", true);
 			$('#searchCollectedMoneyEmployeeCod').val('');
 			$('#preSearchDate').val('');
 			$('#postSearchDate').val('');
 		}
 		/* 검색 form 초기화 END */
+
+		/* 수금완료 처리 시에 confirm Action START  */
+		function confirmCompleteAction() {
+			return confirm("한번 수금완료 처리를 하면 되돌릴 수 없습니다. 정말 수금완료 처리를 하시겠습니까?");
+		}
+		/* 수금완료 처리 시에 confirm Action END  */
 		
-		
+		/* 삭제 처리 시에 confirm Action START  */
+		function confirmDeleteAction() {
+			return confirm("한번 삭제 처리를 하면 되돌릴 수 없습니다. 정말 삭제 처리를 하시겠습니까?");
+		}
+		/* 삭제 처리 시에 confirm Action END  */
 	</script>
 </body>
 </html>

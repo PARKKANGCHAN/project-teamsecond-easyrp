@@ -47,32 +47,33 @@
 										<button type="button" class="btn btn-primary mx-2"
 											id="loadOrderData" data-bs-toggle="modal"
 											data-bs-target="#loadModal" onclick="setValueOrderData();"
-											style="float: left; width: 24%">수주정보 가져오기</button>
+											style="float: left; width: 24%">수금 미등록 수주정보</button>
 									</div>
 								</div>
 							</div>
 							<div class="card-body mb-3">
-								<form action="collectedmoneyinsertfn" method="post">
+								<form id="collectedMoneyForm" action="collectedmoneyinsertfn"
+									method="post">
 									<div class="mb-4">
 										<table class="table table-bordered">
 											<tr>
 												<td width="150">수주 번호</td>
 												<td><input type="text" id="orderCod" name="orderCod"
-													class="form-control inputNumber" placeholder="수주 번호를 입력해주세요." required /></td>
+													class="form-control inputNumber"
+													placeholder="수주 번호를 입력해주세요." readonly required /></td>
 											</tr>
 											<tr>
 												<td width="150">수주 금액</td>
 												<td><input type="text" id="colsum" name="colsum"
 													class="form-control inputNumber"
-													placeholder="수주 금액을 입력해주세요."
-													required /></td>
+													placeholder="수주 금액을 입력해주세요." required /></td>
 											</tr>
 											<tr>
 												<td width="150">선수금</td>
-												<td><input type="text" id="unrev" class="form-control inputNumber"
-													name="unrev" class="form-control inputNumber"
-													placeholder="현재 입고된 기준의 재고수량을 입력해주세요."
-													required /></td>
+												<td><input type="text" id="unrev"
+													class="form-control inputNumber" name="unrev"
+													class="form-control inputNumber"
+													placeholder="현재 입고된 기준의 재고수량을 입력해주세요." required /></td>
 											</tr>
 											<tr>
 												<td width="150">잔 액</td>
@@ -80,6 +81,14 @@
 													class="form-control"
 													placeholder="(수주 금액 - 선수금)으로 계산해 자동 입력됩니다." readonly
 													required /></td>
+											</tr>
+											<tr>
+												<td width="150">등록 사원명</td>
+												<td><input type="text" id="empName"
+													class="form-control hyunwoo-disabled"
+													value="${empName }" disabled />
+													<input type="hidden" id="empCod" name="empCod"
+													value="${empCode }" /></td>
 											</tr>
 										</table>
 									</div>
@@ -116,16 +125,39 @@
 	<!-- 공통 Modal END  -->
 
 	<script type="text/javascript">
-		/* 잔액 기입 Event START  */
 		$(document).ready(function() {
-			$('#colsum , #unrev').on('input', function() {
-				let orderTotalPrice = $('#colsum').val();
-				let downpayment = $('#unrev').val();
-				let balance = parseInt(orderTotalPrice) - parseInt(downpayment);
-				$('#balance').val(balance);
+
+			/* input type=text에 숫자만 들어가게 하는 이벤트 START */
+			$('#colsum, #unrev').on('input', function() {
+	            // 숫자 이외의 문자 제거
+	            this.value = this.value.replace(/[^0-9]/g, '');
+	            
+	            // 천 단위 콤마 추가
+	            let value = $(this).val();
+	            $(this).val(Number(value.replace(/,/g, '')).toLocaleString());
 			});
+			/* input type=text에 숫자만 들어가게 하는 이벤트 END */
+
+			/* 잔액 기입 이벤트 START  */
+			$('#colsum , #unrev').on('input', function() {
+	            let orderTotalPrice = parseInt($('#colsum').val().replace(/,/g, ''), 10);
+	            let downpayment = parseInt($('#unrev').val().replace(/,/g, ''), 10);
+	            let balance = orderTotalPrice - downpayment;
+
+	            if (!isNaN(balance)) {
+	                $('#balance').val(balance.toLocaleString());
+	                if (balance < 0) {
+	                    alert("잔액이 음수입니다. 선수금을 확인해주세요.");
+	                    $('#balance').val('');
+	                    $('#unrev').val('');
+	                }
+	            } else {
+	                $('#balance').val('');
+	            }
+			});
+			/* 잔액 기입 이벤트 END  */
+
 		});
-		/* 잔액 기입 Event END  */
 
 		/* 수주정보 모달 불러오기 START */
 		function setValueOrderData() {
@@ -133,9 +165,17 @@
 		}
 		/* 수주정보 모달 불러오기 END */
 
+		/* 콤마 있는 부분 제거 한 후 ParseInt해서 submit START */
 		function parseIntSubmit() {
+	        $('#colsum').val(parseInt($('#colsum').val().replace(/,/g, ''), 10));
+	        $('#unrev').val(parseInt($('#unrev').val().replace(/,/g, ''), 10));
+	        $('#balance').val(parseInt($('#balance').val().replace(/,/g, ''), 10));
 
+	        // 폼을 제출합니다.
+	        $('#collectedMoneyForm').submit();
 		}
+		/* 콤마 있는 부분 제거 한 후 ParseInt해서 submit END */
+		
 	</script>
 </body>
 </html>

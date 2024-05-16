@@ -4,15 +4,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.second.easyrp.collectedmoney.service.CollectedMoneyService;
 import co.second.easyrp.collectedmoney.service.CollectedMoneyVO;
+import co.second.easyrp.collectedmoney.service.SearchVO;
 import co.second.easyrp.productmgmt.service.ProductMgmtVO;
-import co.second.easyrp.productmgmt.service.UnitVO;
 
 @Controller
 public class CollectedmoneyController {
@@ -22,8 +24,30 @@ public class CollectedmoneyController {
 	
 	// 수금 관리 페이지 이동
 	// 2024년 5월 16일 오전 11시 29분 추가 박현우
-	@RequestMapping("/collectedmoney")
-	public String collectedMoney() {
+	@GetMapping("/collectedmoney")
+	public String collectedMoney(SearchVO searchVO, Model model, @RequestParam(defaultValue = "1") int page) {
+		searchVO.setOffset((page - 1) * searchVO.getPageSize());
+		List<CollectedMoneyVO> collectedMoney = collectedMoneyService.tableAllList(searchVO);
+		
+		// 제품 개수 만큼 페이지 네이션 생성을 위한 변수
+		int totalRecords = collectedMoneyService.countTable(searchVO);
+		
+		// 제품 개수 / 10(페이지사이즈)를 해서, 총 페이지 개수를 정한다.
+		int totalPages = (int) Math.ceil((double) totalRecords / searchVO.getPageSize());
+		int pageGroupSize = 10;
+		// 페이지네이션에서 한 그룹 당 페이지개수는 10개까지 보여주기 위한 변수
+		int currentPageGroup = (searchVO.getPageSize() - 1) / pageGroupSize;
+		int startPage = currentPageGroup * pageGroupSize + 1;
+		int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
+		
+		System.out.println(collectedMoney);
+		
+		model.addAttribute("searchVO", searchVO);
+		model.addAttribute("collectedMoney", collectedMoney);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("startPage", startPage);
+		
 		return "easyrp/collectedmoney/collectedmoney";
 	}
 	
@@ -49,8 +73,17 @@ public class CollectedmoneyController {
 		return "easyrp/collectedmoney/modal/setvalueorderdata";
 	}
 	
+	@GetMapping("/collectedmoneycompletefn")
+	public String collectedMoneyCompleteFn(CollectedMoneyVO collectedMoneyVO) {
+		collectedMoneyService.collectedMoneyCompleteFn(collectedMoneyVO);
+		return "redirect:/collectedmoney";
+	}
 	
-	
+	@GetMapping("/collectedmoneydeletefn")
+	public String collectedMoneyDeleteFn(@RequestParam String orderCod) {
+		collectedMoneyService.deleteFn(orderCod);
+		return "redirect:/collectedmoney";
+	}
 	
 
 }

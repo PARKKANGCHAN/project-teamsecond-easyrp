@@ -48,4 +48,9 @@ public class CollectedMoneyServiceImpl implements CollectedMoneyService {
 		return collectedMoneyMapper.countTable(searchVO);
 	}
 
+	@Override
+	public int collectedMoneyCompleteFn(CollectedMoneyVO collectedMoneyVO) {
+		return collectedMoneyMapper.collectedMoneyCompleteFn(collectedMoneyVO);
+	}
+
 }
