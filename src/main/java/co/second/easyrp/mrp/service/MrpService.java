@@ -9,6 +9,7 @@ import co.second.easyrp.mps.service.MpsVO;
 
 public interface MrpService {
 	List<MrpVO> mrpSelectListAll(SearchVO searchVo);
+	List<MrpVO> mrpSelectListAllModal();
 	
 	int countMrpTables(SearchVO searchVo);
 	

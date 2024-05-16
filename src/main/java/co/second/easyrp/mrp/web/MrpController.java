@@ -127,6 +127,7 @@ public class MrpController {
         return mpsService.mpsSelectListAllModal();
     }
     
+    // 소요량을 전개한다.
     @GetMapping("/api/get-mrpdeployment")
     @ResponseBody
     public List<MrpVO> getMrpDeployment(String productCod) {

@@ -76,4 +76,10 @@ public class MrpServiceImpl implements MrpService {
 		return mrpMapper.selectBom(productCod);
 	}
 
+	@Override
+	public List<MrpVO> mrpSelectListAllModal() {
+		// TODO Auto-generated method stub
+		return mrpMapper.mrpSelectListAllModal();
+	}
+
 }

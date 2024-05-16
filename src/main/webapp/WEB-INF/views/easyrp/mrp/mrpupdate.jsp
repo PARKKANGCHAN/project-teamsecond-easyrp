@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,129 +53,111 @@
 								</div>
 							</div>
 							<div class="card-body mb-3">
-								<form id="formContainer" action="mrpinsertfn" method="post">
+								<form id="formContainer" action="mrpupdatefn" method="post">
 									<div class="mb-4">
 										<table class="table table-bordered">
 											<!-- mps 번호 INPUT -->
 											<tr>
 												<td width="150">계획번호</td>
 												<td><input type="text" id="mpsCod" name="mpsCod"
-													class="form-control" placeholder="계획번호를 불러오세요." required readonly/>${mrpData.mrpcod }
+													class="form-control" value="${mrpData.cod }" disabled/>
 												</td>
 											</tr>
 											<!-- 등록자 INPUT -->
 											<tr>
 												<td width="150">등록자</td>
 												<td><input type="text" id="employeeName" name="employeeName" value="${empName }"
-													class="form-control" placeholder="로그인하면 자동으로 불러옵니다." required readonly/>
+													class="form-control" placeholder="로그인하면 자동으로 불러옵니다." disabled/>
 												</td>
 											</tr>
 											<!-- 품번 INPUT -->
 											<tr>
 												<td width="150">품번</td>
-												<td><input type="text" id="productCod" name="productCod"
-													class="form-control" placeholder="품번을 불러오세요." required readonly/>
-												</td>
+												<c:if test="${mrpData.account eq '완제'}">
+													<td><input type="text" id="productCod" name="productCod" class="form-control" value="${mrpData.productCod }" disabled/></td>
+												</c:if>
+												<c:if test="${mrpData.account eq '자재'}">
+													<td><input type="text" id="inventoryCod" name="inventoryCod" class="form-control" value="${mrpData.inventoryCod }" disabled/></td>
+												</c:if>
 											</tr>
 											<!-- 품명 INPUT -->
 											<tr>
 												<td width="150">품명</td>
-												<td><input type="text" id="prodname" name="prodname"
-													class="form-control" placeholder="품명을 불러오세요." required readonly/>
-												</td>
+												<c:if test="${mrpData.account eq '완제' }">
+													<td><input value="${mrpData.prodname }" type="text" id="prodname" name="prodname" class="form-control" disabled /></td>
+												</c:if>
+												<c:if test="${mrpData.account eq '자재' }">
+													<td><input value="${mrpData.invname }" type="text" id="invname" name="invname" class="form-control" disabled /></td>
+												</c:if> 
 											</tr>
 											<!-- 규격 INPUT -->
 											<tr>
 												<td width="150">규격</td>
-												<td><input type="text" id="spec" name="spec"
-													class="form-control readonly""
-													placeholder="규격을 불러오세요." required readonly/>
-												</td>
+												<c:if test="${mrpData.account eq '완제' }">
+													<td><input value="${mrpData.spec }" type="text" id="spec" name="spec" class="form-control readonly" disabled/></td>
+												</c:if>
+												<c:if test="${mrpData.account eq '자재' }">
+													<td><input value="${mrpData.invSpec }" type="text" id="invSpec" name="invSpec" class="form-control readonly" disabled/></td>
+												</c:if>
 											</tr>
 											<!-- 계획일 INPUT -->
 											<tr>
 												<td width="150">계획일</td>
-												<td><input type="text" id="takeDate" name="takeDate"
-													class="form-control" placeholder="계획일를 입력해주세요." required/>
+												<td><input value="${mrpData.takeDate }" type="text" id="takeDate" name="takeDate"
+													class="form-control" disabled/>
 												</td>
 											</tr>
 										<!-- 예정발주일 INPUT -->
 											<tr>
 												<td width="150">예정발주일</td>
-												<td><input type="date" id="poDate" name="poDate"
-													class="form-control" placeholder="예정발주일 입력해주세요." required readonly/>
+												<td><input value="${mrpData.poDate }" type="date" id="poDate" name="poDate"
+													class="form-control" required/>
 												</td>
 											</tr>
 											<!-- 납기일 INPUT -->
 											<tr>
 												<td width="150">납기일</td>
-												<td><input type="text" id="dday" name="dday"
-													class="form-control" placeholder="납기일을 불러오세요." required readonly/>
+												<td><input value="${mrpData.dday }" type="text" id="dday" name="dday"
+													class="form-control" placeholder="납기일을 불러오세요." disabled/>
 												</td>
 											</tr>
 											<!-- 예정수량 INPUT -->
 											<tr>
 												<td width="150">예정수량</td>
-												<td><input type="text" id="qty" name="qty"
-													class="form-control" placeholder="예정수량을 입력해주세요." required oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
-													maxlength="5"/>
+												<td><input value="${mrpData.qty }" type="text" id="qty" name="qty"
+													class="form-control" placeholder="예정수량을 입력해주세요." disabled/>
 												</td>
 											</tr>
 											<!-- 단위 INPUT -->
 											<tr>
 												<td width="150">단위</td>
-												<td><input type="text" id="unitName" name="unitName"
-													class="form-control" placeholder="단위를 불러오세요." required readonly/>
-												</td>
+												<c:if test="${mrpData.account eq '완제' }">
+													<td><input value="${mrpData.unitName }" type="text" id="unitName" name="unitName" class="form-control" placeholder="단위를 불러오세요." disabled/></td>
+												</c:if>
+												<c:if test="${mrpData.account eq '자재' }">
+													<td><input value="${mrpData.invUnitName }" type="text" id="unitName" name="unitName" class="form-control" placeholder="단위를 불러오세요." disabled/></td>
+												</c:if>
 											</tr>
 											<!-- 계정구분 INPUT -->
 											<tr>
 												<td width="150">계정구분</td>
-												<td><input type="text" id="account" name="account"
-													class="form-control" placeholder="계정구분을 불러오세요." required readonly/>
+												<td><input value="${mrpData.account }" type="text" id="account" name="account"
+													class="form-control" placeholder="계정구분을 불러오세요." disabled/>
 												</td>
 											</tr>
 										</table>
 										<div>
-											<input type="hidden" id="employeeCod" name="employeeCod" value="${empCode}" />
+											<input type="hidden" id="cod" name="cod" value="${mrpData.cod}" />
 										</div>
-										<div style="text-align: center">
-											<button type="button" onclick="callAjax()"
-												class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
-												소요량전개</button>
-										</div>
-										<br/>
-										<table class="table table-hover mb-0">
-											<thead>
-												<tr>
-													<th>품번</th>
-													<th>품명</th>
-													<th>규격</th>
-													<th>계획일</th>
-													<th>예정발주일</th>
-													<th>납기일</th>
-													<th>예정수량</th>
-													<th>단위</th>
-													<th>계정구분</th>
-												</tr>
-											</thead>
-											<tbody id="mrpTableBody">
-												<!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
-												<tr>
-													<td colspan="9" align="center">소요량 전개 버튼을 눌러주세요.</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
 									<!-- 등록 Button START -->
 									<div style="text-align: center">
 										<button type="submit"
 											class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
-											등록</button>
+											수정</button>
 										<a href="mrpmanagement" class="me-2">
 											<button type="button"
 												class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
-												등록취소</button>
+												수정취소</button>
 										</a>
 									</div>
 									<!-- 등록 Button END -->

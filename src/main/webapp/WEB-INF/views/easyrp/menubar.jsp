@@ -259,7 +259,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                         <span style="font-weight: 800 !important">청구 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">청구 관리</a></li>
+                        <li class="submenu-item"><a href="invoicemanagement" class="submenu-link">청구 관리</a></li>
                         <li class="submenu-item"><a href="#" class="submenu-link">청구 품의</a></li>
                      </ul>
                   </li>

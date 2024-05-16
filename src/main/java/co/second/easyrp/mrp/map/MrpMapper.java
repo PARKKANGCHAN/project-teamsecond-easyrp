@@ -7,6 +7,7 @@ import co.second.easyrp.mrp.service.SearchVO;
 
 public interface MrpMapper {
 	List<MrpVO> mrpSelectListAll(SearchVO searchVo);
+	List<MrpVO> mrpSelectListAllModal();
 	
 	int countMrpTables(SearchVO searchVo);
 	

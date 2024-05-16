@@ -61,28 +61,28 @@
 															<td width="100">품 번</td>
 															<td><input type="text" id="searchProdCod"
 																name="searchProdCod" class="form-control"
-																value="${searchProdCod}" placeholder="품번을 입력해주세요." /></td>
+																value="${search.searchProdCod}" placeholder="품번을 입력해주세요." /></td>
 															<td width="100">품 명</td>
 															<td><input type="text" id="searchProdName"
 																name="searchProdName" class="form-control"
-																value="${searchProdName}" placeholder="품명을 입력해주세요." /></td>
+																value="${search.searchProdName}" placeholder="품명을 입력해주세요." /></td>
 														</tr>
 														<tr>
 															<td width="100">검색 날짜</td>
 															<td colspan="2"><input type="date"
 																id="preSearchDate" name="preSearchDate"
-																value="${preSearchDate}" class="form-control"
+																value="${search.preSearchDate}" class="form-control"
 																style="width: 47%; float: left" /> <span><i
 																	class="fa-solid fa-arrow-right"
 																	style="margin-top: 10px"></i></span> <input type="date"
 																id="postSearchDate" name="postSearchDate"
-																value="${postSearchDate}" class="form-control"
+																value="${search.postSearchDate}" class="form-control"
 																style="width: 47%; float: right" /></td>
 														</tr>
 													</table>
 												</div>
-												<input type="hidden" name="offset" value="${offset}" /> <input
-													type="hidden" name="size" value="${pageSize}" />
+												<input type="hidden" name="offset" value="${search.offset}" /> <input
+													type="hidden" name="size" value="${search.pageSize}" />
 												<div style="text-align: end; margin-right: 0.5rem">
 													<button type="submit" class="btn btn-primary">검색</button>
 													 <button type="button" class="btn btn-primary"   onclick="resetSearchForm()">초기화</button>
