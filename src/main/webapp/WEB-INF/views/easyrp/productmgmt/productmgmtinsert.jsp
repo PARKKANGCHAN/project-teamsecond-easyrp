@@ -118,6 +118,12 @@
 														onclick="setValueUnitModal()">재고 단위 조회</button></td>
 											</tr>
 											<tr>
+												<td width="150">재고 단위 기초 수량</td>
+												<td><input type="number" id="unitAmount"
+													name="unitAmount" class="form-control"
+													placeholder="사내에서 관리하는 재고 단위 수량을 입력해주세요." required /></td>
+											</tr>
+											<tr>
 												<td width="150">관리 단위</td>
 												<td><input type="text" id="mgmtUnitName"
 													class="form-control" style="width: 70%; float: left"
@@ -129,6 +135,12 @@
 														data-bs-target="#loadModal"
 														style="margin-left: 2rem; width: 15%"
 														onclick="setValueMgmtUnitModal()">관리 단위 조회</button></td>
+											</tr>
+											<tr>
+												<td width="150">관리 단위 기초 수량</td>
+												<td><input type="number" id="mgmtUnitAmount"
+													name="mgmtUnitAmount" class="form-control"
+													placeholder="거래처와 사용하는 단위 수량을 입력해주세요." required /></td>
 											</tr>
 											<tr>
 												<td width="150">제품 창고</td>
@@ -195,18 +207,18 @@
 												placeholder="제품 번호를 입력해주세요." readonly required /></td>
 										</tr>
 										<tr>
-												<td width="150">자재명</td>
-												<td><input type="text" id="inventoryName"
-													class="form-control" style="width: 70%; float: left"
-													placeholder="우측 자재 조회 버튼을 통해 자재를 선택해주세요." disabled
-													required /> <input type="hidden" id="inventoryCod"
-													name="invCod" readonly required />
-													<button type="button" class="btn btn-primary"
-														id="setValueInventoryModalBtn" data-bs-toggle="modal"
-														data-bs-target="#loadModal"
-														style="margin-left: 2rem; width: 15%"
-														onclick="setValueInventoryModal()">자재 조회</button></td>
-											</tr>
+											<td width="150">자재명</td>
+											<td><input type="text" id="inventoryName"
+												class="form-control" style="width: 70%; float: left"
+												placeholder="우측 자재 조회 버튼을 통해 자재를 선택해주세요." disabled required />
+												<input type="hidden" id="inventoryCod" name="invCod"
+												readonly required />
+												<button type="button" class="btn btn-primary"
+													id="setValueInventoryModalBtn" data-bs-toggle="modal"
+													data-bs-target="#loadModal"
+													style="margin-left: 2rem; width: 15%"
+													onclick="setValueInventoryModal()">자재 조회</button></td>
+										</tr>
 										<tr>
 											<td width="150">자재 필요 개수</td>
 											<td><input type="text" id="quantity" name="quantity"

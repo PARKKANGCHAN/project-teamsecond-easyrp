@@ -115,9 +115,12 @@
 		warehouse_cod,
 		productgroup_cod,
 		unit_cod,
+		unit_amount,
 		note,
 		employee_cod,
-		mgmt_unit_cod)
+		mgmt_unit_cod,
+		mgmt_unit_amount
+		)
 		VALUES(
 		#{cod},
 		#{prodname},
@@ -131,9 +134,11 @@
 		#{warehouseCod},
 		#{productGroupCod},
 		#{unitCod},
+		#{unitAmount},
 		#{note},
 		#{employeeCod},
-		#{mgmtUnitCod}
+		#{mgmtUnitCod},
+		#{mgmtUnitAmount}
 		);
 	</insert>
 
@@ -154,8 +159,10 @@
 		warehouse_cod = #{warehouseCod},
 		productgroup_cod = #{productGroupCod},
 		unit_cod = #{unitCod},
+		unit_amount = #{unitAmount},
 		employee_cod = #{employeeCod},
-		mgmt_unit_cod = #{mgmtUnitCod}
+		mgmt_unit_cod = #{mgmtUnitCod},
+		mgmt_unit_amount = #{mgmtUnitAmount}
 		WHERE cod = #{cod}
 	</update>
 

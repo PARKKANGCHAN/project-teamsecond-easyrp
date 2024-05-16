@@ -13,14 +13,18 @@
 		'productGroupName', w.name as
 		'warehouseName', i.cur_inv_qty,
 		u.name AS 'unitName',
-		um.name AS 'mgmtUnitName'
+		um.name AS
+		'mgmtUnitName'
 		FROM inventory i
 		LEFT JOIN warehouse w ON
-		i.warehouse_cod =
+		i.warehouse_cod
+		=
 		w.cod
 		LEFT JOIN productgroup p2 ON i.productgroup_cod = p2.cod
-		LEFT JOIN unit u ON i.unit_cod = u.cod
-		LEFT JOIN unit um ON i.mgmt_unit_cod = um.cod
+		LEFT
+		JOIN unit u ON i.unit_cod = u.cod
+		LEFT JOIN unit um ON i.mgmt_unit_cod
+		= um.cod
 		WHERE
 		i.deleteyn = 'N'
 		<if test="searchCod != null and searchCod != ''">
@@ -60,7 +64,8 @@
 		LEFT JOIN warehouse w ON p.warehouse_cod = w.cod
 		LEFT JOIN
 		productgroup p2 ON p.productgroup_cod = p2.cod
-		LEFT JOIN unit u ON p.unit_cod = u.cod
+		LEFT JOIN unit u ON
+		p.unit_cod = u.cod
 		LEFT JOIN unit um ON p.mgmt_unit_cod = um.cod
 		WHERE
 		p.cod = #{cod}
@@ -120,6 +125,7 @@
 		cur_inv_price,
 		spec,
 		unit_cod,
+		unit_amount,
 		safety_inv_qty,
 		cod,
 		name,
@@ -137,6 +143,7 @@
 		#{curInvPrice},
 		#{spec},
 		#{unitCod},
+		#{unitAmount},
 		#{safetyInvQty},
 		#{cod},
 		#{name},
@@ -145,7 +152,7 @@
 		#{productGroupCod}
 		);
 	</insert>
-	
+
 	<!-- 완료 -->
 	<update id="updateFn"
 		parameterType="co.second.easyrp.inventorymgmt.service.InventoryMgmtVO">
@@ -161,12 +168,14 @@
 		#{curInvPrice},
 		spec = #{spec},
 		unit_cod = #{unitCod},
+		unit_amount = #{unitAmount},
 		safety_inv_qty =
 		#{safetyInvQty},
 		cod = #{cod},
 		name = #{name},
 		mgmt_unit_cod =
 		#{mgmtUnitCod},
+		mgmt_unit_amount = #{mgmtUnitAmount},
 		note = #{note},
 		productgroup_cod = #{productGroupCod}
 		WHERE cod = #{cod};
@@ -180,7 +189,7 @@
 		DELETEYN = 'Y'
 		WHERE cod = #{cod};
 	</update>
-	
+
 	<select id="apiTableAllList"
 		resultType="co.second.easyrp.inventorymgmt.service.InventoryMgmtVO">
 		SELECT cod, name, deleteyn
