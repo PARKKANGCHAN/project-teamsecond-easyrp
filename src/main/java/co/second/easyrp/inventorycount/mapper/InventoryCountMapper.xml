@@ -153,4 +153,10 @@ SELECT
 		 ON ia.cod = iad.inventoryadjustment_cod
 		 WHERE i.cod=#{cod}
 	</select>
+	<insert id="insertInventoryCount">
+		INSERT INTO inventorycount Values(#{cod}, #{employeeCod}, #{countDate}, #{invDate}, #{warehouseCod}, #{countclass}, #{account}, #{deleteyn}, #{note}, #{warehouse}, #{employee});
+	</insert>
+	<insert id="insertCountDetailList">
+		INSERT INTO inventorycountdetail Values(#{cod}, #{employeeCod}, #{countDate}, #{invDate}, #{countclass}, #{account}, #{deleteyn}, #{note}, #{diffQty})
+	</insert>
 </mapper>

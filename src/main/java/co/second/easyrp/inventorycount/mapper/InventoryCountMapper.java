@@ -22,5 +22,7 @@ public interface InventoryCountMapper {
 	
 	int countInventoryCountLists(SearchVO searchVo);
 	List<ProductInventoryVO> getAllProductInventoryList();
-	List<ProductInventoryVO> getAllSelectedCountList(ProductInventoryVO prodinvVO);
+	List<ProductInventoryVO> getAllSelectedCountList(String itemList);
+	int insertCountDetailList(InventoryCountDetailVO inventorycountdetailvo);
+	
 }

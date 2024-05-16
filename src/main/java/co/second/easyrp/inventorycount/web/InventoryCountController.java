@@ -1,7 +1,11 @@
 package co.second.easyrp.inventorycount.web;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -84,7 +88,21 @@ public class InventoryCountController {
 	
 	@GetMapping("/api/get-count")
 	@ResponseBody
-	public List<ProductInventoryVO> getCount(ProductInventoryVO prodInvVO){
-		return inventorycountservice.getAllSelectedCountList(prodInvVO);
+	public List<ProductInventoryVO> getCount(HttpServletRequest httpservletrequest){
+		
+		String[] itemList;
+		
+		itemList = httpservletrequest.getParameterValues("itemList");
+		List<ProductInventoryVO> result = new ArrayList<>();
+		
+
+		if(itemList != null) {
+			for(int i=0; i<itemList.length; i++) {
+		List<ProductInventoryVO> prodinvs = inventorycountservice.getAllSelectedCountList(itemList[i]);
+		result.addAll(prodinvs);
+			}
+			 System.out.println(result.toString());
+		}
+		return result;
 	}
 }

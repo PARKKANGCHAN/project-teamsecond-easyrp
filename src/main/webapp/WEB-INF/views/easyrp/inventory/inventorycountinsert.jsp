@@ -97,12 +97,16 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                      placeholder="재고코드 또는 품명을 입력해주세요."
                      style="margin-left: 10px; width: auto; flex-grow: 1"
                   />
+               <div>
+              	  <button type="button" id="countBtn" class="btn btn-primary" data-bs-dismiss="modal">적용</button>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
                </div>
                <div class="modal-body">
                   <table class="table">
                      <thead>
                         <tr>
+                           <th scope="col"></th>
                            <th scope="col">품번</th>
                            <th scope="col">품명</th>
                         </tr>
@@ -111,6 +115,40 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                         <!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
                      </tbody>
                   </table>
+                  <!-- 페이지네이션 START -->
+					<nav aria-label="Page navigation">
+						<ul class="pagination justify-content-center">
+							<!-- Previous 10 Pages -->
+							<c:if test="${empty productInventoryList}">
+							<tr>
+							</c:if>
+							<c:if test="${not empty inventoryCountList}">						
+							<li
+								class="page-item <c:if test='${startPage == 1}'>disabled</c:if>">
+								<a class="page-link"
+								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&searchCod=${searchVO.searchCod}&searchWarehouse=${searchVO.searchWarehouse}&searchProduct=${searchVO.searchProduct}&searchLocation=${searchVO.searchLocation}&searchInventory=${searchVO.searchInventory}&searchCountClass=${searchVO.searchCountClass}&searchEmployee=${searchVO.searchEmployee}&searchAccount=${searchVO.searchAccount}&preSearchDate=${searchVO.preSearchDate}&postSearchDate=${searchVO.postSearchDate}</c:if>">이전
+									10 페이지</a>
+							</li>
+
+							<c:forEach begin="${startPage}" end="${endPage}" var="i">
+								<li
+									class="page-item <c:if test='${i == currentPage}'>active</c:if>">
+									<a class="page-link"
+									href="?page=${i}&searchCod=${searchVO.searchCod}&searchWarehouse=${searchVO.searchWarehouse}&searchProduct=${searchVO.searchProduct}&searchLocation=${searchVO.searchLocation}&searchInventory=${searchVO.searchInventory}&searchCountClass=${searchVO.searchCountClass}&searchEmployee=${searchVO.searchEmployee}&searchAccount=${searchVO.searchAccount}&preSearchDate=${searchVO.preSearchDate}&postSearchDate=${searchVO.postSearchDate}">${i}</a>
+								</li>
+							</c:forEach>
+
+							<li
+								class="page-item <c:if test='${endPage == totalPages}'>disabled</c:if>">
+								<a class="page-link"
+								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&searchCod=${searchVO.searchCod}&searchWarehouse=${searchVO.searchWarehouse}&searchProduct=${searchVO.searchProduct}&searchLocation=${searchVO.searchLocation}&searchInventory=${searchVO.searchInventory}&searchCountClass=${searchVO.searchCountClass}&searchEmployee=${searchVO.searchEmployee}&searchAccount=${searchVO.searchAccount}&preSearchDate=${searchVO.preSearchDate}&postSearchDate=${searchVO.postSearchDate}</c:if>">다음
+									10 페이지</a>
+							</li>
+							</c:if>		
+						</ul>
+					</nav>
+
+					<!-- 페이지네이션 END -->
                </div>
                <div class="modal-footer">
               	  <button type="button" id="countBtn" class="btn btn-primary" data-bs-dismiss="modal">적용</button>
@@ -120,6 +158,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
          </div>
       </div>
       <!-- Product&InventoryModal END  -->
+      
      
       <script type="text/javascript">
          /*Product&InventoryModalTable START */
@@ -134,6 +173,20 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     	          $('.modal-backdrop').remove();
     	 }
          
+        function setCountDiff(countQtyInputId, computingQtyId){
+        	let countQtyInputData = $('#'+countQtyInputId).val();
+            if (countQtyInputData != null && countQtyInputData !== "") {
+            	
+             	let computingQty =$('#'+computingQtyId).text(); // 전산재고
+            	console.log(computingQty);
+            	let diffQty=computingQty-countQtyInputData; //차이수량
+            	$('#' + countQtyInputId).closest('tr').find('.diffQty').text(diffQty);
+            } else {
+                // 입력된 값이 비어 있으면 차이수량을 0으로 설정
+                $('#' + countQtyInputId).closest('tr').find('.diffQty').text(0);
+               }
+        }
+        
          $(document).ready(function () {
         	$('#countBtn').on('click', function(){
         		checkedlist();
@@ -141,49 +194,61 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
         		function checkedlist(){
         		    	
-        			const selectedValues=[]; //체크된 값들 저장할 배열
+        			const selectedValues = []; //체크된 값들 저장할 배열
         			$('input[name="checkedValue"]:checked').each(function(){
-        				selectedValues.push($(this).val()); //배열에 값 추가
+        				selectedValues.push($(this).val()); //배열에 값을 추가
         			});
         			
-
+		console.log(selectedValues);
         		$.ajax({
         			url: 'api/get-count',
         			method: 'GET',
+        			traditional: true,
         			data: {
         				itemList: selectedValues
         			},
         			contentType: "application/json",
         			success: function (data){
-        				console.log('AJAX요청이 보내졌습니다.');
+        				console.log('AJAX요청이 보내짐');
         				console.log(data);
         				let rows='';
         				data.forEach(function (item){
         					if(item.cod){
+        						let num = rows.length;
         						let diffQty = item.computingQty-item.countQty;
+        						let procclass = '';
+        						
+        						if(item.procclass != null){
+        							procclass = item.procclass;
+        						}else{
+        							procclass = '미처리';
+        						}
+
         						 rows += 
         							 `<tr class="searchData" data-cod="\${item.cod}" data-name="\${item.name}" style= "cursor: pointer">
-        						 			<td class="cod">${item.cod}</td>
-        						 			<td class="name">${item.name}</td>
-        						 			<td class="computingQty">${item.computingQty}</td>
-        						 			<td class="countQty"><input type="text" class="form-control" placeholder="실사재고량을 입력해주세요." required/></td>
-        						 			<td class="diffQty">${diffQty}</td>
-        						 			<td class="procclass">${item.procclass}</td>
-        						 			<td class="adjQty">${item.adjQty}</td>
+        						 			<td class="cod">\${item.cod}</td>
+        						 			<td class="name">\${item.name}</td>
+        						 			<td class="computingQty" id="\${item.cod}\${num}">\${item.computingQty}</td>
+        						 			<td width=100 class="countQty">
+        						 				<input type="number" onkeyup="setCountDiff(this.id, '\${item.cod}\${num}')" id="\${item.cod}" class="countqtyinput form-control" placeholder="실사재고량을 입력해주세요." required/>
+        						 			</td>	
+        						 			<td class="diffQty">\${diffQty}</td>
+        						 			<td class="procclass">\${procclass}</td>
+        						 			<td class="adjQty">\${item.adjQty}</td>
         						 			<td class="note"><input type="text" class="form-control" placeholder="비고를 입력해주세요."/></td>
 										</tr>`
         					}
         				});
-        		                     $('#inventoryCountInsertBody').html(rows);
+        		                     $('#inventoryCountInsertBody').append(rows);
         		                     $('#productInventoryModal').modal('hide');
         					},
         		error: function(xhr, status, error) {
-        			console.error('AJAX 요청을 보낼 수 없습니다:', error);
+        			console.error('AJAX error:', error);
         		}
         			});
         		};
         	
-        	  $(document).on('click', '#countBtn', function() {
+     /*    	  $(document).on('click', '#countBtn', function() {
         	        // 선택된 행의 데이터 추출
         	        var selectedRow = $('.searchData.selected');
         	        var cod = selectedRow.data('cod');
@@ -195,13 +260,14 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
         	        
         	        // 데이터 설정 함수 호출
         	        setData(cod, name, computingQty, procclass);
-        	    });
+        	    }); */
         	  
         	    $(document).on('click', '.searchData', function() {
         	        $('.searchData').removeClass('selected');
         	        $(this).addClass('selected');
         	    });
-        	});
+        	    
+                 });
          
          $(document).ready(function () {
             $('#loadProdInv').on('click', function () {
