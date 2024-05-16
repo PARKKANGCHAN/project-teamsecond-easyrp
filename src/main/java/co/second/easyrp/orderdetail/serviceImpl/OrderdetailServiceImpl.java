@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import co.second.easyrp.orderdetail.map.OrderdetailMapper;
 import co.second.easyrp.orderdetail.service.OrderdetailService;
 import co.second.easyrp.orderdetail.service.OrderdetailVO;
+import co.second.easyrp.orders.service.OrdersVO;
 
 @Service
 @Primary
@@ -43,6 +44,12 @@ public class OrderdetailServiceImpl implements OrderdetailService {
 	public int orderdetailDelete(OrderdetailVO orderdetailVo) {
 		// TODO Auto-generated method stub
 		return orderdetailMapper.orderdetailDelete(orderdetailVo);
+	}
+
+	@Override
+	public List<OrderdetailVO> OrderDetailSelectList(String cod) {
+		// TODO Auto-generated method stub
+		return orderdetailMapper.OrderDetailSelectList(cod);
 	}
 
 }

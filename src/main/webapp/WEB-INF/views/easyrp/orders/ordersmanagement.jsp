@@ -20,8 +20,8 @@
 			<div class="page-title">
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
-						<h3><a href="/easyrp/salesplanmanagement">견적 테이블</a></h3>
-						<p class="text-subtitle text-muted">견적 목록</p>
+						<h3><a href="/easyrp/salesplanmanagement">수주 테이블</a></h3>
+						<p class="text-subtitle text-muted">수주 목록</p>
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
 						<nav aria-label="breadcrumb"
@@ -99,30 +99,30 @@
 									<table class="table table-hover mb-0">
 										<thead>
 											<tr>
-												<th width="10%">견적번호</th>
+												<th width="10%">수주번호</th>
 												<th width="10%">등록일자</th>
+												<th width="10%">납기일</th>
 												<th width="10%">고객번호</th>
-												<th width="10%">담당자번호</th>
+											 	<th width="10%">담당자번호</th>
 												<th width="15%">금액</th>
-												<th width="15%">부가세</th>
+												<th width="10%">부가세</th>
 												<th width="15%">총액</th>
-												<th width="7.5%">수주여부</th>
 												<th width="7.5%">설 정</th>
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach items="${estimate }" var="estimate" >
+											<c:forEach items="${orders }" var="orders" >
 												<tr>
 													<td class="text-bold-500">
-    													<a href="#" id="loadDetail" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="estimateDetail('${estimate.cod}')">${estimate.cod}</a>
+    													<a href="#" id="loadDetail" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="orderDetail('${orders.cod}')">${orders.cod}</a>
 													</td>
-													<td><fmt:formatDate value="${estimate.estDate}" pattern="yyyy-MM-dd" /></td>
-													<td>${estimate.clientCod }</td>
-													<td class="text-bold-500">${estimate.employeeCod }</td>
-													<td><fmt:formatNumber value="${estimate.subtotal}" pattern="###,###"></fmt:formatNumber></td>
+													<td><fmt:formatDate value="${orders.orderDate}" pattern="yyyy-MM-dd" /></td>
+													<td><fmt:formatDate value="${orders.dday}" pattern="yyyy-MM-dd" /></td>
+													<td>${orders.clientCod }</td>
+													<td class="text-bold-500">${orders.employeeCod }</td>
+													<td><fmt:formatNumber value="${orders.subtotal}" pattern="###,###"></fmt:formatNumber></td>
 													<td>10%</td>
-													<td><fmt:formatNumber value="${estimate.total}" pattern="###,###"></fmt:formatNumber></td>
-													<td>${estimate.orderyn }</td>
+													<td><fmt:formatNumber value="${orders.total}" pattern="###,###"></fmt:formatNumber></td>
 													<td>
 														<div class="btn-group">
 															<button type="button"
@@ -132,8 +132,8 @@
 															</button>
 															<ul class="dropdown-menu">
 																<li><a class="dropdown-item"
-																	href="estimatedeleteFn?cod=${estimate.cod}">삭제</a></li>
-																<li><a class="dropdown-item" href="#" id="loadDetail" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="estimateDetail('${estimate.cod}')">
+																	href="estimatedeleteFn?cod=${orders.cod}">삭제</a></li>
+																<li><a class="dropdown-item" href="#" id="loadDetail" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="orderDetail('${orders.cod}')">
 																	상세 보기
 																	</a>
 																</li>
@@ -189,7 +189,7 @@
 			</section>
 		</div>
 	</div>
-	<!-- 공통 사용 테이블 END -->
+<!-- 	공통 사용 테이블 END -->
 	
 		<!-- 상세페이지 모달 START -->
 	<div class="modal fade" id="detailModal" tabindex="-1"
@@ -197,28 +197,30 @@
 		<div class="modal-dialog modal-xl" style="width: 1400px;">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="detailModalLabel">견적 상세 페이지</h5>
+					<h5 class="modal-title" id="detailModalLabel">수주 상세 페이지</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close" onClick="Modalclose()"></button>
 				</div>
 				<div class="modal-body">
 					<table class="table">
 						<tr>
-							<th scope="col">견적 번호</th>
-							<td id="estimateCod"></td>
+							<th scope="col">수주 번호</th>
+							<td id="orderCod"></td>
 							<th scope="col">거래처 명</th>
 							<td id="clientName"></td>
-							<th scope="col">견적 날짜</th>
-							<td id="estimateDate"></td>
+							<th scope="col">수주 날짜</th>
+							<td id="orderDate"></td>
+							<th scope="col">납기일</th>
+							<td id="dday"></td>
 							<td></td>
 						</tr>
 						<tr>
-							<th scope="col">견적 담당 부서</th>
-							<td id="estimateDept"></td>
-							<th scope="col">견적 담당 사원코드</th>
-							<td id="estimateEmp"></td>
-							<th scope="col">견적 담당자 명</th>
-							<td id="estimateEmpName"></td>
+							<th scope="col">수주 담당 부서</th>
+							<td id="orderDept"></td>
+							<th scope="col">수주 담당 사원코드</th>
+							<td id="orderEmpCod"></td>
+							<th scope="col">수주 담당자 명</th>
+							<td id="orderEmpName"></td>
 							<td></td>
 						</tr>
 						</table>
@@ -231,6 +233,7 @@
 							<th colspan="1">공급가액</th>
 							<th colspan="1">부가세</th>
 							<th colspan="1">금 액</th>
+							<th colspan="1">출고 상태</th>
 							<th colspan="1">수정 및 삭제</th>
 
 						<tr>
@@ -246,8 +249,7 @@
 							<td colspan="6" style="border-bottom-width: 0px">
 								<button type="button" class="btn btn-primary">전표 생성</button>
 								<button type="button" class="btn btn-primary">출력</button>
-								<button type="button" class="btn btn-primary">이메일 보내기</button>
-								<button type="button" class="btn btn-primary" onClick="estimateChange()">견적 수정</button>
+								<button type="button" class="btn btn-primary" onClick="estimateChange()">수주 수정</button>
                                 <button type="button" class="btn btn-primary" id="addRowButton" onClick="addRow()">제품 추가</button>
 							</td>
 						</tr>
@@ -272,15 +274,15 @@
 		<div class="modal-dialog modal-xl" style="width: 1400px;">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="detailModalLabel">견적 등록 페이지</h5>
+					<h5 class="modal-title" id="detailModalLabel">수주 등록 페이지</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close" onClick="registerModalclose()"></button>
 				</div>
 				<div class="modal-body">
 					<table class="table">
 						<tr>
-							<th scope="col">견적 번호</th>
-							<td id="registerEstimateCod">--</td>
+							<th scope="col">수주 번호</th>
+							<td id="registerOrderCod">--</td>
 							<th scope="col">거래처 명</th>
 							<td>
 								<input type="text" readonly="readonly" class="form-control" name="registerClientName"  id="registerClientName" placeholder="거래처 선택" style="width: 140px;" onClick="clientModalOpen()">
@@ -288,12 +290,12 @@
 							<td></td>
 						</tr>
 						<tr>
-							<th scope="col">견적 담당 부서</th>
-							<td id="estimateDept">${empDeptCode}</td>
-							<th scope="col">견적 담당 사원코드</th>
-							<td id="estimateEmp1">${empCode }</td>
-							<th scope="col">견적 담당자 명</th>
-							<td id="estimateEmpName">${empName }</td>
+							<th scope="col">수주 담당 부서</th>
+							<td id="orderDept">${empDeptCode}</td>
+							<th scope="col">수주 담당 사원코드</th>
+							<td id="orderEmp1">${empCode }</td>
+							<th scope="col">수주 담당자 명</th>
+							<td id="orderEmpName">${empName }</td>
 							<td></td>
 						</tr>
 						</table>
@@ -320,7 +322,7 @@
 						<tr>
 							<td colspan="6" style="border-bottom-width: 0px">
                                 <button type="button" class="btn btn-primary" id="registeraddRowButton" onClick="registeraddRow()">제품 추가</button>
-                                <button type="button" class="btn btn-primary" id="registerEstimate" onClick="estimateRegister()">견적 등록</button>                                
+                                <button type="button" class="btn btn-primary" id="registerEstimate" onClick="estimateRegister()">수주 등록</button>                                
 							</td>
 						</tr>
 					</table>
@@ -363,7 +365,7 @@
                         </tr>
                      </thead>
                      <tbody id="ClientmodalTableBody">
-                        <!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
+<!--                         여기에 Ajax로 만든 html 속성이 들어감  -->
                      </tbody>
                   </table>
                </div>
@@ -373,7 +375,7 @@
             </div>
          </div>
       </div>
-      <!-- clientName Modal END  -->
+<!--       clientName Modal END  -->
       
 	<!-- Value Modal START  -->
 	 <div class="modal fade" id="kvModal" tabindex="-1" aria-labelledby="kvModalLabel" aria-hidden="true">
@@ -400,7 +402,7 @@
                         </tr>
                      </thead>
                      <tbody id="modalTableBody">
-                        <!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
+<!--                         여기에 Ajax로 만든 html 속성이 들어감  -->
                      </tbody>
                   </table>
                </div>
@@ -410,7 +412,7 @@
             </div>
          </div>
       </div>
-      <!-- Value Modal END  -->
+<!--       Value Modal END  -->
 
 
 
@@ -421,12 +423,12 @@
 
    <script type="text/javascript">
 	
-   // 견적 등록 모달 관련 함수 시작
+   // 수주 등록 모달 관련 함수 시작
 
 
  	
  	
-		// 견적 등록 모달에서 '제품 추가'버튼 함수
+		// 수주 등록 모달에서 '제품 추가'버튼 함수
     	function registeraddRow() {
     		console.log("registeraddRow");
     		var uniqueId = generateUniqueId();
@@ -639,52 +641,56 @@
    
    
    
-   // 견적 상세 모달 관련 함수 시작
+   // 수주 상세 모달 관련 함수 시작
    
-    // estimateDetail(estimateCod) 시작
-	// 견적 상세 모달에서 목록을 불러오는 함수입니다. 여기서 금액계산을 하고, 견적 상세 목록의 수정, 삭제하는 함수도 정의하였습니다. 함수안에 함수가 정의되어 있어서 헷갈릴 수 있습니다.
-    function estimateDetail(estimateCod) {
+    // orderDetail(orderCod) 시작
+	// 수주 상세 모달에서 목록을 불러오는 함수입니다. 여기서 금액계산을 하고, 수주 상세 목록의 수정, 삭제하는 함수도 정의하였습니다. 함수안에 함수가 정의되어 있어서 헷갈릴 수 있습니다.
+    function orderDetail(orderCod) {
     	
     	// estimatedetail ajax 통신 시작
     	$.ajax({
-    		url: 'estimatedetail',
+    		url: 'orderdetail',
     		type: 'GET',
-    		data: {cod : estimateCod},
+    		data: {cod : orderCod},
     		dataType: 'JSON',
     		success: function(response) {
     			
-    			console.log("estimateDetail 함수  실행 후 estimateCod 값 : "+estimateCod);
+    			console.log("orderDetail 함수  실행 후 estimateCod 값 : "+ orderCod);
     			console.log("response hashmap : " + response)
     			
     		    var totalPrice = 0; // 총 가격 합계 초기값 설정
     		    var totalVat = 0; // 부가세 합계 초기값 설정
     		    var totalSum = 0; // 총합 합계 초기값 설정
     			
-                var estimateDetailList = response.estimateDetailList;
-                var estimateSelect = response.estimateSelect;
+                var orderDetailList = response.orderDetailList;
+                var orderSelect = response.orderSelect;
                 
-                var clientName = estimateSelect.clientName;
-                var estDate = estimateSelect.estDate;
-                var deptName = estimateSelect.deptName;
-                var employeeCod = estimateSelect.employeeCod;
-                var empName = estimateSelect.empName;
+                var clientName = orderSelect.clientName;
+                
+                
+                var orderDate = orderSelect.orderDate;
+                var dday = orderSelect.dday;
+                var deptName = orderSelect.deptName;
+                var employeeCod = orderSelect.employeeCod;
+                var empName = orderSelect.empName;
     		    
-                // 견적 상세 모달 상단에 넣은 값입니다.
-    			$('#estimateCod').text(estimateCod);
+                // 수주 상세 모달 상단에 넣은 값입니다.
+    			$('#orderCod').text(orderCod);
     			$('#clientName').text(clientName);
-     			$('#estimateDate').text(estDate);
-    			$('#estimateDept').text(deptName);
-    			$('#estimateEmp').text(employeeCod);
-    			$('#estimateEmpName').text(empName);
+     			$('#orderDate').text(orderDate);
+     			$('#dday').text(dday);
+    			$('#orderDept').text(deptName);
+    			$('#orderEmpCod').text(employeeCod);
+    			$('#orderEmpName').text(empName);
 				
-    			// estimateDetialList.forEach 상세 리스트의 각 요소에 적용하는 함수 시작
-    			// 견적 상세 모달에서 각 상세 목록들에 들어가는 요소들 입니다.
-    			estimateDetailList.forEach(function(item) {
+    			// orderDetialList.forEach 상세 리스트의 각 요소에 적용하는 함수 시작
+    			// 수주 상세 모달에서 각 상세 목록들에 들어가는 요소들 입니다.
+    			orderDetailList.forEach(function(item) {
     				
     				var newRow = $('<tr class="generatedRow">');
     				
     				newRow.append($('<td>').text(item.productCod));
-    				newRow.append($('<td>').text(item.prodName)); 				
+    				newRow.append($('<td>').text(item.prodname)); 				
     				newRow.append($('<td>').append($('<input>').attr({
     					'id': 'qty_' + item.num,
     				    'type': 'number',
@@ -693,12 +699,12 @@
     				}).css('width', '120px').val(item.qty)));
 
     				
-    				newRow.append($('<td>').text(item.unitprice.toLocaleString()));
+    				newRow.append($('<td>').text(item.productPrice.toLocaleString()));
     				
     				
     				// 계산을 앞단에서 했는데 db에서 트리거를 사용해서 먼저 계산한 다음 뿌려줘도 될 것 같습니다.
     		        // 각 항목의 총 가격 계산 및 표시
-    		        var totalPriceItem = item.unitprice * item.qty;
+    		        var totalPriceItem = item.productPrice * item.qty;
     		        newRow.append($('<td>').text(totalPriceItem.toLocaleString())); // 숫자를 형식화하여 표시
     		        totalPrice += totalPriceItem; // 총 가격 합계 누적
     		        
@@ -723,16 +729,16 @@
     				
     				editButton.on('click', function() {
     				    var productCod = item.productCod;
-     				    var estimateCod = item.cod;
+     				    var orderCod = item.cod;
     				    var num = item.num;
     				    var qty = $('#qty_' + item.num).val();
     				    
     				    
     				    $.ajax({
-    				    	url: 'estimateupdate',
+    				    	url: 'orderupdate',
     				    	type: 'POST',
     				    	data: {
-    				    		cod : estimateCod,
+    				    		cod : orderCod,
     				    		qty : qty,
     				    		num : num
     				    	},
@@ -745,7 +751,7 @@
     				            $('.generatedRow').remove();
     				            
     				            // 수정 성공 시 해당 함수를 호출하여 전체적으로 다시 렌더링
-    				            estimateDetail(estimateCod);
+    				            orderDetail(orderCod);
     				            
     				    	},
     				    	error: function(xhr, status, error) {
@@ -758,18 +764,18 @@
 
     				deleteButton.on('click', function() {
     					var productCod = item.productCod;
-    				    var estimateCod = item.cod;
+    				    var orderCod = item.cod;
     				    var num = item.num;
     				    var qty = $('#qty_' + item.num).val();
     				    
     				    console.log(qty);
     				    
     				    $.ajax({
-    				    	url: 'estimatedetaildelete',
+    				    	url: 'orderdetaildelete',
     				    	type: 'POST',
     				    	data: {
     				    		productCod : productCod,
-    				    		cod: estimateCod,
+    				    		cod: orderCod,
     				    	},
     				    	dataType: 'JSON',
     				    	success: function(response){
@@ -780,7 +786,7 @@
     				            $('.generatedRow').remove();
     				            
     				            // 삭제 성공 시 해당 함수를 호출하여 전체적으로 다시 렌더링
-    				            estimateDetail(estimateCod);
+    				            orderDetail(orderCod);
     				            
     				    	},
     				    	error: function(xhr, status, error) {
@@ -793,7 +799,7 @@
     				
     				
     			});
-    			// estimateDetialList.forEach 상세 리스트의 각 요소에 적용하는 함수 끝
+    			// orderDetialList.forEach 상세 리스트의 각 요소에 적용하는 함수 끝
     			
     		    $('#totalprice').text(totalPrice.toLocaleString());
     		    $('#totalvax').text(totalVat.toLocaleString());
@@ -811,13 +817,13 @@
     			console.error('실패');
     		}
     	});
-    	// estimatedetail ajax 통신 끝
+    	// orderdetail ajax 통신 끝
     	
     	// 제품 추가 버튼 활성화
 		$('#addRowButton').prop('disabled', false);
     	
     }
- 	// estimateDetail(estimateCod) 끝
+ 	// orderDetail(orderCod) 끝
 
     		// readonly 없애는 함수
 		function estimateChange() {
@@ -913,7 +919,7 @@
 		            // 성공 시 기존 데이터 삭제
 		            $('.generatedRow').remove();
 	    			
-	    			estimateDetail(estimateCodValue);
+	    			orderDetail(estimateCodValue);
 	    			
 	    			$('#addRowButton').prop('disabled', false);
 	    			

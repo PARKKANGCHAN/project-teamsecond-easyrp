@@ -21,4 +21,29 @@
 	<insert id="orderdetailInsert"></insert>
 	<update id="orderdetailUpdate"></update>
 	<delete id="orderdetailDelete"></delete>
+	
+	<select id="OrderDetailSelectList">
+		SELECT 
+			od.cod, 
+			od.num,
+			od.product_cod as productCod, 
+			od.qty, 
+			od.product_price as productPrice,
+			od.cur_remain_qty, 
+			od.total, 
+			od.cur_remain_price, 
+			od.delivery_date, 
+			od.delivery_state, 
+			od.mps_state, 
+			od.product_price, 
+			od.subtotal, 
+			d.name as deptName, o.cod as cod, p.prodname, c.name as clientName, e.name as empName 
+		from orderdetail od
+		join orders o on od.cod = o.cod 
+		join product p on od.product_cod = p.cod 
+		join client c on o.client_cod = c.cod 
+		join employee e on o.employee_cod = e.cod 
+		join department d on e.department_cod = d.cod 
+		where od.cod = #{cod}
+	</select>
 </mapper>

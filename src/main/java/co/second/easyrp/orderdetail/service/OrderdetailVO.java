@@ -36,4 +36,8 @@ public class OrderdetailVO {
 	private String unitName;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date planDate;
+	
+	private String empName;
+	private String deptName;
+	private int productPrice;
 }

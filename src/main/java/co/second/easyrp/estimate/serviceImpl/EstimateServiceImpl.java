@@ -14,7 +14,6 @@ import co.second.easyrp.estimate.service.EstimateVO;
 @Service
 @Primary
 public class EstimateServiceImpl implements EstimateService {
-
 	@Autowired
 	private EstimateMapper estimateMapper;
 	
@@ -25,19 +24,31 @@ public class EstimateServiceImpl implements EstimateService {
 		// TODO Auto-generated method stub
 		return estimateMapper.EstimateSelectList(size, offset, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
 	}
-
+	
 	@Override
-	public EstimateVO EstimateSelect(EstimateVO vo) {
+	public int countSalesTables(int pageSize, int offset, String cod, String clientCod, String employeeCod,
+			Date preSearchDate, Date postSearchDate) {
 		// TODO Auto-generated method stub
-		return estimateMapper.EstimateSelect(vo);
+		return estimateMapper.countSalesTables(pageSize, offset, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
 	}
 
 	@Override
-	public int EstimateInsert(String clientName, String empName, int price) {
+	public EstimateVO EstimateSelect(String cod) {
 		// TODO Auto-generated method stub
-		return estimateMapper.EstimateInsert(clientName, empName, price);
+		return estimateMapper.EstimateSelect(cod);
 	}
 
+	@Override
+	public int EstimateInsert(EstimateVO estimatevo) {
+		// TODO Auto-generated method stub
+		return estimateMapper.EstimateInsert(estimatevo);
+	}
+	
+	@Override
+	public int EstimateInsert2(String cod, String prodName, int qty) {
+		return estimateMapper.EstimateInsert2(cod, prodName, qty);
+	}
+	
 	@Override
 	public int EstimateUpdate(String cod, int qty, int num) {
 		// TODO Auto-generated method stub
@@ -50,12 +61,6 @@ public class EstimateServiceImpl implements EstimateService {
 		return estimateMapper.EstimateDelete(cod);
 	}
 
-	@Override
-	public int countSalesTables(int pageSize, int offset, String cod, String clientCod, String employeeCod,
-			Date preSearchDate, Date postSearchDate) {
-		// TODO Auto-generated method stub
-		return estimateMapper.countSalesTables(pageSize, offset, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
-	}
 
 	@Override
 	public List<EstimateVO> ClientNameSelectList() {
@@ -92,7 +97,6 @@ public class EstimateServiceImpl implements EstimateService {
 		// TODO Auto-generated method stub
 		return estimateMapper.EstimateRecentCodSelect();
 	}
-
 
 
 

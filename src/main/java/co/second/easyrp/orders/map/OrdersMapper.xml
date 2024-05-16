@@ -1,6 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.second.easyrp.orders.map.OrdersMapper">
+	
+	<select id="OrdersSelectList">
+		SELECT *
+		FROM orders
+		WHERE deleteyn = 'N'
+		<if test="cod != null and cod != ''">
+			AND cod = #{cod}
+		</if>
+		<if test="clientCod != null and clientCod != ''">
+			AND client_cod LIKE CONCAT('%', #{clientCod}, '%')
+		</if>
+		<if test="employeeCod != null and employeeCod != ''">
+			AND employee_cod LIKE CONCAT('%', #{employeeCod}, '%')
+		</if>
+		<if test="preSearchDate != null and postSearchDate != null">
+			AND order_date BETWEEN #{preSearchDate} AND
+			#{postSearchDate}
+		</if>
+		ORDER BY cod DESC
+		LIMIT #{pageSize} OFFSET #{offset}
+	</select>
+	
+	<select id="countSalesTables" resultType="int">
+		SELECT COUNT(*)
+		FROM orders
+		WHERE DELETEYN = 'N'
+		<if test="cod != null and cod != ''">
+			AND cod = #{cod}
+		</if>
+		<if test="clientCod != null and clientCod != ''">
+			AND client_cod LIKE CONCAT('%', #{clientCod}, '%')
+		</if>
+		<if test="employeeCod != null and employeeCod != ''">
+			AND employee_cod LIKE CONCAT('%', #{employeeCod}, '%')
+		</if>
+		<if test="preSearchDate != null and postSearchDate != null">
+			AND order_date BETWEEN #{preSearchDate} AND
+			#{postSearchDate}
+		</if>
+	</select>
+	
+	<select id="OrderSelect">
+		SELECT 
+			o.cod, 
+			c.name as clientName, 
+			e.name as empName, 
+			o.client_cod, 
+			o.employee_cod as employeeCod,
+			date_format(o.order_date, '%Y-%m-%d') as orderDate, 
+			d.name as deptName,
+			date_format(o.dday, '%Y-%m-%d') as dday
+		from orders o 
+		join client c on o.client_cod = c.cod 
+		JOIN employee e on o.employee_cod = e.cod 
+		join department d on e.department_cod = d.cod 
+		where o.cod = #{cod};
+	</select>
+	
+
+
+
 	<select id="ordersSelectListAll"></select>
 	<select id="ordersSelectList"></select>
 	<select id="ordersSelect"></select>
