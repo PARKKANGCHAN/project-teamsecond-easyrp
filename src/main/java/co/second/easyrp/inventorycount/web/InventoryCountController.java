@@ -16,11 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import co.second.easyrp.inventorycount.service.InventoryCountDetailVO;
 import co.second.easyrp.inventorycount.service.InventoryCountService;
 import co.second.easyrp.inventorycount.service.InventoryCountVO;
 import co.second.easyrp.inventorycount.service.ProductInventoryVO;
 import co.second.easyrp.inventorycount.service.SearchVO;
+import co.second.easyrp.warehouse.service.WareHouseVO;
 
 @Controller
 public class InventoryCountController {
@@ -85,6 +89,12 @@ public class InventoryCountController {
 	public List<ProductInventoryVO> getProdInv(){
 		return inventorycountservice.getAllProductInventoryList();
 	}
+
+	@GetMapping("/api/get-warehouseinv")
+	@ResponseBody
+	public List<WareHouseVO> warehouseList() {
+	        return inventorycountservice.warehouseList();
+	    }
 	
 	@GetMapping("/api/get-count")
 	@ResponseBody
@@ -105,4 +115,5 @@ public class InventoryCountController {
 		}
 		return result;
 	}
+	
 }

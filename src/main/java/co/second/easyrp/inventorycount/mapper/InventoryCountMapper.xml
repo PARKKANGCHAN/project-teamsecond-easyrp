@@ -144,13 +144,13 @@ SELECT
 		 UNION 
 		 
 		 SELECT i.name as name, i.cod as cod, i.cur_inv_qty as computingQty, ia.procclass
-		 FROM inventory i
+		   FROM inventory i
 		 LEFT JOIN inventorycountdetail icd
-		 ON icd.inventory_cod = i.cod
+		 	 ON icd.inventory_cod = i.cod
 		 LEFT JOIN inventoryadjustmentdetail iad
-		 ON icd.adjustmentdetail_num = iad.num
+		 	 ON icd.adjustmentdetail_num = iad.num
 		 LEFT JOIN inventoryadjustment ia
-		 ON ia.cod = iad.inventoryadjustment_cod
+		 	 ON ia.cod = iad.inventoryadjustment_cod
 		 WHERE i.cod=#{cod}
 	</select>
 	<insert id="insertInventoryCount">
@@ -159,4 +159,8 @@ SELECT
 	<insert id="insertCountDetailList">
 		INSERT INTO inventorycountdetail Values(#{cod}, #{employeeCod}, #{countDate}, #{invDate}, #{countclass}, #{account}, #{deleteyn}, #{note}, #{diffQty})
 	</insert>
+	<select id="warehouseList">
+	 SELECT cod, name
+	   FROM warehouse
+	</select>
 </mapper>

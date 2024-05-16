@@ -90,13 +90,22 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             <div class="modal-content">
                <div class="modal-header">
                   <h5 class="modal-title" id="productInventoryModalLabel">재고목록</h5>
-                  <input
-                     type="text"
-                     id="searchDataInput"
-                     class="form-control"
-                     placeholder="재고코드 또는 품명을 입력해주세요."
-                     style="margin-left: 10px; width: auto; flex-grow: 1"
-                  />
+                  	<form action="warehouseSelectList" method="post">
+                  		<div>
+                  		<label for="warehouseBox">창고</label>
+		                  	<select>
+		                  		<option value="">선택해주세요.</option>
+		                  		<c:forEach var="warehouseList" items="${warehouseList }">
+		                  				<option id="${warehouseList.cod }">${warehouseList.name }</option>
+		                 		</c:forEach>
+		                 	</select>
+	                 		
+	                 	</div>
+	                 </form>
+	                 	<div>
+                  			<input type="text" id="searchDataInput" class="form-control" placeholder="재고코드 또는 품명을 입력해주세요." style="margin-left: 10px; width: auto; flex-grow: 1"/>
+                 		</div>
+                 	
                <div>
               	  <button type="button" id="countBtn" class="btn btn-primary" data-bs-dismiss="modal">적용</button>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -115,40 +124,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                         <!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
                      </tbody>
                   </table>
-                  <!-- 페이지네이션 START -->
-					<nav aria-label="Page navigation">
-						<ul class="pagination justify-content-center">
-							<!-- Previous 10 Pages -->
-							<c:if test="${empty productInventoryList}">
-							<tr>
-							</c:if>
-							<c:if test="${not empty inventoryCountList}">						
-							<li
-								class="page-item <c:if test='${startPage == 1}'>disabled</c:if>">
-								<a class="page-link"
-								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&searchCod=${searchVO.searchCod}&searchWarehouse=${searchVO.searchWarehouse}&searchProduct=${searchVO.searchProduct}&searchLocation=${searchVO.searchLocation}&searchInventory=${searchVO.searchInventory}&searchCountClass=${searchVO.searchCountClass}&searchEmployee=${searchVO.searchEmployee}&searchAccount=${searchVO.searchAccount}&preSearchDate=${searchVO.preSearchDate}&postSearchDate=${searchVO.postSearchDate}</c:if>">이전
-									10 페이지</a>
-							</li>
-
-							<c:forEach begin="${startPage}" end="${endPage}" var="i">
-								<li
-									class="page-item <c:if test='${i == currentPage}'>active</c:if>">
-									<a class="page-link"
-									href="?page=${i}&searchCod=${searchVO.searchCod}&searchWarehouse=${searchVO.searchWarehouse}&searchProduct=${searchVO.searchProduct}&searchLocation=${searchVO.searchLocation}&searchInventory=${searchVO.searchInventory}&searchCountClass=${searchVO.searchCountClass}&searchEmployee=${searchVO.searchEmployee}&searchAccount=${searchVO.searchAccount}&preSearchDate=${searchVO.preSearchDate}&postSearchDate=${searchVO.postSearchDate}">${i}</a>
-								</li>
-							</c:forEach>
-
-							<li
-								class="page-item <c:if test='${endPage == totalPages}'>disabled</c:if>">
-								<a class="page-link"
-								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&searchCod=${searchVO.searchCod}&searchWarehouse=${searchVO.searchWarehouse}&searchProduct=${searchVO.searchProduct}&searchLocation=${searchVO.searchLocation}&searchInventory=${searchVO.searchInventory}&searchCountClass=${searchVO.searchCountClass}&searchEmployee=${searchVO.searchEmployee}&searchAccount=${searchVO.searchAccount}&preSearchDate=${searchVO.preSearchDate}&postSearchDate=${searchVO.postSearchDate}</c:if>">다음
-									10 페이지</a>
-							</li>
-							</c:if>		
-						</ul>
-					</nav>
-
-					<!-- 페이지네이션 END -->
                </div>
                <div class="modal-footer">
               	  <button type="button" id="countBtn" class="btn btn-primary" data-bs-dismiss="modal">적용</button>
@@ -247,20 +222,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
         		}
         			});
         		};
-        	
-     /*    	  $(document).on('click', '#countBtn', function() {
-        	        // 선택된 행의 데이터 추출
-        	        var selectedRow = $('.searchData.selected');
-        	        var cod = selectedRow.data('cod');
-        	        var name = selectedRow.data('name');
-        	        var computingQty = selectedRow.find('td:eq(2)').text(); // 전산재고
-        	        var procclass = selectedRow.find('td:eq(5)').text(); // 처리구분
-        	        var diffQty = selectedRow.find('td:eq(4)').text(); // diffQty 추출
-        	        //var adjQty = selectedRow.find('td:eq(6)').text(); // 조정수량
-        	        
-        	        // 데이터 설정 함수 호출
-        	        setData(cod, name, computingQty, procclass);
-        	    }); */
         	  
         	    $(document).on('click', '.searchData', function() {
         	        $('.searchData').removeClass('selected');
@@ -312,6 +273,35 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                });
             });
          });
+         
+         $(document).ready(function () {
+                $.ajax({
+                   url: 'api/get-warehouseinv',
+                 method: 'GET',
+                 success: function (data) {
+                	 console.log(data);
+                 }
+                     // 서버로부터 받은 데이터를 JSON 형식으로 파싱
+                     var warehouseList = JSON.parse(data);
+                     // select 요소를 찾아서 옵션을 추가
+                     var selectElement = $('#warehouseBox');
+                     selectElement.empty(); // 기존의 옵션 제거
+                     selectElement.append($('<option>', {
+                         value: '',
+                         text: '선택해주세요.'
+                     }));
+                     // 서버로부터 받은 데이터를 반복하여 옵션을 추가
+                     warehouseList.forEach(function (warehouse) {
+                         selectElement.append($('<option>', {
+                             value: warehouse.cod,
+                             text: warehouse.name
+                         }));
+                     });
+                 },
+                 error: function (xhr, status, error) {
+                     console.error('AJAX error:', error);
+                 }
+             });
          /* Product&InventoryModalTable END */
          
 

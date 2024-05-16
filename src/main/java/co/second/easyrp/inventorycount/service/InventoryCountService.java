@@ -2,6 +2,8 @@ package co.second.easyrp.inventorycount.service;
 
 import java.util.List;
 
+import co.second.easyrp.warehouse.service.WareHouseVO;
+
 
 //import co.second.easyrp.purchaseorderdetail.service.PurchaseOrderDetailVO;
 
@@ -17,4 +19,5 @@ public interface InventoryCountService {
 	List<ProductInventoryVO> getAllSelectedCountList(String itemList);
 	int countInventoryCountLists(SearchVO searchVo);
 	int insertCountDetailList(InventoryCountDetailVO inventorycountdetailvo);
+	List<WareHouseVO> warehouseList();
 }

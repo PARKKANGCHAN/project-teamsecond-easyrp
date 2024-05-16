@@ -12,6 +12,7 @@ import co.second.easyrp.inventorycount.service.InventoryCountService;
 import co.second.easyrp.inventorycount.service.InventoryCountVO;
 import co.second.easyrp.inventorycount.service.ProductInventoryVO;
 import co.second.easyrp.inventorycount.service.SearchVO;
+import co.second.easyrp.warehouse.service.WareHouseVO;
 
 @Service
 @Primary
@@ -79,6 +80,12 @@ public class InventoryCountSerivceImpl implements InventoryCountService {
 	public int insertCountDetailList(InventoryCountDetailVO inventorycountdetailvo) {
 		// TODO Auto-generated method stub
 		return inventorycountmapper.insertCountDetailList(inventorycountdetailvo);
+	}
+
+	@Override
+	public List<WareHouseVO> warehouseList() {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.warehouseList();
 	}
 
 
