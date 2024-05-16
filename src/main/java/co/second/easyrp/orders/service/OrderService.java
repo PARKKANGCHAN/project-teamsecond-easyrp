@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import co.second.easyrp.estimate.service.EstimateVO;
+
 
 public interface OrderService {
 	
@@ -16,6 +18,20 @@ public interface OrderService {
 		    @Param("preSearchDate") Date preSearchDate, 
 		    @Param("postSearchDate") Date postSearchDate
 		);
+	
+	int countSalesTables(
+			@Param("pageSize") int pageSize, 
+		    @Param("offset") int offset, 
+		    @Param("cod") String cod,
+		    @Param("clientCod") String clientCod,
+		    @Param("employeeCod") String employeeCod,
+		    @Param("preSearchDate") Date preSearchDate, 
+		    @Param("postSearchDate") Date postSearchDate
+		);
+	
+	List<OrdersVO> OrderDetailSelectList(String cod);
+	OrdersVO OrderSelect(String cod);
+	
 	
 	List<OrdersVO> ordersSelectListAll(); //수주 리스트 전체 조회
 	List<OrdersVO> ordersSelectList(OrdersVO ordersVo); //조건에 따른 리스트 조회

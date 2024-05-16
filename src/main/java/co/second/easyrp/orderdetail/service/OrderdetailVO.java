@@ -30,4 +30,8 @@ public class OrderdetailVO {
 	private String prodname;
 	private String unitName;
 	private Date planDate;
+	
+	private String empName;
+	private String deptName;
+	private int productPrice;
 }

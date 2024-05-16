@@ -14,7 +14,6 @@ import co.second.easyrp.estimate.service.EstimateVO;
 @Service
 @Primary
 public class EstimateServiceImpl implements EstimateService {
-
 	@Autowired
 	private EstimateMapper estimateMapper;
 	
@@ -24,6 +23,13 @@ public class EstimateServiceImpl implements EstimateService {
 		int offset = (page - 1) * size;
 		// TODO Auto-generated method stub
 		return estimateMapper.EstimateSelectList(size, offset, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
+	}
+	
+	@Override
+	public int countSalesTables(int pageSize, int offset, String cod, String clientCod, String employeeCod,
+			Date preSearchDate, Date postSearchDate) {
+		// TODO Auto-generated method stub
+		return estimateMapper.countSalesTables(pageSize, offset, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
 	}
 
 	@Override
@@ -55,12 +61,6 @@ public class EstimateServiceImpl implements EstimateService {
 		return estimateMapper.EstimateDelete(cod);
 	}
 
-	@Override
-	public int countSalesTables(int pageSize, int offset, String cod, String clientCod, String employeeCod,
-			Date preSearchDate, Date postSearchDate) {
-		// TODO Auto-generated method stub
-		return estimateMapper.countSalesTables(pageSize, offset, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
-	}
 
 	@Override
 	public List<EstimateVO> ClientNameSelectList() {
