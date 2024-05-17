@@ -21,8 +21,8 @@
 			<div class="page-title">
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
-						<h3>수금 등록</h3>
-						<p class="text-subtitle text-muted">수주서 대비 수금 등록 페이지</p>
+						<h3>수금 수정</h3>
+						<p class="text-subtitle text-muted">수주서 대비 수금 수정 페이지</p>
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
 						<nav aria-label="breadcrumb"
@@ -30,7 +30,7 @@
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="/easyrp">home</a></li>
 								<li class="breadcrumb-item active" aria-current="page">수금
-									등록</li>
+									수정</li>
 							</ol>
 						</nav>
 					</div>
@@ -42,36 +42,32 @@
 						<div class="card mb-4">
 							<div class="card-header py-3">
 								<div class="d-flex" style="justify-content: space-between">
-									<h5 class="m-0 col-6">수금 등록</h5>
-									<div class="d-flex col-6 justify-content-end">
-										<button type="button" class="btn btn-primary mx-2"
-											id="loadOrderData" data-bs-toggle="modal"
-											data-bs-target="#loadModal" onclick="setValueOrderData();"
-											style="float: left; width: 24%">수금 미등록 수주정보</button>
-									</div>
+									<h5 class="m-0 col-6">수금 수정</h5>
 								</div>
 							</div>
 							<div class="card-body mb-3">
-								<form id="collectedMoneyForm" action="collectedmoneyinsertfn"
+								<form id="collectedMoneyForm" action="collectedmoneyupdatefn"
 									method="post">
 									<div class="mb-4">
 										<table class="table table-bordered">
 											<tr>
 												<td width="150">수주 번호</td>
-												<td><input type="text" id="orderCod" name="orderCod"
-													class="form-control inputNumber"
+												<td><input type="text" id="orderCod" name="orderCod" 
+													class="form-control inputNumber" value="${getCollectedMoneyData.orderCod }"
 													placeholder="수주 번호를 입력해주세요." readonly required /></td>
 											</tr>
 											<tr>
 												<td width="150">수주 금액</td>
 												<td><input type="text" id="colsum" name="colsum"
 													class="form-control inputNumber"
-													placeholder="수주 금액을 입력해주세요." required /></td>
+													value="${getCollectedMoneyData.colsum }"
+													placeholder="수주 금액을 입력해주세요." readonly required /></td>
 											</tr>
 											<tr>
 												<td width="150">선수금</td>
 												<td><input type="text" id="unrev"
 													class="form-control inputNumber" name="unrev"
+													value="${getCollectedMoneyData.unrev }"
 													placeholder="현재 입고된 기준의 재고수량을 입력해주세요." required /></td>
 											</tr>
 											<tr>
@@ -82,7 +78,7 @@
 													required /></td>
 											</tr>
 											<tr>
-												<td width="150">등록 사원명</td>
+												<td width="150">수정 사원명</td>
 												<td><input type="text" id="empName"
 													class="form-control hyunwoo-disabled"
 													value="${empName }" disabled />
@@ -94,11 +90,11 @@
 									<div style="text-align: center">
 										<button type="button" onclick="parseIntSubmit();"
 											class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
-											수금 등록</button>
+											수금 수정</button>
 										<a href="collectedmoney" class="me-2">
 											<button type="button"
 												class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
-												등록 취소</button>
+												수정 취소</button>
 										</a>
 									</div>
 								</form>
@@ -157,12 +153,6 @@
 			/* 잔액 기입 이벤트 END  */
 
 		});
-
-		/* 수주정보 모달 불러오기 START */
-		function setValueOrderData() {
-			$('.modal-content').load('setvalueorderdata');
-		}
-		/* 수주정보 모달 불러오기 END */
 
 		/* 콤마 있는 부분 제거 한 후 ParseInt해서 submit START */
 		function parseIntSubmit() {

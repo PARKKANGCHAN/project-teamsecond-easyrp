@@ -53,4 +53,9 @@ public class CollectedMoneyServiceImpl implements CollectedMoneyService {
 		return collectedMoneyMapper.collectedMoneyCompleteFn(collectedMoneyVO);
 	}
 
+	@Override
+	public CollectedMoneyVO getData(String orderCod) {
+		return collectedMoneyMapper.getData(orderCod);
+	}
+
 }

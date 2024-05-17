@@ -146,12 +146,12 @@
 															<ul class="dropdown-menu">
 																<c:if test="${collectedMoney.state == 300}">
 																	<li><a class="dropdown-item"
-																		href="collectedmoneycompletefn?cod=${collectedMoney.orderCod}"
+																		href="collectedmoneycompletefn?orderCod=${collectedMoney.orderCod}&colamount=${collectedMoney.balance}"
 																		onclick="return confirmCompleteAction();">수금 완료</a></li>
 																</c:if>
 																<c:if test="${collectedMoney.state != 301}">
 																<li><a class="dropdown-item"
-																	href="collectedmoneyupdate?cod=${collectedMoney.orderCod}">수정</a>
+																	href="collectedmoneyupdate?orderCod=${collectedMoney.orderCod}">수정</a>
 																</li>
 																<li><a class="dropdown-item"
 																	href="collectedmoneydeletefn?orderCod=${collectedMoney.orderCod}" onclick="return confirmDeleteAction();">삭제</a>
@@ -187,7 +187,6 @@
 								&preSearchDate=${searchVO.preSearchDate }&postSearchDate=${searchVO.postSearchDate }</c:if>">이전
 									10 페이지</a>
 							</li>
-
 							<c:forEach begin="${startPage}" end="${endPage}" var="i">
 								<li
 									class="page-item <c:if test='${i == currentPage}'>active</c:if>">
@@ -239,7 +238,7 @@
 	<script type="text/javascript">
 		$(document)
 				.ready(
-						/* 현재 날짜 기준 경과 일수 innerHTML */
+						/* 현재 날짜 기준 경과 일수 innerHTML START */
 						function() {
 							$(".overdueDays")
 									.each(
@@ -261,7 +260,7 @@
 													$(this).text("출고 완료 전");
 												}
 											});
-							/* 현재 날짜 기준 경과 일수 innerHTML */
+							/* 현재 날짜 기준 경과 일수 innerHTML END */
 						});
 
 		/* 검색 form 초기화 START */

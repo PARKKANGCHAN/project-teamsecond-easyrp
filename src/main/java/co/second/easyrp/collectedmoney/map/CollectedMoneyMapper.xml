@@ -67,6 +67,14 @@
 		o.deleteyn = 'N' AND o.is_collected = 'N';
 	</select>
 	<!-- 수주 정보를 CollectedMoney insert,update 페이지에서 쓰기 위한 쿼리 END -->
+	
+	<!-- 수금 정보를 특정 ID만 가져오는 쿼리 START  -->
+	<select id="getData" resultType="co.second.easyrp.collectedmoney.service.CollectedMoneyVO">
+			SELECT order_cod, colsum, unrev, balance
+			FROM collectedmoney
+			WHERE order_cod = #{orderCod};
+	</select>
+	<!-- 수금 정보를 특정 ID만 가져오는 쿼리 END  -->
 
 
 	<!-- 수금관리 등록을 위한 쿼리 START -->
@@ -88,6 +96,8 @@
 		);
 	</insert>
 	<!-- 수금관리 등록을 위한 쿼리 END -->
+	
+	
 
 
 	<!-- 수금관리 수정을 위한 쿼리 START -->
@@ -96,7 +106,8 @@
 		UPDATE collectedmoney
 		SET
 		unrev = #{unrev},
-		balance = #{balance}
+		balance = #{balance},
+		emp_cod = #{empCod}
 		WHERE order_cod = #{orderCod}
 	</update>
 	<!-- 수금관리 수정을 위한 쿼리 END -->
@@ -112,11 +123,11 @@
 	<update id="collectedMoneyCompleteFn" parameterType="co.second.easyrp.collectedmoney.service.CollectedMoneyVO">
 		UPDATE collectedmoney
 		SET
-		colday = #{colday},
+		colday = curdate(),
 		colamount = #{colamount},
 		balance = 0,
 		state = 301
-		WHERE order_cod = #{orderCod};
+		WHERE order_cod = #{orderCod}
 	</update>
 
 </mapper>

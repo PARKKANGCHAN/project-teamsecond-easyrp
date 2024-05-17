@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import co.second.easyrp.collectedmoney.service.CollectedMoneyService;
 import co.second.easyrp.collectedmoney.service.CollectedMoneyVO;
 import co.second.easyrp.collectedmoney.service.SearchVO;
-import co.second.easyrp.productmgmt.service.ProductMgmtVO;
 
 @Controller
 public class CollectedmoneyController {
@@ -39,8 +38,6 @@ public class CollectedmoneyController {
 		int currentPageGroup = (searchVO.getPageSize() - 1) / pageGroupSize;
 		int startPage = currentPageGroup * pageGroupSize + 1;
 		int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
-		
-		System.out.println(collectedMoney);
 		
 		model.addAttribute("searchVO", searchVO);
 		model.addAttribute("collectedMoney", collectedMoney);
@@ -82,6 +79,20 @@ public class CollectedmoneyController {
 	@GetMapping("/collectedmoneydeletefn")
 	public String collectedMoneyDeleteFn(@RequestParam String orderCod) {
 		collectedMoneyService.deleteFn(orderCod);
+		return "redirect:/collectedmoney";
+	}
+	
+	@RequestMapping("/collectedmoneyupdate")
+	public String collectedMoneyUpdate(@RequestParam String orderCod, Model model) {
+		CollectedMoneyVO getCollectedMoneyData = collectedMoneyService.getData(orderCod);
+		
+		model.addAttribute("getCollectedMoneyData", getCollectedMoneyData);
+		return "easyrp/collectedmoney/collectedmoneyupdate";
+	}
+	
+	@PostMapping("/collectedmoneyupdatefn")
+	public String collectedMoneyUpdateFn(CollectedMoneyVO collectedMoneyVO) {
+		collectedMoneyService.updateFn(collectedMoneyVO);
 		return "redirect:/collectedmoney";
 	}
 	
