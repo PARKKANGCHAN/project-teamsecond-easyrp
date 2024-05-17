@@ -20,7 +20,7 @@
 			<div class="page-title">
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
-						<h3>청구 등록(insert구현안됨)</h3>
+						<h3>청구 등록</h3>
 						<p class="text-subtitle text-muted">청구를 등록해주세요.</p>
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
@@ -42,11 +42,11 @@
 								<div class="d-flex" style="justify-content: space-between">
 									<h5 class="m-0 col-6">등록</h5>
 									<div class="d-flex col-6 justify-content-end">
-										<button type="button" class="btn btn-primary mx-2" id="loadDatas"
-										data-bs-toggle="modal" data-bs-target="#orderModal"
+										<button type="button" class="btn btn-primary mx-2" id="loadInventory"
+										data-bs-toggle="modal" data-bs-target="#dataModal"
 										style="float: left; width: 24%">
 											구매 청구</button>
-										<button type="button" class="btn btn-primary mx-2" id="loadDatas"
+										<button type="button" class="btn btn-primary mx-2" id="loadProduct"
 										data-bs-toggle="modal" data-bs-target="#dataModal"
 										style="float: left; width: 24%">
 											생산 청구</button>
@@ -85,12 +85,8 @@
 											</tr>
 										</table>
 										<div>
+											<input type="hidden" id="mrpCod" name="mrpCod" value="${empCode}" />
 											<input type="hidden" id="employeeCod" name="employeeCod" value="${empCode}" />
-										</div>
-										<div style="text-align: center">
-											<button type="button" onclick="callAjax()"
-												class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
-												소요량전개</button>
 										</div>
 										<br/>
 										<table class="table table-hover mb-0">
@@ -103,15 +99,15 @@
 													<th>요청일</th>
 													<th>재고단위</th>
 													<th>재고단위수량</th>
-													<th>청구단위</th>
-													<th>청구단위수량</th>
+													<th>관리단위</th>
+													<th>관리단위수량</th>
 													<th>거래처</th>
 												</tr>
 											</thead>
 											<tbody id="mrpTableBody">
 												<!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
 												<tr>
-													<td colspan="9" align="center">청구를 등록해주세요.</td>
+													<td colspan="10" align="center">청구를 등록해주세요.</td>
 												</tr>
 											</tbody>
 										</table>
@@ -174,12 +170,12 @@
 	</div>
 	<!-- Value Modal END  -->
 	<!-- Data Modal START  -->
-	<div class="modal fade modal-lg" id="orderModal" tabindex="-1"
+	<div class="modal fade modal-lg" id="dataModal" tabindex="-1"
 		aria-labelledby="dataModalLabel" aria-hidden="true" data-bs-backdrop='static' data-bs-keyboard='false'>
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="orderModalLabel">데이터 선택</h5>
+					<h5 class="modal-title" id="dataModalLabel">데이터 선택</h5>
 					<input type="text" id="searchDataInput" class="form-control"
 						placeholder="검색할 데이터를 입력해주세요."
 						style="margin-left: 10px; width: auto; flex-grow: 1" />
@@ -191,6 +187,7 @@
 						<thead>
 							<tr>
 								<th scope="col"><input type="checkbox" id="checkAllBtn"/></th>
+								<th scope="col">mrp번호</th>
 								<th scope="col">계획일자</th>
 								<th scope="col">발주예정일</th>
 								<th scope="col">품번</th>
@@ -207,7 +204,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal" onclick="getData()">선택</button>
+						data-bs-dismiss="modal" onclick="setData()">선택</button>
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">닫기</button>
 				</div>
@@ -217,24 +214,122 @@
 </body>
 <!-- Data Modal END  -->
      <script type="text/javascript">
-         /* orderModal START */
-          function setData(cod, productCod, prodname, spec, planDate, poDate, dday, qty, unitName, account) {
-        	$('#mpsCod').val(cod);
-            $('#productCod').val(productCod);
-            $('#prodname').val(prodname);
-            $('#spec').val(spec);
-            $('#takeDate').val(planDate);
-            $('#poDate').val(poDate);
-            $('#dday').val(dday);
-            $('#qty').val(qty);
-            $('#unitName').val(unitName);
-            $('#account').val(account);
-            $('#orderModal').modal('hide');
-            $('.modal-backdrop').remove();
+         /* dataModal START */
+          function setData() {
+        	 var rowData = new Array();
+        	 var mrpCodList = new Array();
+        	 var checkbox = $("input[name=chk]:checked");
+        	 
+        	 checkbox.each(function(i){
+        		 var tr = checkbox.parent().parent().eq(i);
+        		 var td = tr.children();
+        		 
+        		 rowData.push(tr.text());
+        		 
+        		 var cod = td.eq(1).text();
+        		 
+        		 mrpCodList.push(cod);
+        	 })
+        	 
+        	  $.ajax({
+                  url: 'api/get-mrpselectbycodval',
+                  method: 'GET',
+                  data: {
+                	  mrpCodList : mrpCodList
+                  },
+                  traditional:true,
+                  success: function (data) {
+                     let rows = '';
+                     data.forEach(function (item, index) {
+                        if (item.account == '완제') {
+                           rows +=
+                              '<tr>' +
+                              '<td>' +
+                              (index+1) +
+                              '</td>' +
+                              '<td>' +
+                              item.productCod +
+                              '</td>' +
+                              '<td>' +
+                              item.prodname +
+                              '</td>' +
+                              '<td>' +
+                              item.spec +
+                              '</td>' +
+                              '<td>' +
+                              item.takeDate +
+                              '</td>' +
+                              '<td>' +
+                              item.unitName +
+                              '</td>' +
+                              '<td>' +
+                              item.qty +
+                              '</td>' +
+                              '<td>' +
+                              item.invoiceUnitName +
+                              '</td>' +
+                              '<td>' +
+                              Math.ceil(item.qty / item.invoiceAmount) +
+                              '</td>' +
+                              '<td>' +
+                              item.clientName +
+                              '</td>' +
+                              '</tr>';
+                        }
+                        if (item.account == '자재') {
+                           rows +=
+                              '<tr>' +
+                              '<td>' +
+                              (index+1) +
+                              '</td>' +
+                              '<td>' +
+                              item.inventoryCod +
+                              '</td>' +
+                              '<td>' +
+                              item.invname +
+                              '</td>' +
+                              '<td>' +
+                              item.invSpec +
+                              '</td>' +
+                              '<td>' +
+                              item.takeDate +
+                              '</td>' +
+                              '<td>' +
+                              item.invUnitName +
+                              '</td>' +
+                              '<td>' +
+                              item.qty +
+                              '</td>' +
+                              '<td>' +
+                              item.invoiceInvUnitNmae +
+                              '</td>' +
+                              '<td>' +
+                              Math.ceil(item.qty / item.invoiceUnitAmount) +
+                              '</td>' +
+                              '<td>' +
+                              item.clientName +
+                              '</td>' +
+                              '</tr>';
+                        }
+                     });
+                     $('#mrpTableBody').html(rows);
+                     
+                     if(data[0].account == '완제'){
+                    	 $('#procurement').val('생산');	 
+                     }else{
+                    	 $('#procurement').val('구매');
+                     }
+                     
+                     $('#dataModal').modal('show');
+                  },
+               });
+        	
+			$('#dataModal').modal('hide');
+			$('.modal-backdrop').remove();
          }
 
          $(document).ready(function () {
-            $('#loadDatas').on('click', function () {
+            $('#loadProduct').on('click', function () {
                $.ajax({
                   url: 'api/get-mrpval',
                   method: 'GET',
@@ -251,6 +346,9 @@
                               'cursor: pointer' +
                               '">' +
                               '<td><input type="checkbox" class="chk" name="chk"/></td>' +
+                              '<td>' +
+                              item.cod +
+                              '</td>' +
                               '<td>' +
                               item.takeDate +
                               '</td>' +
@@ -277,10 +375,61 @@
                      });
                      $('#modalDataTableBody').html(rows);
                      
-                     $('#orderModal').modal('show');
+                     $('#dataModal').modal('show');
                   },
                });
             });
+            
+            $('#loadInventory').on('click', function () {
+                $.ajax({
+                   url: 'api/get-mrpval',
+                   method: 'GET',
+                   success: function (data) {
+                      let rows = '';
+                      data.forEach(function (item) {
+                         if (item.account == '자재') {
+                            rows +=
+                               '<tr class="searchData" data-productCod="' +
+                               item.productCod +
+                               '" data-prodname="' +
+                               item.prodname +
+                               '" style= "' +
+                               'cursor: pointer' +
+                               '">' +
+                               '<td><input type="checkbox" class="chk" name="chk"/></td>' +
+                               '<td>' +
+                               item.cod +
+                               '</td>' +
+                               '<td>' +
+                               item.takeDate +
+                               '</td>' +
+                               '<td>' +
+                               item.poDate +
+                               '</td>' +
+                               '<td>' +
+                               item.inventoryCod +
+                               '</td>' +
+                               '<td>' +
+                               item.invname +
+                               '</td>' +
+                               '<td>' +
+                               item.invSpec +
+                               '</td>' +
+                               '<td>' +
+                               item.invUnitName +
+                               '</td>' +
+                               '<td>' +
+                               item.qty +
+                               '</td>' +
+                               '</tr>';
+                         }
+                      });
+                      $('#modalDataTableBody').html(rows);
+                      
+                      $('#dataModal').modal('show');
+                   },
+                });
+             });
             
             $('#searchDataInput').on('keyup', function () {
                let searchInputData = $(this).val();
@@ -292,7 +441,7 @@
             });
          });
          
-         /* orderModal END */
+         /* dataModal END */
          
          // tr 행을 클릭하면 체크박스를 선택해주는 함수
          $('#modalDataTableBody').on('click', 'tr', function(e){

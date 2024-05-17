@@ -18,7 +18,7 @@
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
 						<h3>
-							<a href="/easyrp/commontable">청구관리</a>
+							<a href="/easyrp/commontable">청구관리(등록,수정 남음)</a>
 						</h3>
 						<p class="text-subtitle text-muted">청구 조회, 등록, 수정, 삭제</p>
 					</div>

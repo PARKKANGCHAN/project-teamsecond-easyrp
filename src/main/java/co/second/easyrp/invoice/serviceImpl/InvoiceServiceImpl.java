@@ -47,21 +47,27 @@ public class InvoiceServiceImpl implements InvoiceService {
 	}
 
 	@Override
-	public int mrpClosingUpdateToY(String mrpCod) {
+	public int mrpClosingUpdateToY(InvoiceVO invoiceVo) {
 		// TODO Auto-generated method stub
-		return invoiceMapper.mrpClosingUpdateToY(mrpCod);
+		return invoiceMapper.mrpClosingUpdateToY(invoiceVo);
 	}
 
 	@Override
-	public int mrpClosingUpdateToN(String mrpCod) {
+	public int mrpClosingUpdateToN(InvoiceVO invoiceVo) {
 		// TODO Auto-generated method stub
-		return invoiceMapper.mrpClosingUpdateToN(mrpCod);
+		return invoiceMapper.mrpClosingUpdateToN(invoiceVo);
 	}
 
 	@Override
 	public int countInvoiceTables(SearchVO searchVo) {
 		// TODO Auto-generated method stub
 		return invoiceMapper.countInvoiceTables(searchVo);
+	}
+
+	@Override
+	public int selectMaxCod() {
+		// TODO Auto-generated method stub
+		return invoiceMapper.selectMaxCod();
 	}
 
 }
