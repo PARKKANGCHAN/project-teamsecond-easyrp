@@ -88,5 +88,17 @@ public class InventoryCountSerivceImpl implements InventoryCountService {
 		return inventorycountmapper.warehouseList();
 	}
 
+	@Override
+	public List<ProductInventoryVO> getAllProdInvWarehouse(WareHouseVO warehousevo) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.getAllProdInvWarehouse(warehousevo);
+	}
+
+	@Override
+	public List<WareHouseVO> selectedWarehouseList(WareHouseVO warehousevo) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.selectedWarehouseList(warehousevo);
+	}
+
 
 }

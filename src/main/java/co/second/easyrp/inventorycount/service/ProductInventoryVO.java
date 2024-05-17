@@ -16,4 +16,6 @@ public class ProductInventoryVO {
 	private String procclass;
 	private int adjQty;
 	private String note;
+	private String warehouse;
+	private String account;
 }

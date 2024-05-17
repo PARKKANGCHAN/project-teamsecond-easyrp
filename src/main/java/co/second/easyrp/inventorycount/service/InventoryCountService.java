@@ -20,4 +20,6 @@ public interface InventoryCountService {
 	int countInventoryCountLists(SearchVO searchVo);
 	int insertCountDetailList(InventoryCountDetailVO inventorycountdetailvo);
 	List<WareHouseVO> warehouseList();
+	List<ProductInventoryVO> getAllProdInvWarehouse(WareHouseVO warehousevo);
+	List<WareHouseVO> selectedWarehouseList(WareHouseVO warehousevo);
 }

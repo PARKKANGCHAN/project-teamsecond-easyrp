@@ -163,4 +163,36 @@ SELECT
 	 SELECT cod, name
 	   FROM warehouse
 	</select>
+	<select id="getAllProdInvWarehouse">
+		 SELECT  p.prodname as name, p.cod as cod, p.cur_inv_qty as computingQty, ia.procclass, p.account
+		 FROM product p
+		 LEFT JOIN inventorycountdetail icd
+		 ON icd.inventory_cod = p.cod
+		 LEFT JOIN inventoryadjustmentdetail iad
+		 ON icd.adjustmentdetail_num = iad.num
+		 LEFT JOIN inventoryadjustment ia
+		 ON ia.cod = iad.inventoryadjustment_cod
+		 LEFT JOIN warehouse w
+		 ON w.cod = p.warehouse_cod
+		 WHERE w.name=#{name}
+
+		 UNION 
+		 
+		 SELECT i.name as name, i.cod as cod, i.cur_inv_qty as computingQty, ia.procclass, i.account
+		   FROM inventory i
+		 LEFT JOIN inventorycountdetail icd
+		 	 ON icd.inventory_cod = i.cod
+		 LEFT JOIN inventoryadjustmentdetail iad
+		 	 ON icd.adjustmentdetail_num = iad.num
+		 LEFT JOIN inventoryadjustment ia
+		 	 ON ia.cod = iad.inventoryadjustment_cod
+		 LEFT JOIN warehouse w
+		 	 ON w.cod = i.warehouse_cod
+		 WHERE w.name=#{name}
+	</select>
+		<select id="selectedWarehouseList">
+	 SELECT cod, name
+	   FROM warehouse
+	 WHERE name=#{name}
+	</select>
 </mapper>

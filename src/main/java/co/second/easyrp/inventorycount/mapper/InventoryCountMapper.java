@@ -26,5 +26,7 @@ public interface InventoryCountMapper {
 	List<ProductInventoryVO> getAllSelectedCountList(String itemList);
 	int insertCountDetailList(InventoryCountDetailVO inventorycountdetailvo);
 	List<WareHouseVO> warehouseList();
+	List<ProductInventoryVO> getAllProdInvWarehouse(WareHouseVO warehousevo);
+	List<WareHouseVO> selectedWarehouseList(WareHouseVO warehousevo);
 	
 }
