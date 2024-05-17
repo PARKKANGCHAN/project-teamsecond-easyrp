@@ -389,7 +389,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
          });
          /* valueModal END */
 
-<<<<<<< HEAD
+
          /*PurchaseOrderModalTable START */
          function setData(movecod, movedate, manager,oboundwarehouse,oboundlocation, iboundwarehouse,iboundlocation,prodcod,prodname,unit,qty) {
             $('#movecod').val(moveCod);
@@ -404,16 +404,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             $('#unit').val(unit);
             $('#qty').val(qty);
             $('#dataPurchaseOrderModal').modal('hide');
-=======
-         /* DataModal START */
-         function setData(title, content, author) {
-            $('#title').val(title);
-            $('#content').val(content);
-            $('#content').val(content);
-            $('#content').val(content);
-            $('#content').val(content);
-            $('#dataModal').modal('hide');
->>>>>>> origin/feature/feature-hyomihome
             $('.modal-backdrop').remove();
          }
 
@@ -423,14 +413,9 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                   url: 'api/get-podata',
                   method: 'GET',
                   success: function (data) {
-                	  console.log(data);
                      let rows = '';
                      data.forEach(function (item) {
-<<<<<<< HEAD
                         if (item.cod && item.manager) {
-=======
-                        if (item. && item.content) {
->>>>>>> origin/feature/feature-hyomihome
                            rows +=
                               '<tr onclick="setData(\'' +item.movecod +
                               "', '" +

@@ -1,7 +1,11 @@
 package co.second.easyrp.inventorycount.web;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,18 +16,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import co.second.easyrp.inventorycount.service.InventoryCountDetailVO;
 import co.second.easyrp.inventorycount.service.InventoryCountService;
 import co.second.easyrp.inventorycount.service.InventoryCountVO;
 import co.second.easyrp.inventorycount.service.ProductInventoryVO;
 import co.second.easyrp.inventorycount.service.SearchVO;
-import co.second.easyrp.purchaseorderdetail.service.PurchaseOrderDetailVO;
+import co.second.easyrp.warehouse.service.WareHouseService;
+import co.second.easyrp.warehouse.service.WareHouseVO;
 
 @Controller
 public class InventoryCountController {
 
 	@Autowired
 	InventoryCountService inventorycountservice;
+	
 	
 	@GetMapping("/inventorycount")
 	public String inventoryCount(SearchVO searchVO, Model model, 
@@ -74,12 +83,49 @@ public class InventoryCountController {
 	@RequestMapping("/inventorycountinsert")
 	public String inventoryCountInsert(InventoryCountVO inventorycountvo, InventoryCountDetailVO inventorycountdetailvo, Model model) {
 		
+		List<WareHouseVO> warehouseinv = warehouseList();
+		model.addAttribute("warehouseinv", warehouseinv);
+		
 		return "easyrp/inventory/inventorycountinsert";
 	}
 	
 	@GetMapping("/api/get-prodinv")
 	@ResponseBody
-	public List<ProductInventoryVO> getProdInv(){
-		return inventorycountservice.getAllProductInventoryList();
+	public List<ProductInventoryVO> getAllProdInv(HttpServletRequest httpservletrequest){
+		
+		String warehouse = httpservletrequest.getParameter("warehouse");
+
+		WareHouseVO warehousevo = new WareHouseVO();
+
+		warehousevo.setName(warehouse);
+		
+		System.out.println(inventorycountservice.selectedWarehouseList(warehousevo));
+		
+		return inventorycountservice.getAllProdInvWarehouse(warehousevo);
 	}
+
+	public List<WareHouseVO> warehouseList() {
+	        return inventorycountservice.warehouseList();
+	    }
+	
+//	@GetMapping("/api/get-count")
+//	@ResponseBody
+//	public List<ProductInventoryVO> getCount(HttpServletRequest httpservletrequest){
+//		
+//		String[] itemList;
+//		
+//		itemList = httpservletrequest.getParameterValues("itemList");
+//		List<ProductInventoryVO> result = new ArrayList<>();
+//		
+//
+//		if(itemList != null) {
+//			for(int i=0; i<itemList.length; i++) {
+//		List<ProductInventoryVO> prodinvs = inventorycountservice.getAllSelectedCountList(itemList[i]);
+//		result.addAll(prodinvs);
+//			}
+//			 System.out.println(result.toString());
+//		}
+//		return result;
+//	}
+	
 }

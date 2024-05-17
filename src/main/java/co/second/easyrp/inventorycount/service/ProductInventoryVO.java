@@ -9,7 +9,13 @@ import lombok.ToString;
 @ToString
 public class ProductInventoryVO {
 	private String cod;
-	private String Name;
+	private String name;
 	private int computingQty;
-	
+	private int countQty;
+	private int diffQty;
+	private String procclass;
+	private int adjQty;
+	private String note;
+	private String warehouse;
+	private String account;
 }

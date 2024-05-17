@@ -96,8 +96,7 @@
 										</div>
 									</div>
 									<!-- 검색 FORM END -->
-									<button id="loadDetail" data-bs-toggle="modal"
-										data-bs-target="#detailModal">재고실사</button>
+									<button id="loadDetail" data-bs-toggle="modal" data-bs-target="#detailModal">재고실사</button>
 									<table class="table table-hover mb-0">
 										<thead>
 											<tr>
