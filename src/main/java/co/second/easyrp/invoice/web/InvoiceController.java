@@ -1,5 +1,6 @@
 package co.second.easyrp.invoice.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,13 @@ public class InvoiceController {
 	}
 	
 	@RequestMapping("invoiceinsert")
-	public String invoiceInsert() {
+	public String invoiceInsert(InvoiceVO invoiceVo) {
+//		int maxNumber = invoiceService.selectMaxCod() + 1;
+//		String newCode = String.format("%03d", maxNumber);
+//		invoiceVo.setCod("inv" + newCode);
+//		
+//		invoiceService.insertInvoice(invoiceVo);
+//		invoiceService.mrpClosingUpdateToY(invoiceVo);
 		return "easyrp/invoice/invoiceinsert";
 	}
 	
@@ -59,7 +66,7 @@ public class InvoiceController {
 	public String invoiceDeleteFn(InvoiceVO invoiceVo, @RequestParam("cod") String cod) {
 		invoiceVo.setCod(cod);
 		invoiceVo = invoiceService.selectInvoice(invoiceVo);
-		invoiceService.mrpClosingUpdateToY(cod);
+		invoiceService.mrpClosingUpdateToN(invoiceVo);
 		invoiceService.deleteInvoice(invoiceVo);
 		return "redirect:/invoicemanagement";
 	}
@@ -71,5 +78,18 @@ public class InvoiceController {
 		return mrpService.mrpSelectListAllModal();
 	}
 	
+	// 특정 소요량 전개 리스트를 가져온다.
+	@GetMapping("/api/get-mrpselectbycodval")
+	@ResponseBody
+	public List<MrpVO> getMrpValuesSelectByCod(@RequestParam(value="mrpCodList") String[] mrpCodList){
+		List<MrpVO> mrpList = new ArrayList<>();
+		for(int i=0; i<mrpCodList.length; i++) {
+			MrpVO mrpVo = new MrpVO();
+			mrpVo.setCod(mrpCodList[i]);
+			mrpVo = mrpService.mrpSelect(mrpVo);
+			mrpList.add(mrpVo);
+		}
+		return mrpList; 
+	}
 	
 }

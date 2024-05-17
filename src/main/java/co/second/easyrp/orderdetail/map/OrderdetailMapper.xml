@@ -15,7 +15,7 @@
 		ON p.unit_cod = u.cod 
 		WHERE od.mps_state = 'N'
 		AND od.deleteyn = 'N'
-		AND od.cur_remain_qty > 0
+		AND od.delivery_state = 101;
 	</select>
 	<select id="orderdetailSelectList"></select>
 	<insert id="orderdetailInsert"></insert>

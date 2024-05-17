@@ -13,6 +13,9 @@ public interface InvoiceMapper {
 	int insertInvoice(InvoiceVO invoiceVo); //청구 등록
 	int updateInvoice(InvoiceVO invoiceVo); //청구 수정
 	int deleteInvoice(InvoiceVO invoiceVo); //청구 삭제
-	int mrpClosingUpdateToY(String mrpCod); //청구등록을 하면 mrp의 마감여부를 Y로 변경시킨다.
-	int mrpClosingUpdateToN(String mrpCod); //청구삭제를 하면 mrp의 마감여부를 N으로 변경시킨다.
+	int mrpClosingUpdateToY(InvoiceVO invoiceVo); //청구등록을 하면 mrp의 마감여부를 Y로 변경시킨다.
+	int mrpClosingUpdateToN(InvoiceVO invoiceVo); //청구삭제를 하면 mrp의 마감여부를 N으로 변경시킨다.
+	
+	//2024.05.17 13:32 손지은 추가
+	int selectMaxCod();
 }
