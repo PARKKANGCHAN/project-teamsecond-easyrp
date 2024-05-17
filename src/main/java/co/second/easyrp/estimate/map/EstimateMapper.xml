@@ -148,6 +148,19 @@
 	    INSERT INTO estimatedetail (estimate_cod, num, product_cod, qty)
 	    VALUES (#{cod}, #{generatedIndex}, #{generatedProductCod}, #{qty});
 	</insert>
+	
+	<select id="EstimateSelectList1">
+		SELECT 
+			e.cod, 
+			e.est_date, 
+			e.client_cod, 
+			c.name as clientName, 
+			e.employee_cod, 
+			e2.name as empName 
+		from estimate e
+		join client c on e.client_cod = c.cod 
+		join employee e2 on e.employee_cod = e2.cod
+	</select>
 
 	
 </mapper>

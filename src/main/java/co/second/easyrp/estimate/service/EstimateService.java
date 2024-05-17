@@ -47,5 +47,7 @@ public interface EstimateService {
 	
 	int EstimateDetailInsert(String cod, String prodname, int qty);
 	
+	List<EstimateVO> EstimateSelectList1();
+	
 	
 }

@@ -98,6 +98,12 @@ public class EstimateServiceImpl implements EstimateService {
 		return estimateMapper.EstimateRecentCodSelect();
 	}
 
+	@Override
+	public List<EstimateVO> EstimateSelectList1() {
+		// TODO Auto-generated method stub
+		return estimateMapper.EstimateSelectList1();
+	}
+
 
 
 }
