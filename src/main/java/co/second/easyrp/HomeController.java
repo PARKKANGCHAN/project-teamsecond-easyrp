@@ -35,5 +35,7 @@ public class HomeController {
 	@RequestMapping("salesplanmanagement")
 	public String salesPlan() {
 		return "easyrp/salesplan/salesplanmanagement";
-}
+	}
+	
+	
 }

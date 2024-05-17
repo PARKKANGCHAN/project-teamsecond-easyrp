@@ -49,7 +49,7 @@
 											<div class="col-12 col-md-6 order-md-1 order-last">
 												<h3>검색</h3>
 											</div>
-											<form id="searchForm" action="mpsmanagement" method="get">
+											<form id="searchForm" action="mrpmanagement" method="get">
 												<div class="mb-4" style="text-align: center">
 													<table class="table table-bordered" id="searchTable">
 														<tr>
@@ -61,28 +61,28 @@
 															<td width="100">품 번</td>
 															<td><input type="text" id="searchProdCod"
 																name="searchProdCod" class="form-control"
-																value="${searchProdCod}" placeholder="품번을 입력해주세요." /></td>
+																value="${search.searchProdCod}" placeholder="품번을 입력해주세요." /></td>
 															<td width="100">품 명</td>
 															<td><input type="text" id="searchProdName"
 																name="searchProdName" class="form-control"
-																value="${searchProdName}" placeholder="품명을 입력해주세요." /></td>
+																value="${search.searchProdName}" placeholder="품명을 입력해주세요." /></td>
 														</tr>
 														<tr>
 															<td width="100">검색 날짜</td>
 															<td colspan="2"><input type="date"
 																id="preSearchDate" name="preSearchDate"
-																value="${preSearchDate}" class="form-control"
+																value="${search.preSearchDate}" class="form-control"
 																style="width: 47%; float: left" /> <span><i
 																	class="fa-solid fa-arrow-right"
 																	style="margin-top: 10px"></i></span> <input type="date"
 																id="postSearchDate" name="postSearchDate"
-																value="${postSearchDate}" class="form-control"
+																value="${search.postSearchDate}" class="form-control"
 																style="width: 47%; float: right" /></td>
 														</tr>
 													</table>
 												</div>
-												<input type="hidden" name="offset" value="${offset}" /> <input
-													type="hidden" name="size" value="${pageSize}" />
+												<input type="hidden" name="offset" value="${search.offset}" /> <input
+													type="hidden" name="size" value="${search.pageSize}" />
 												<div style="text-align: end; margin-right: 0.5rem">
 													<button type="submit" class="btn btn-primary">검색</button>
 													 <button type="button" class="btn btn-primary"   onclick="resetSearchForm()">초기화</button>
@@ -94,11 +94,10 @@
 									<table class="table table-hover mb-0">
 										<thead>
 											<tr>
-												<th></th>
 												<th>품번</th>
 												<th>품명</th>
 												<th>규격</th>
-												<th>소요일자</th>
+												<th>계획일자</th>
 												<th>예정발주일</th>
 												<th>납기일</th>
 												<th>계획수량</th>
@@ -109,18 +108,29 @@
 										</thead>
 										<tbody>
 											<c:if test="${not empty mrpTable }">
-												<c:forEach var="mpsTable" items="${mrpTable }">
+												<c:forEach var="mrpTable" items="${mrpTable }">
 													<tr>
-														<td><input type="checkbox" name="checkbox"></td>
-														<td>${mrpTable.productCod}</td>
-														<td>${mpsTable.prodname }</td>
-														<td>${mpsTable.spec }</td>
+														<td>
+															<c:if test="${mrpTable.account eq '완제'}">${mrpTable.productCod}</c:if>
+															<c:if test="${mrpTable.account eq '자재'}">${mrpTable.inventoryCod}</c:if>
+														</td>
+														<td>
+															<c:if test="${mrpTable.account eq '완제'}">${mrpTable.prodname}</c:if>
+															<c:if test="${mrpTable.account eq '자재'}">${mrpTable.invname}</c:if>
+														</td>
+														<td>
+															<c:if test="${mrpTable.account eq '완제'}">${mrpTable.spec }</c:if>
+															<c:if test="${mrpTable.account eq '자재'}">${mrpTable.invSpec }</c:if>
+														</td>
 														<td><fmt:formatDate value="${mrpTable.takeDate }" pattern="yyyy-MM-dd"/></td>
-														<td><fmt:formatDate value="${mpsTable.poDate }" pattern="yyyy-MM-dd"/></td>
-														<td><fmt:formatDate value="${mpsTable.dday }" pattern="yyyy-MM-dd"/></td>
-														<td>${mpsTable.qty }</td>
-														<td>${mpsTable.unitName }</td>
-														<td>${mpsTable.account }</td>
+														<td><fmt:formatDate value="${mrpTable.poDate }" pattern="yyyy-MM-dd"/></td>
+														<td><fmt:formatDate value="${mrpTable.dday }" pattern="yyyy-MM-dd"/></td>
+														<td>${mrpTable.qty }</td>
+														<td>
+															<c:if test="${mrpTable.account eq '완제'}">${mrpTable.unitName }</c:if>
+															<c:if test="${mrpTable.account eq '자재'}">${mrpTable.invUnitName }</c:if>
+														</td>
+														<td>${mrpTable.account }</td>
 														<td>
 															<div class="btn-group">
 																<button type="button"
@@ -130,9 +140,9 @@
 																</button>
 																<ul class="dropdown-menu">
 																	<li><a class="dropdown-item"
-																		href="mpsupdate?cod=${mpsTable.cod}">수정</a></li>
+																		href="mrpupdate?cod=${mrpTable.cod}">수정</a></li>
 																	<li><a class="dropdown-item"
-																		href="mpsdeletefn?cod=${mpsTable.cod}">삭제</a></li>
+																		href="mrpdeletefn?cod=${mrpTable.cod}">삭제</a></li>
 																</ul>
 															</div>
 														</td>
@@ -141,7 +151,7 @@
 											</c:if>
 											<c:if test="${empty mrpTable }">
 												<tr>
-													<td colspan="11" align="center">소요량전개 내역이 없습니다.</td>
+													<td colspan="10" align="center">소요량전개 내역이 없습니다.</td>
 												</tr>
 											</c:if>
 										</tbody>

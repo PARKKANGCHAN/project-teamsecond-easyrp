@@ -1,4 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.second.easyrp.invoice.mapper.InvoiceMapper">
+	<select id="selectInvoiceAll">
+		SELECT i.cod, i.inv_date, i.inv_class, i.employee_cod, e.name AS 'employeeName', i.note  
+		FROM invoice i
+		JOIN employee e
+		ON i.employee_cod = e.cod
+		WHERE i.deleteyn = 'N'
+		AND i.closing = 'N'
+		<if test="searchPlan != null and searchPlan != ''">
+			AND m.plan = #{searchPlan}
+		</if>
+		<if test="searchProdCod != null and searchProdCod != ''">
+			AND m.product_cod = #{searchProdCod}
+		</if>
+		<if test="searchProdName != null and searchProdName != ''">
+			AND p.prodname LIKE CONCAT('%', #{searchProdName}, '%')
+		</if>
+		<if test="searchClient != null and searchClient != ''">
+			AND c.name LIKE CONCAT('%', #{searchClient}, '%')
+		</if>
+		<if test="preSearchDate != null and postSearchDate != null">
+			AND m.plan_date BETWEEN #{preSearchDate} AND
+			#{postSearchDate}
+		</if>
+		ORDER BY i.cod
+		LIMIT #{pageSize} OFFSET #{offset}
+	</select>
+	
+	<select id="countInvoiceTables">
+		SELECT COUNT(*)
+		FROM invoice i
+		JOIN employee e
+		ON i.employee_cod = e.cod
+		WHERE i.deleteyn = 'N'
+		AND i.closing = 'N'
+		<if test="searchPlan != null and searchPlan != ''">
+			AND m.plan = #{searchPlan}
+		</if>
+		<if test="searchProdCod != null and searchProdCod != ''">
+			AND m.product_cod = #{searchProdCod}
+		</if>
+		<if test="searchProdName != null and searchProdName != ''">
+			AND p.prodname LIKE CONCAT('%', #{searchProdName}, '%')
+		</if>
+		<if test="searchClient != null and searchClient != ''">
+			AND c.name LIKE CONCAT('%', #{searchClient}, '%')
+		</if>
+		<if test="preSearchDate != null and postSearchDate != null">
+			AND m.plan_date BETWEEN #{preSearchDate} AND
+			#{postSearchDate}
+		</if>
+	</select>
+	
+	<select id="selectInvoice">
+		SELECT i.cod, i.inv_date, i.inv_class, i.employee_cod, e.name AS 'employeeName', i.note  
+		FROM invoice i
+		JOIN employee e
+		ON i.employee_cod = e.cod
+		WHERE i.cod = #{cod}
+	</select>
+	
+	<insert id="insertInvoice"></insert>
+	<update id="updateInvoice"></update>
+	
+	<update id="deleteInvoice">
+		UPDATE invoice
+		SET
+		deleteyn = 'Y'
+		WHERE cod = #{cod}
+	</update>
+	
+	<update id="mrpClosingUpdateToY">
+		UPDATE mrp
+		SET
+		closing = 'Y'
+		WHERE cod = #{mrpCod}
+	</update>
+	
+	<update id="mrpClosingUpdateToN">
+		UPDATE mrp
+		SET
+		closing = 'N'
+		WHERE cod = #{mrpCod}
+	</update>
 </mapper>

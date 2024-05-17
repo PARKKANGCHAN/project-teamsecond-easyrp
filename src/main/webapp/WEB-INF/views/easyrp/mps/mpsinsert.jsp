@@ -108,7 +108,21 @@
 											</tr>
 											<!-- 수량 INPUT -->
 											<tr>
-												<td width="150">수량</td>
+												<td width="150">수주수량</td>
+												<td><input type="text" id="orderQty" name="orderQty"
+													class="form-control" placeholder="수량을 불러오세요." readonly/>
+												</td>
+											</tr>
+											<!-- 수량 INPUT -->
+											<tr>
+												<td width="150">수주잔량</td>
+												<td><input type="text" id="remainQty" name="remainQty"
+													class="form-control" placeholder="수량을 불러오세요." readonly/>
+												</td>
+											</tr>
+											<!-- 수량 INPUT -->
+											<tr>
+												<td width="150">계획수량</td>
 												<td><input type="text" id="qty" name="qty"
 													class="form-control" placeholder="수량을 입력해주세요." required 
 													oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
@@ -326,14 +340,15 @@
          /* valueModal END */
 
          /* DataModal START */
-          function setData(cod, num, orderDate, productCod, clientName, prodname, qty, unitName, deliveryDate, note) {
+          function setData(cod, num, orderDate, productCod, clientName, prodname, qty, curRemainQty, unitName, deliveryDate, note) {
             $('#orderCod').val(cod);
             $('#orderdetailNum').val(num);
             $('#orderDate').val(orderDate);
             $('#productCod').val(productCod);
             $('#clientName').val(clientName);
             $('#prodname').val(prodname);
-            $('#qty').val(qty);
+            $('#orderQty').val(qty);
+            $('#remainQty').val(curRemainQty);
             $('#unitName').val(unitName);
             $('#deliveryDate').val(deliveryDate);
             $('#note').val(note);
@@ -365,6 +380,8 @@
                               item.prodname +
                               "', '" +
                               item.qty +
+                              "', '" +
+                              item.curRemainQty +
                               "', '" +
                               item.unitName +
                               "', '" +

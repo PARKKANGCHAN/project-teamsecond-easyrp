@@ -19,9 +19,11 @@ public interface EstimateService {
 		    @Param("postSearchDate") Date postSearchDate
 		);
 	
-	EstimateVO EstimateSelect(EstimateVO vo);
+	EstimateVO EstimateSelect(String cod);
 	
-	int EstimateInsert(String clientName, String empName, int price);
+	int EstimateInsert(EstimateVO estimatevo);
+	int EstimateInsert2(String cod, String prodName, int qty);
+	
 	String EstimateRecentCodSelect();
 	
 	int EstimateUpdate(String cod, int qty, int num);
@@ -44,6 +46,8 @@ public interface EstimateService {
 	List<EstimateVO> EstimateDetailSelectList(String cod);
 	
 	int EstimateDetailInsert(String cod, String prodname, int qty);
+	
+	List<EstimateVO> EstimateSelectList1();
 	
 	
 }

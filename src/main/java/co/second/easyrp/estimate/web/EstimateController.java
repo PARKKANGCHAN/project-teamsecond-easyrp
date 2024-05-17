@@ -2,6 +2,7 @@ package co.second.easyrp.estimate.web;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,29 +57,30 @@ public class EstimateController {
         return "easyrp/estimate/estimatemanagement";
     }
     
-    @RequestMapping(value = "/estimateinsert", method = RequestMethod.GET)
-    public String estimateinsert(EstimateVO vo, Model model) {
-    	
-    	
-    	List<EstimateVO> ClientNames = new ArrayList<EstimateVO>();
-    	ClientNames = estimateService.ClientNameSelectList();
-    	model.addAttribute("ClientNames", ClientNames);
-    	
-    	
-    	
-    	return "easyrp/estimate/estimateinsert";
-    }
-    
     @GetMapping(value = "/estimatedetail")
     @ResponseBody
-    public List<EstimateVO> estimateDetail(@RequestParam("cod") String estimateCod,
-    							 Model model) {
+    public Map<String, Object> estimateDetail(@RequestParam("cod") String estimateCod,
+    							 			  Model model) {
     	
+    	// 해당 견적코드에 해당하는 견적 상세 목록을 estimateDetailList에 저장(estimatedetail 테이블의 데이터)
         List<EstimateVO> estimateDetailList = estimateService.EstimateDetailSelectList(estimateCod);
-//        System.out.println(estimateDetailList);
         model.addAttribute("estimateDetail", estimateDetailList);
         
-        return estimateDetailList;
+        // 해당 견적코드에 해당하는 기본 정보를 estimateSelect에 저장(estimate 테이블의 데이터)
+        EstimateVO estimateSelect = estimateService.EstimateSelect(estimateCod);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("estimateDetailList", estimateDetailList);
+        response.put("estimateSelect", estimateSelect);
+        
+        /* 
+        	response라는 map 객체를 생성하고 "estimateDetailList", "estimateSelect" 라는 키에
+        	estimateDetailList, estimateSelect 객체를 넣어서 JSON 형태로 반환 했습니다.
+        */
+        
+        System.out.println(response);
+        
+        return response;
     	
     }
 
@@ -153,24 +156,38 @@ public class EstimateController {
 	
    
     @RequestMapping(value = "/estimateinsertFn", method = RequestMethod.POST)
-    public String estimateInsertFn(@RequestParam("clientName") String clientName,
-    							   @RequestParam("employeeName") String empName,
-    							   @RequestParam("price") int price,
-    							   @RequestParam("prodname") String prodname,
-    							   @RequestParam("qty") int qty) {
+    @ResponseBody
+    public String estimateInsertFn(@RequestBody List<EstimateVO> dataToSend) {
     	
-    	int result = estimateService.EstimateInsert(clientName, empName, price);
+    	System.out.println("dataToSend : " + dataToSend);
     	
-    	String cod = estimateService.EstimateRecentCodSelect();
+    	String employeeCod = dataToSend.get(0).getEmployeeCod();
+    	String clientName = dataToSend.get(0).getClientName();
     	
-    	int result2 = estimateService.EstimateDetailInsert(cod, prodname, qty);
+    	EstimateVO estimatevo = new EstimateVO();
+    	estimatevo.setEmployeeCod(employeeCod);
+    	estimatevo.setClientName(clientName);
     	
+    	estimateService.EstimateInsert(estimatevo);
     	
-    	return "redirect:/salesplanmanagement";
+    	String cod = estimatevo.getCod();
+
+    	
+    	for (EstimateVO vo : dataToSend) {
+    		
+    		String prodName = vo.getProdName();
+    		int qty = vo.getQty();
+    		System.out.println("prodName : " + prodName);
+    		System.out.println("qty : " + qty);
+    		
+    		estimateService.EstimateInsert2(cod, prodName, qty);
+    	}
+    	
+    	return "redirect:/estimatemanagement";
     }
     
     @RequestMapping(value = "/estimatedeleteFn", method = RequestMethod.GET)
-    public String estimateInsertFn(@RequestParam("cod") String cod) {
+    public String estimateDeleteFn(@RequestParam("cod") String cod) {
     	
     	int result = estimateService.EstimateDelete(cod);
 

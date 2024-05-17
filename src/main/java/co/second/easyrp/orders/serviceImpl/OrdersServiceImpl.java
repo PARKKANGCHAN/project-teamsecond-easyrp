@@ -1,5 +1,6 @@
 package co.second.easyrp.orders.serviceImpl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,24 @@ import co.second.easyrp.orders.service.OrdersVO;
 @Service
 @Primary
 public class OrdersServiceImpl implements OrderService {
-	@Autowired OrdersMapper ordersMapper;
+	@Autowired 
+	private OrdersMapper ordersMapper;
+	
+	@Override
+	public List<OrdersVO> OrdersSelectList(int page, int size, String cod, String clientCod, String employeeCod,
+			Date preSearchDate, Date postSearchDate) {
+		
+			int offset = (page - 1) * size;
+			
+		return ordersMapper.OrdersSelectList(size, offset, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
+	}
+
+	@Override
+	public int countSalesTables(int pageSize, int offset, String cod, String clientCod, String employeeCod,
+			Date preSearchDate, Date postSearchDate) {
+		// TODO Auto-generated method stub
+		return ordersMapper.countSalesTables(pageSize, offset, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
+	}
 	
 	@Override
 	public List<OrdersVO> ordersSelectListAll() {
@@ -50,5 +68,19 @@ public class OrdersServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return ordersMapper.ordersDelete(ordersVo);
 	}
+
+	@Override
+	public List<OrdersVO> OrderDetailSelectList(String cod) {
+		// TODO Auto-generated method stub
+		return ordersMapper.OrderDetailSelectList(cod);
+	}
+
+	@Override
+	public OrdersVO OrderSelect(String cod) {
+		// TODO Auto-generated method stub
+		return ordersMapper.OrderSelect(cod);
+	}
+
+
 
 }
