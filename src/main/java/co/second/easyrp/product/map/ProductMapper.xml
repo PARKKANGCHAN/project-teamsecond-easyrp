@@ -62,4 +62,13 @@
 			#{postSearchDate}
 		</if> -->
 	</select>
+	
+	<!-- 제품찾기 modal에 뿌려줄 리스트를 가져오기위한 쿼리 -->
+	<select id="prodSearch">
+		SELECT p.*,
+			(SELECT u.name FROM unit u WHERE u.cod = p.unit_cod) AS 'unitName',
+			(SELECT u.name FROM unit u WHERE u.cod = p.mgmt_unit_cod) AS 'mgmtUnitName',
+			(SELECT p2.name FROM productgroup p2 WHERE p2.cod = p.productgroup_cod) As 'prodgroupName'
+		FROM product p;
+	</select>
 	</mapper>

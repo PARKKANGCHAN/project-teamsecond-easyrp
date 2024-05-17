@@ -41,11 +41,27 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		// TODO Auto-generated method stub
 		return purchaseOrderMapper.countPoMgmtList(vo);
 	}
-
+	
+	//과세구분리스트를 가져오는 메소드
+	//하서현
 	@Override
 	public List<Map<String, Object>> taxDivList() {
 		// TODO Auto-generated method stub
 		return purchaseOrderMapper.taxDivList();
+	}
+
+	//발주테이블에 발주등록을하는 메소드
+	//하서현
+	@Override
+	public int insertPo(PurchaseOrderVO vo) {
+		// TODO Auto-generated method stub
+		return purchaseOrderMapper.insertPo(vo);
+	}
+
+	@Override
+	public String newPoCod() {
+		// TODO Auto-generated method stub
+		return purchaseOrderMapper.newPoCod();
 	}
 
 }
