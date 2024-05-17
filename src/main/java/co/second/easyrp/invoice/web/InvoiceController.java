@@ -51,9 +51,10 @@ public class InvoiceController {
 //		int maxNumber = invoiceService.selectMaxCod() + 1;
 //		String newCode = String.format("%03d", maxNumber);
 //		invoiceVo.setCod("inv" + newCode);
-//		
 //		invoiceService.insertInvoice(invoiceVo);
-//		invoiceService.mrpClosingUpdateToY(invoiceVo);
+//		
+//		invoiceDetailVO invoicedetailVo
+		//invoiceService.mrpClosingUpdateToY(invoiceVo);
 		return "easyrp/invoice/invoiceinsert";
 	}
 	

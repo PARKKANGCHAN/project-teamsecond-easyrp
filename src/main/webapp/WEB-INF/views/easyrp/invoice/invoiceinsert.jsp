@@ -66,7 +66,7 @@
 											<!-- 등록자 INPUT -->
 											<tr>
 												<td width="150">청구구분</td>
-												<td><input type="text" id="procurement" name="procurement"
+												<td><input type="text" id="invClass" name="invClass"
 													class="form-control" placeholder="청구구분을 불러오세요." readonly/>
 												</td>
 											</tr>
