@@ -315,9 +315,9 @@
                      $('#mrpTableBody').html(rows);
                      
                      if(data[0].account == '완제'){
-                    	 $('#procurement').val('생산');	 
+                    	 $('#invClass').val('생산');	 
                      }else{
-                    	 $('#procurement').val('구매');
+                    	 $('#invClass').val('구매');
                      }
                      
                      $('#dataModal').modal('show');
