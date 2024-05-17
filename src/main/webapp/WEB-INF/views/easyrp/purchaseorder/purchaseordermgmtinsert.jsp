@@ -333,6 +333,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 							data-input-unitamount="prodUnitAmount"
 							data-input-unitname="prodUnitName"
 							data-input-unitprice="prodUnitprice"
+							data-input-mgmtunitcod="mgmtUnitCod"
+							data-input-unitcod="unitCod"
 							data-bs-toggle="modal"
 							data-bs-target="#invSearchModal">자재찾기</button>
 					</div>
@@ -727,10 +729,10 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     	 $('#prodInputModal').modal('show');
    	});
     
-    function prodSearchSetValue(cod,name,mgmtUnitAmount,mgmtUnitName,unitAmount,unitName,unitprice,...inputIds) {
+    function prodSearchSetValue(cod,name,mgmtUnitAmount,mgmtUnitName,unitAmount,unitName,unitprice,mgmtUnitCod,unitCod,...inputIds) {
        $('#prodMgmtUnitAmount').val(mgmtUnitAmount);
    	   $('#prodSearchModal').modal('hide');
-       const inputs = [cod,name,mgmtUnitAmount,mgmtUnitName,unitAmount,unitName,unitprice];
+       const inputs = [cod,name,mgmtUnitAmount,mgmtUnitName,unitAmount,unitName,unitprice,mgmtUnitCod,unitCod];
        inputIds.forEach((item,index) => {
     	   if(item === 'prodMgmtUnitName' || item === 'prodUnitName') {
     	    	$('#'+ item).text(inputs[index]);   
@@ -769,6 +771,10 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                          "','" +
                          item.unitprice +
                          "','" +
+                         item.mgmt_unit_cod +
+                         "','" +
+                         item.unit_cod +
+                         "','" +
                          $(e.target).data('input-cod') +
                          "','" +
                          $(e.target).data('input-name') +
@@ -782,6 +788,10 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                          $(e.target).data('input-unitname') +
                          "','" +
                          $(e.target).data('input-unitprice') +
+                         "','" +
+                         $(e.target).data('input-mgmtunitcod') +
+                         "','" +
+                         $(e.target).data('input-unitcod') +
                          '\')" ' +
                          'class="searchValue" data-cod="' +
                          item.cod +
@@ -998,14 +1008,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
         		name: 'invQty',
         		value: unitAmount
     		},
-    		{
-        		name: 'unitMgmt',
-        		value: mgmtUnitCod
-    		},
-    		{
-        		name: 'unitInv',
-        		value: unitCod
-    		},
         	{
         		name: 'unitPrice',
         		value: unitprice
@@ -1021,11 +1023,23 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
         	{
         		name: 'total',
         		value: total
+    		},
+    		{
+        		name: 'unitMgmt',
+        		value: mgmtUnitCod
+    		},
+    		{
+        		name: 'unitInv',
+        		value: unitCod
     		}
     		];
     	let rows = '<tr class="prodList">';
     	values.forEach((item,index) => {
-        	rows += '<td><input type="hidden" name="'+ item.name +'" value="'+ item.value +'">' + item.value + '</td>';
+    		if(item.name === 'unitMgmt' || item.name === 'unitInv'){
+            	rows += '<input type="hidden" name="'+ item.name +'" value="'+ item.value +'">';
+    		} else {
+            	rows += '<td><input type="hidden" name="'+ item.name +'" value="'+ item.value +'">' + item.value + '</td>';
+    		}
     	})
     	rows += '<td><button type="button" aria-label="Close" onClick="{delProd(event)}">X</button></td></tr>';
     	$('#prodList').append(rows);
