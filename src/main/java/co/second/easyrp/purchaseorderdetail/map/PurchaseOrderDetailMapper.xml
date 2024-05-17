@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="co.second.easyrp.purchaseorderdetail.map.PurchaseOrderDetailMapper">
+	<insert id="insertPoDetail">
+		INSERT INTO purchaseorderdetail (
+				num,
+				purchaseorder_cod,
+				invoice_cod,
+				invoicedetail_num,
+				product_cod,
+				dday,
+				unit_mgmt,
+				mgmt_qty,
+				unit_inv,
+				inv_qty,
+				unitprice,
+				suppprice,
+				vax,
+				total
+			) VALUES(
+				#{num},
+				#{purchaseorderCod},
+				#{invoiceCod},
+				#{invoicedetailNum},
+				#{productCod},
+				#{dday},
+				#{unitMgmt},
+				#{mgmtQty},
+				#{unitInv},
+				#{invQty},
+				#{unitprice},
+				#{supprice},
+				#{vax},
+				#{total}
+			)
+	</insert>
+</mapper>

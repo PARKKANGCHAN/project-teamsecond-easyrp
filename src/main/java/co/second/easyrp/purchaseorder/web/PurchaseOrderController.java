@@ -4,10 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +20,7 @@ import co.second.easyrp.client.service.ClientService;
 import co.second.easyrp.client.service.ClientVO;
 import co.second.easyrp.purchaseorder.service.PurchaseOrderService;
 import co.second.easyrp.purchaseorder.service.PurchaseOrderVO;
+import co.second.easyrp.purchaseorderdetail.service.PurchaseOrderDetailVO;
 
 @Controller
 public class PurchaseOrderController {
@@ -47,5 +51,14 @@ public class PurchaseOrderController {
 	public String purchaseordermgmtinsert(Model model) {
 		model.addAttribute("taxDivList", purchaseOrderService.taxDivList());
 		return "easyrp/purchaseorder/purchaseordermgmtinsert";
+	}
+	
+	//발주등록
+	@PostMapping("/purchaseorderinsertfn")
+	public String purchaseorderinsertfn(PurchaseOrderVO poVO,PurchaseOrderDetailVO poDetailVO, HttpSession session) {
+		poVO.setEmployeeCodWriter((String) session.getAttribute("empCode"));
+		purchaseOrderService.insertPo(poVO);
+		
+		return "easyrp/purchaseorder/purchaseordermgmttable";
 	}
 }

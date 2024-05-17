@@ -1,5 +1,9 @@
 package co.second.easyrp.purchaseorder.service;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,25 +16,31 @@ public class PurchaseOrderVO {
 	private String poDate;
 	private String closingDate;
 	private String clientCod;
+	private String iboundDate;
+	private String dday;
+	private int stateCod;
 	private int taxdivisionCod;
 	private String employeeCodWriter;
 	private String employeeCodPo;
 	private String employeeCodIbound;
 	private int printcnt;
-	private String closing;
 	private String note;
 	private String searchCod;
 	private String searchFromPoDate;
 	private String searchToPoDate;
+	private String searchFromIboundDate;
+	private String searchToIboundDate;
 	private String searchClientCod;
 	private String searchClientName;
 	private String searchEmpCodPo;
 	private String searchEmpNamePo;	
 	private String searchEmpCodIbound;
 	private String searchEmpNameIbound;
-	private String searchClosing;
+	private String searchStateCod;
 	private String searchFromClosingDate;
 	private String searchToClosingDate;
+	private String searchFromDday;
+	private String searchToDday;
 	private int page;
 	private int size;
 	private int offset;

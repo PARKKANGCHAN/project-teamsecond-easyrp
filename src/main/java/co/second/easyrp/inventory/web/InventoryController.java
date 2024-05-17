@@ -2,6 +2,7 @@ package co.second.easyrp.inventory.web;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.second.easyrp.inventory.service.InventoryService;
 import co.second.easyrp.inventory.service.InventoryVO;
@@ -66,4 +68,13 @@ public class InventoryController {
 		
 		return "easyrp/inventory/inventory";
 		}
+	
+	//자재찾기 modal에 뿌려줄 리스트를 보내주는 메소드
+	//2024년 5월 14일 오후 2시 28분 하서현
+	@GetMapping("/invSearch")
+	@ResponseBody
+	public List<Map<String, Object>> invSearch() {
+		List<Map<String, Object>> returnList = inventoryservice.inventorySearch();
+		return returnList;
 	}
+}

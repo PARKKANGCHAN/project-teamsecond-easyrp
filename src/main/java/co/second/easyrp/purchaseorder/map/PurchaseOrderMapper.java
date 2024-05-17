@@ -21,4 +21,12 @@ public interface PurchaseOrderMapper {
 	
 	//과세구분리스트를 가져오는 메소드
 	List<Map<String, Object>> taxDivList();
+	
+	//발주테이블에 발주등록을하는 메소드
+	//하서현
+	int insertPo(PurchaseOrderVO vo);
+
+	//발주등록을할때 고유한 발주번호를 부여해주기위한 메소드
+	//하서현
+	String newPoCod();
 }

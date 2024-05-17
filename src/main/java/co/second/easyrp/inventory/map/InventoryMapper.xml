@@ -66,4 +66,13 @@
 	<insert id="insertInventory"></insert>
 	<update id="updateInventory"></update>
 	<delete id="deleteInventory"></delete>
+	
+	<!-- 자재찾기 modal에 뿌려줄 리스트를 가져오기위한 쿼리 -->
+	<select id="inventorySearch">
+		SELECT i.*,
+   		    (SELECT u.name FROM unit u WHERE u.cod = i.unit_cod) AS 'unitName',
+			(SELECT u.name FROM unit u WHERE u.cod = i.mgmt_unit_cod) AS 'mgmtUnitName',
+			(SELECT p.name FROM productgroup p WHERE p.cod = i.productgroup_cod) As 'prodgroupName'
+		FROM inventory i
+	</select>
 </mapper>
