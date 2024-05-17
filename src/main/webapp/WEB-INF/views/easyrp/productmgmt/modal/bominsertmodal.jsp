@@ -6,10 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>BOM 등록 페이지</title>
-<!-- 필요한 CSS와 JS 라이브러리 추가 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
     <!-- BOM Modal START -->

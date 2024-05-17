@@ -9,15 +9,9 @@ import lombok.ToString;
 @Setter
 @ToString
 public class BomVO {
-	private String productCod;
-	private String productName;
-	private String deptName;
-	private String empCod;
-	private String empName;
-	private String warehouseName;
-	// BOM DB 테이블 부분 VO
 	private String prodCod;
+	private String productName;
+	private String productGroupName;
 	private String invCod;
 	private int quantity;
-	
 }

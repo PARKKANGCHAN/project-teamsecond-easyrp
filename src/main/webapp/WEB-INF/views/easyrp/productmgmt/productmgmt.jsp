@@ -104,8 +104,8 @@
 										<thead>
 											<tr>
 												<th width="5%">제품번호</th>
-												<th width="35%">제품명</th>
-												<th width="5%">BOM 등록 유무</th>
+												<th width="25%">제품명</th>
+												<th width="10%">BOM 등록 유무</th>
 												<th width="15%">제품그룹</th>
 												<th width="10%">제품창고</th>
 												<th width="5%">개 수</th>
@@ -117,7 +117,7 @@
 												<tr class="commonDetailTable">
 													<td class="text-bold-500">${productmgmt.cod}</td>
 													<td>${productmgmt.prodname}</td>
-													<th width="5%">N</th>
+													<th width="5%">${productmgmt.isBominsert }</th>
 													<td class="text-bold-500">${productmgmt.prodGroupName}</td>
 													<td>${productmgmt.warehouseName }</td>
 													<td>${productmgmt.curInvQty }</td>
@@ -135,11 +135,6 @@
 																<li><a class="dropdown-item"
 																	href="productmgmtdeletefn?cod=${productmgmt.cod}">삭제</a>
 																</li>
-																<li><a class="dropdown-item" href="#"
-																	id="loadDetail" data-bs-toggle="modal"
-																	data-bs-target="#detailModal"
-																	onclick="getProductDetails('${productmgmt.cod}')">
-																		BOM 보기 </a></li>
 															</ul>
 														</div>
 													</td>
@@ -192,6 +187,9 @@
 						<div class="col-md-6">
 							<button type="button" class="btn btn-primary">
 								<a href="productmgmtinsert" style="color: white">등록</a>
+							</button>
+							<button type="button" class="btn btn-primary">
+								<a href="bominsert" style="color: white">BOM 등록</a>
 							</button>
 							<button type="button" class="btn btn-primary">
 								<a id="unitmgmt" data-bs-toggle="modal"

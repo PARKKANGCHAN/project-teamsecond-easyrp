@@ -33,4 +33,5 @@ public class ProductMgmtVO {
 	private String warehouseName;
 	private String unitName;
 	private String mgmtUnitName;
+	private String isBominsert;
 }

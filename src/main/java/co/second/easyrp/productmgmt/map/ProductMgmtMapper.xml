@@ -11,7 +11,7 @@
 		resultType="co.second.easyrp.productmgmt.service.ProductMgmtVO">
 		SELECT p.cod as 'cod', p.prodname as 'prodname', p2.name as
 		'prodGroupName', w.name as 'warehouseName', p.cur_inv_qty as
-		'curInvQty'
+		'curInvQty', p.is_bominsert as 'isBominsert'
 		FROM product p
 		LEFT JOIN warehouse w ON p.warehouse_cod =
 		w.cod
@@ -96,7 +96,7 @@
 	<select id="getMaxCode" resultType="String">
 		SELECT max(cod) as 'cod'
 		FROM
-		product;
+		product
 	</select>
 
 	<!-- 완료 -->
@@ -139,7 +139,7 @@
 		#{employeeCod},
 		#{mgmtUnitCod},
 		#{mgmtUnitAmount}
-		);
+		)
 	</insert>
 
 	<!-- 완료 -->
@@ -172,7 +172,7 @@
 		UPDATE product
 		SET
 		DELETEYN = 'Y'
-		WHERE cod = #{cod};
+		WHERE cod = #{cod}
 	</update>
 
 

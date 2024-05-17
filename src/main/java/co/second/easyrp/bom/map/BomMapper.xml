@@ -5,30 +5,26 @@
 	<!-- (2024년 5월 14일 오전 9시 25분 박현우) -->
 
 	<!-- Product 테이블에서 단일 튜플을 가져오는 쿼리 -->
-	<select id="getData" resultType="co.second.easyrp.bom.service.BomVO">
-		SELECT p.cod AS 'productCod',
+	<select id="getHyunwooProductData"
+		resultType="co.second.easyrp.bom.service.BomVO">
+		SELECT p.cod AS 'prodCod',
 		p.prodname AS 'productName',
-		d.name AS 'deptName',
-		e.cod AS 'empCod',
-		e.name AS 'empName',
-		w.name AS
-		'warehouseName'
+		p2.name AS 'productGroupName'
 		FROM product p
-		LEFT JOIN employee e ON p.employee_cod =
-		e.cod
-		LEFT JOIN department d ON e.department_cod = d.cod
-		LEFT JOIN
-		warehouse w ON p.warehouse_cod = w.cod
-		WHERE p.cod = #{productCod}
+		LEFT JOIN productgroup p2
+		ON p.productgroup_cod = p2.cod
+		WHERE p.is_bominsert = 'N' AND
+		p.deleteyn = 'N';
 	</select>
 
-	<insert id="insertFn" parameterType="co.second.easyrp.bom.service.BomVO">
+	<insert id="insertFn"
+		parameterType="co.second.easyrp.bom.service.BomVO">
 		INSERT INTO bom (
 		prod_cod,
 		inv_cod,
 		quantity)
 		VALUES(
-		#{prodCod},
+		#{productCod},
 		#{invCod},
 		#{quantity}
 		);
@@ -55,7 +51,8 @@
 	<delete id="eachDeleteFn"
 		parameterType="co.second.easyrp.bom.service.BomVO">
 		DELETE FROM bom
-		WHERE prod_cod = #{prodCod} AND inv_cod = #{invCod};
+		WHERE prod_cod = #{prodCod} AND inv_cod =
+		#{invCod};
 	</delete>
 
 

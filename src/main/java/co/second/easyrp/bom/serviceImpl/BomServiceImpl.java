@@ -1,5 +1,7 @@
 package co.second.easyrp.bom.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -39,5 +41,10 @@ public class BomServiceImpl implements BomService {
 	@Override
 	public int eachDeleteFn(BomVO bomVO) {
 		return bomMapper.eachDeleteFn(bomVO);
+	}
+
+	@Override
+	public List<BomVO> getHyunwooProductData() {
+		return bomMapper.getHyunwooProductData();
 	}
 }
