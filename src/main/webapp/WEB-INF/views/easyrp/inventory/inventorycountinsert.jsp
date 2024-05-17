@@ -264,7 +264,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                         	<td><input type="checkbox" name="prodInvCod"></td>
 				 			<td class="cod">\${item.cod}</td>
 				 			<td class="name">\${item.name}</td>
-				 			<td class="account" id="prodInvAccount" value="\${item.account}">\${item.account}</td>
+				 			<td class="account" id="\${item.account}\${num}" value="\${item.account}">\${item.account}</td>
 				 			<td class="computingQty" id="\${item.cod}\${num}">\${item.computingQty}</td>
 				 			<td width=100 class="countQty">
 				 				<input type="number" onkeyup="setCountDiff(this.id, '\${item.cod}\${num}')" id="\${item.cod}" class="countqtyinput form-control" placeholder="실사재고량을 입력해주세요." required/>
@@ -307,11 +307,11 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             
          /* Product&InventoryModalTable END */
 	function accountlist(){
-            	case ($('#accountclass').val){
-            		case '완제품':
-            			$('#accountclass').val='완제품'
+            	case ($("td[id^='$(item.account)']".val='완제품')
+            			$('#'+).closest('tr').html('show')
+            			$('#accountclass').val=
+            		$('#' + countQtyInputId).closest('tr').find('.diffQty').text(diffQty);
             	}
-            	
             }
          
 
