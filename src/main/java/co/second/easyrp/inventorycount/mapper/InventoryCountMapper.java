@@ -6,6 +6,7 @@ import co.second.easyrp.inventorycount.service.InventoryCountDetailVO;
 import co.second.easyrp.inventorycount.service.InventoryCountVO;
 import co.second.easyrp.inventorycount.service.ProductInventoryVO;
 import co.second.easyrp.inventorycount.service.SearchVO;
+import co.second.easyrp.warehouse.service.WareHouseVO;
 
 public interface InventoryCountMapper {
 	List<InventoryCountVO> inventoryCountList(SearchVO searchvo);
@@ -22,4 +23,10 @@ public interface InventoryCountMapper {
 	
 	int countInventoryCountLists(SearchVO searchVo);
 	List<ProductInventoryVO> getAllProductInventoryList();
+	List<ProductInventoryVO> getAllSelectedCountList(String itemList);
+	int insertCountDetailList(InventoryCountDetailVO inventorycountdetailvo);
+	List<WareHouseVO> warehouseList();
+	List<ProductInventoryVO> getAllProdInvWarehouse(WareHouseVO warehousevo);
+	List<WareHouseVO> selectedWarehouseList(WareHouseVO warehousevo);
+	
 }

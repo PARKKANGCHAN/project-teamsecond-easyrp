@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -20,7 +20,9 @@
 			<div class="page-title">
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
-						<h3><a href="/easyrp/salesplanmanagement">견적 테이블</a></h3>
+						<h3>
+							<a href="/easyrp/salesplanmanagement">견적 테이블</a>
+						</h3>
 						<p class="text-subtitle text-muted">견적 목록</p>
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
@@ -54,35 +56,31 @@
 															<td width="100">글 번호</td>
 															<td><input type="text" id="searchNumber"
 																name="searchNumber" class="form-control"
-																value="${searchNumber}"
-																placeholder="글 번호를 입력해주세요." /></td>
+																value="${searchNumber}" placeholder="글 번호를 입력해주세요." /></td>
 															<td width="100">제 목</td>
 															<td><input type="text" id="searchTitle"
 																name="searchTitle" class="form-control"
-																value="${searchTitle}"
-																placeholder="제목을 입력해주세요." /></td>
+																value="${searchTitle}" placeholder="제목을 입력해주세요." /></td>
 															<td width="100">내 용</td>
 															<td><input type="text" id="searchContent"
 																name="searchContent" class="form-control"
-																value="${searchContent}"
-																placeholder="내용을 입력해주세요." /></td>
+																value="${searchContent}" placeholder="내용을 입력해주세요." /></td>
 															<td width="100">작성자</td>
 															<td><input type="text" id="searchAuthor"
 																name="searchAuthor" class="form-control"
-																value="${searchAuthor}"
-																placeholder="작성자를 입력해주세요." /></td>
+																value="${searchAuthor}" placeholder="작성자를 입력해주세요." /></td>
 														</tr>
 														<tr>
 															<td width="100">검색 날짜</td>
 															<td colspan="2"><input type="date"
 																id="preSearchDate" name="preSearchDate"
-																value="${preSearchDate}"
-																class="form-control" style="width: 47%; float: left" />
-																<span><i class="fa-solid fa-arrow-right"
+																value="${preSearchDate}" class="form-control"
+																style="width: 47%; float: left" /> <span><i
+																	class="fa-solid fa-arrow-right"
 																	style="margin-top: 10px"></i></span> <input type="date"
 																id="postSearchDate" name="postSearchDate"
-																value="${postSearchDate}"
-																class="form-control" style="width: 47%; float: right" /></td>
+																value="${postSearchDate}" class="form-control"
+																style="width: 47%; float: right" /></td>
 														</tr>
 													</table>
 												</div>
@@ -90,7 +88,8 @@
 													type="hidden" name="size" value="${pageSize}" />
 												<div style="text-align: end; margin-right: 0.5rem">
 													<button type="submit" class="btn btn-primary">검색</button>
-													<button type="button" class="btn btn-primary"   onclick="resetSearchForm()">초기화</button>
+													<button type="button" class="btn btn-primary"
+														onclick="resetSearchForm()">초기화</button>
 												</div>
 											</form>
 										</div>
@@ -111,17 +110,21 @@
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach items="${estimate }" var="estimate" >
+											<c:forEach items="${estimate }" var="estimate">
 												<tr>
-													<td class="text-bold-500">
-    													<a href="#" id="loadDetail" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="estimateDetail('${estimate.cod}')">${estimate.cod}</a>
+													<td class="text-bold-500"><a href="#" id="loadDetail"
+														data-bs-toggle="modal" data-bs-target="#detailModal"
+														onclick="estimateDetail('${estimate.cod}')">${estimate.cod}</a>
 													</td>
-													<td><fmt:formatDate value="${estimate.estDate}" pattern="yyyy-MM-dd" /></td>
+													<td><fmt:formatDate value="${estimate.estDate}"
+															pattern="yyyy-MM-dd" /></td>
 													<td>${estimate.clientCod }</td>
 													<td class="text-bold-500">${estimate.employeeCod }</td>
-													<td><fmt:formatNumber value="${estimate.subtotal}" pattern="###,###"></fmt:formatNumber></td>
+													<td><fmt:formatNumber value="${estimate.subtotal}"
+															pattern="###,###"></fmt:formatNumber></td>
 													<td>10%</td>
-													<td><fmt:formatNumber value="${estimate.total}" pattern="###,###"></fmt:formatNumber></td>
+													<td><fmt:formatNumber value="${estimate.total}"
+															pattern="###,###"></fmt:formatNumber></td>
 													<td>${estimate.orderyn }</td>
 													<td>
 														<div class="btn-group">
@@ -133,10 +136,11 @@
 															<ul class="dropdown-menu">
 																<li><a class="dropdown-item"
 																	href="estimatedeleteFn?cod=${estimate.cod}">삭제</a></li>
-																<li><a class="dropdown-item" href="#" id="loadDetail" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="estimateDetail('${estimate.cod}')">
-																	상세 보기
-																	</a>
-																</li>
+																<li><a class="dropdown-item" href="#"
+																	id="loadDetail" data-bs-toggle="modal"
+																	data-bs-target="#detailModal"
+																	onclick="estimateDetail('${estimate.cod}')"> 상세 보기
+																</a></li>
 															</ul>
 														</div>
 													</td>
@@ -180,9 +184,9 @@
 					<div class="d-flex"
 						style="padding-bottom: 0.5rem; padding-top: 0.5rem;">
 						<div class="col-md-6">
-							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegisterModal">
-								등록
-							</button>
+							<button type="button" class="btn btn-primary"
+								data-bs-toggle="modal" data-bs-target="#RegisterModal">
+								등록</button>
 						</div>
 					</div>
 				</div>
@@ -190,10 +194,11 @@
 		</div>
 	</div>
 	<!-- 공통 사용 테이블 END -->
-	
-		<!-- 상세페이지 모달 START -->
+
+	<!-- 상세페이지 모달 START -->
 	<div class="modal fade" id="detailModal" tabindex="-1"
-		aria-labelledby="detailModalLabel" aria-hidden="true" data-bs-backdrop='static' data-bs-keyboard='false'>
+		aria-labelledby="detailModalLabel" aria-hidden="true"
+		data-bs-backdrop='static' data-bs-keyboard='false'>
 		<div class="modal-dialog modal-xl" style="width: 1400px;">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -221,8 +226,8 @@
 							<td id="estimateEmpName"></td>
 							<td></td>
 						</tr>
-						</table>
-						<table class="table">
+					</table>
+					<table class="table">
 						<tr id="detailList">
 							<th colspan="1">상품 코드</th>
 							<th colspan="1" style="width: 160px;">상품 명</th>
@@ -232,7 +237,6 @@
 							<th colspan="1">부가세</th>
 							<th colspan="1">금 액</th>
 							<th colspan="1">수정 및 삭제</th>
-
 						<tr>
 							<th colspan="1">총 합</th>
 							<td colspan="1"></td>
@@ -247,16 +251,18 @@
 								<button type="button" class="btn btn-primary">전표 생성</button>
 								<button type="button" class="btn btn-primary">출력</button>
 								<button type="button" class="btn btn-primary">이메일 보내기</button>
-								<button type="button" class="btn btn-primary" onClick="estimateChange()">견적 수정</button>
-                                <button type="button" class="btn btn-primary" id="addRowButton" onClick="addRow()">제품 추가</button>
+								<button type="button" class="btn btn-primary"
+									onClick="estimateChange()">견적 수정</button>
+								<button type="button" class="btn btn-primary" id="addRowButton"
+									onClick="addRow()">제품 추가</button>
 							</td>
 						</tr>
 					</table>
 				</div>
-				
-				     
-				
-				
+
+
+
+
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal" onClick="Modalclose()">닫기</button>
@@ -265,10 +271,11 @@
 		</div>
 	</div>
 	<!-- 상세페이지 모달 END  -->
-	
-		<!-- 등록페이지 모달 START -->
+
+	<!-- 등록페이지 모달 START -->
 	<div class="modal fade" id="RegisterModal" tabindex="-1"
-		aria-labelledby="detailModalLabel" aria-hidden="true" data-bs-backdrop='static' data-bs-keyboard='false'>
+		aria-labelledby="detailModalLabel" aria-hidden="true"
+		data-bs-backdrop='static' data-bs-keyboard='false'>
 		<div class="modal-dialog modal-xl" style="width: 1400px;">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -282,9 +289,10 @@
 							<th scope="col">견적 번호</th>
 							<td id="registerEstimateCod">--</td>
 							<th scope="col">거래처 명</th>
-							<td>
-								<input type="text" readonly="readonly" class="form-control" name="registerClientName"  id="registerClientName" placeholder="거래처 선택" style="width: 140px;" onClick="clientModalOpen()">
-							</td>
+							<td><input type="text" readonly="readonly"
+								class="form-control" name="registerClientName"
+								id="registerClientName" placeholder="거래처 선택"
+								style="width: 140px;" onClick="clientModalOpen()"></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -296,8 +304,8 @@
 							<td id="estimateEmpName">${empName }</td>
 							<td></td>
 						</tr>
-						</table>
-						<table class="table">
+					</table>
+					<table class="table">
 						<tr id="RegisterList">
 							<th colspan="1">상품 코드</th>
 							<th colspan="1" style="width: 160px;">상품 명</th>
@@ -307,7 +315,6 @@
 							<th colspan="1">부가세</th>
 							<th colspan="1">금 액</th>
 							<th colspan="1">수정 및 삭제</th>
-
 						<tr>
 							<th colspan="1">총 합</th>
 							<td colspan="1"></td>
@@ -319,16 +326,20 @@
 						</tr>
 						<tr>
 							<td colspan="6" style="border-bottom-width: 0px">
-                                <button type="button" class="btn btn-primary" id="registeraddRowButton" onClick="registeraddRow()">제품 추가</button>
-                                <button type="button" class="btn btn-primary" id="registerEstimate" onClick="estimateRegister()">견적 등록</button>                                
+								<button type="button" class="btn btn-primary"
+									id="registeraddRowButton" onClick="registeraddRow()">제품
+									추가</button>
+								<button type="button" class="btn btn-primary"
+									id="registerEstimate" onClick="estimateRegister()">견적
+									등록</button>
 							</td>
 						</tr>
 					</table>
 				</div>
-				
-				     
-				
-				
+
+
+
+
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal" onClick="registerModalclose()">닫기</button>
@@ -337,89 +348,87 @@
 		</div>
 	</div>
 	<!-- 등록페이지 모달 END  -->
-	
+
 	<!-- clientName Modal START  -->
-	 <div class="modal fade" id="clientNameModal" tabindex="-1" aria-labelledby="kvModalLabel" aria-hidden="true">
-         <div class="modal-dialog">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h5 class="modal-title" id="kvModalLabel">코드-상품 선택</h5>
-                  <input
-                     type="text"
-                     id="searchInput"
-                     class="form-control"
-                     placeholder="코드 또는 거래처명을 입력해주세요."
-                     style="margin-left: 10px; width: auto; flex-grow: 1"
-                  />
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
-               <div class="modal-body">
-                  <table class="table">
-                     <thead>
-                        <tr>
-                           <th scope="col">Index</th>
-                           <th scope="col">Code</th>
-                           <th scope="col">거래처명</th>
-                        </tr>
-                     </thead>
-                     <tbody id="ClientmodalTableBody">
-                        <!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
-                     </tbody>
-                  </table>
-               </div>
-               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- clientName Modal END  -->
-      
+	<div class="modal fade" id="clientNameModal" tabindex="-1"
+		aria-labelledby="kvModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="kvModalLabel">코드-상품 선택</h5>
+					<input type="text" id="searchInput" class="form-control"
+						placeholder="코드 또는 거래처명을 입력해주세요."
+						style="margin-left: 10px; width: auto; flex-grow: 1" />
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Index</th>
+								<th scope="col">Code</th>
+								<th scope="col">거래처명</th>
+							</tr>
+						</thead>
+						<tbody id="ClientmodalTableBody">
+							<!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- clientName Modal END  -->
+
 	<!-- Value Modal START  -->
-	 <div class="modal fade" id="kvModal" tabindex="-1" aria-labelledby="kvModalLabel" aria-hidden="true">
-         <div class="modal-dialog">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h5 class="modal-title" id="kvModalLabel">코드-상품 선택</h5>
-                  <input
-                     type="text"
-                     id="searchInput"
-                     class="form-control"
-                     placeholder="코드 또는 상품명을 입력해주세요."
-                     style="margin-left: 10px; width: auto; flex-grow: 1"
-                  />
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
-               <div class="modal-body">
-                  <table class="table">
-                     <thead>
-                        <tr>
-                           <th scope="col">Index</th>
-                           <th scope="col">Code</th>
-                           <th scope="col">상품 명</th>
-                        </tr>
-                     </thead>
-                     <tbody id="modalTableBody">
-                        <!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
-                     </tbody>
-                  </table>
-               </div>
-               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- Value Modal END  -->
+	<div class="modal fade" id="kvModal" tabindex="-1"
+		aria-labelledby="kvModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="kvModalLabel">코드-상품 선택</h5>
+					<input type="text" id="searchInput" class="form-control"
+						placeholder="코드 또는 상품명을 입력해주세요."
+						style="margin-left: 10px; width: auto; flex-grow: 1" />
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Index</th>
+								<th scope="col">Code</th>
+								<th scope="col">상품 명</th>
+							</tr>
+						</thead>
+						<tbody id="modalTableBody">
+							<!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Value Modal END  -->
 
 
 
 
-	
+
 </body>
 
 
-   <script type="text/javascript">
+<script type="text/javascript">
 	
    // 견적 등록 모달 관련 함수 시작
 

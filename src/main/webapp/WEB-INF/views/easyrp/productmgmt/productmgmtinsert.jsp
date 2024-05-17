@@ -21,7 +21,7 @@
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
 						<h3>제품 등록</h3>
-						<p class="text-subtitle text-muted">제품의 기초 등록 및 BOM 등록을 위한 페이지</p>
+						<p class="text-subtitle text-muted">제품의 기초 등록을 위한 페이지</p>
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
 						<nav aria-label="breadcrumb"
@@ -118,6 +118,12 @@
 														onclick="setValueUnitModal()">재고 단위 조회</button></td>
 											</tr>
 											<tr>
+												<td width="150">재고 단위 기초 수량</td>
+												<td><input type="number" id="unitAmount"
+													name="unitAmount" class="form-control"
+													placeholder="사내에서 관리하는 재고 단위 수량을 입력해주세요." required /></td>
+											</tr>
+											<tr>
 												<td width="150">관리 단위</td>
 												<td><input type="text" id="mgmtUnitName"
 													class="form-control" style="width: 70%; float: left"
@@ -129,6 +135,12 @@
 														data-bs-target="#loadModal"
 														style="margin-left: 2rem; width: 15%"
 														onclick="setValueMgmtUnitModal()">관리 단위 조회</button></td>
+											</tr>
+											<tr>
+												<td width="150">관리 단위 기초 수량</td>
+												<td><input type="number" id="mgmtUnitAmount"
+													name="mgmtUnitAmount" class="form-control"
+													placeholder="거래처와 사용하는 단위 수량을 입력해주세요." required /></td>
 											</tr>
 											<tr>
 												<td width="150">제품 창고</td>
@@ -226,6 +238,12 @@
 		function setValueMgmtUnitModal() {
 			$('.modal-content').load('setvaluemgmtunitmodal');
 		}
+		
+		function setValueInventoryModal() {
+			$('.modal-content').load('setvalueinventorymodal');
+		}
+		
+		
 	</script>
 </body>
 </html>

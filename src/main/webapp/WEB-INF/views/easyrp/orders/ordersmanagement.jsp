@@ -281,13 +281,19 @@
 				<div class="modal-body">
 					<table class="table">
 						<tr>
-							<th scope="col">수주 번호</th>
-							<td id="registerOrderCod">--</td>
+							<th scope="col">납기일</th>
+							<td>
+								<input type="date" class="form-control" name="ddayInput" id="ddayInput" style="width : 140px"/>
+							</td>
 							<th scope="col">거래처 명</th>
 							<td>
 								<input type="text" readonly="readonly" class="form-control" name="registerClientName"  id="registerClientName" placeholder="거래처 선택" style="width: 140px;" onClick="clientModalOpen()">
 							</td>
-							<td></td>
+							<th scope="col">견적 불러오기</th>
+							<td>
+								<input type="text" readonly="readonly" class="form-control" name="registerEstimate" id="registerEstimate" placeholder="견적 불러오기" style="width: 140px;" onClick="estimateModalOpen()" />								
+							</td>
+							
 						</tr>
 						<tr>
 							<th scope="col">수주 담당 부서</th>
@@ -303,13 +309,16 @@
 						<tr id="RegisterList">
 							<th colspan="1">상품 코드</th>
 							<th colspan="1" style="width: 160px;">상품 명</th>
-							<th colspan="1">수 량</th>
+							<th colspan="1" style="width: 120px;">수 량</th>
 							<th colspan="1">단 가</th>
 							<th colspan="1">공급가액</th>
 							<th colspan="1">부가세</th>
 							<th colspan="1">금 액</th>
 							<th colspan="1">수정 및 삭제</th>
+						</tr>
+						<tbody id="OrderRegistermodalTableBody">
 
+                        </tbody>
 						<tr>
 							<th colspan="1">총 합</th>
 							<td colspan="1"></td>
@@ -322,7 +331,7 @@
 						<tr>
 							<td colspan="6" style="border-bottom-width: 0px">
                                 <button type="button" class="btn btn-primary" id="registeraddRowButton" onClick="registeraddRow()">제품 추가</button>
-                                <button type="button" class="btn btn-primary" id="registerEstimate" onClick="estimateRegister()">수주 등록</button>                                
+                                <button type="button" class="btn btn-primary" id="registerEstimate1" onClick="OrderRegister()">수주 등록</button>                                
 							</td>
 						</tr>
 					</table>
@@ -340,6 +349,45 @@
 	</div>
 	<!-- 등록페이지 모달 END  -->
 	
+	<!-- estimate Modal START  -->
+	 <div class="modal fade" id="estimateModal" tabindex="-1" aria-labelledby="kvModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="kvModalLabel">코드-상품 선택</h5>
+                  <input
+                     type="text"
+                     id="searchInput"
+                     class="form-control"
+                     placeholder="코드 또는 거래처명을 입력해주세요."
+                     style="margin-left: 10px; width: auto; flex-grow: 1"
+                  />
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  <table class="table">
+                     <thead>
+                        <tr>
+                           <th scope="col">Index</th>
+                           <th scope="col">Code</th>
+                           <th scope="col">거래처명</th>
+                           <th scope="col">견적날짜</th>
+                           <th scope="col">담당자</th>
+                        </tr>
+                     </thead>
+                     <tbody id="EstimatemodalTableBody">
+<!--                         여기에 Ajax로 만든 html 속성이 들어감  -->
+                     </tbody>
+                  </table>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+               </div>
+            </div>
+         </div>
+      </div>
+<!--       estimate Modal END  -->
+
 	<!-- clientName Modal START  -->
 	 <div class="modal fade" id="clientNameModal" tabindex="-1" aria-labelledby="kvModalLabel" aria-hidden="true">
          <div class="modal-dialog">
@@ -485,11 +533,11 @@
 			$('#RegisterList').after(newRow);
     		
     	}
-    	// 견적 등록 모달에서 '제품 추가'버튼 함수 끝
+    	// 수주 등록 모달에서 '제품 추가'버튼 함수 끝
 		
 
 
-		// 견적 처음 등록하는 모달 끄기
+		// 수주 처음 등록하는 모달 끄기
 		function registerModalclose() {
 			$('#registeraddRowButton').prop('disabled', false);
 		}
@@ -505,9 +553,9 @@
             $('.modal-backdrop').remove();
         }
 		
-
+		
         
-        // 견적 처음 등록시 완제품 목록을 보여주는 모달 오픈
+        // 수주 처음 등록시 완제품 목록을 보여주는 모달에서 선택
         function setRegisterProductValue(uniqueId, cod, productName) {
         	var inputId = '#RegisterProductName' + uniqueId; 
         	
@@ -515,6 +563,84 @@
         	$('#kvModal').modal('hide');
             $('.modal-backdrop').remove();
         }
+        
+        // 견적 목록 모달에서 견적 선택해서 수주 목록이 생기게
+        function setEstimateValue(estCod, clientName) {
+        	
+        	$('#registerClientName').val(clientName);        	
+        	
+           	$.ajax({
+           		url: 'estimateDetailList',
+           		method: 'GET',
+           		data: { cod: estCod },
+           		dataType : 'JSON',
+           		success: function(response) {
+           			
+        			$('#estimateModal').modal('hide');
+        			$('.modal-backdrop').remove();
+        			
+        			var estimateDetailList = response.estimateDetailList;
+        			
+        			let rows = '';
+        			console.log(estimateDetailList);
+        			
+        			estimateDetailList.forEach(function (item, index) {
+        				rows += `
+        					<tr class="generatedRow">
+	        					<td name="productCod" id="estRegisterProductCod">\${item.productCod}</td>
+	        					<td name="prodname" id="estRegisterProdname">\${item.prodName}</td>
+	        					<td name="qty" id="estRegisterQty">\${item.qty}</td>
+	        					<td name="unitprice" id="estRegisterUnitprice">\${item.unitprice}</td>
+	        					<td name="subtotal" id="estRegisterSubtotal">\${item.subtotal}</td>
+	        					<td>\${item.subtotal} * 0.1</td>
+	        					<td>\${item.subtotal} * 1.1</td>
+	        					<td>--</td>
+        					<tr>
+        				`;
+        				$('#OrderRegistermodalTableBody').html(rows);
+        			})
+        			
+
+        			
+        			
+           		},
+           		error: function(xhr, statud, error) {
+           			console.error('실패');
+           		}
+           	});         	           	           
+        	 
+        }
+        
+        // 견적 목록을 보여주는 모달 오픈
+        function estimateModalOpen() {
+        	console.log("견적 목록 모달");  
+        	$('#estimateModal').modal('show');
+        	$.ajax({
+        		url: 'estimatelist',
+        		method: 'GET',
+        		success: function (data) {
+        			console.log(data);
+        			let rows = '';
+        			data.forEach(function (item, index) {
+        				rows += `
+        					<tr onclick="setEstimateValue('\${item.cod}', '\${item.clientName}')" class="searchValue" data-cod="'\${item.cod}'" data-value="'\${item.clientName}'" data-value1="'\${item.estDate}'" data-value2="'\${item.empName}'" style="cursor : pointer">
+        					<td>\${(index + 1)}</td>
+        					<td>\${item.cod}</td>
+        					<td>\${item.clientName}</td>
+        					<td>\${item.estDate}</td>
+        					<td>\${item.empName}</td>
+        				`;
+        			});
+    				$('#EstimatemodalTableBody').html(rows);
+                    $('#RegisterModal').modal('show');
+        		},
+        		error: function (xhr, statud, error) {
+        			console.error('실패');
+        		}
+        	});
+        }
+        
+
         
         // 거래처 목록을 보여주는 모달 오픈
         function clientModalOpen() {
@@ -527,7 +653,7 @@
         			let rows = '';
         			data.forEach(function (item, index) {
         				rows += `
-        					<tr onclick="setClientValue('\${item.clientCod}', '\${item.clientName}')" class="searchValue" data-cod="'\${item.clientCod}'" data-value="'\${item.clientName}'" sytle="cursor : pointer">
+        					<tr onclick="setClientValue('\${item.clientCod}', '\${item.clientName}')" class="searchValue" data-cod="'\${item.clientCod}'" data-value="'\${item.clientName}'" style="cursor : pointer">
         					<td>\${(index + 1)}</td>
         					<td>\${item.clientCod}</td>
         					<td>\${item.clientName}</td>
@@ -583,16 +709,16 @@
            });
 
         
-		// 견적 등록 모달에서 '견적 등록' 버튼. 견적내용을 새로 등록하는 함수
-        function estimateRegister() {
-        	console.log('estimateRegister 함수 실행');
+		// 수주 등록 모달에서 '수주 등록' 버튼. 수주 내용을 새로 등록하는 함수
+        function OrderRegister() {
+        	console.log('OrderRegister 함수 실행');
         	
             var rows = $('.generatedRow');
             
             // 서버로 전송할 데이터를 저장할 배열을 생성합니다.
             var dataToSend = [];
 			
-            var clientName = $('#registerClientName').val();
+            var clientName   = $('#registerClientName').val();
             var employeeCod = $('#estimateEmp1').text();
             rows.each(function() {
             	
@@ -635,7 +761,7 @@
         }
 
    
-   // 견적 등록 모달 관련 함수 끝
+   // 수주 등록 모달 관련 함수 끝
 
    
    
@@ -717,11 +843,14 @@
     		        var totalItem = totalPriceItem + vat;
     		        newRow.append($('<td>').text(totalItem.toLocaleString())); 
     		        totalSum += totalItem; // 총합 합계 누적
+    		        
+    		        var releaseButton = $('<button>').text('출고처리').addClass('btn btn-primary')
+    				newRow.append($('<td>').append(releaseButton));
     				
     		        // 각 견적 상세 목록에 수정과 삭제 버튼을 달아주었고 onclick 함수를 바로 정의했습니다.
     		        var editButton = $('<button>').text('수정').addClass('btn btn-primary').css('margin-right', '2px');
     		        var deleteButton = $('<button>').text('삭제').addClass('btn btn-primary');
-    		        var buttonGroup = $('<div>').append(editButton).append(deleteButton);
+    		        var buttonGroup = $('<div>').append(deleteButton);
     		        
     			    newRow.append($('<td>').append(buttonGroup));
     			    
@@ -831,7 +960,7 @@
 		}
 
 
-		// 견적 상세 모달에서 '제품 추가' 버튼
+		// 수주 상세 모달에서 '제품 추가' 버튼
 		function addRow() {
 			
 			var newRow = $('<tr class="generatedRow">');
@@ -853,6 +982,7 @@
 	 		    searchModalOpen();
 			})
 			));
+					
 			
 			newRow.append($('<td>').append($('<input>').attr({
 			    'type': 'number',
@@ -862,6 +992,7 @@
 			    'id': 'productQty', 
 			    'placeholder': '수량 입력', 
 			}).css('width', '120px')));
+			
 			newRow.append($('<td>').text("--"));
 			newRow.append($('<td>').text("--"));
 			newRow.append($('<td>').text("--"));

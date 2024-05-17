@@ -8,6 +8,9 @@ public interface InventoryMgmtService {
 	// 데이터베이스에서 삭제되지 않은 모든 값을 가져오기 위한 인터페이스
 	List<InventoryMgmtVO> tableAllList(SearchVO searchVO);
 	
+	// api 데이터를 얻기위한 인터페이스
+	List<InventoryMgmtVO> apiTableAllList();
+	
 	// 단일 항목 데이터 가져오기
 	InventoryMgmtVO getData(String cod);
 	

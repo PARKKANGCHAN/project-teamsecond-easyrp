@@ -64,7 +64,7 @@
 																id="searchToPoDate" name="searchToPoDate"
 																value="${vo.searchToPoDate}" class="form-control"
 																style="width: 47%; float: right" /></td>
-
+																
 															<td width="100">거래처</td>
 															<td colspan="2"><input type="text" id="searchClientCod"
 																name="searchClientCod" class="form-control"
@@ -100,14 +100,40 @@
 																	data-input-id1="searchEmpCodIbound" data-input-id2="searchEmpNameIbound" data-key="emp" data-bs-toggle="modal"
 																	data-bs-target="#searchModal">저장 값 가져오기</button>
 															</td>
-															<td width="100">마감구분</td>
+															<td width="100">상태</td>
 															<td>
-																<select name="searchClosing">
+																<select name="searchStateCod">
 																	<option value="">전체</option>
-																	<option value="Y">마감</option>
-																	<option value="N">미마감</option>
+																	<option value="200" <c:if test="${vo.searchStateCod eq 200}">selected</c:if>>발주</option>
+																	<option value="201" <c:if test="${vo.searchStateCod eq 201}"> selected </c:if>>입고의뢰</option>
+																	<option value="202" <c:if test="${vo.searchStateCod eq 202}"> selected </c:if>>입고검사</option>
+																	<option value="203" <c:if test="${vo.searchStateCod eq 203}"> selected </c:if>>입고처리</option>
+																	<option value="204" <c:if test="${vo.searchStateCod eq 204}"> selected </c:if>>매입마감</option>
 																</select>
 															</td>
+															
+															<td width="100">납기기간</td>
+															<td colspan="2"><input type="date"
+																id="searchFromDday" name="searchFromDday"
+																value="${vo.searchFromDday}" class="form-control"
+																style="width: 47%; float: left" /> <span><i
+																	class="fa-solid fa-arrow-right"
+																	style="margin-top: 10px"></i></span> <input type="date"
+																id="searchToDday" name="searchToDday"
+																value="${vo.searchToDday}" class="form-control"
+																style="width: 47%; float: right" /></td>
+															
+															<td width="100">입고기간</td>
+															<td colspan="2"><input type="date"
+																id="searchFromIboundDate" name="searchFromIboundDate"
+																value="${vo.searchFromIboundDate}" class="form-control"
+																style="width: 47%; float: left" /> <span><i
+																	class="fa-solid fa-arrow-right"
+																	style="margin-top: 10px"></i></span> <input type="date"
+																id="searchToIboundDate" name="searchToIboundDate"
+																value="${vo.searchToIboundDate}" class="form-control"
+																style="width: 47%; float: right" /></td>
+															
 															<td width="100">마감기간</td>
 															<td colspan="2"><input type="date"
 																id="searchFromClosingDate" name="searchFromClosingDate"
@@ -140,8 +166,10 @@
 												<th colspan="2" style="text-align: center;">입고담당자</th>
 												<th>과세구분</th>
 												<th>출력회수</th>
-												<th>마감구분</th>
-												<th>마감일자</th>
+												<th>상태</th>
+												<th>납기일</th>
+												<th>입고일</th>
+												<th>매입마감일</th>
 												<th>비고</th>
 											</tr>
 										</thead>
@@ -159,7 +187,9 @@
 													<td>${p.empNameIbound }</td>
 													<td class="text-bold-500">${p.taxDivName }</td>
 													<td>${p.printcnt }</td>
-													<td class="text-bold-500">${p.closing }</td>
+													<td>${p.state_cod }</td>
+													<td>${p.dday }</td>
+													<td>${p.iboundDate }</td>
 													<td>${p.closing_date }</td>
 													<td class="text-bold-500">${p.note }</td>
 													<td>
@@ -369,6 +399,13 @@
 	    
 	    searchModal();
 	    /* 거래처.사원찾기 Modal END */
+	
+	    function paging(page) {		    
+			let form = document.getElementById("searchForm");			
+			document.getElementById("page").value = page;			
+			form.submit();
+		}
+	    
 	</script>
 </body>
 </html>

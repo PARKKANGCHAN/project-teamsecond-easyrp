@@ -65,4 +65,9 @@ public class InventoryMgmtServiceImpl implements InventoryMgmtService {
 		return inventoryMgmtMapper.deleteFn(cod);
 	}
 
+	@Override
+	public List<InventoryMgmtVO> apiTableAllList() {
+		return inventoryMgmtMapper.apiTableAllList();
+	}
+
 }

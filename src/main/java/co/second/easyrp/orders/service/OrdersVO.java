@@ -43,4 +43,5 @@ public class OrdersVO {
 	private int total;
 	private String clientName;
 	private String deptName;
+	private String productCod;
 }

@@ -4,11 +4,12 @@
 
 	<!-- 발주등록페이지에 있는 청구적용 저장값불러오기에서 modal에 뿌려줄 청구리스트를 가져오기위한 메소드(승인된 청구리스트만 가져옵니다) -->	
 	<select id="applyInvoice">
-		SELECT i.inq_date,
+		SELECT date_format(i.inq_date, '%Y-%m-%d') as 'inq_date',
 			   i2.invoice_cod,
 			   i2.num,
 			   i2.product_cod,
-			   i2.inq_qry,
+			   (SELECT p.prodname FROM product p WHERE p.cod = i2.product_cod) as 'prodname',
+			   i2.inq_qty,
 			   i2.unitprice,
 			   i2.supprice,
 			   i2.vax,
@@ -19,6 +20,5 @@
 		WHERE i.inv_class = '구매' AND
 			  i.inq_class = 'Y' AND
 			  i.deleteyn = 'N'
-		;
 	</select>
 </mapper>

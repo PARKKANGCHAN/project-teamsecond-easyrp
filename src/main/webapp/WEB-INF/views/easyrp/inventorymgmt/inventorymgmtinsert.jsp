@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,21 +59,18 @@
 												<td width="150">자재명</td>
 												<td><input type="text" id="name" name="name"
 													class="form-control" placeholder="자재명을 입력해주세요."
-													maxlength="100" required />
-												</td>
+													maxlength="100" required /></td>
 											</tr>
 											<tr>
 												<td width="150">첫 입고일</td>
 												<td><input type="date" id="invDate" name="invDate"
-													class="form-control" required />
-												</td>
+													class="form-control" required /></td>
 											</tr>
 											<tr>
 												<td width="150">자재 단가(원)</td>
 												<td><input type="number" id="unitprice"
 													name="unitprice" class="form-control"
-													placeholder="자재 단가를 입력해주세요." required />
-												</td>
+													placeholder="자재 단가를 입력해주세요." required /></td>
 											</tr>
 											<tr>
 												<td width="150">기초재고 수량</td>
@@ -92,71 +89,77 @@
 												<td width="150">사양 및 규격</td>
 												<td><input type="text" id="spec" name="spec"
 													class="form-control" placeholder="필요 시 사양 및 규격을 입력해주세요."
-													maxlength="100" />
-												</td>
+													maxlength="100" /></td>
 											</tr>
 											<tr>
 												<td width="150">안전재고 수량</td>
 												<td><input type="number" id="safetyInvQty"
 													name="safetyInvQty" class="form-control"
-													placeholder="품절을 막기위한 최소한의 수량 커트라인을 기입해주세요." required />
-												</td>
+													placeholder="품절을 막기위한 최소한의 수량 커트라인을 기입해주세요." required /></td>
 											</tr>
 											<tr>
 												<td width="150">자재 그룹</td>
 												<td><input type="text" id="productGroupName"
 													class="form-control" style="width: 70%; float: left"
 													placeholder="우측 자재 그룹 조회 버튼을 통해 자재 그룹을 선택해주세요." disabled
-													required /> <input
-													type="hidden" id="productGroupCod" name="productGroupCod" />
+													required /> <input type="hidden" id="productGroupCod"
+													name="productGroupCod" />
 													<button type="button" class="btn btn-primary"
 														id="setValueProdGroupModalBtn" data-bs-toggle="modal"
 														data-bs-target="#loadModal"
 														style="margin-left: 2rem; width: 15%"
-														onclick="setValueProdGroupModal()">
-														제풉 그룹 조회</button></td>
+														onclick="setValueProdGroupModal()">제풉 그룹 조회</button></td>
 											</tr>
 											<tr>
 												<td width="150">재고 단위</td>
 												<td><input type="text" id="unitName"
 													class="form-control" style="width: 70%; float: left"
 													placeholder="우측 재고 단위 조회 버튼을 통해 재고 단위를 선택해주세요." disabled
-													required /> <input
-													type="hidden" id="unitCod" name="unitCod" />
+													required /> <input type="hidden" id="unitCod"
+													name="unitCod" />
 													<button type="button" class="btn btn-primary"
 														id="setValueUnitModalBtn" data-bs-toggle="modal"
 														data-bs-target="#loadModal"
 														style="margin-left: 2rem; width: 15%"
-														onclick="setValueUnitModal()">
-														재고 단위 조회</button></td>
+														onclick="setValueUnitModal()">재고 단위 조회</button></td>
+											</tr>
+											<tr>
+												<td width="150">재고 단위 기초 수량</td>
+												<td><input type="number" id="unitAmount"
+													name="unitAmount" class="form-control"
+													placeholder="사내에서 관리하는 재고 단위 수량을 입력해주세요." required /></td>
 											</tr>
 											<tr>
 												<td width="150">관리 단위</td>
 												<td><input type="text" id="mgmtUnitName"
 													class="form-control" style="width: 70%; float: left"
 													placeholder="우측 관리 단위 조회 버튼을 통해 관리 단위를 선택해주세요." disabled
-													required /> <input
-													type="hidden" id="mgmtUnitCod" name="mgmtUnitCod" />
+													required /> <input type="hidden" id="mgmtUnitCod"
+													name="mgmtUnitCod" />
 													<button type="button" class="btn btn-primary"
 														id="setValueMgmtUnitModalBtn" data-bs-toggle="modal"
 														data-bs-target="#loadModal"
 														style="margin-left: 2rem; width: 15%"
-														onclick="setValueMgmtUnitModal()">
-														관리 단위 조회</button></td>
+														onclick="setValueMgmtUnitModal()">관리 단위 조회</button></td>
+											</tr>
+											<tr>
+												<td width="150">관리 단위 기초 수량</td>
+												<td><input type="number" id="mgmtUnitAmount"
+													name="mgmtUnitAmount" class="form-control"
+													placeholder="거래처와 사용하는 단위 수량을 입력해주세요." required /></td>
 											</tr>
 											<tr>
 												<td width="150">자재 창고</td>
 												<td><input type="text" id="warehouseName"
 													class="form-control" style="width: 70%; float: left"
 													placeholder="우측 창고 조회 버튼을 통해 재고가 있는 창고를 선택해주세요." disabled
-													required /> <input
-													type="hidden" id="warehouseCod" name="warehouseCod" />
+													required /> <input type="hidden" id="warehouseCod"
+													name="warehouseCod" />
 													<button type="button" class="btn btn-primary"
 														id="warehouseModalBtn" data-bs-toggle="modal"
 														data-bs-target="#loadModal"
 														style="margin-left: 2rem; width: 15%"
-														onclick="openWarehouseModal()">
-														창고 조회</button></td>
+														onclick="openWarehouseModal()">창고 조회</button></td>
 											</tr>
 											<tr>
 												<td width="150">등록 사원명</td>
@@ -164,15 +167,13 @@
 													class="form-control hyunwoo-disabled" maxlength="100"
 													value="${empName }" placeholder="필요 시 메모를 남겨주세요." disabled />
 													<input type="hidden" id="employeeCod" name="employeeCod"
-													value="${empCode }" />
-												</td>
+													value="${empCode }" /></td>
 											</tr>
 											<tr>
 												<td width="150">메 모</td>
 												<td><input type="text" id="note" name="note"
 													class="form-control" maxlength="100"
-													placeholder="필요 시 메모를 남겨주세요." />
-												</td>
+													placeholder="필요 시 메모를 남겨주세요." /></td>
 											</tr>
 										</table>
 									</div>
