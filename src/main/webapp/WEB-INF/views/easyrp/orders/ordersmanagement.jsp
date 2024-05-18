@@ -228,16 +228,20 @@
 						<tr id="detailList">
 							<th colspan="1">상품 코드</th>
 							<th colspan="1" style="width: 160px;">상품 명</th>
-							<th colspan="1">수 량</th>
+							<th colspan="1">가용재고량</th>
+							<th colspan="1">수주 수량</th>
+							<th colspan="1">남은 수주 수량</th>
 							<th colspan="1">단 가</th>
 							<th colspan="1">공급가액</th>
 							<th colspan="1">부가세</th>
 							<th colspan="1">금 액</th>
 							<th colspan="1">출고 상태</th>
-							<th colspan="1">수정 및 삭제</th>
+							<th colspan="1">출고</th>
 
 						<tr>
 							<th colspan="1">총 합</th>
+							<td colspan="1"></td>
+							<td colspan="1"></td>
 							<td colspan="1"></td>
 							<td colspan="1"></td>
 							<td colspan="1"></td>
@@ -822,6 +826,7 @@
     			$('#orderDept').text(deptName);
     			$('#orderEmpCod').text(employeeCod);
     			$('#orderEmpName').text(empName);
+    			
 				
     			// orderDetialList.forEach 상세 리스트의 각 요소에 적용하는 함수 시작
     			// 수주 상세 모달에서 각 상세 목록들에 들어가는 요소들 입니다.
@@ -830,7 +835,10 @@
     				var newRow = $('<tr class="generatedRow">');
     				
     				newRow.append($('<td>').text(item.productCod));
-    				newRow.append($('<td>').text(item.prodname)); 				
+    				newRow.append($('<td>').text(item.prodname)); 
+    				
+    				newRow.append($('<td>').text(item.availableQty)); 	
+    				
     				newRow.append($('<td>').append($('<input>').attr({
     					'id': 'qty_' + item.num,
     				    'type': 'number',
@@ -838,6 +846,7 @@
     				    'class': 'form-control',
     				}).css('width', '120px').val(item.qty)));
 
+    				newRow.append($('<td>').text(item.curRemainQty)); 	
     				
     				newRow.append($('<td>').text(item.productPrice.toLocaleString()));
     				
@@ -858,19 +867,59 @@
     		        newRow.append($('<td>').text(totalItem.toLocaleString())); 
     		        totalSum += totalItem; // 총합 합계 누적
     		        
-    		        var releaseButton = $('<button>').text('출고처리').addClass('btn btn-primary')
-    				newRow.append($('<td>').append(releaseButton));
-    				
+    		        switch(item.deliverState){
+    		        	case 100:
+	    					newRow.append($('<td>').text("출고의뢰중"));
+	    					break;
+	    		        case 101:
+	    					newRow.append($('<td>').text("일부 출고"));
+	    		        	break;
+	    		        case 102:
+	    					newRow.append($('<td>').text("출고 완료"));
+	    		        	break;
+	    		        case 103:
+	    					newRow.append($('<td>').text("미출고"));
+	    		        	break;
+	    		        default:
+	    					newRow.append($('<td>').text("--"));
+	    		        	
+    		        }
+    		        
     		        // 각 견적 상세 목록에 수정과 삭제 버튼을 달아주었고 onclick 함수를 바로 정의했습니다.
-    		        var editButton = $('<button>').text('수정').addClass('btn btn-primary').css('margin-right', '2px');
-    		        var deleteButton = $('<button>').text('삭제').addClass('btn btn-primary');
-    		        var buttonGroup = $('<div>').append(deleteButton);
+//     		        var editButton = $('<button>').text('수정').addClass('btn btn-primary').css('margin-right', '2px');
+//     		        var deleteButton = $('<button>').text('삭제').addClass('btn btn-primary');
+    		        var deliveryButton = $('<button>').text('출고').addClass('btn btn-primary');
+    		        var buttonGroup = $('<div>').append(deliveryButton);
     		        
     			    newRow.append($('<td>').append(buttonGroup));
     			    
     				$('#detailList').after(newRow);
     				
-    				editButton.on('click', function() {
+    				deliveryButton.on('click', function() {
+    					console.log("출고 버튼 클릭");
+    					
+    					deliveryButton.prop('disabled', true);
+    					
+//     					$.ajax({
+//     						url: 'deliveryFn',
+//     						type: 'POST',
+//     						data: {
+//     							cod: item.cod,
+//     							num: item.num
+//     						},
+//     						dataType: 'JSON',
+//     						success: function(response){
+//     							console.log('deliveryFn 성공');
+    							
+//     						},
+//     						error: function(xhr, status, error) {
+//     							console.error('실패');
+//     						}
+//     					});
+    					
+    				})
+    				
+    			/*	editButton.on('click', function() {
     				    var productCod = item.productCod;
      				    var orderCod = item.cod;
     				    var num = item.num;
@@ -939,7 +988,7 @@
     				    });
     					
     				});
-    				
+    			*/
     				
     			});
     			// orderDetialList.forEach 상세 리스트의 각 요소에 적용하는 함수 끝

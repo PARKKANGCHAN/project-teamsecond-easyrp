@@ -45,4 +45,6 @@ public class OrdersVO {
 	private String deptName;
 	private String productCod;
 	private int qty;
+	private int curRemainQty;
+	private int deliveryState;
 }
