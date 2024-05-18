@@ -60,12 +60,36 @@
 	</select>
 	
 
-
-
 	<select id="ordersSelectListAll"></select>
 	<select id="ordersSelectList"></select>
 	<select id="ordersSelect"></select>
-	<insert id="ordersInsert"></insert>
+	
+	<insert id="ordersInsert" parameterType="co.second.easyrp.orders.service.OrdersVO">
+	
+		<selectKey keyProperty="cod" resultType="java.lang.String" order="BEFORE">
+			select CONCAT('ord', LPAD(COALESCE(MAX(SUBSTRING(o.cod, 4)), 0) + 1, 3, '0')) from orders o
+		</selectKey>
+		
+		INSERT INTO orders (cod, client_cod, employee_cod, dday)
+		values ( 
+		    #{cod},
+		    (SELECT cod FROM client WHERE name = #{clientName}),
+		    #{employeeCod},
+		    #{dday}
+		)
+	</insert>
+	
+	<insert id="ordersInsert2">
+		insert into orderdetail (cod, num, product_cod, qty, cur_remain_qty)
+		values (
+			#{cod}, 
+			(SELECT ifnull(max(o.num), 0) + 1 as num from orderdetail o where o.cod = #{cod}), 
+			(SELECT cod from product p where prodname = #{prodname}),
+			#{qty},
+			#{qty}
+		)
+	</insert>
+	
 	<update id="ordersUpdate"></update>
 	<delete id="ordersDelete"></delete>
 </mapper>

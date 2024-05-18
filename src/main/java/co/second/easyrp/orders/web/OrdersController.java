@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -132,7 +133,39 @@ public class OrdersController {
     	
     }
 
-	
+    @RequestMapping(value = "/orderinsertFn", method = RequestMethod.POST)
+    @ResponseBody
+    public String orderInsertFn(@RequestBody List<OrdersVO> dataToSend) {
+    	
+    	System.out.println("dataToSend : " + dataToSend);
+    	
+    	String employeeCod = dataToSend.get(0).getEmployeeCod();
+    	String clientName = dataToSend.get(0).getClientName();
+    	Date dday = dataToSend.get(0).getDday();
+    	
+    	
+    	OrdersVO ordervo = new OrdersVO();
+    	ordervo.setEmployeeCod(employeeCod);
+    	ordervo.setClientName(clientName);
+    	ordervo.setDday(dday);
+    	
+    	orderService.ordersInsert(ordervo);
+    	
+    	String cod = ordervo.getCod();
+
+    	
+    	for (OrdersVO vo : dataToSend) {
+    		
+    		String prodname = vo.getProdname();
+    		int qty = vo.getQty();
+    		System.out.println("prodname : " + prodname);
+    		System.out.println("qty : " + qty);
+    		
+    		orderService.ordersInsert2(cod, prodname, qty);
+    	}
+    	
+    	return "redirect:/ordersmanagement";
+    }
 	
 	
 }

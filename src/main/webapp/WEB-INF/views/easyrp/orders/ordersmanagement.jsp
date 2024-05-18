@@ -281,15 +281,15 @@
 				<div class="modal-body">
 					<table class="table">
 						<tr>
-							<th scope="col">납기일</th>
+							<th scope="col" style='vertical-align : middle'>납기일</th>
 							<td>
-								<input type="date" class="form-control" name="ddayInput" id="ddayInput" style="width : 140px"/>
+								<input type="date" class="form-control" name="ddayInput" id="ddayInput" style="width : 140px" required/>
 							</td>
-							<th scope="col">거래처 명</th>
+							<th scope="col" style='vertical-align : middle'>거래처 명</th>
 							<td>
-								<input type="text" readonly="readonly" class="form-control" name="registerClientName"  id="registerClientName" placeholder="거래처 선택" style="width: 140px;" onClick="clientModalOpen()">
+								<input type="text" readonly="readonly" class="form-control" name="registerClientName"  id="registerClientName" placeholder="거래처 선택" style="width: 140px;" onClick="clientModalOpen()" required />
 							</td>
-							<th scope="col">견적 불러오기</th>
+							<th scope="col" style='vertical-align : middle'>견적 불러오기</th>
 							<td>
 								<input type="text" readonly="readonly" class="form-control" name="registerEstimate" id="registerEstimate" placeholder="견적 불러오기" style="width: 140px;" onClick="estimateModalOpen()" />								
 							</td>
@@ -324,9 +324,9 @@
 							<td colspan="1"></td>
 							<td colspan="1"></td>
 							<td colspan="1"></td>
-							<td colspan="1" id="totalprice"></td>
-							<td colspan="1" id="totalvax"></td>
-							<td colspan="1" id="totalsum"></td>
+							<td colspan="1" id="totalpriceRegister"></td>
+							<td colspan="1" id="totalvaxRegister"></td>
+							<td colspan="1" id="totalsumRegister"></td>
 						</tr>
 						<tr>
 							<td colspan="6" style="border-bottom-width: 0px">
@@ -490,7 +490,7 @@
 			newRow.append($('<td>').append($('<input>').attr({
 			    'type': 'text',
 			    'readonly': 'readonly',
-			    'class': 'form-control',
+			    'class': 'form-control RegisterProductName',
 			    'name': 'RegisterProductName' + uniqueId, 
  			    'id': 'RegisterProductName' + uniqueId, 
 			    'placeholder': '상품 선택',
@@ -503,7 +503,7 @@
 			
 			newRow.append($('<td>').append($('<input>').attr({
 			    'type': 'number',
-			    'class': 'form-control',
+			    'class': 'form-control RegisterProductQty',
 			    'name': 'RegisterProductQty' + uniqueId, 
 			    'id': 'RegisterProductQty' + uniqueId, 
 			    'placeholder': '수량 입력', 
@@ -567,7 +567,8 @@
         // 견적 목록 모달에서 견적 선택해서 수주 목록이 생기게
         function setEstimateValue(estCod, clientName) {
         	
-        	$('#registerClientName').val(clientName);        	
+        	$('#registerClientName').val(clientName); 
+        	$('#registerEstimate').val(estCod);
         	
            	$.ajax({
            		url: 'estimateDetailList',
@@ -582,27 +583,35 @@
         			var estimateDetailList = response.estimateDetailList;
         			
         			let rows = '';
-        			console.log(estimateDetailList);
+        			
+        			var totalPrice = 0;
+        			var vax = 0;
+        			var total = 0;
         			
         			estimateDetailList.forEach(function (item, index) {
         				rows += `
         					<tr class="generatedRow">
-	        					<td name="productCod" id="estRegisterProductCod">\${item.productCod}</td>
-	        					<td name="prodname" id="estRegisterProdname">\${item.prodName}</td>
-	        					<td name="qty" id="estRegisterQty">\${item.qty}</td>
-	        					<td name="unitprice" id="estRegisterUnitprice">\${item.unitprice}</td>
-	        					<td name="subtotal" id="estRegisterSubtotal">\${item.subtotal}</td>
-	        					<td>\${item.subtotal} * 0.1</td>
-	        					<td>\${item.subtotal} * 1.1</td>
+	        					<td name="productCod\${index}" id="RegisterProductCod\${index}">\${item.productCod}</td>
+	        					<td><input type="text" readonly class="form-control RegisterProductName" name="prodname\${index}" id="RegisterProductName\${index}" value="\${item.prodName}"></td>
+	        					<td><input type="number" readonly class="form-control RegisterProductQty" name="qty\${index}" id="RegisterProductQty\${index}" value="\${item.qty}"></td>
+	        					<td name="unitprice\${index}" id="RegisterUnitprice\${index}">\${(item.unitprice).toLocaleString()}</td>
+	        					<td id="subtotal">\${(item.unitprice * item.qty).toLocaleString()}</td>
+	        					<td id="vax">\${(item.unitprice * item.qty * 0.1).toLocaleString()}</td>
+	        					<td id="total">\${(item.unitprice * item.qty * 1.1).toLocaleString()}</td>
 	        					<td>--</td>
-        					<tr>
+        					</tr>
         				`;
         				$('#OrderRegistermodalTableBody').html(rows);
-        			})
+        				
+        		        totalPrice += item.unitprice * item.qty; 
+        		        vax += item.unitprice * item.qty * 0.1;
+        		        total += item.unitprice * item.qty * 1.1;
+        				
+        			})       			
         			
-
-        			
-        			
+        		        $('#totalpriceRegister').text(totalPrice.toLocaleString()); 
+        		        $('#totalvaxRegister').text(vax.toLocaleString()); 
+        		        $('#totalsumRegister').text(total.toLocaleString()); 
            		},
            		error: function(xhr, statud, error) {
            			console.error('실패');
@@ -711,7 +720,6 @@
         
 		// 수주 등록 모달에서 '수주 등록' 버튼. 수주 내용을 새로 등록하는 함수
         function OrderRegister() {
-        	console.log('OrderRegister 함수 실행');
         	
             var rows = $('.generatedRow');
             
@@ -719,33 +727,39 @@
             var dataToSend = [];
 			
             var clientName   = $('#registerClientName').val();
-            var employeeCod = $('#estimateEmp1').text();
-            rows.each(function() {
+            var employeeCod = $('#orderEmp1').text();
+            var dday = $('#ddayInput').val();
+            console.log("dday : " + dday);
+            
+            rows.each(function(index) {
             	
             	
-                var uniqueId = $(this).find('input[name^="RegisterProductName"]').attr('name').replace('RegisterProductName', '');
-                var productName = $(this).find('input[name="RegisterProductName' + uniqueId + '"]').val();
-                var productQty = $(this).find('input[name="RegisterProductQty' + uniqueId + '"]').val();
+//                 var uniqueId = $(this).find('input[name^="RegisterProductName"]').attr('name').replace('RegisterProductName', '');
+            var productCod = $(this).find('td[id="RegisterProductCod' + index + '"]').text();
+            var productName = $(this).find('.RegisterProductName').val();
+        	var productQty = $(this).find('.RegisterProductQty').val();
+        	console.log(productName);
                 
                 var rowData = {
                 	employeeCod: employeeCod,
+                	prodname: productName,
                 	clientName: clientName,
-                    prodName: productName,
                     qty: productQty,
+                    dday: dday
                 };
 
                 dataToSend.push(rowData);
             });
 
             $.ajax({
-                url: 'estimateinsertFn',
+                url: 'orderinsertFn',
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(dataToSend),
                 success: function(response) {
                     console.log('성공적으로 전송되었습니다:', response);
                     alert('등록이 완료되었습니다');
-                    window.location.href = '/easyrp/estimatemanagement';
+                    window.location.href = '/easyrp/ordersmanagement';
                 },
                 error: function(xhr, status, error) {
                     console.error('전송 실패:', error);
@@ -1029,7 +1043,7 @@
 			$('#addRowButton').prop('disabled', true);
 			
 		}
-		// 견적 상세 모달에서 '제품 추가' 버튼 함수 끝
+		// 수주 상세 모달에서 '제품 추가' 버튼 함수 끝
 
 		// 견적 상세 모달에서 새로운 제품을 insert할 때 사용하는 ajax 함수
 		function insertAjax(productName, productQty, estimateCodValue) {

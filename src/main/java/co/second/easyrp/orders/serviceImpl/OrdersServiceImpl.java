@@ -58,6 +58,12 @@ public class OrdersServiceImpl implements OrderService {
 	}
 
 	@Override
+	public int ordersInsert2(String cod, String prodname, int qty) {
+		// TODO Auto-generated method stub
+		return ordersMapper.ordersInsert2(cod, prodname, qty);
+	}
+	
+	@Override
 	public int ordersUpdate(OrdersVO ordersVo) {
 		// TODO Auto-generated method stub
 		return ordersMapper.ordersUpdate(ordersVo);
@@ -80,6 +86,7 @@ public class OrdersServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return ordersMapper.OrderSelect(cod);
 	}
+
 
 
 

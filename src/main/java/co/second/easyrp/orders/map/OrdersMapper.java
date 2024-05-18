@@ -37,6 +37,9 @@ public interface OrdersMapper {
 	OrdersVO ordersSelect(OrdersVO ordersVo); //건별 조회(상세보기)
 	
 	int ordersInsert(OrdersVO ordersVo); //등록
+	int ordersInsert2(@Param("cod") String cod, @Param("prodname") String prodname, @Param("qty") int qty);
+	
+	
 	int ordersUpdate(OrdersVO ordersVo); //수정
 	int ordersDelete(OrdersVO ordersVo); //삭제
 }
