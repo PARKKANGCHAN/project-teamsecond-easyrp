@@ -880,6 +880,9 @@
 	    		        case 103:
 	    					newRow.append($('<td>').text("미출고"));
 	    		        	break;
+	    		        case 104:
+	    					newRow.append($('<td>').text("재고 없음"));
+	    					break;
 	    		        default:
 	    					newRow.append($('<td>').text("--"));
 	    		        	
@@ -891,104 +894,44 @@
     		        var deliveryButton = $('<button>').text('출고').addClass('btn btn-primary');
     		        var buttonGroup = $('<div>').append(deliveryButton);
     		        
+    			    if(item.deliverState == 102) {
+    			    	deliveryButton.prop('disabled', true);
+    			    }
     			    newRow.append($('<td>').append(buttonGroup));
+    			    
     			    
     				$('#detailList').after(newRow);
     				
     				deliveryButton.on('click', function() {
     					console.log("출고 버튼 클릭");
+    					console.log(item.qty);
+//     					deliveryButton.prop('disabled', true);
     					
-    					deliveryButton.prop('disabled', true);
-    					
-//     					$.ajax({
-//     						url: 'deliveryFn',
-//     						type: 'POST',
-//     						data: {
-//     							cod: item.cod,
-//     							num: item.num
-//     						},
-//     						dataType: 'JSON',
-//     						success: function(response){
-//     							console.log('deliveryFn 성공');
-    							
-//     						},
-//     						error: function(xhr, status, error) {
-//     							console.error('실패');
-//     						}
-//     					});
+    					$.ajax({
+    						url: 'deliveryFn',
+    						type: 'POST',
+    						data: {
+    							cod: item.cod,
+    							productCod: item.productCod,
+    							qty: item.qty
+    						},
+    						dataType: 'String',
+    						success: function(response){
+    				            if (response === 'success') {
+    				                console.log('deliveryFn 성공');
+    				                
+    				            } else {
+    				                console.error('오류 발생');
+    				            }
+    						},
+    						error: function(xhr, status, error) {
+    							console.error('실패');
+    						}
+    					});
     					
     				})
     				
-    			/*	editButton.on('click', function() {
-    				    var productCod = item.productCod;
-     				    var orderCod = item.cod;
-    				    var num = item.num;
-    				    var qty = $('#qty_' + item.num).val();
-    				    
-    				    
-    				    $.ajax({
-    				    	url: 'orderupdate',
-    				    	type: 'POST',
-    				    	data: {
-    				    		cod : orderCod,
-    				    		qty : qty,
-    				    		num : num
-    				    	},
-    				    	dataType: 'JSON',
-    				    	success: function(response){
-    				    		console.log('성공');
-    				    		alert('수정이 완료되었습니다.');
-    				    		
-    				            // 성공 시 기존 데이터 삭제
-    				            $('.generatedRow').remove();
-    				            
-    				            // 수정 성공 시 해당 함수를 호출하여 전체적으로 다시 렌더링
-    				            orderDetail(orderCod);
-    				            
-    				    	},
-    				    	error: function(xhr, status, error) {
-    							console.error('실패');
-    							console.log(xhr,status);
-    						}
-    				    });
-    				    
-    				});
 
-    				deleteButton.on('click', function() {
-    					var productCod = item.productCod;
-    				    var orderCod = item.cod;
-    				    var num = item.num;
-    				    var qty = $('#qty_' + item.num).val();
-    				    
-    				    console.log(qty);
-    				    
-    				    $.ajax({
-    				    	url: 'orderdetaildelete',
-    				    	type: 'POST',
-    				    	data: {
-    				    		productCod : productCod,
-    				    		cod: orderCod,
-    				    	},
-    				    	dataType: 'JSON',
-    				    	success: function(response){
-    				    		console.log('삭제 성공');
-    				    		alert('삭제가 완료되었습니다.');
-    				    		
-    				            // 성공 시 기존 데이터 삭제
-    				            $('.generatedRow').remove();
-    				            
-    				            // 삭제 성공 시 해당 함수를 호출하여 전체적으로 다시 렌더링
-    				            orderDetail(orderCod);
-    				            
-    				    	},
-    				    	error: function(xhr, status, error) {
-    							console.error('실패');
-    							console.log(xhr,status);
-    						}
-    				    });
-    					
-    				});
-    			*/
     				
     			});
     			// orderDetialList.forEach 상세 리스트의 각 요소에 적용하는 함수 끝

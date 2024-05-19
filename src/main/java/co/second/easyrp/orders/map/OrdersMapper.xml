@@ -90,6 +90,61 @@
 		)
 	</insert>
 	
+	<!-- 가용 재고량 조회 -->
+    <select id="checkInventory" parameterType="String" resultType="int">
+        SELECT 
+            p.cur_inv_qty - p.saftey_inv_qty AS availableQty 
+        FROM 
+            product p 
+        WHERE 
+            p.cod = #{productCod}
+    </select>
+
+
+
+    <!-- orderdetail 업데이트 쿼리  -->
+    <update id="updateOrderDetailFull">
+        UPDATE orderdetail
+        SET 
+            cur_remain_qty = cur_remain_qty - #{qty},
+            delivery_state = 102,
+            sales_closing_state = 'Y'
+        WHERE product_cod = #{productCod} and cod = #{cod}
+    </update>
+
+    <!-- product 업데이트 쿼리  -->
+    <update id="updateProductFull">
+        UPDATE product
+        SET cur_inv_qty = cur_inv_qty - #{qty}
+        WHERE cod = #{productCod}
+    </update>
+	
+	    <!-- orderdetail 업데이트 쿼리  -->
+    <update id="updateOrderDetailPartial" >
+    	UPDATE orderdetail
+        SET 
+            cur_remain_qty = cur_remain_qty - #{availableQty},
+            delivery_state = 101
+        WHERE product_cod = #{productCod} and cod = #{cod}
+        
+    </update>
+
+    <!-- product 업데이트 쿼리 -->
+    <update id="updateProductPartial">
+    	UPDATE product
+        SET cur_inv_qty = cur_inv_qty - #{availableQty}
+        WHERE cod = #{productCod}
+        
+    </update>
+    
+    <update id="updateNoProuctQty">
+    	update orderdetail
+    	set
+    		delivery_state = 104
+    	where product_cod = #{productCod} and cod = #{cod}
+    </update>
+	
+	
 	<update id="ordersUpdate"></update>
 	<delete id="ordersDelete"></delete>
 </mapper>

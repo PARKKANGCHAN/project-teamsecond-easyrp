@@ -1,6 +1,7 @@
 package co.second.easyrp.orders.service;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -42,4 +43,12 @@ public interface OrderService {
 	
 	int ordersUpdate(OrdersVO ordersVo); //수정
 	int ordersDelete(OrdersVO ordersVo); //삭제
+	
+	int checkInventory(String productCod);
+	int updateOrderDetailFull(int qty, String productCod, String cod);
+	int updateProductFull(int qty, String productCod);
+	int updateOrderDetailPartial(int availableQty, String productCod, String cod);
+	int updateProductPartial(int availableQty, String productCod);
+	
+	int updateNoProuctQty(String productCod, String cod);
 }

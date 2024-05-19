@@ -99,7 +99,7 @@ public class EstimateController {
 	@RequestMapping(value = "/estimatedetaildelete", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<String> estimatedetailDelete(@RequestParam("productCod") String productCod,
-													   @RequestParam("") String cod) {
+													   @RequestParam("cod") String cod) {
 		
 //		System.out.println(productCod);
 		int result = estimateService.EstimateDetailDelete(productCod, cod);

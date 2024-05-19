@@ -166,6 +166,38 @@ public class OrdersController {
     	
     	return "redirect:/ordersmanagement";
     }
+    
+    @RequestMapping(value = "/deliveryFn", method = RequestMethod.POST)
+    @ResponseBody
+    public String deliveryFn(@RequestParam("cod") String cod,
+    						 @RequestParam("productCod") String productCod,
+    						 @RequestParam("qty") int qty) {
+    	
+        try {
+            // 재고 검증
+            int availableQty = orderService.checkInventory(productCod);
+            System.out.println(availableQty);
+
+            if (availableQty > 0) {
+                if (availableQty >= qty) {
+                    // 가용재고량 >= 수주 수량
+                    orderService.updateProductFull(qty, productCod);
+                    orderService.updateOrderDetailFull(qty, productCod, cod);
+                } else {
+                    // 가용재고량 < 수주수량
+                    orderService.updateProductPartial(availableQty, productCod);
+                    orderService.updateOrderDetailPartial(availableQty, productCod, cod);
+                }
+            } else {
+                orderService.updateNoProuctQty(productCod, cod);
+            }
+
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
 	
 	
 }

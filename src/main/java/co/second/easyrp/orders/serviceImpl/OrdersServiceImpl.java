@@ -2,6 +2,7 @@ package co.second.easyrp.orders.serviceImpl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -86,6 +87,44 @@ public class OrdersServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return ordersMapper.OrderSelect(cod);
 	}
+
+	@Override
+	public int checkInventory(String productCod) {
+		// TODO Auto-generated method stub
+		return ordersMapper.checkInventory(productCod);
+	}
+
+	@Override
+	public int updateOrderDetailFull(int qty, String productCod, String cod) {
+		// TODO Auto-generated method stub
+		return ordersMapper.updateOrderDetailFull(qty, productCod, cod);
+	}
+
+	@Override
+	public int updateProductFull(int qty, String productCod) {
+		// TODO Auto-generated method stub
+		return ordersMapper.updateProductFull(qty, productCod);
+	}
+
+	@Override
+	public int updateOrderDetailPartial(int availableQty, String productCod, String cod) {
+		// TODO Auto-generated method stub
+		return ordersMapper.updateOrderDetailPartial(availableQty, productCod, cod);
+	}
+
+	@Override
+	public int updateProductPartial(int availableQty, String productCod) {
+		// TODO Auto-generated method stub
+		return ordersMapper.updateProductPartial(availableQty, productCod);
+	}
+
+	@Override
+	public int updateNoProuctQty(String productCod, String cod) {
+		// TODO Auto-generated method stub
+		return ordersMapper.updateNoProuctQty(productCod, cod);
+	}
+
+
 
 
 

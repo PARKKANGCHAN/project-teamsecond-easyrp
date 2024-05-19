@@ -2,6 +2,7 @@ package co.second.easyrp.orders.map;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -42,4 +43,13 @@ public interface OrdersMapper {
 	
 	int ordersUpdate(OrdersVO ordersVo); //수정
 	int ordersDelete(OrdersVO ordersVo); //삭제
+	
+	int checkInventory(String productCod);
+	int updateOrderDetailFull(@Param("qty") int qty, @Param("productCod") String productCod, @Param("cod") String cod);
+	int updateProductFull(@Param("qty") int qty, @Param("productCod") String productCod);
+	int updateOrderDetailPartial(@Param("availableQty") int availableQty, @Param("productCod") String productCod, @Param("cod") String cod);
+	int updateProductPartial(@Param("availableQty") int availableQty, @Param("productCod") String productCod);
+	
+	int updateNoProuctQty(@Param("productCod") String productCod, @Param("cod") String cod);
+	
 }
