@@ -43,23 +43,46 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                         <div class="card-body mb-3">
                            <form action="inventorycountinsertfn" method="post">
                               <div class="mb-4">
-                              <label for="warehouseBox">창고</label>
-			                  	<select id="warehouseBox" class="form-select" style="width: 150px">
-			                	  	<option value="">선택해주세요.</option>
-			                  		 <c:forEach var="warehouseinv" items="${warehouseinv }">
-			                  		 <option id="${warehouseinv.cod }" value="${warehouseinv.name}">${warehouseinv.name }</option>
-			                  		 </c:forEach>
-			                 	</select>
+	                              <div class="form-check form-check-inline">
+	                              <label for="warehouseBox">창고</label>
+	                              </div>
+				                  	<div class="form-check form-check-inline">
+					                  	<select id="warehouseBox" class="form-select" style="width: 150px">
+					                	  	<option value="">선택해주세요.</option>
+					                  		 <c:forEach var="warehouseinv" items="${warehouseinv }">
+					                  		 <option id="${warehouseinv.cod }" value="${warehouseinv.name}">${warehouseinv.name }</option>
+					                  		 </c:forEach>
+					                 	</select>
+				                 	</div>
+				                 	<div class="form-check form-check-inline">
+					                 	<div class="form-check form-check-inline">
+										  <input class="form-check-input" type="radio" name="accountBtn" id="productRadioButton" value="완제품" checked>
+										  <label class="form-check-label" for="productRadioButton">완제품</label>
+										</div>
+										<div class="form-check form-check-inline">
+										  <input class="form-check-input" type="radio" name="accountBtn" id="inventoryRadioButton" value="부품">
+										  <label class="form-check-label" for="inventoryRadioButton">부품</label>
+										</div>
+										<div class="form-check form-check-inline">
+										  <input class="form-check-input" type="radio" name="accountBtn" id="materialsRadioButton" value="원자재">
+										  <label class="form-check-label" for="materialsRadioButton">원자재</label>
+										</div>
+										<div>
+											<input type="hidden" name="employee" value="${sessionScope.empCode }" />
+										</div>
+									</div>
+							</div>
+							<div>
                                <table class="table table-hover mb-0">
                               <!-- 재고 목록 모달 -->
-							<tr>
-							</tr>
+                              <tr>
+                              </tr>
 										<thead>
 											<tr>
 												<th></th>
 												<th>품번</th>
 												<th>품명</th>
-												<th id="accountclass" onclick="accountList()">품목구분</th>
+												<th>품목구분</th>
 												<th>전산재고</th>
 												<th>실사재고</th>
 												<th>차이수량</th>
@@ -71,6 +94,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 										<tbody id="inventoryCountInsertBody">
 											<!-- 모달에서 선택한 데이터 Ajax로 html속성 삽입 -->
 										</tbody>
+										<tr>
+										</tr>
 									</table>
                               </div>
                               <!-- 공통등록 Button START -->
@@ -92,48 +117,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
          </div>
       </div>
       <!-- 공통 사용 테이블 END -->
-      <!-- Product&InventoryModal START  -->
-      <div class="modal fade" id="productInventoryModal" tabindex="-1" aria-labelledby="productInventoryModalLabel" aria-hidden="true">
-         <div class="modal-dialog">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h5 class="modal-title" id="productInventoryModalLabel">재고목록</h5>
-	                 	<div>
-	                 		<label for="warehouseBox">창고</label>
-		                  	<select id="warehouseBox" style="width: 100px">
-		                	  	<option value="">선택해주세요.</option>
-		                  		<!--  <ajax로 만든 html  속성> -->
-		                 	</select>
-                  			<input type="text" id="searchDataInput" class="form-control" placeholder="재고코드 또는 품명을 입력해주세요." style="margin-left: 10px; width: auto; flex-grow: 1"/>
-                 		</div>
-                 	
-               <div>
-              	  <button type="button" id="countBtn" class="btn btn-primary" data-bs-dismiss="modal">적용</button>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
-               </div>
-               <div class="modal-body">
-                  <table class="table">
-                     <thead>
-                        <tr>
-                           <th scope="col"></th>
-                           <th scope="col">품번</th>
-                           <th scope="col">품명</th>
-                        </tr>
-                     </thead>
-                     <tbody id="productInventoryModalTableBody">
-                        <!-- 여기에 Ajax로 만든 html 속성이 들어감  -->
-                     </tbody>
-                  </table>
-               </div>
-               <div class="modal-footer">
-              	  <button type="button" id="countBtn" class="btn btn-primary" data-bs-dismiss="modal">적용</button>
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- Product&InventoryModal END  -->
       
      
       <script type="text/javascript">
@@ -154,140 +137,130 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
         }
         
         
- /*        $(document).ready(function () {
-        	$('#countBtn').on('click', function(){
-        		checkedlist();
-        	});
+      $('#warehouseBox').on('change', function () {
+    	    if ($('#inventoryCountInsertBody').children().length > 0) {
+    	        if (!confirm("창고 변경 시, 기존 데이터가 소멸됩니다. 변경하시겠습니까?")) {
+    	            return;
+    	        }
+    	    }
+    	    warehouselist = $("#warehouseBox").val();
 
-        		function checkedlist(){
-        		    	
-        			const selectedValues = []; //체크된 값들 저장할 배열
-        			$('input[name="checkedValue"]:checked').each(function(){
-        				selectedValues.push($(this).val()); //배열에 값을 추가
-        			});
-        			
-		console.log(selectedValues);
-        		$.ajax({
-        			url: 'api/get-count',
-        			method: 'GET',
-        			traditional: true,
-        			data: {
-        				itemList: selectedValues
-        			},
-        			contentType: "application/json",
-        			success: function (data){
-        				console.log('AJAX요청이 보내짐');
-        				console.log(data);
-        				let rows='';
-        				$('#inventoryCountInsertBody').append(rows);
-        				data.forEach(function (item){
-        					if(item.cod){
-        						let num = rows.length;
-        						let diffQty = item.computingQty-item.countQty;
-        						let procclass = '';
-        						
-        						if(item.procclass != null){
-        							procclass = item.procclass;
-        						}else{
-        							procclass = '미처리';
-        						}
+    	    // 새로운 Promise 객체 생성
+    	    new Promise((resolve, reject) => {
+    	        $.ajax({
+    	            url: 'api/get-prodinv',
+    	            traditional: true,
+    	            data: {
+    	                warehouse: warehouselist,
+    	            },
+    	            method: 'GET',
+    	            success: function (data) {
+    	                console.log(data);
+    	                let rows = '';
+    	                if (data.length < 1) {
+    	                    rows += `<tr><td colspan='9' style="text-align:center">창고에 재고가 없습니다.</td></tr>`;
+    	                }
+    	                data.forEach(function (item) {
+    	                    if (item.cod) {
+    	                        let num = rows.length;
+    	                        let diffQty = item.computingQty - item.countQty;
+    	                        let procclass = '';
+    	                        if (item.procclass != null) {
+    	                            procclass = item.procclass;
+    	                        } else {
+    	                            procclass = '미처리';
+    	                        }
+    	                        rows +=
+    	                            `<tr class="searchData" data-cod="\${item.cod}" data-name="\${item.name}" style="cursor: pointer">
+    	                                <td><input type="checkbox" name="prodInvCod"></td>
+    	                                <td class="cod">\${item.cod}</td>
+    	                                <td class="name">\${item.name}</td>
+    	                                <td class="account" id="\${item.account}\${num}" value="\${item.account}">\${item.account}</td>
+    	                                <td class="computingQty" id="\${item.cod}\${num}">\${item.computingQty}</td>
+    	                                <td width=100 class="countQty">
+    	                                    <input type="number" onkeyup="setCountDiff(this.id, '\${item.cod}\${num}')" id="\${item.cod}" class="countqtyinput form-control" placeholder="실사재고량을 입력해주세요." required/>
+    	                                </td>
+    	                                <td class="diffQty">\${diffQty}</td>
+    	                                <td class="procclass">\${procclass}</td>
+    	                                <td class="adjQty">\${item.adjQty}</td>
+    	                                <td class="note"><input type="text" class="form-control" placeholder="비고를 입력해주세요."/></td>
+    	                            </tr>`;
+    	                    };
+    	                });
+    	                $('#inventoryCountInsertBody').html(rows);
+    	                resolve(); // Promise 객체 성공 상태로 변경
+    	            },
+    	            error: function (xhr, status, error) {
+    	                reject(error); // Promise 객체 실패 상태로 변경
+    	                console.error('AJAX error:', error);
+    	            }
+    	        });
+    	    }).then(() => {
+    	        $('input[name=accountBtn]').on('change', function () {
+    	            accountlist();
+    	        });
 
-        						 rows += 
-        							 `<tr class="searchData" data-cod="\${item.cod}" data-name="\${item.name}" style= "cursor: pointer">
-        						 			<td class="cod">\${item.cod}</td>
-        						 			<td class="name">\${item.name}</td>
-        						 			<td class="computingQty" id="\${item.cod}\${num}">\${item.computingQty}</td>
-        						 			<td width=100 class="countQty">
-        						 				<input type="number" onkeyup="setCountDiff(this.id, '\${item.cod}\${num}')" id="\${item.cod}" class="countqtyinput form-control" placeholder="실사재고량을 입력해주세요." required/>
-        						 			</td>	
-        						 			<td class="diffQty">\${diffQty}</td>
-        						 			<td class="procclass">\${procclass}</td>
-        						 			<td class="adjQty">\${item.adjQty}</td>
-        						 			<td class="note"><input type="text" class="form-control" placeholder="비고를 입력해주세요."/></td>
-										</tr>`
-        					}
-        				});
-        		                     $('#inventoryCountInsertBody').append(rows);
-        		                     $('#productInventoryModal').modal('hide');
-        					},
-        		error: function(xhr, status, error) {
-        			console.error('AJAX error:', error);
-        		}
-        			});
-        		};
-        	  
-        	    $(document).on('click', '.searchData', function() {
-        	        $('.searchData').removeClass('selected');
-        	        $(this).addClass('selected');
-        	    });
-        	    
-                 });
-      
-      */
-         $(document).ready(function () {
-            $('#warehouseBox').on('change', function () {
-            	//console.log(event.target.value);
-            	if($('#inventoryCountInsertBody').children().length > 0 ){
-            		if(!confirm("창고 변경 시, 기존 데이터가 소멸됩니다. 변경하시겠습니까?")){
-            			return;
-            		}
-            		};
-            	warehouselist = $("#warehouseBox").val();
-            	
-               $.ajax({
-                  url: 'api/get-prodinv',
-      			traditional: true,
-                  data: { 
-                	  warehouse : warehouselist,
-                	  },
-                  method: 'GET',
-                  success: function (data) {
-                	  console.log(data);
-                     let rows = '';
-						if(data.length<1){
-							rows+=`<tr><td colspan='9' style="text-align:center">창고에 재고가 없습니다.</td></tr>`;
-						}
-                     data.forEach(function (item) {
-                        if (item.cod) {
-                        	let num = rows.length;
-    						let diffQty = item.computingQty-item.countQty;
-    						let procclass = '';
-    						
-    						if(item.procclass != null){
-    							procclass = item.procclass;
-    						}else{
-    							procclass = '미처리';
-    						}
+    	        function accountlist() {
+    	            prodinvaccount = $('input:radio[name="accountBtn"]:checked').val();
+    	            console.log(prodinvaccount);
 
-                           rows +=
-                        	`<tr class="searchData" data-cod="\${item.cod}" data-name="\${item.name}" style= "cursor: pointer">
-                        	<td><input type="checkbox" name="prodInvCod"></td>
-				 			<td class="cod">\${item.cod}</td>
-				 			<td class="name">\${item.name}</td>
-				 			<td class="account" id="\${item.account}\${num}" value="\${item.account}">\${item.account}</td>
-				 			<td class="computingQty" id="\${item.cod}\${num}">\${item.computingQty}</td>
-				 			<td width=100 class="countQty">
-				 				<input type="number" onkeyup="setCountDiff(this.id, '\${item.cod}\${num}')" id="\${item.cod}" class="countqtyinput form-control" placeholder="실사재고량을 입력해주세요." required/>
-				 			</td>	
-				 			<td class="diffQty">\${diffQty}</td>
-				 			<td class="procclass">\${procclass}</td>
-				 			<td class="adjQty">\${item.adjQty}</td>
-				 			<td class="note"><input type="text" class="form-control" placeholder="비고를 입력해주세요."/></td>
-						</tr>`;
-                        };
-                     });
-                     $('#inventoryCountInsertBody').html(rows);  
-                  }
-                	  });
-               
-               $('#warehouseBox').on('click', 'tr', function(e){
-                   if($(e.target).is('input:checkbox')) return;
-                   var chkbox = $(this).find('td:first-child :checkbox');
-                   chkbox.prop('checked', !chkbox.prop('checked'));
-               }); 
-          			});
-               });
-         
+    	            $.ajax({
+    	                url: 'api/get-prodinvlist',
+    	                traditional: true,
+    	                data: {
+    	                    warehouse: warehouselist,
+    	                    prodinv: prodinvaccount,
+    	                },
+    	                method: 'GET',
+    	                success: function (data2) {
+    	                    console.log(data2);
+    	                    let rows = '';
+    	                    data2.forEach(function (items) {
+    	                        if (items.cod) {
+    	                            let num = rows.length;
+    	                            let diffQty = items.computingQty - items.countQty;
+    	                            let procclass = '';
+    	                            if (items.procclass != null) {
+    	                                procclass = items.procclass;
+    	                            } else {
+    	                                procclass = '미처리';
+    	                            }
+    	                            if (items.account == '완제품' && data2.length < 1) {
+    	                                rows += `<tr><td colspan='9' style="text-align:center">완제품이 없습니다.</td></tr>`;
+    	                            } else if (items.account == '부품' && data2.length < 1) {
+    	                                rows += `<tr><td colspan='9' style="text-align:center">자재가 없습니다.</td></tr>`;
+    	                            }else if (items.account == '원자재' && data2.length < 1) {
+    	                                rows += `<tr><td colspan='9' style="text-align:center">자재가 없습니다.</td></tr>`;
+    	                            }
+    	                            rows +=
+    	                                `<tr class="searchdata" data2-cod="\${items.cod}" data2-name="\${items.name}" style= "cursor: pointer">
+    	                                    <td><input type="checkbox" name="prodInvCod"></td>
+    	                                    <td class="cod">\${items.cod}</td>
+    	                                    <td class="name">\${items.name}</td>
+    	                                    <td class="account" id="\${items.account}\${num}" value="\${items.account}">\${items.account}</td>
+    	                                    <td class="computingQty" id="\${items.cod}\${num}">\${items.computingQty}</td>
+    	                                    <td width=100 class="countQty">
+    	                                        <input type="number" name="countqty" onkeyup="setCountDiff(this.id, '\${items.cod}\${num}')" id="\${items.cod}" class="countqtyinput form-control" placeholder="실사재고량을 입력해주세요." required/>
+    	                                    </td>
+    	                                    <td class="diffQty">\${diffQty}</td>
+    	                                    <td class="procclass">\${procclass}</td>
+    	                                    <td class="adjQty">\${items.adjQty}</td>
+    	                                    <td class="note"><input type="text" class="form-control" placeholder="비고를 입력해주세요."/></td>
+    	                                </tr>`;
+    	                        };
+    	                    });
+    	                    $('#inventoryCountInsertBody').html(rows);
+    	                },
+    	                error: function (items) {
+    	                    console.error('AJAX error:', error);
+    	                }
+    	            });
+    	        }
+    	    });
+    	});
+
+            			
+             
   /*       $(document).ready(function () {
                 $.ajax({
                    url: 'api/get-warehouselist',
@@ -306,14 +279,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             });*/
             
          /* Product&InventoryModalTable END */
-	function accountlist(){
-            	case ($("td[id^='$(item.account)']".val='완제품')
-            			$('#'+).closest('tr').html('show')
-            			$('#accountclass').val=
-            		$('#' + countQtyInputId).closest('tr').find('.diffQty').text(diffQty);
-            	}
-            }
-         
+		
 
       </script>
    </body>

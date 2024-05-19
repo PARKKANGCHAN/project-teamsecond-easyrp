@@ -13,14 +13,8 @@ public interface InventoryCountMapper {
 	int insertInventoryCount(InventoryCountVO vo);
 	int updateInventoryCount(InventoryCountVO vo);
 	int deleteInventoryCount(InventoryCountVO vo);
-	List<InventoryCountVO> selectInventoryCountList(InventoryCountVO vo);
-	List<InventoryCountDetailVO> selectedInventoryCountDetailList(InventoryCountVO vo);
-//	List<KeyValueVO> getAllKeyValues();
-	
-//	List<PurchaseOrderDetailVO> getAllPurchaseOrderDatas();
-	
-//	CommonTableVO getCommonData(int postId);
-	
+	InventoryCountVO selectInventoryCountList(InventoryCountVO vo);
+	InventoryCountDetailVO selectedInventoryCountDetailList(InventoryCountDetailVO inventorycountdetailvo);
 	int countInventoryCountLists(SearchVO searchVo);
 	List<ProductInventoryVO> getAllProductInventoryList();
 	List<ProductInventoryVO> getAllSelectedCountList(String itemList);
@@ -28,5 +22,6 @@ public interface InventoryCountMapper {
 	List<WareHouseVO> warehouseList();
 	List<ProductInventoryVO> getAllProdInvWarehouse(WareHouseVO warehousevo);
 	List<WareHouseVO> selectedWarehouseList(WareHouseVO warehousevo);
-	
+	List<ProductInventoryVO> getProdInvAccount(ProductInventoryVO productinventoryvo);
+	int selectMaxCod();
 }

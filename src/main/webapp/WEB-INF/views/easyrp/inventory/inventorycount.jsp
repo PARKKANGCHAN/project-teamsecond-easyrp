@@ -8,8 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<!-- (2024년 4월 30일 추가 박현우) -->
-	<!-- 공통 사용 테이블 START -->
+	<!-- inventorycount START -->
 	<div id="main">
 		<header class="mb-3">
 			<a href="#" class="burger-btn d-block d-xl-none"> <i
@@ -107,7 +106,6 @@
 												<th>장소</th>
 												<th>실사구분</th>
 												<th>담당자</th>
-												<th>비고</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -121,7 +119,6 @@
 													<td>${inventoryCountList.location}</td>
 													<td>${inventoryCountList.countclass}</td>
 													<td>${inventoryCountList.employee}</td>
-													<td>${inventoryCountList.note}</td>
 													<td>
 														<div class="btn-group">
 															<button type="button"

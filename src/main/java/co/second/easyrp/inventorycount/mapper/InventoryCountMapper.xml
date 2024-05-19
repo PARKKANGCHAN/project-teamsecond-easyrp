@@ -11,8 +11,7 @@ SELECT
 			ic.count_date,
 			ic.inv_date,
 			ic.countclass,
-			ic.account,
-			ic.note
+			ic.account
 		FROM inventorycount ic
 		LEFT JOIN inventorycountdetail icd
 		ON ic.cod = icd.inventorycount_cod
@@ -91,10 +90,17 @@ SELECT
 		</if>
 		</select>
 		<select id="selectInventoryCountList">
-		SELECT cod, count_date, inv_date, warehouse, location, countclass, employee, note
-		  FROM inventorycount
+		SELECT ic.cod, ic.count_date, ic.inv_date, w.name as warehouse, l.name as location, countclass, e.name as employee
+		  FROM inventorycount ic
+		  LEFT JOIN employee e
+		    ON e.cod = ic.employee_cod
+		  LEFT JOIN warehouse w
+		 	ON w.cod = ic.warehouse_cod
+		  LEFT JOIN location l
+		    ON l.cod = ic.location_cod
 		 WHERE deleteyn = 'N'
 		   AND cod= #{cod}
+
 		</select>
 		<select id="selectedInventoryCountDetailList">
 		SELECT num, inventorycount_cod, product_cod, spec
@@ -154,10 +160,12 @@ SELECT
 		 WHERE i.cod=#{cod}
 	</select>
 	<insert id="insertInventoryCount">
-		INSERT INTO inventorycount Values(#{cod}, #{employeeCod}, #{countDate}, #{invDate}, #{warehouseCod}, #{countclass}, #{account}, #{deleteyn}, #{note}, #{warehouse}, #{employee});
+		INSERT INTO inventorycount 
+		Values(#{cod}, #{employeeCod}, #{countDate}, #{invDate}, #{warehouseCod}, #{countclass}, #{account}, #{deleteyn})
 	</insert>
 	<insert id="insertCountDetailList">
-		INSERT INTO inventorycountdetail Values(#{cod}, #{employeeCod}, #{countDate}, #{invDate}, #{countclass}, #{account}, #{deleteyn}, #{note}, #{diffQty})
+		INSERT INTO inventorycountdetail 
+		Values(#{cod}, #{employeeCod}, #{countDate}, #{invDate}, #{countclass}, #{account}, #{deleteyn}, #{note}, #{diffQty})
 	</insert>
 	<select id="warehouseList">
 	 SELECT cod, name
@@ -194,5 +202,38 @@ SELECT
 	 SELECT cod, name
 	   FROM warehouse
 	 WHERE name=#{name}
+	</select>
+	<select id="getProdInvAccount">
+		 SELECT  p.prodname as name, p.cod as cod, p.cur_inv_qty as computingQty, ia.procclass, p.account
+		 FROM product p
+		 LEFT JOIN inventorycountdetail icd
+		 ON icd.inventory_cod = p.cod
+		 LEFT JOIN inventoryadjustmentdetail iad
+		 ON icd.adjustmentdetail_num = iad.num
+		 LEFT JOIN inventoryadjustment ia
+		 ON ia.cod = iad.inventoryadjustment_cod
+		 LEFT JOIN warehouse w
+		 ON w.cod = p.warehouse_cod
+		 WHERE p.account=#{account}
+		   AND w.name=#{warehouse}
+
+		 UNION 
+		 
+		 SELECT i.name as name, i.cod as cod, i.cur_inv_qty as computingQty, ia.procclass, i.account
+		   FROM inventory i
+		 LEFT JOIN inventorycountdetail icd
+		 	 ON icd.inventory_cod = i.cod
+		 LEFT JOIN inventoryadjustmentdetail iad
+		 	 ON icd.adjustmentdetail_num = iad.num
+		 LEFT JOIN inventoryadjustment ia
+		 	 ON ia.cod = iad.inventoryadjustment_cod
+		 LEFT JOIN warehouse w
+		 	 ON w.cod = i.warehouse_cod
+		 WHERE i.account=#{account}
+		   AND w.name=#{warehouse}
+	</select>
+	<select id="selectMaxCod">
+	SELECT COALESCE(MAX(CAST(RIGHT (cod,3) AS SIGNED)), 0) AS cod 
+	FROM inventorycount
 	</select>
 </mapper>
