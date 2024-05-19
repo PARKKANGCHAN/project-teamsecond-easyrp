@@ -27,6 +27,12 @@ public class ChartServiceImpl implements ChartService {
 		// TODO Auto-generated method stub
 		return chartMapper.getOrderByProductAndYear(productCod, year);
 	}
+
+	@Override
+	public List<ChartVO> getSalesPlanByProductAndYear(String productCod, int year) {
+		// TODO Auto-generated method stub
+		return chartMapper.getSalesPlanByProductAndYear(productCod, year);
+	}
 	
 	
 }

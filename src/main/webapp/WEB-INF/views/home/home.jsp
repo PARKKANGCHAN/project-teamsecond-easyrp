@@ -263,21 +263,27 @@
                 url: `ChartUpdate?productCod=\${productCod}&year=\${year}`,
                 method: 'GET',
                 success: function(data) {
-                	console.log('data : ' + data);
-                	
-                	const salesData = Array(12).fill(0);
-                	
-                	data.forEach(item => {
-                        salesData[item.month - 1] = item.totalQty;  // 월별 데이터 채우기
+                    console.log('data : ', data);
+                    
+                    const orderData = data.orderData;
+                    const planData = data.planData;
+                    
+                    const orderSalesData = Array(12).fill(0);
+                    orderData.forEach(item => {
+                        orderSalesData[item.month - 1] = item.totalQty;  // 월별 주문량 데이터 채우기
                     });
-                	console.log(salesData);
-                	
+                    
+                    const planSalesData = Array(12).fill(0);
+                    planData.forEach(item => {
+                        planSalesData[item.month - 1] = item.totalQty;  // 월별 판매 계획량 데이터 채우기
+                    });
+                    
                     if (!myChart) {
                         // 차트가 없는 경우, 차트를 생성합니다.
-                        createChart(salesData);
+                        createChart(orderSalesData, planSalesData);
                     } else {
                         // 차트가 있는 경우, 데이터를 업데이트합니다.
-                        updateChart(myChart, salesData);
+                        updateChart(myChart, orderSalesData, planSalesData);
                     }
                 },
                 error: function(xhr, status, error) {
@@ -287,7 +293,7 @@
         }
 
 	
-        function createChart(data) {
+        function createChart(orderData, planData) {
             const ctx = document.getElementById('myChart').getContext('2d');
             myChart = new Chart(ctx, {
                 type: 'bar',
@@ -296,9 +302,15 @@
                     datasets: [
                         {
                             label: '주문 수량',
-                            data: data,
+                            data: orderData,
                             borderWidth: 1,
                             type: 'bar'
+                        },
+                        {
+                            label: '판매 계획 수량',
+                            data: planData,
+                            borderWidth: 1,
+                            type: 'line'
                         }
                     ]
                 },
@@ -312,8 +324,9 @@
             });
         }
 
-        function updateChart(chart, data) {
-            chart.data.datasets[0].data = data;
+        function updateChart(chart, orderData, planData) {
+            chart.data.datasets[0].data = orderData;
+            chart.data.datasets[1].data = planData;
             chart.update();
         }
 

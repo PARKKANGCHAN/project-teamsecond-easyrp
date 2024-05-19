@@ -24,4 +24,22 @@
 	ORDER BY
 		o.product_cod, year, month
 	</select>
+	
+	<select id="getSalesPlanByProductAndYear">
+	SELECT 
+		s.product_cod as productCod,
+		year(s.plan_date) as year,
+		month(s.plan_date) as month,
+		sum(s.basicpln_qty) as totalQty
+	from
+		salesplan s 
+	where s.product_cod = #{productCod} and YEAR(s.plan_date) = #{year}
+	group by
+		s.product_cod,
+		YEAR(s.plan_date),
+		month(s.plan_date)
+	order by
+		s.product_cod, year, month;
+	</select>
+	
 </mapper>
