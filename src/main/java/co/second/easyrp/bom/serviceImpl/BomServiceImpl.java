@@ -18,14 +18,10 @@ public class BomServiceImpl implements BomService {
 	@Autowired
 	BomMapper bomMapper;
 
+	
 	@Override
-	public BomVO getData(BomVO bomVo) {
-		return bomMapper.getData(bomVo);
-	}
-
-	@Override
-	public int insertFn(BomVO bomVO) {
-		return bomMapper.insertFn(bomVO);
+	public int insertBom(BomVO bomVO) {
+		return bomMapper.insertBom(bomVO);
 	}
 
 	@Override
@@ -46,5 +42,15 @@ public class BomServiceImpl implements BomService {
 	@Override
 	public List<BomVO> getHyunwooProductData() {
 		return bomMapper.getHyunwooProductData();
+	}
+
+	@Override
+	public int insertStdprice(BomVO bomVO) {
+		return bomMapper.insertStdprice(bomVO);
+	}
+
+	@Override
+	public BomVO getBomDetailData(String prodCod) {
+		return bomMapper.getBomDetailData(prodCod);
 	}
 }

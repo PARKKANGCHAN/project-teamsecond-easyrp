@@ -49,3 +49,8 @@ body {
 .hyunwoo-pointer {
     cursor: pointer !important;
 }
+
+.hyunwoo-stdprice {
+	font-weight: 700 !important;
+	padding-left : 0rem !important;
+}

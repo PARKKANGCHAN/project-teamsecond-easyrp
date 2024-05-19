@@ -7,8 +7,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
       <title>Insert title here</title>
    </head>
    <body>
-      <!-- 2024년 5월 17일 오후 1시 35분 박현우 -->
-      <!-- BOM 등록 페이지 START -->
+      <!-- 2024년 5월 19일 오후 1시 35분 박현우 -->
+      <!-- BOM 상세 및 수정 페이지 START -->
       <div id="main">
          <header class="mb-3">
             <a href="#" class="burger-btn d-block d-xl-none"> <i class="bi bi-justify fs-3"></i> </a>
@@ -17,14 +17,14 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             <div class="page-title">
                <div class="row">
                   <div class="col-12 col-md-6 order-md-1 order-last">
-                     <h3>BOM 등록</h3>
-                     <p class="text-subtitle text-muted">BOM 등록을 위한 페이지</p>
+                     <h3>제품 및 BOM 상세보기</h3>
+                     <p class="text-subtitle text-muted">제품 및 BOM 상세보기를 위한 페이지</p>
                   </div>
                   <div class="col-12 col-md-6 order-md-2 order-first">
                      <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                            <li class="breadcrumb-item"><a href="/easyrp">home</a></li>
-                           <li class="breadcrumb-item active" aria-current="page">BOM 등록</li>
+                           <li class="breadcrumb-item active" aria-current="page">제품 및 BOM 상세보기</li>
                         </ol>
                      </nav>
                   </div>
@@ -36,24 +36,21 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                      <div class="card mb-4">
                         <div class="card-header py-3">
                            <div class="d-flex" style="justify-content: space-between">
-                              <h5 class="m-0 col-6">BOM 등록</h5>
+                              <h5 class="m-0 col-6">제품 및 BOM 상세보기</h5>
                               <div class="d-flex col-6 justify-content-end">
                                  <button
                                     type="button"
                                     class="btn btn-primary mx-2"
-                                    id="loadProductData"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#loadModal"
-                                    onclick="setValueProductData();"
+                                    id="bomUpdateSetting"
                                     style="float: left; width: 24%"
                                  >
-                                    BOM 미등록 정보
+                                    BOM 수정하기
                                  </button>
                               </div>
                            </div>
                         </div>
                         <div class="card-body mb-3">
-                           <form id="bomInsertForm" action="bominsertfn" method="post">
+                           <form id="bomUpdateForm" action="bomupdatefn" method="post">
                               <table class="table">
                                  <tr>
                                     <th width="7%">제품 번호</th>
@@ -128,14 +125,14 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                     class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4"
                                     onclick="parseIntSubmit();"
                                  >
-                                    BOM 등록
+                                    BOM 수정
                                  </button>
                                  <a href="productmgmt" class="me-2">
                                     <button
                                        type="button"
                                        class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4"
                                     >
-                                       등록취소
+                                       수정 취소
                                     </button>
                                  </a>
                               </div>
@@ -147,7 +144,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             </section>
          </div>
       </div>
-      <!-- BOM 등록 페이지 END -->
+      <!-- BOM 상세 및 수정 페이지 END -->
 
       <!-- 공통 Modal START  -->
       <div
@@ -310,7 +307,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 	        $('#stdprice').val(parseInt($('#stdprice').val().replace(/,/g, ''), 10));
 
 	        // 폼을 제출합니다.
-	        $('#bomInsertForm').submit();
+	        $('#bomUpdateForm').submit();
 		}
 		/* 콤마 있는 부분 제거 한 후 ParseInt해서 submit END */
          

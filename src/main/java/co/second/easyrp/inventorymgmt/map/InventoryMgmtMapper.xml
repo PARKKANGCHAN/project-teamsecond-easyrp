@@ -192,8 +192,9 @@
 
 	<select id="apiTableAllList"
 		resultType="co.second.easyrp.inventorymgmt.service.InventoryMgmtVO">
-		SELECT cod, name, deleteyn
+		SELECT cod, name, deleteyn, unitprice
 		FROM inventory
+		where deleteyn = 'N' 
 		ORDER BY cod DESC
 	</select>
 

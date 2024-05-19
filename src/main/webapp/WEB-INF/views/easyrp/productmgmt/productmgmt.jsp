@@ -135,6 +135,9 @@
 																<li><a class="dropdown-item"
 																	href="productmgmtdeletefn?cod=${productmgmt.cod}">삭제</a>
 																</li>
+																<li><a class="dropdown-item"
+																	href="bomdetail?prodCod=${productmgmt.cod}">상세페이지</a>
+																</li>
 															</ul>
 														</div>
 													</td>
@@ -223,77 +226,6 @@
 		</div>
 	</div>
 	<!-- 공통 Modal END  -->
-
-
-
-	<!-- BOM 등록 Modal START  -->
-	<div class="modal fade" id="detailModal" tabindex="-1"
-		aria-labelledby="detailModalLabel" aria-hidden="true"
-		data-bs-backdrop="static" data-bs-keyboard="false">
-		<div class="modal-dialog modal-xl" style="width: 1400px">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="detailModalLabel">BOM 상세 관리 페이지</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close" onClick="closeModal()"></button>
-				</div>
-				<div class="modal-body">
-					<table class="table">
-						<tr>
-							<th scope="col">완제품 번호</th>
-							<td id="productCod"></td>
-							<th scope="col">완제품 명</th>
-							<td id="productName"></td>
-							<th scope="col">창고 위치</th>
-							<td id="warehouseName"></td>
-						</tr>
-						<tr>
-							<th scope="col">담당 부서</th>
-							<td id="deptName"></td>
-							<th scope="col">담당 사원코드</th>
-							<td id="empCod"></td>
-							<th scope="col">담당자 명</th>
-							<td id="empName"></td>
-						</tr>
-					</table>
-					<table class="table">
-						<tr id="detailList">
-							<th style="width: 140px">원자재 코드</th>
-							<th style="width: 160px">원자재 명</th>
-							<th>수 량</th>
-							<th>단 가</th>
-							<th>공급가액</th>
-							<th>부가세</th>
-							<th>금 액</th>
-							<th>수정 및 삭제</th>
-						</tr>
-						<tr>
-							<th>총 합</th>
-							<td colspan="3"></td>
-							<td id="totalprice"></td>
-							<td id="totalvax"></td>
-							<td id="totalsum"></td>
-						</tr>
-						<tr>
-							<td colspan="7" style="border-bottom-width: 0px">
-								<button type="button" class="btn btn-primary">전표 생성</button>
-								<button type="button" class="btn btn-primary">출력</button>
-								<button type="button" class="btn btn-primary">이메일 보내기</button>
-								<button type="button" class="btn btn-primary">BOM 수정</button>
-								<button type="button" class="btn btn-primary"
-									id="addColumnButton" onClick="addColumn();">제품 추가</button>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal" onClick="closeModal()">닫기</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- BOM 등록 Modal END  -->
 
 	<!-- 원자재 선택 Modal START  -->
 	<div class="modal fade" id="inventoryModal" tabindex="-1"
