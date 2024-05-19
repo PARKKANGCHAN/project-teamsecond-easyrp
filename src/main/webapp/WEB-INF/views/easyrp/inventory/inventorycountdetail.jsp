@@ -84,6 +84,7 @@
 											<tr>
 												<th>실사상세번호</th>
 												<th>재고코드</th>
+												<th>재고명</th>
 												<th>규격</th>
 												<th>단위</th>
 												<th>수량</th>
@@ -99,8 +100,9 @@
 												<tr>
 													<td class="text-bold-500">${inventoryCountDetailList.num }</td>
 													<c:if test="{}">
-													<td>${inventoryCountDetailList.}</td>
+													<td>${inventoryCountDetailList.inventoryCod}</td>
 													</c:if>
+													<td>${inventoryCountDetailList.Name }</td>
 													<td class="text-bold-500">${inventoryCountDetailList.invDate}</td>
 													<td>${inventoryCountDetailList.warehouse}</td>
 													<td>${inventoryCountDetailList.location}</td>
