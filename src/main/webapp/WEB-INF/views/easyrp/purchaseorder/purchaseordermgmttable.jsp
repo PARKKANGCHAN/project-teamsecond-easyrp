@@ -5,6 +5,11 @@
 <html>
 <head>
 <meta charset="UTF-8" />
+<style type="text/css">
+	.editBox {
+		width: 100px;
+	}
+</style>
 </head>
 <body>
 	<div id="main">
@@ -201,12 +206,12 @@
 															</button>
 															<ul class="dropdown-menu">
 																<li>
-																	<button type="button" class="dropdown-item"
-																		data-bs-toggle="modal" data-bs-target="#quitRegisModal"
-																		onclick="selectCod('${p.cod }')">퇴사등록</button>
+																	<button type="button" class="dropdown-item detailModalBtn"
+																		data-bs-toggle="modal" data-bs-target="#detailModal"
+																		onclick="selectCod('${p.cod }')">상세보기</button>
 																</li>
 																<li><a class="dropdown-item"
-																	href="employeeupdate?cod=${p.cod}">수정</a></li>
+																	href="employeeupdate?cod=${p.cod}">입고처리</a></li>
 																<li>
 																	<button type="button" class="dropdown-item"
 																		data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="selectCod('${e.cod }')">삭제</button>
@@ -266,7 +271,164 @@
 			</section>
 		</div>
 	</div>
-	<!-- 공통 사용 테이블 END -->
+<!-- 상세페이지 모달 START -->
+	<div class="modal fade" id="detailModal" tabindex="-1"
+		aria-labelledby="detailModalLabel" aria-hidden="true" data-bs-backdrop='static' data-bs-keyboard='false'>
+		<div class="modal-dialog modal-xl" style="width: 1400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="detailModalLabel">수주 상세 페이지</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close" onClick="Modalclose()"></button>
+				</div>
+				<div class="modal-body">
+					<table id="detailModalHead" class="table">
+						<tr>
+							<th scope="col">발주번호</th>
+							<td>
+								<span id="codPrint" class="printBox"></span>
+								<input style="display: none" id="cod" class="editBox" readonly/>
+							</td>
+							<th scope="col">발주일자</th>
+							<td>
+								<span id="poDatePrint" class="printBox"></span>
+								<input type="date" style="display: none" id="poDate" class="editBox"/>
+							</td>
+							<th scope="col">거래처 명</th>
+							<td>
+								<span style="display: none"></span>
+								<span id="clientNamePrint" class="printBox"></span>
+								<input id="clientCod" style="display: none" class="loadValues editBox"
+									data-input-id1="clientCod" data-input-id2="clientName" data-key="client" data-bs-toggle="modal"
+									data-bs-target="#searchModal" readonly/>
+								<input style="display: none" id="clientName" class="loadValues editBox"
+									data-input-id1="clientCod" data-input-id2="clientName" data-key="client" data-bs-toggle="modal"
+									data-bs-target="#searchModal" readonly/>
+							</td>
+							<th scope="col">과세구분</th>
+							<td>
+								<span id="taxDivPrint" class="printBox"></span>
+								<select id="taxDiv" class="editBox" style="display: none">
+								</select>
+							</td>
+							<th scope="col">입고일자</th>
+							<td>
+								<span id="iboundDatePrint" class="printBox"></span>
+								<input type="date" style="display: none" id="iboundDate" class="editBox"/>
+							</td>
+							<th scope="col">마감일자</th>
+							<td>
+								<span id="closingDatePrint" class="printBox"></span>
+								<input type="date" style="display: none" id="closingDate" class="editBox"/>
+							</td>
+						</tr>
+						<tr>
+							<th scope="col">발주등록자</th>
+							<td>
+								<span id="employeeCodWriterPrint" class="printBox"></span>
+								<span id="employeeNameWriterPrint" class="printBox"></span>
+								<input  style="display: none" id="employeeCodWriter" class="loadValues editBox"
+									data-input-id1="employeeCodWriter" data-input-id2="employeeNameWriter" data-key="emp" data-bs-toggle="modal"
+									data-bs-target="#searchModal" readonly/>
+								<input style="display: none" id="employeeNameWriter" class="loadValues editBox"
+									data-input-id1="employeeCodWriter" data-input-id2="employeeNameWriter" data-key="emp" data-bs-toggle="modal"
+									data-bs-target="#searchModal" readonly/>
+							</td>
+							<th scope="col">발주담당자</th>
+							<td>
+								<span id="employeeCodPoPrint" class="printBox"></span>
+								<span id="employeeNamePoPrint" class="printBox"></span>
+								<input  style="display: none" id="employeeCodPo" class="loadValues editBox"
+									data-input-id1="employeeCodPo" data-input-id2="employeeNamePo" data-key="emp" data-bs-toggle="modal"
+									data-bs-target="#searchModal" readonly/>
+								<input style="display: none" id="employeeNamePo" class="loadValues editBox"
+									data-input-id1="employeeCodPo" data-input-id2="employeeNamePo" data-key="emp" data-bs-toggle="modal"
+									data-bs-target="#searchModal" readonly/>
+							</td>
+							<th scope="col">입고담당자</th>
+							<td>
+								<span id="employeeCodIboundPrint" class="printBox"></span>
+								<span id="employeeNameIboundPrint" class="printBox"></span>
+								<input style="display: none" id="employeeCodIbound" class="loadValues editBox"
+									data-input-id1="employeeCodIbound" data-input-id2="employeeNameIbound" data-key="emp" data-bs-toggle="modal"
+									data-bs-target="#searchModal" readonly/>
+								<input style="display: none" id="employeeNameIbound" class="loadValues editBox"
+									data-input-id1="employeeCodIbound" data-input-id2="employeeNameIbound" data-key="emp" data-bs-toggle="modal"
+									data-bs-target="#searchModal" readonly/>
+							</td>
+							<th scope="col">납기일</th>
+							<td>
+								<span id="ddayPrint" class="printBox"></span>
+								<input type="date" style="display: none" id="dday" class="editBox"/>
+							</td>
+							<th scope="col">상태</th>
+							<td>
+								<span id="stateNamePrint" class="printBox"></span>
+								<select id="state" class="editBox" style="display: none">
+								</select>
+							</td>
+							<th scope="col">비고</th>
+							<td>
+								<span id="notePrint" class="printBox"></span>
+								<input style="display: none" id="note" class="editBox"/>
+							</td>
+						</tr>
+						</table>
+						<table class="table">
+						<thead>
+							<tr>
+								<th colspan="1">청구번호</th>
+								<th colspan="1">NO.</th>
+								<th colspan="1">품번</th>
+								<th colspan="1" style="width: 160px;">품명</th>
+								<th colspan="1">관리단위수량</th>
+								<th colspan="1">관리단위</th>
+								<th colspan="1">재고단위수량</th>
+								<th colspan="1">재고단위</th>
+								<th colspan="1">단가</th>
+								<th colspan="1">공급가</th>
+								<th colspan="1">부가세</th>
+								<th colspan="1">합계액</th>
+								<th colspan="1">삭제</th>
+							</tr>
+						</thead>
+						<tbody id="detailList">
+							
+						</tbody>
+						<tfoot>
+							<tr>
+								<th colspan="1">총 합</th>
+								<td colspan="1"></td>
+								<td colspan="1"></td>
+								<td colspan="1"></td>
+								<td colspan="1" id="totalprice"></td>
+								<td colspan="1" id="totalvax"></td>
+								<td colspan="1" id="totalsum"></td>
+							</tr>
+							<tr>
+								<td colspan="6" style="border-bottom-width: 0px">
+									<button type="button" class="btn btn-primary printBox" onClick="poChangeBtn()">수정</button>
+									<button type="button" style="display: none" class="btn btn-primary editBox" onClick="estimateChange()">직접입력</button>
+									<button type="button" style="display: none" class="btn btn-primary editBox" onClick="estimateChange()">청구적용</button>
+									<button type="button" style="display: none" class="btn btn-primary editBox" onClick="estimateChange()">수정완료</button>
+									<button type="button" style="display: none" class="btn btn-primary editBox" onClick="poChangeDel()">취소</button>
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				
+				     
+				
+				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal" onClick="Modalclose()">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 상세페이지 모달 END  -->
 	<!--삭제 Modal -->
 	<div class="modal fade" id="deleteModal" tabindex="-1"
 		aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -319,19 +481,36 @@
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
 		let cod = "";
-		const selectCod = (value) => {
+		function selectCod(value) {
 			cod = value;
 		}
 		 /* 거래처.사원찾기 Modal START */
-	    function setValue(cod,name,inputId1,inputId2) {
-	       $('#'+ inputId1).val(cod);
+	    function setValue(cod,name,inputId1,inputId2,bool) {
+		   $('#'+ inputId1).val(cod);
 	       $('#'+ inputId2).val(name);
 	       $('#searchModal').modal('hide');
-	       $('.modal-backdrop').remove();
-	    }
+		   if(bool === 'true') {
+			    $('#detailModal').modal('show');
+		   } else {
+	    		$('#detailModal').modal('hide');
+ 			    $('.modal-backdrop').remove();
+		   }			
+		 }
 
 	    function searchModal() {
 	       $('.loadValues').on('click', function (e) {
+	    	   const isDetailPage = e.target.className.includes('editBox');
+				if(isDetailPage === true) {
+					$('#searchModal').off('hide.bs.modal');
+					$('#searchModal').on('hide.bs.modal', function() {
+	    		    $('#detailModal').modal('show');
+			 	  	});
+				} else {
+					$('#searchModal').off('hide.bs.modal');
+					$('#searchModal').on('hide.bs.modal', function() {
+					});
+		    		$('#detailModal').modal('hide');
+				}
 	    	   let url = '';
 	    	   let thead = '';
 	    	   switch($(e.target).data('key')) {
@@ -362,6 +541,8 @@
 	                         $(e.target).data('input-id1') +
 	                         "','" +
 	                         $(e.target).data('input-id2') +
+	                         "','" +
+	                         isDetailPage +
 	                         '\')" ' +
 	                         'class="searchValue" data-cod="' +
 	                         item.cod +
@@ -406,6 +587,194 @@
 			form.submit();
 		}
 	    
+		/* 상세페이지 Modal START */
+		
+		//수정을 취소하는 함수
+		function poChangeDel() {
+			$('.editBox').css('display', 'none');
+			$('.printBox').css('display', '');
+			detailModalPrint();	
+		}
+
+		//과세구분 데이터를 가져오는 함수
+		function taxDivList(defaultValue) {
+			$.ajax({
+				url: 'taxDivList',
+				method: 'POST',
+				dataType: 'json',
+				success: function(data) {
+					let options = '';
+					$(data).each((index,item) => {
+						if(defaultValue === item.cod) {
+							options += '<option value="' + item.cod + '" selected>' + item.name + '</option>';
+						} else {
+							options += '<option value="' + item.cod + '">' + item.name + '</option>';
+						}
+					});
+					console.log(options);
+					$('#taxDiv').html(options);
+				}
+			});
+		}
+		
+		//수정
+		function poChangeBtn() {
+			$('.printBox').css('display', 'none');
+			$('.editBox').css('display', '');
+		}
+		
+		//발주상세데이터를 삭제하는 함수
+		function poDetailDel(poCod, num) {
+			$.ajax({
+				url: 'delPoDetailFn',
+				method: 'POST',
+				data: {
+					poCod: poCod,
+					num: num
+				},
+				success: function(data) {
+					if(data > 0) {
+						$('#' + poCod + num).remove();
+						alert('삭제가 완료되었습니다.');
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			}) ;
+		 } 
+		 
+		//상세페이지에 값을 뿌려주는 함수
+		function detailModalPrint() {
+			$('.editBox').css('display', 'none');
+			$('.printBox').css('display', '');
+			$.ajax({
+	             url: 'ajaxSelectPo',
+	             method: 'POST',
+	             data: {key : cod},
+	             dataType:"json",
+	             success: function (data) {
+	            	 console.log(data);
+	            	 const poValues = [
+	            		 data.cod,
+	            		 data.po_date,
+	            		 {
+	            			 cod: data.client_cod,
+	            		 	 name: data.clientName
+	            		 },
+	            		 {
+		            		 cod: data.taxdivision_cod,
+		            		 name: data.taxDivName,
+	            		 },
+	            		 data.ibound_date,
+	            		 data.closing_date,
+	            		 {
+	            			 cod: data.employee_cod_writer,
+	            		 	 name: data.empNameWriter
+	            		 },
+	            		 {
+	            			 cod: data.employee_cod_po,
+		            		 name: data.empNamePo,
+	            		 },
+	            		 {
+		            		 cod: data.employee_cod_ibound,
+		            		 name: data.empNameIbound,
+	            		 },
+	            		 data.dday,
+	            		 {
+		            		 cod: data.state_cod,
+		            		 name: data.stateName,
+	            		 },
+	            		 data.note
+	            		 ];
+	            	 $('#detailModalHead').children('tbody').children('tr').children('td').each((index,item) => {
+	            		 if($(item).children('input').length === 2) {
+		            		 $(item).children('span:nth-child(1)').text(poValues[index].cod);
+		            		 $(item).children('span:nth-child(2)').text(poValues[index].name);
+		            		 $(item).children('input:nth-child(3)').val(poValues[index].cod);
+		            		 $(item).children('input:nth-child(4)').val(poValues[index].name);
+	            		 } else if($(item).children('#taxDiv').length === 1) {
+		            		 $(item).children('span:nth-child(1)').text(poValues[index].name);
+	            			 taxDivList(poValues[index].cod); 
+	            		 } else if($(item).children('#state').length === 1) {
+		            		 $(item).children('span:nth-child(1)').text(poValues[index].name);
+	            			 let options = '';
+	            			 options += '<option value="200"'+ (poValues[index].cod == '200' ? 'selected' : '') +'>발주</option>';
+	            			 options += '<option value="201"'+ (poValues[index].cod == '201' ? 'selected' : '') +'>입고의뢰</option>';
+	            			 options += '<option value="202"'+ (poValues[index].cod == '202' ? 'selected' : '') +'>입고검사</option>';
+	            			 options += '<option value="203"'+ (poValues[index].cod == '203' ? 'selected' : '') +'>입고처리</option>';
+	            			 options += '<option value="204"'+ (poValues[index].cod == '204' ? 'selected' : '') +'>매입마감</option>';
+	            		 	 $('#state').html(options);
+	            		 } else {
+		            		 $(item).children('span').text(poValues[index]);
+		            		 $(item).children('input').val(poValues[index]);
+	            		 }
+	            	 });
+ 	             }
+	          }); 
+			$.ajax({
+	             url: 'ajaxPoDetailList',
+	             method: 'POST',
+	             data: {poCod : cod},
+	             dataType:"json",
+	             success: function (data) {
+	            	 let rows = '';
+	            	 $(data).each((index, item) => {
+	            		 console.log(item);
+	            		 let row = '<tr id="'+ item.purchaseorder_cod + item.num +'">'
+ 		            	 row += '<td>' + (item.invoice_cod == null ? '' : item.invoice_cod) + '</td>'; 
+ 		            	 row += '<td>' + (item.invoicedetail_num == null ? '' : item.invoicedetail_num) + '</td>'; 
+ 		            	 row += '<td>' + (item.product_cod == null ? item.inventory_cod : item.product_cod) + '</td>'; 
+ 		            	 row += '<td>' + (item.prodname == null ? item.invname : item.prodname) + '</td>'; 
+ 		            	 row += '<td>' + item.mgmt_qty + '</td>'; 
+ 		            	 row += '<td>' + item.unit_mgmt_name + '</td>'; 
+ 		            	 row += '<td>' + item.inv_qty + '</td>'; 
+ 		            	 row += '<td>' + item.unit_inv_name + '</td>'; 
+ 		            	 row += '<td>' + item.unitprice + '</td>'; 
+ 		            	 row += '<td>' + item.suppprice + '</td>'; 
+ 		            	 row += '<td>' + item.vax + '</td>'; 
+ 		            	 row += '<td>' + item.total + '</td>'; 
+	            		 row += '<td><button type="button" class="btn-primary" onClick="poDetailDel(' + "'" + item.purchaseorder_cod + "', " + item.num + ')">삭제</button></td></tr>'
+	            		 rows += row;
+	            	 });
+	            	 $('#detailList').html(rows);
+ 	             }
+	          }); 
+ 
+		 }
+	    function detailModal() {
+	       $('.detailModalBtn').on('click', function () {
+	    	   detailModalPrint();
+	       });
+ 		};
+ 	    detailModal();
+ 	    
+ 	    /* 수량을 변경하는 함수 */
+ 	    function amountChange(key) {
+ 	    	const prodMgmtUnitAmount = $('#prodMgmtUnitAmount');
+ 	    	const prodUnitAmount = $('#prodUnitAmount');
+ 	    	const mgmtUnitAmount = Number($('#mgmtUnitAmount').val());
+ 	    	const unitAmount = Number($('#unitAmount').val());
+ 	    	switch(key) {
+ 	    	case '+':
+ 	    		prodMgmtUnitAmount.val(Number(prodMgmtUnitAmount.val()) + mgmtUnitAmount);
+ 	    		prodUnitAmount.val(Number(prodUnitAmount.val()) + unitAmount);
+ 	    		totalCal(mgmtUnitAmount);
+ 	    		break;
+ 	    	case '-':
+ 	    		if(prodMgmtUnitAmount.val() - mgmtUnitAmount !== 0) {
+ 	    			prodMgmtUnitAmount.val(Number(prodMgmtUnitAmount.val()) - mgmtUnitAmount);
+ 	        		prodUnitAmount.val(Number(prodUnitAmount.val()) - unitAmount);
+ 	        		totalCal(mgmtUnitAmount);
+ 	    		}
+ 	    		break;
+ 			default:
+ 				break;
+ 	    	}
+ 	    }
+
+ 	    /* 상세페이지 Modal END */
+
 	</script>
 </body>
 </html>

@@ -58,10 +58,20 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		return purchaseOrderMapper.insertPo(vo);
 	}
 
+	//고유한 발주번호를 부여해주기위한 메소드
+	//하서현
 	@Override
 	public String newPoCod() {
 		// TODO Auto-generated method stub
 		return purchaseOrderMapper.newPoCod();
+	}
+
+	//특정 발주데이터를 가져오기위한 메소드
+	//하서현
+	@Override
+	public Map<String, Object> selectPo(String key) {
+		// TODO Auto-generated method stub
+		return purchaseOrderMapper.selectPo(key);
 	}
 
 }

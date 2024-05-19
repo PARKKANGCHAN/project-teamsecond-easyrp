@@ -27,5 +27,10 @@ public interface PurchaseOrderService {
 	//발주등록을할때 고유한 발주번호를 부여해주기위한 메소드
 	//하서현
 	String newPoCod();
+	
+	//특정 발주데이터를 가져오기위한 메소드
+	//하서현
+	Map<String, Object> selectPo(String key);
+
 }
 

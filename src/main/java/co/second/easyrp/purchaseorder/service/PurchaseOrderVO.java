@@ -1,9 +1,11 @@
 package co.second.easyrp.purchaseorder.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import co.second.easyrp.purchaseorderdetail.service.PurchaseOrderDetailVO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,6 +14,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class PurchaseOrderVO {
+	private List<PurchaseOrderDetailVO> poDetailList;
 	private String cod;
 	private String poDate;
 	private String closingDate;
