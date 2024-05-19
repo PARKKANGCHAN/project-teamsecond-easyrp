@@ -54,30 +54,30 @@
 								</div>
 							</div>
 							<div class="card-body mb-3">
-								<form id="formContainer" action="mrpinsertfn" method="post">
+								<form id="formContainer" action="invoiceinsertfn" method="post">
 									<div class="mb-4">
 										<table class="table table-bordered">
-											<!-- mps 번호 INPUT -->
+											<!-- 청구일자 INPUT -->
 											<tr>
 												<td width="150">청구일자</td>
 												<td><input type="text" id="invDate" name="invDate" class="form-control" readonly/>
 												</td>
 											</tr>
-											<!-- 등록자 INPUT -->
+											<!-- 청구구분 INPUT -->
 											<tr>
 												<td width="150">청구구분</td>
 												<td><input type="text" id="invClass" name="invClass"
 													class="form-control" placeholder="청구구분을 불러오세요." readonly/>
 												</td>
 											</tr>
-											<!-- 품번 INPUT -->
+											<!-- 청구자 INPUT -->
 											<tr>
 												<td width="150">청구자</td>
 												<td><input type="text" id="employeeName" name="employeeName" value="${empName }"
 													class="form-control" placeholder="로그인하면 자동으로 불러옵니다." required readonly/>
 												</td>
 											</tr>
-											<!-- 품명 INPUT -->
+											<!-- 비고 INPUT -->
 											<tr>
 												<td width="150">비고</td>
 												<td><input type="text" id="note" name="note" class="form-control"/>
@@ -85,8 +85,10 @@
 											</tr>
 										</table>
 										<div>
-											<input type="hidden" id="mrpCod" name="mrpCod" value="${empCode}" />
 											<input type="hidden" id="employeeCod" name="employeeCod" value="${empCode}" />
+										</div>
+										<div id="mrpCodContent">
+											<!-- 여기에 ajax로 생성된 hidden input이 만들어진다. -->
 										</div>
 										<br/>
 										<table class="table table-hover mb-0">
@@ -240,6 +242,7 @@
                   traditional:true,
                   success: function (data) {
                      let rows = '';
+                     let contents = '';
                      data.forEach(function (item, index) {
                         if (item.account == '완제') {
                            rows +=
@@ -275,6 +278,12 @@
                               item.clientName +
                               '</td>' +
                               '</tr>';
+                           contents +=
+                           	  '<div>'+
+                           	  '<input type="hidden" name="mrpCod" value="' +
+                           	  item.cod +
+                           	  '"/>' + 
+                           	  '</div>'
                         }
                         if (item.account == '자재') {
                            rows +=
@@ -310,17 +319,22 @@
                               item.clientName +
                               '</td>' +
                               '</tr>';
+                           contents +=
+                            	  '<div>'+
+                            	  '<input type="hidden" name="mrpCod" value="' +
+                            	  item.cod +
+                            	  '"/>' + 
+                            	  '</div>'
                         }
                      });
                      $('#mrpTableBody').html(rows);
+                     $('#mrpCodContent').html(contents);
                      
                      if(data[0].account == '완제'){
                     	 $('#invClass').val('생산');	 
                      }else{
                     	 $('#invClass').val('구매');
                      }
-                     
-                     $('#dataModal').modal('show');
                   },
                });
         	

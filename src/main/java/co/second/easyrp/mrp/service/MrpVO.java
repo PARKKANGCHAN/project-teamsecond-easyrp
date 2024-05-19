@@ -40,9 +40,10 @@ public class MrpVO {
 	private String invUnitName;
 	private String invoiceUnitName;
 	private String invoiceInvUnitNmae;
-	private String amount;
-	private String invAmount;
-	private String invoiceAmount;
-	private String invoiceUnitAmount;
+	private int amount;
+	private int invAmount;
+	private int invoiceAmount;
+	private int invoiceUnitAmount;
 	private String clientName;
+	private int unitprice;
 }

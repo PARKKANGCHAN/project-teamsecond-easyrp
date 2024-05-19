@@ -73,7 +73,7 @@
 	</select>
 	
 	<select id="mrpSelect">
-		SELECT m.cod, m.product_cod, p.prodname, m.inventory_cod, i.name AS 'invname', p.spec, i.spec AS 'invspec', m.take_date, m.po_date, o.dday, m.qty, u.name AS 'unitName', u2.name AS 'invUnitName', m.account, u3.name AS 'invoiceUnitName', u4.name AS 'invoiceInvUnitNmae', p.unit_amount AS 'amount', i.unit_amount as 'invAmount', p.mgmt_unit_amount as 'invoiceAmount', i.mgmt_unit_amount as 'invoiceUnitAmount', c.name AS 'clientName' 
+		SELECT m.cod, m.product_cod, p.prodname, m.inventory_cod, i.name AS 'invname', p.spec, i.spec AS 'invspec', m.take_date, m.po_date, o.dday, m.qty, u.name AS 'unitName', u2.name AS 'invUnitName', m.account, u3.name AS 'invoiceUnitName', u4.name AS 'invoiceInvUnitNmae', p.unit_amount AS 'amount', i.unit_amount as 'invAmount', p.mgmt_unit_amount as 'invoiceAmount', i.mgmt_unit_amount as 'invoiceUnitAmount', c.name AS 'clientName', p.unitprice 
 		FROM mrp m 
 		JOIN product p 
 		ON m.product_cod = p.cod 
