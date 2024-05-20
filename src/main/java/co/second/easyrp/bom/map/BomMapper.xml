@@ -27,6 +27,7 @@
 		LEFT JOIN product p ON b.prod_cod = p.cod
 		LEFT JOIN inventory i ON b.inv_cod = i.cod
 		LEFT JOIN productgroup p2 ON p.productgroup_cod = p2.cod
+		WHERE b.prod_cod = #{prodCod}
 	</select>
 
 	<insert id="insertBom"

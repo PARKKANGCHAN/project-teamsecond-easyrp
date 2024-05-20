@@ -26,7 +26,7 @@ public class BomController {
 	
 	@GetMapping("/bomdetail")
 	public String bomDetail(@RequestParam("prodCod") String prodCod, Model model) {
-		BomVO getBomDetailData = bomService.getBomDetailData(prodCod);
+		List<BomVO> getBomDetailData = bomService.getBomDetailData(prodCod);
 		System.out.println(getBomDetailData);
 		
 		model.addAttribute("getBomDetailData", getBomDetailData);

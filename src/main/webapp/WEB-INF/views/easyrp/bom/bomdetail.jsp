@@ -1,173 +1,169 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> <%@ taglib
-uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
-   <head>
-      <meta charset="UTF-8" />
-      <title>Insert title here</title>
-   </head>
-   <body>
-      <!-- 2024년 5월 19일 오후 1시 35분 박현우 -->
-      <!-- BOM 상세 및 수정 페이지 START -->
-      <div id="main">
-         <header class="mb-3">
-            <a href="#" class="burger-btn d-block d-xl-none"> <i class="bi bi-justify fs-3"></i> </a>
-         </header>
-         <div class="page-heading">
-            <div class="page-title">
-               <div class="row">
-                  <div class="col-12 col-md-6 order-md-1 order-last">
-                     <h3>제품 및 BOM 상세보기</h3>
-                     <p class="text-subtitle text-muted">제품 및 BOM 상세보기를 위한 페이지</p>
-                  </div>
-                  <div class="col-12 col-md-6 order-md-2 order-first">
-                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                        <ol class="breadcrumb">
-                           <li class="breadcrumb-item"><a href="/easyrp">home</a></li>
-                           <li class="breadcrumb-item active" aria-current="page">제품 및 BOM 상세보기</li>
-                        </ol>
-                     </nav>
-                  </div>
-               </div>
-            </div>
-            <section class="section">
-               <div class="row" id="table-hover-row">
-                  <div class="col-12">
-                     <div class="card mb-4">
-                        <div class="card-header py-3">
-                           <div class="d-flex" style="justify-content: space-between">
-                              <h5 class="m-0 col-6">제품 및 BOM 상세보기</h5>
-                              <div class="d-flex col-6 justify-content-end">
-                                 <button
-                                    type="button"
-                                    class="btn btn-primary mx-2"
-                                    id="bomUpdateSetting"
-                                    style="float: left; width: 24%"
-                                 >
-                                    BOM 수정하기
-                                 </button>
-                              </div>
-                           </div>
-                        </div>
-                        <div class="card-body mb-3">
-                           <form id="bomUpdateForm" action="bomupdatefn" method="post">
-                              <table class="table">
-                                 <tr>
-                                    <th width="7%">제품 번호</th>
-                                    <td width="20%">
-                                       <input
-                                          type="text"
-                                          class="form-control hyunwoo-input-disabled"
-                                          id="prodCod"
-                                          name="prodCod"
-                                          readonly
-                                       />
-                                    </td>
-                                    <th width="7%">제품 명</th>
-                                    <td width="20%">
-                                       <input
-                                          type="text"
-                                          class="form-control hyunwoo-input-disabled"
-                                          id="productName"
-                                          disabled
-                                       />
-                                    </td>
-                                    <th width="7%">제품 그룹 명</th>
-                                    <td width="20%">
-                                       <input
-                                          type="text"
-                                          class="form-control hyunwoo-input-disabled"
-                                          id="productGroupName"
-                                          disabled
-                                       />
-                                    </td>
-                                    <td></td>
-                                 </tr>
-                              </table>
-                              <table id="materialTable" class="table">
-                                 <tr id="detailList">
-                                    <th width="7%">원자재 코드</th>
-                                    <th width="20%">원자재 명</th>
-                                    <th width="7%">수 량</th>
-                                    <th width="15%">단 가&nbsp;(원)</th>
-                                    <th width="15%">금 액&nbsp;(수량 * 단가)</th>
-                                    <th width="20%">삭 제</th>
-                                 </tr>
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+<script type="text/javascript">
+var rowIdCounter = 0;
+</script>
+</head>
+<body>
+	<!-- 2024년 5월 19일 오후 1시 35분 박현우 -->
+	<!-- BOM 상세 및 수정 페이지 START -->
+	<div id="main">
+		<header class="mb-3">
+			<a href="#" class="burger-btn d-block d-xl-none"> <i
+				class="bi bi-justify fs-3"></i>
+			</a>
+		</header>
+		<div class="page-heading">
+			<div class="page-title">
+				<div class="row">
+					<div class="col-12 col-md-6 order-md-1 order-last">
+						<h3>제품 및 BOM 상세보기</h3>
+						<p class="text-subtitle text-muted">제품 및 BOM 상세보기를 위한 페이지</p>
+					</div>
+					<div class="col-12 col-md-6 order-md-2 order-first">
+						<nav aria-label="breadcrumb"
+							class="breadcrumb-header float-start float-lg-end">
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="/easyrp">home</a></li>
+								<li class="breadcrumb-item active" aria-current="page">제품 및
+									BOM 상세보기</li>
+							</ol>
+						</nav>
+					</div>
+				</div>
+			</div>
+			<section class="section">
+				<div class="row" id="table-hover-row">
+					<div class="col-12">
+						<div class="card mb-4">
+							<div class="card-header py-3">
+								<div class="d-flex" style="justify-content: space-between">
+									<h5 class="m-0 col-6">제품 및 BOM 상세보기</h5>
+									<div class="d-flex col-6 justify-content-end">
+										<button type="button" class="btn btn-primary mx-2"
+											id="bomUpdateSetting" style="float: left; width: 24%">
+											BOM 수정하기</button>
+									</div>
+								</div>
+							</div>
+							<div class="card-body mb-3">
+								<form id="bomUpdateForm" action="bomupdatefn" method="post">
+									<table class="table">
+										<tr>
+											<th width="7%">제품 번호</th>
+											<td width="20%"><input type="text"
+												class="form-control hyunwoo-input-disabled" id="prodCod"
+												name="prodCod" value="${getBomDetailData[0].prodCod}"
+												readonly /></td>
+											<th width="7%">제품 명</th>
+											<td width="20%"><input type="text"
+												class="form-control hyunwoo-input-disabled" id="productName"
+												value="${getBomDetailData[0].productName}" disabled />
+											</td>
+											<th width="7%">제품 그룹 명</th>
+											<td width="20%"><input type="text"
+												class="form-control hyunwoo-input-disabled"
+												id="productGroupName"
+												value="${getBomDetailData[0].productGroupName}" disabled />
+											</td>
+											<td></td>
+										</tr>
+									</table>
+									<table id="materialTable" class="table">
+										<tr id="detailList">
+											<th width="7%">원자재 코드</th>
+											<th width="20%">원자재 명</th>
+											<th width="7%">수 량</th>
+											<th width="15%">단 가&nbsp;(원)</th>
+											<th width="15%">금 액&nbsp;(수량 * 단가)</th>
+											<th width="20%">삭 제</th>
+										</tr>
+										<c:forEach var="getBomDetail" items="${getBomDetailData}" varStatus="status">
+										<tr data-row-id="${status.index}">
+											<td><input type="text" id="invCod${status.index}"
+												name="bomList[${status.index}].invCod" class="form-control hyunwoo-input-disabled"
+												value = "${getBomDetail.invCod }"
+												disabled /></td>
+											<td><input type="text" id="invName${status.index}"
+												class="form-control hyunwoo-input-disabled" data-bs-toggle="modal"
+												data-bs-target="#loadModal"
+												onclick="setValueInventoryModal(${status.index});"
+												value = "${getBomDetail.invName }"
+												placeholder="이 곳을 눌러 원자재를 입력해주세요." disabled /></td>
+											<td><input type="text" id="quantity${status.index}"
+												name="bomList[${status.index}].quantity"
+												value = "${getBomDetail.quantity }"
+												class="form-control quantity-input hyunwoo-input-disabled" disabled /></td>
+											<td><strong id="unitprice${status.index}"
+												class="unitprice">${getBomDetail.invUnitprice }</strong></td>
+											<td><strong id="totalAmount${status.index}"
+												class="totalAmount">${getBomDetail.quantity } * ${getBomDetail.invUnitprice }</strong></td>
+											<td><button class="btn btn-danger deleteRowButton" disabled>삭제</button></td>
+										</tr>
+										</c:forEach>
+										<tr>
+											<th colspan="1">총 합</th>
+											<td colspan="1"></td>
+											<td colspan="1"></td>
+											<td colspan="1"></td>
+											<td colspan="2"><input type="text"
+												class="form-control hyunwoo-input-disabled hyunwoo-stdprice"
+												id="stdprice" name="stdprice" value="여기에 자재금액 합계" readonly />
+											</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td colspan="6" style="border-bottom-width: 0px">
+												<button type="button" class="btn btn-primary"
+													id="addtrButton" disabled>원자재 추가</button>
+											</td>
+										</tr>
+									</table>
+									<div style="text-align: center">
+										<button type="button"
+											class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4"
+											onclick="parseIntSubmit();">
+											BOM 수정</button>
+										<a href="productmgmt" class="me-2">
+											<button type="button"
+												class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">
+												수정 취소</button>
+										</a>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+	<!-- BOM 상세 및 수정 페이지 END -->
 
-                                 <tr>
-                                    <th colspan="1">총 합</th>
-                                    <td colspan="1"></td>
-                                    <td colspan="1"></td>
-                                    <td colspan="1"></td>
-                                    <td colspan="2">
-                                       <input
-                                          type="text"
-                                          class="form-control hyunwoo-input-disabled hyunwoo-stdprice"
-                                          id="stdprice"
-                                          name="stdprice"
-                                          value="여기에 자재금액 합계"
-                                          readonly
-                                       />
-                                    </td>
-                                    <td></td>
-                                 </tr>
-                                 <tr>
-                                    <td colspan="6" style="border-bottom-width: 0px">
-                                       <button type="button" class="btn btn-primary" id="addtrButton" disabled>
-                                          원자재 추가
-                                       </button>
-                                    </td>
-                                 </tr>
-                              </table>
-                              <div style="text-align: center">
-                                 <button
-                                    type="button"
-                                    class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4"
-                                    onclick="parseIntSubmit();"
-                                 >
-                                    BOM 수정
-                                 </button>
-                                 <a href="productmgmt" class="me-2">
-                                    <button
-                                       type="button"
-                                       class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4"
-                                    >
-                                       수정 취소
-                                    </button>
-                                 </a>
-                              </div>
-                           </form>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </section>
-         </div>
-      </div>
-      <!-- BOM 상세 및 수정 페이지 END -->
+	<!-- 공통 Modal START  -->
+	<div class="modal fade" id="loadModal" tabindex="-1"
+		data-bs-backdrop="static" data-bs-keyboard="false"
+		aria-labelledby="loadModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- 여기에 Modal JSP가 삽입됩니다. -->
+			</div>
+		</div>
+	</div>
+	<!-- 공통 Modal END  -->
 
-      <!-- 공통 Modal START  -->
-      <div
-         class="modal fade"
-         id="loadModal"
-         tabindex="-1"
-         data-bs-backdrop="static"
-         data-bs-keyboard="false"
-         aria-labelledby="loadModalLabel"
-         aria-hidden="true"
-      >
-         <div class="modal-dialog">
-            <div class="modal-content">
-               <!-- 여기에 Modal JSP가 삽입됩니다. -->
-            </div>
-         </div>
-      </div>
-      <!-- 공통 Modal END  -->
-
-      <script type="text/javascript">
+	<script type="text/javascript">
+	
          function setValueProductData() {
             $('.modal-content').load('setvalueproductdata');
          }
+         
 
          $(document).ready(function () {
             let rowIdCounter = 0;
@@ -312,5 +308,5 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 		/* 콤마 있는 부분 제거 한 후 ParseInt해서 submit END */
          
       </script>
-   </body>
+</body>
 </html>

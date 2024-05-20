@@ -11,7 +11,7 @@ public interface BomMapper {
 	List<BomVO> getHyunwooProductData();
 	
 	// 단일 항목 데이터 가져오기
-	BomVO getBomDetailData(String prodCod);
+	List<BomVO> getBomDetailData(String prodCod);
 	
 	int insertBom(BomVO bomVO);
 	

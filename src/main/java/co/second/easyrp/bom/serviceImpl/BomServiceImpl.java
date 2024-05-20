@@ -50,7 +50,7 @@ public class BomServiceImpl implements BomService {
 	}
 
 	@Override
-	public BomVO getBomDetailData(String prodCod) {
+	public List<BomVO> getBomDetailData(String prodCod) {
 		return bomMapper.getBomDetailData(prodCod);
 	}
 }

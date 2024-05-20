@@ -136,8 +136,7 @@
 																	href="productmgmtdeletefn?cod=${productmgmt.cod}">삭제</a>
 																</li>
 																<li><a class="dropdown-item"
-																	href="bomdetail?prodCod=${productmgmt.cod}">상세페이지</a>
-																</li>
+																	href="bomdetail?prodCod=${productmgmt.cod}">상세페이지</a></li>
 															</ul>
 														</div>
 													</td>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="co.second.easyrp.salesclosing.map.SalesClosingMapper">
+
+	<!-- 테이블의 메인에 값을 깔기 위한 쿼리 START -->
+	<select id="tableAllList"
+		parameterType="co.second.easyrp.salesclosing.service.SearchVO"
+		resultType="co.second.easyrp.salesclosing.service.SalesClosingVO">
+		SELECT c.*, s.name AS 'stateName'
+		FROM collectedmoney c
+		LEFT JOIN state
+		s ON c.state = s.cod
+		WHERE c.deleteyn = 'N'
+		<if test="searchOrderCod != null and searchOrderCod != ''">
+			AND c.order_cod = #{searchOrderCod}
+		</if>
+		<if
+			test="searchSalesClosingState != null and searchSalesClosingState != ''">
+			AND c.state = #{searchSalesClosingState}
+		</if>
+		<if
+			test="preSearchDate != null and preSearchDate != '' and postSearchDate != null and postSearchDate != ''">
+			AND c.colday BETWEEN #{preSearchDate} AND #{postSearchDate}
+		</if>
+		ORDER BY c.order_cod DESC
+		LIMIT #{pageSize} OFFSET #{offset}
+	</select>
+	<!-- 테이블의 메인에 값을 깔기 위한 쿼리 END -->
+
+</mapper>
