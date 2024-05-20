@@ -1,6 +1,8 @@
 package co.second.easyrp.inventorycount.web;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +25,7 @@ import co.second.easyrp.inventorycount.service.InventoryCountVO;
 import co.second.easyrp.inventorycount.service.ProductInventoryVO;
 import co.second.easyrp.inventorycount.service.SearchVO;
 import co.second.easyrp.mrp.service.MrpVO;
+import co.second.easyrp.warehouse.service.WareHouseService;
 import co.second.easyrp.warehouse.service.WareHouseVO;
 
 @Controller
@@ -78,47 +81,107 @@ public class InventoryCountController {
 	}
 	
 	@RequestMapping("inventorycountinsert")
-	public String inventoryCountInsert() {
+	public String inventoryCountInsert(Model model) {
+		List<WareHouseVO> warehouseinv = warehouseList();
+		model.addAttribute("warehouseinv", warehouseinv);
 		return "easyrp/inventory/inventorycountinsert";
 	}
 	
-	@RequestMapping("inventorycountinsertfn")
-	public String inventoryCountInsertFn(@RequestParam int diffQty, @RequestParam String account, @RequestParam String note, @RequestParam String locationCod, @RequestParam String warehouse,String cod, HttpServletRequest httpservletrequest, HttpSession httpsession) {
-		InventoryCountVO inventorycountvo = new InventoryCountVO();
+	@RequestMapping("/api/get-prodinvinsert")
+	public String inventoryCountInsertFn( HttpServletRequest httpservletrequest, HttpSession httpsession) {
 		
-		String[] countList = httpservletrequest.getParameterValues("countList");
-		System.out.println(countList);
-		inventorycountvo.setCod(cod);
-		inventorycountvo = inventorycountservice.selectInventoryCountList(inventorycountvo);
+//		InventoryCountVO inventorycountvo = new InventoryCountVO();	
+		String[] prodInvCod;
+		String[] countqty;
+		String[] note;
+		String warehouse;
+		
+		
+		prodInvCod= httpservletrequest.getParameterValues("prodInvCod");
+		countqty = httpservletrequest.getParameterValues("countqty");
+		note = httpservletrequest.getParameterValues("note");
+		warehouse= httpservletrequest.getParameter("warehouse");
+		System.out.println(warehouse);
+		
+				System.out.println(Arrays.toString(countqty));
+				System.out.println(Arrays.toString(note));
+				System.out.println(Arrays.toString(prodInvCod));
+		
 		InventoryCountDetailVO inventorycountdetailvo = new InventoryCountDetailVO();
-		inventorycountdetailvo = inventorycountservice.selectedInventoryCountDetailList(inventorycountdetailvo);
+		InventoryCountVO inventorycountvo = new InventoryCountVO();		
 		
-	for(int i=0 ; i<countList.length+1; i++) {
-    	int maxNumber = inventorycountservice.selectMaxCod() + 1;
+		int maxNumber = inventorycountservice.selectMaxCod() + 1;
     	String newCode = String.format("%03d", maxNumber);
     	
     	SimpleDateFormat countdate = new SimpleDateFormat("dd-MM-yyyy");
     	
+    	if(warehouse != null) {
+    		inventorycountvo.setWarehouse(warehouse);
+    	}
+    	
     	inventorycountvo.setCod(newCode);
-    	inventorycountvo.setCountDate(inventorycountvo.getCountDate());
     	inventorycountvo.setEmployeeCod((String) httpsession.getAttribute("empCode"));
     	inventorycountvo.setCountDate(countdate);
     	inventorycountvo.setInvDate(countdate);
+    	inventorycountvo.setWarehouseCod(inventorycountservice.wareHouseCod(warehouse));
     	inventorycountvo.setCountclass("정기");
-    	inventorycountvo.setWarehouse(warehouse);
     	
-    	inventorycountdetailvo.setEmployeeCod((String) httpsession.getAttribute("empCode"));
-    	inventorycountdetailvo.setCountDate(countdate);
-    	inventorycountdetailvo.setCountclass("정기");
-    	inventorycountdetailvo.setInvDate(countdate);
-    	inventorycountdetailvo.setLocationCod(locationCod);
-    	inventorycountdetailvo.setAccount(account);
-    	inventorycountdetailvo.setNote(note);
-    	inventorycountdetailvo.setDiffQty(diffQty);
+		
+		if(prodInvCod != null) {
+			for(int i=0; i<prodInvCod.length; i++) {
+				
+				boolean prodinvcods = prodInvCod[i].contains("prd");
+				if(prodinvcods = true) {
+					inventorycountdetailvo.setProductCod(prodInvCod[i]);
+					inventorycountdetailvo.setAccount("완제품");
+				}else {
+					inventorycountdetailvo.setInventoryCod(prodInvCod[i]);
+					inventorycountdetailvo.setAccount("원자재");
+				}
+				inventorycountdetailvo.setQty(Integer.parseInt(countqty[i]));	
+				inventorycountdetailvo.setNote(note[i]);
+				inventorycountdetailvo.setUnitCod(1);
+				inventorycountdetailvo.setDiffQty(inventorycountdetailvo.getDiffQty());
+				
+		List<ProductInventoryVO> result = new ArrayList<>();
+		List<ProductInventoryVO> prodinvs = inventorycountservice.getAllSelectedCountList(prodInvCod[i]);
+		result.addAll(prodinvs);
+		System.out.println(result.toString());
+		
+//		inventorycountservice.insertInventoryCount(inventorycountvo);
+//		inventorycountservice.insertCountDetailList(inventorycountdetailvo);
 		}
-	
-		inventorycountservice.insertInventoryCount(inventorycountvo);
-		inventorycountservice.insertCountDetailList(inventorycountdetailvo);
+			
+			}
+			
+//		inventorycountvo.setCod(cod);
+//		inventorycountvo = inventorycountservice.selectInventoryCountList(inventorycountvo);
+//		InventoryCountDetailVO inventorycountdetailvo = new InventoryCountDetailVO();
+//		inventorycountdetailvo = inventorycountservice.selectedInventoryCountDetailList(inventorycountdetailvo);
+//		
+//    	int maxNumber = inventorycountservice.selectMaxCod() + 1;
+//    	String newCode = String.format("%03d", maxNumber);
+//    	
+//    	SimpleDateFormat countdate = new SimpleDateFormat("dd-MM-yyyy");
+//    	
+//    	inventorycountvo.setCod(newCode);
+//    	inventorycountvo.setCountDate(inventorycountvo.getCountDate());
+//    	inventorycountvo.setEmployeeCod((String) httpsession.getAttribute("empCode"));
+//    	inventorycountvo.setCountDate(countdate);
+//    	inventorycountvo.setInvDate(countdate);
+//    	inventorycountvo.setCountclass("정기");
+//    	inventorycountvo.setWarehouse(warehouse);
+//    	
+//    	inventorycountdetailvo.setInventorycountCod(newCode);
+//    	inventorycountdetailvo.setLocationCod(locationCod);
+//    	inventorycountdetailvo.setAccount(account);
+//    	inventorycountdetailvo.setNote(note);
+//    	inventorycountdetailvo.setDiffQty(diffQty);
+//    	inventorycountdetailvo.setProductCod(productCod);
+//    	inventorycountdetailvo.setInventoryCod(inventoryCod);
+//	
+//		inventorycountservice.insertInventoryCount(inventorycountvo);
+//		inventorycountservice.insertCountDetailList(inventorycountdetailvo);
 	
 		return "redirect:/inventorycount";
 	}

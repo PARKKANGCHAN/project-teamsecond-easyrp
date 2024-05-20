@@ -17,11 +17,12 @@ public interface InventoryCountMapper {
 	InventoryCountDetailVO selectedInventoryCountDetailList(InventoryCountDetailVO inventorycountdetailvo);
 	int countInventoryCountLists(SearchVO searchVo);
 	List<ProductInventoryVO> getAllProductInventoryList();
-	List<ProductInventoryVO> getAllSelectedCountList(String itemList);
+	List<ProductInventoryVO> getAllSelectedCountList(String prodInvCod);
 	int insertCountDetailList(InventoryCountDetailVO inventorycountdetailvo);
 	List<WareHouseVO> warehouseList();
 	List<ProductInventoryVO> getAllProdInvWarehouse(WareHouseVO warehousevo);
 	List<WareHouseVO> selectedWarehouseList(WareHouseVO warehousevo);
 	List<ProductInventoryVO> getProdInvAccount(ProductInventoryVO productinventoryvo);
 	int selectMaxCod();
+	String wareHouseCod(String warehouse);
 }

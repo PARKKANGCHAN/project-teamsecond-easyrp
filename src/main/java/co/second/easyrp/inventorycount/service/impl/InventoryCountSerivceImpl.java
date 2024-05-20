@@ -71,9 +71,9 @@ public class InventoryCountSerivceImpl implements InventoryCountService {
 	}
 
 	@Override
-	public List<ProductInventoryVO> getAllSelectedCountList(String itemList) {
+	public List<ProductInventoryVO> getAllSelectedCountList(String prodInvCod) {
 		// TODO Auto-generated method stub
-		return inventorycountmapper.getAllSelectedCountList(itemList);
+		return inventorycountmapper.getAllSelectedCountList(prodInvCod);
 	}
 
 	@Override
@@ -110,6 +110,12 @@ public class InventoryCountSerivceImpl implements InventoryCountService {
 	public int selectMaxCod() {
 		// TODO Auto-generated method stub
 		return inventorycountmapper.selectMaxCod();
+	}
+
+	@Override
+	public String wareHouseCod(String warehouse) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.wareHouseCod(warehouse);
 	}
 
 

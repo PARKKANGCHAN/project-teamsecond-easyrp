@@ -14,7 +14,7 @@ public interface InventoryCountService {
 	InventoryCountVO selectInventoryCountList(InventoryCountVO vo);
 	InventoryCountDetailVO selectedInventoryCountDetailList(InventoryCountDetailVO inventorycountdetailvo);
 	List<ProductInventoryVO> getAllProductInventoryList();
-	List<ProductInventoryVO> getAllSelectedCountList(String itemList);
+	List<ProductInventoryVO> getAllSelectedCountList(String prodInvCod);
 	int countInventoryCountLists(SearchVO searchVo);
 	int insertCountDetailList(InventoryCountDetailVO inventorycountdetailvo);
 	List<WareHouseVO> warehouseList();
@@ -22,4 +22,5 @@ public interface InventoryCountService {
 	List<WareHouseVO> selectedWarehouseList(WareHouseVO warehousevo);
 	List<ProductInventoryVO> getProdInvAccount(ProductInventoryVO productinventoryvo);
 	int selectMaxCod();
+	String wareHouseCod(String warehouse);
 }

@@ -18,7 +18,6 @@ public class InventoryCountVO {
 	private String warehouseCod;
 	private String locationCod;
 	private String countclass;
-	private String account;
 	private String deleteyn;
 	private String warehouse;
 	private String employee;
