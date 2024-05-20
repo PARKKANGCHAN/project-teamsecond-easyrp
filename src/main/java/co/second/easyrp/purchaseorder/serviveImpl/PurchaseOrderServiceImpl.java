@@ -71,6 +71,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		// TODO Auto-generated method stub
 		vo.setOffset((vo.getPage() - 1) * vo.getSize());
 		return purchaseOrderMapper.selectPurchaseOrdersClosing(vo);
+	}
 
 	//특정 발주데이터를 가져오기위한 메소드
 	//하서현
