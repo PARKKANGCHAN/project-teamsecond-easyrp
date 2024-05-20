@@ -736,6 +736,7 @@
             var clientName   = $('#registerClientName').val();
             var employeeCod = $('#orderEmp1').text();
             var dday = $('#ddayInput').val();
+            var estimateCod = $('#registerEstimate').val();
             console.log("dday : " + dday);
             
             rows.each(function(index) {
@@ -748,6 +749,7 @@
         	console.log(productName);
                 
                 var rowData = {
+                	estimateCod: estimateCod,
                 	employeeCod: employeeCod,
                 	prodname: productName,
                 	clientName: clientName,

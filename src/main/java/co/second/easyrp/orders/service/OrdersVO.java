@@ -47,4 +47,5 @@ public class OrdersVO {
 	private int qty;
 	private int curRemainQty;
 	private int deliveryState;
+	private String estimateCod;
 }

@@ -108,7 +108,6 @@ public class OrdersController {
 		
 		List<EstimateVO> estimatelist = new ArrayList<EstimateVO>();
 		estimatelist = estimateService.EstimateSelectList1();
-		System.out.println(estimatelist);
 		
 		
 		return estimatelist;
@@ -153,6 +152,9 @@ public class OrdersController {
     	Date dday = dataToSend.get(0).getDday();
     	
     	
+    	String estimateCod = dataToSend.get(0).getEstimateCod();
+    	
+    	
     	OrdersVO ordervo = new OrdersVO();
     	ordervo.setEmployeeCod(employeeCod);
     	ordervo.setClientName(clientName);
@@ -167,11 +169,16 @@ public class OrdersController {
     		
     		String prodname = vo.getProdname();
     		int qty = vo.getQty();
-    		System.out.println("prodname : " + prodname);
-    		System.out.println("qty : " + qty);
+//    		System.out.println("prodname : " + prodname);
+//    		System.out.println("qty : " + qty);
     		
     		orderService.ordersInsert2(cod, prodname, qty);
     	}
+    	
+    	if (estimateCod != null) {
+    		
+    	}
+    	
     	
     	return "redirect:/ordersmanagement";
     }
