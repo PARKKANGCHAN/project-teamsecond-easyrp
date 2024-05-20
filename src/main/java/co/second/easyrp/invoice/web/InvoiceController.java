@@ -64,6 +64,7 @@ public class InvoiceController {
 		String newCode = String.format("%03d", maxNumber);
 		String invoiceCode = "inv" + newCode;
 		invoiceVo.setCod(invoiceCode);
+        int count2 = 0;
 		
 		List<InvoicedetailVO> invoicedetailList = new ArrayList<>();
 		for(int i=0; i<mrpCodList.length; i++) {
@@ -71,7 +72,7 @@ public class InvoiceController {
 			List<MrpVO> bomList = new ArrayList<MrpVO>();
 			mrpVo.setCod(mrpCodList[i]);
 			mrpVo = mrpService.mrpSelect(mrpVo);
-			int count = 0; //생산할 수 있는 청구상세 행의 개수
+			int count1 = 0; //생산할 수 있는 청구상세 행의 개수
 			
 			InvoicedetailVO invoicedetailVo = new InvoicedetailVO();
 			invoicedetailVo.setNum(i+1);
@@ -89,24 +90,24 @@ public class InvoiceController {
 			}else {
 				invoicedetailVo.setInvMgmtQty(((int)Math.ceil(mrpVo.getQty() / mrpVo.getInvoiceUnitAmount()))+1);
 			}
-			System.out.println(invoiceVo.getInvClass());
 			if(invoiceVo.getInvClass().equals("생산")) {
-				System.out.println("if문");
 				bomList = mrpService.selectBom(invoicedetailVo.getProductCod());
-				System.out.println(bomList);
 				for(int j=0; j<bomList.size(); j++) {
 					int requiredQty = bomList.get(j).getInvQty() * invoicedetailVo.getInvQty();
 					int availableQty = inventoryService.selectInventoryQty(bomList.get(j).getInvCod());
-					System.out.println(requiredQty);
-					System.out.println(availableQty);
 					if(requiredQty <= availableQty) { //필요수량보다 가용재고가 많거나 같으면
-						count++; //count를 증가시킨다.
-						System.out.println("count: " + count);
+						count1++; //count를 증가시킨다.
 					}
+					System.out.println("bomList.size: " + bomList.size());
+					if(bomList.size() == count1) {
+						count2++;
+						System.out.println("count2 증가");
+					}
+					System.out.println(count1 + "/" + count2);
 		    	}
 			}
-			
-			if(count == mrpCodList.length) {
+			System.out.println("mrpCodList.length: " + mrpCodList.length);
+			if(count2 == mrpCodList.length) {
 				invoiceVo.setProdReady("Y");
 			}else {
 				invoiceVo.setProdReady("N");
