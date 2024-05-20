@@ -89,9 +89,9 @@ public class OrdersServiceImpl implements OrderService {
 	}
 
 	@Override
-	public int checkInventory(String productCod) {
+	public int checkProduct(String productCod) {
 		// TODO Auto-generated method stub
-		return ordersMapper.checkInventory(productCod);
+		return ordersMapper.checkProduct(productCod);
 	}
 
 	@Override

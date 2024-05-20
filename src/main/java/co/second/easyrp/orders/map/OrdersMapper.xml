@@ -64,6 +64,7 @@
 	<select id="ordersSelectList"></select>
 	<select id="ordersSelect"></select>
 	
+	
 	<insert id="ordersInsert" parameterType="co.second.easyrp.orders.service.OrdersVO">
 	
 		<selectKey keyProperty="cod" resultType="java.lang.String" order="BEFORE">
@@ -91,7 +92,7 @@
 	</insert>
 	
 	<!-- 가용 재고량 조회 -->
-    <select id="checkInventory" parameterType="String" resultType="int">
+    <select id="checkProduct" parameterType="String" resultType="int">
         SELECT 
             p.cur_inv_qty - p.saftey_inv_qty AS availableQty 
         FROM 
@@ -146,5 +147,10 @@
 	
 	
 	<update id="ordersUpdate"></update>
-	<delete id="ordersDelete"></delete>
+	
+	<update id="ordersDelete" parameterType="co.second.easyrp.orders.service.OrdersVO">
+		update orders
+		set deleteyn = 'Y'
+		where cod = #{cod}
+	</update>
 </mapper>

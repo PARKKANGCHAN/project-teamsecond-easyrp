@@ -173,9 +173,9 @@ public class OrdersController {
     						 @RequestParam("productCod") String productCod,
     						 @RequestParam("qty") int qty) {
     	
-        try {
+        
             // 재고 검증
-            int availableQty = orderService.checkInventory(productCod);
+            int availableQty = orderService.checkProduct(productCod);
             System.out.println(availableQty);
 
             if (availableQty > 0) {
@@ -193,10 +193,18 @@ public class OrdersController {
             }
 
             return "success";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "error";
-        }
+        
+    }
+    
+    @RequestMapping(value = "/ordersdeleteFn", method = RequestMethod.GET)
+    public String ordersDeleteFn(@RequestParam("cod") String cod,
+    							 OrdersVO vo) {
+    	
+    	vo.setCod(cod);
+    	
+    	int result = orderService.ordersDelete(vo);
+
+    	return "redirect:/ordersmanagement";
     }
 	
 	

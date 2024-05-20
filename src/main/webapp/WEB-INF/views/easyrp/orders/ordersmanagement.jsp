@@ -132,7 +132,7 @@
 															</button>
 															<ul class="dropdown-menu">
 																<li><a class="dropdown-item"
-																	href="estimatedeleteFn?cod=${orders.cod}">삭제</a></li>
+																	href="ordersdeleteFn?cod=${orders.cod}">삭제</a></li>
 																<li><a class="dropdown-item" href="#" id="loadDetail" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="orderDetail('${orders.cod}')">
 																	상세 보기
 																	</a>
@@ -253,8 +253,8 @@
 							<td colspan="6" style="border-bottom-width: 0px">
 								<button type="button" class="btn btn-primary">전표 생성</button>
 								<button type="button" class="btn btn-primary">출력</button>
-								<button type="button" class="btn btn-primary" onClick="estimateChange()">수주 수정</button>
-                                <button type="button" class="btn btn-primary" id="addRowButton" onClick="addRow()">제품 추가</button>
+<!-- 								<button type="button" class="btn btn-primary" onClick="estimateChange()">수주 수정</button> -->
+<!--                                 <button type="button" class="btn btn-primary" id="addRowButton" onClick="addRow()">제품 추가</button> -->
 							</td>
 						</tr>
 					</table>
@@ -790,6 +790,8 @@
     // orderDetail(orderCod) 시작
 	// 수주 상세 모달에서 목록을 불러오는 함수입니다. 여기서 금액계산을 하고, 수주 상세 목록의 수정, 삭제하는 함수도 정의하였습니다. 함수안에 함수가 정의되어 있어서 헷갈릴 수 있습니다.
     function orderDetail(orderCod) {
+	   
+    	$('.generatedRow').remove();
     	
     	// estimatedetail ajax 통신 시작
     	$.ajax({
@@ -837,7 +839,12 @@
     				newRow.append($('<td>').text(item.productCod));
     				newRow.append($('<td>').text(item.prodname)); 
     				
-    				newRow.append($('<td>').text(item.availableQty)); 	
+    				if(item.availableQty <= 0){
+    					var availableQty = 0;
+    				} else {
+    					var availableQty = item.availableQty;
+    				}
+    				newRow.append($('<td>').text(availableQty)); 	
     				
     				newRow.append($('<td>').append($('<input>').attr({
     					'id': 'qty_' + item.num,
@@ -888,24 +895,31 @@
 	    		        	
     		        }
     		        
-    		        // 각 견적 상세 목록에 수정과 삭제 버튼을 달아주었고 onclick 함수를 바로 정의했습니다.
-//     		        var editButton = $('<button>').text('수정').addClass('btn btn-primary').css('margin-right', '2px');
-//     		        var deleteButton = $('<button>').text('삭제').addClass('btn btn-primary');
     		        var deliveryButton = $('<button>').text('출고').addClass('btn btn-primary');
     		        var buttonGroup = $('<div>').append(deliveryButton);
     		        
-    			    if(item.deliverState == 102) {
+    			    if(item.deliverState == 101 || item.deliverState == 102 || item.deliverState == 104) {
     			    	deliveryButton.prop('disabled', true);
     			    }
     			    newRow.append($('<td>').append(buttonGroup));
-    			    
-    			    
+
     				$('#detailList').after(newRow);
+    				
+        		    $('#totalprice').text(totalPrice.toLocaleString());
+        		    $('#totalvax').text(totalVat.toLocaleString());
+        		    $('#totalsum').text(totalSum.toLocaleString());
+        				
+        			// 견적 상세 모달에서 새로운 상품을 추가할 때 '제품추가'버튼을 누르는데 새로운 상품을 추가하지 않고 그냥 모달을 끄고난 뒤에 다시 모달을 열면 'generatedRow'가 추가된 채로 열려서 모달이 닫힐 때 생성한 요소를 삭제시킵니다.
+        			$('#detailModal').on('hidden.bs.modal', function () {
+        				    // 모달이 닫힐 때 생성된 tr 요소 제거
+        				    $('.generatedRow').remove();
+        				
+        			});	
     				
     				deliveryButton.on('click', function() {
     					console.log("출고 버튼 클릭");
     					console.log(item.qty);
-//     					deliveryButton.prop('disabled', true);
+     					deliveryButton.prop('disabled', true);
     					
     					$.ajax({
     						url: 'deliveryFn',
@@ -915,14 +929,15 @@
     							productCod: item.productCod,
     							qty: item.qty
     						},
-    						dataType: 'String',
+    						dataType: 'text',
     						success: function(response){
-    				            if (response === 'success') {
+    							
+    							console.log('서버응답 response : ' + response);
+
     				                console.log('deliveryFn 성공');
-    				                
-    				            } else {
-    				                console.error('오류 발생');
-    				            }
+    				                alert('출고 버튼 실행!');
+    				                orderDetail(orderCod);
+	     
     						},
     						error: function(xhr, status, error) {
     							console.error('실패');
@@ -936,16 +951,7 @@
     			});
     			// orderDetialList.forEach 상세 리스트의 각 요소에 적용하는 함수 끝
     			
-    		    $('#totalprice').text(totalPrice.toLocaleString());
-    		    $('#totalvax').text(totalVat.toLocaleString());
-    		    $('#totalsum').text(totalSum.toLocaleString());
-    				
-    			// 견적 상세 모달에서 새로운 상품을 추가할 때 '제품추가'버튼을 누르는데 새로운 상품을 추가하지 않고 그냥 모달을 끄고난 뒤에 다시 모달을 열면 'generatedRow'가 추가된 채로 열려서 모달이 닫힐 때 생성한 요소를 삭제시킵니다.
-    			$('#detailModal').on('hidden.bs.modal', function () {
-    				    // 모달이 닫힐 때 생성된 tr 요소 제거
-    				    $('.generatedRow').remove();
-    				
-    			});	
+
     			
     		},
     		error: function(xhr, status, error) {
@@ -954,16 +960,13 @@
     	});
     	// orderdetail ajax 통신 끝
     	
-    	// 제품 추가 버튼 활성화
-		$('#addRowButton').prop('disabled', false);
-    	
     }
  	// orderDetail(orderCod) 끝
 
-    		// readonly 없애는 함수
-		function estimateChange() {
-			$('input').removeAttr('readonly');
-		}
+//     		 readonly 없애는 함수
+// 		function estimateChange() {
+// 			$('input').removeAttr('readonly');
+// 		}
 
 
 		// 수주 상세 모달에서 '제품 추가' 버튼
@@ -1119,12 +1122,12 @@
             $('.modal-backdrop').remove();
          }
 
-		// 견적 상세 모달 끄기
+		// 수주 상세 모달 끄기
 		function Modalclose() {
 			$('#addRowButton').prop('disabled', false);
 		}
    
-   // 견적 상세 모달 관련 함수 끝
+   // 수주 상세 모달 관련 함수 끝
    
    
    
