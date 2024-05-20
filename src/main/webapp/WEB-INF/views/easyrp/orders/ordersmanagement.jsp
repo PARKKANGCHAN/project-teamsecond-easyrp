@@ -20,7 +20,7 @@
 			<div class="page-title">
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
-						<h3><a href="/easyrp/salesplanmanagement">수주 테이블</a></h3>
+						<h3><a href="/easyrp/ordersmanagement">수주 테이블</a></h3>
 						<p class="text-subtitle text-muted">수주 목록</p>
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
@@ -47,42 +47,45 @@
 											<div class="col-12 col-md-6 order-md-1 order-last">
 												<h3>검색</h3>
 											</div>
-											<form id="searchForm" action="commontable" method="get">
+											<form id="searchForm" action="ordersmanagement" method="get">
 												<div class="mb-4" style="text-align: center">
 													<table class="table table-bordered" id="searchTable">
 														<tr>
-															<td width="100">글 번호</td>
-															<td><input type="text" id="searchNumber"
-																name="searchNumber" class="form-control"
-																value="${searchNumber}"
-																placeholder="글 번호를 입력해주세요." /></td>
-															<td width="100">제 목</td>
-															<td><input type="text" id="searchTitle"
-																name="searchTitle" class="form-control"
-																value="${searchTitle}"
-																placeholder="제목을 입력해주세요." /></td>
-															<td width="100">내 용</td>
-															<td><input type="text" id="searchContent"
-																name="searchContent" class="form-control"
-																value="${searchContent}"
-																placeholder="내용을 입력해주세요." /></td>
-															<td width="100">작성자</td>
-															<td><input type="text" id="searchAuthor"
-																name="searchAuthor" class="form-control"
-																value="${searchAuthor}"
-																placeholder="작성자를 입력해주세요." /></td>
+															<td width="100">수주 번호</td>
+															<td><input type="text" id="searchCod"
+																name="cod" class="form-control"
+																value="${cod}"
+																placeholder="수주 번호를 입력해주세요." /></td>
+															<td width="100">고객 번호</td>
+															<td><input type="text" id="searchClientCod"
+																name="clientCod" class="form-control"
+																value="${clientCod}"
+																placeholder="고객 번호를 입력해주세요." /></td>
+															<td width="100">담당자 번호</td>
+															<td><input type="text" id="searchEmployeeCod"
+																name="employeeCod" class="form-control"
+																value="${employeeCod}"
+																placeholder="담당자 번호를 입력해주세요." /></td>
+															
 														</tr>
 														<tr>
-															<td width="100">검색 날짜</td>
-															<td colspan="2"><input type="date"
-																id="preSearchDate" name="preSearchDate"
-																value="${preSearchDate}"
-																class="form-control" style="width: 47%; float: left" />
-																<span><i class="fa-solid fa-arrow-right"
-																	style="margin-top: 10px"></i></span> <input type="date"
-																id="postSearchDate" name="postSearchDate"
-																value="${postSearchDate}"
-																class="form-control" style="width: 47%; float: right" /></td>
+															<td width="100">등록 일자</td>
+															<td colspan="1">
+																<input type="date" id="preSearchDate" name="preSearchDate" value="${preSearchDate}" class="form-control" style="width: 47%; float: left" />
+																	<span>
+																		<i class="fa-solid fa-arrow-right" style="margin-top: 10px"></i>
+																	</span> 
+																<input type="date" id="postSearchDate" name="postSearchDate" value="${postSearchDate}" class="form-control" style="width: 47%; float: right" />
+															</td>
+																
+															<td width="100">납기 일자</td>
+															<td colspan="1">
+																<input type="date" id="ddaypreSearchDate" name="ddaypreSearchDate" value="${ddaypreSearchDate}" class="form-control" style="width: 47%; float: left" />
+																	<span>
+																		<i class="fa-solid fa-arrow-right" style="margin-top: 10px"></i>
+																	</span> 
+																<input type="date" id="ddaypostSearchDate" name="ddaypostSearchDate" value="${ddaypostSearchDate}" class="form-control" style="width: 47%; float: right" />
+															</td>
 														</tr>
 													</table>
 												</div>
@@ -1129,6 +1132,16 @@
    
    // 수주 상세 모달 관련 함수 끝
    
+   
+   function resetSearchForm() {
+            $('#searchCod').val('');
+            $('#searchClientCod').val('');
+            $('#searchEmployeeCod').val('');
+            $('#preSearchDate').val('');
+            $('#postSearchDate').val('');
+            $('#ddaypreSearchDate').val('');
+            $('#ddaypostSearchDate').val('');
+        }
    
    
     </script>

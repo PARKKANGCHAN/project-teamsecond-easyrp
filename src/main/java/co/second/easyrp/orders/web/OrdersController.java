@@ -44,10 +44,12 @@ public class OrdersController {
                               @RequestParam(required = false) String employeeCod,
                               @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date preSearchDate,
                               @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date postSearchDate,
+                              @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date ddaypreSearchDate,
+                              @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date ddaypostSearchDate,
                               Model model) { 
         
-    	List<OrdersVO> orders = orderService.OrdersSelectList(page, size, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
-        int totalRecords = orderService.countSalesTables(page, size, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
+    	List<OrdersVO> orders = orderService.OrdersSelectList(page, size, cod, clientCod, employeeCod, preSearchDate, postSearchDate, ddaypreSearchDate, ddaypostSearchDate);
+        int totalRecords = orderService.countSalesTables(page, size, cod, clientCod, employeeCod, preSearchDate, postSearchDate, ddaypreSearchDate, ddaypostSearchDate);
         int totalPages = (int) Math.ceil((double) totalRecords / size);
 
         int pageGroupSize = 10;
@@ -55,7 +57,14 @@ public class OrdersController {
         int startPage = currentPageGroup * pageGroupSize + 1;
         int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
         
-        System.out.println(orders);
+        model.addAttribute("cod", cod);
+        model.addAttribute("clientCod", clientCod);
+        model.addAttribute("employeeCod", employeeCod);
+        model.addAttribute("preSearchDate", preSearchDate);
+        model.addAttribute("postSearchDate", postSearchDate);
+        model.addAttribute("ddaypreSearchDate", ddaypreSearchDate);
+        model.addAttribute("ddaypostSearchDate", ddaypostSearchDate);
+        
         model.addAttribute("orders", orders);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);

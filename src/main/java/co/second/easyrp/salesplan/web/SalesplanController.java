@@ -52,7 +52,13 @@ public class SalesplanController {
         int currentPageGroup = (page - 1) / pageGroupSize;
         int startPage = currentPageGroup * pageGroupSize + 1;
         int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
-
+        
+        model.addAttribute("cod", cod);
+        model.addAttribute("clientCod", clientCod);
+        model.addAttribute("productCod", productCod);
+        model.addAttribute("preSearchDate", preSearchDate);
+        model.addAttribute("postSearchDate", postSearchDate);
+        
         model.addAttribute("salesplan", salesplan);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);

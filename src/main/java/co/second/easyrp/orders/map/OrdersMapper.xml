@@ -19,6 +19,10 @@
 			AND order_date BETWEEN #{preSearchDate} AND
 			#{postSearchDate}
 		</if>
+		<if test="ddaypreSearchDate != null and ddaypostSearchDate != null">
+			AND dday BETWEEN #{ddaypreSearchDate} AND
+			#{ddaypostSearchDate}
+		</if>
 		ORDER BY cod DESC
 		LIMIT #{pageSize} OFFSET #{offset}
 	</select>
@@ -39,6 +43,10 @@
 		<if test="preSearchDate != null and postSearchDate != null">
 			AND order_date BETWEEN #{preSearchDate} AND
 			#{postSearchDate}
+		</if>
+		<if test="ddaypreSearchDate != null and ddaypostSearchDate != null">
+			AND dday BETWEEN #{ddaypreSearchDate} AND
+			#{ddaypostSearchDate}
 		</if>
 	</select>
 	
@@ -108,8 +116,7 @@
         UPDATE orderdetail
         SET 
             cur_remain_qty = cur_remain_qty - #{qty},
-            delivery_state = 102,
-            sales_closing_state = 'Y'
+            delivery_state = 102
         WHERE product_cod = #{productCod} and cod = #{cod}
     </update>
 

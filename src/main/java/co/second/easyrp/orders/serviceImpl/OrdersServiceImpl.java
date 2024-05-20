@@ -20,18 +20,18 @@ public class OrdersServiceImpl implements OrderService {
 	
 	@Override
 	public List<OrdersVO> OrdersSelectList(int page, int size, String cod, String clientCod, String employeeCod,
-			Date preSearchDate, Date postSearchDate) {
+			Date preSearchDate, Date postSearchDate, Date ddaypreSearchDate, Date ddaypostSearchDate) {
 		
 			int offset = (page - 1) * size;
 			
-		return ordersMapper.OrdersSelectList(size, offset, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
+		return ordersMapper.OrdersSelectList(size, offset, cod, clientCod, employeeCod, preSearchDate, postSearchDate, ddaypreSearchDate, ddaypostSearchDate);
 	}
 
 	@Override
 	public int countSalesTables(int pageSize, int offset, String cod, String clientCod, String employeeCod,
-			Date preSearchDate, Date postSearchDate) {
+			Date preSearchDate, Date postSearchDate , Date ddaypreSearchDate, Date ddaypostSearchDate) {
 		// TODO Auto-generated method stub
-		return ordersMapper.countSalesTables(pageSize, offset, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
+		return ordersMapper.countSalesTables(pageSize, offset, cod, clientCod, employeeCod, preSearchDate, postSearchDate, ddaypreSearchDate, ddaypostSearchDate);
 	}
 	
 	@Override

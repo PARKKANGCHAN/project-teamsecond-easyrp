@@ -17,7 +17,9 @@ public interface OrdersMapper {
 		    @Param("clientCod") String clientCod,
 		    @Param("employeeCod") String employeeCod,
 		    @Param("preSearchDate") Date preSearchDate, 
-		    @Param("postSearchDate") Date postSearchDate
+		    @Param("postSearchDate") Date postSearchDate,
+		    @Param("ddaypreSearchDate") Date ddaypreSearchDate, 
+		    @Param("ddaypostSearchDate") Date ddaypostSearchDate
 		);
 	
 	int countSalesTables(
@@ -27,7 +29,9 @@ public interface OrdersMapper {
 		    @Param("clientCod") String clientCod,
 		    @Param("employeeCod") String employeeCod,
 		    @Param("preSearchDate") Date preSearchDate, 
-		    @Param("postSearchDate") Date postSearchDate
+		    @Param("postSearchDate") Date postSearchDate,
+		    @Param("ddaypreSearchDate") Date ddaypreSearchDate, 
+		    @Param("ddaypostSearchDate") Date ddaypostSearchDate
 		);
 	
 	List<OrdersVO> OrderDetailSelectList(String cod);
