@@ -81,5 +81,4 @@ public class PurchaseOrderController {
 		List<Map<String, Object>> taxDivList = purchaseOrderService.taxDivList();
 		return taxDivList;
 	}
-	
 }
