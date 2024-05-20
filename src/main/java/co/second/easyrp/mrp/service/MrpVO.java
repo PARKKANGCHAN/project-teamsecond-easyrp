@@ -38,4 +38,12 @@ public class MrpVO {
 	private String invname;
 	private String invSpec;
 	private String invUnitName;
+	private String invoiceUnitName;
+	private String invoiceInvUnitNmae;
+	private int amount;
+	private int invAmount;
+	private int invoiceAmount;
+	private int invoiceUnitAmount;
+	private String clientName;
+	private int unitprice;
 }

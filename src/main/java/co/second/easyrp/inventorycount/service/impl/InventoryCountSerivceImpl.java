@@ -12,6 +12,7 @@ import co.second.easyrp.inventorycount.service.InventoryCountService;
 import co.second.easyrp.inventorycount.service.InventoryCountVO;
 import co.second.easyrp.inventorycount.service.ProductInventoryVO;
 import co.second.easyrp.inventorycount.service.SearchVO;
+import co.second.easyrp.warehouse.service.WareHouseVO;
 
 @Service
 @Primary
@@ -67,6 +68,36 @@ public class InventoryCountSerivceImpl implements InventoryCountService {
 	public List<ProductInventoryVO> getAllProductInventoryList() {
 		// TODO Auto-generated method stub
 		return inventorycountmapper.getAllProductInventoryList();
+	}
+
+	@Override
+	public List<ProductInventoryVO> getAllSelectedCountList(String itemList) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.getAllSelectedCountList(itemList);
+	}
+
+	@Override
+	public int insertCountDetailList(InventoryCountDetailVO inventorycountdetailvo) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.insertCountDetailList(inventorycountdetailvo);
+	}
+
+	@Override
+	public List<WareHouseVO> warehouseList() {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.warehouseList();
+	}
+
+	@Override
+	public List<ProductInventoryVO> getAllProdInvWarehouse(WareHouseVO warehousevo) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.getAllProdInvWarehouse(warehousevo);
+	}
+
+	@Override
+	public List<WareHouseVO> selectedWarehouseList(WareHouseVO warehousevo) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.selectedWarehouseList(warehousevo);
 	}
 
 

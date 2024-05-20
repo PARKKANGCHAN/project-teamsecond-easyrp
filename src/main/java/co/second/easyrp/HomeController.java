@@ -47,13 +47,6 @@ public class HomeController {
 	public String login() {
 		return "authentication/login";
 	}
-	
-	// 수금 관리 페이지 이동
-	// 2024년 4월 29일 오후 11시 9분 추가 박현우
-	@RequestMapping("/collectionmanagement")
-	public String collectionManagement() {
-		return "easyrp/collection/collectionmanagement";
-	}
 
 
 	// 판매 계획 관리 페이지 이동

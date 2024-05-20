@@ -2,9 +2,11 @@ package co.second.easyrp.invoice.service;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class InvoiceVO {
 	private String cod;
 	private String invDate;

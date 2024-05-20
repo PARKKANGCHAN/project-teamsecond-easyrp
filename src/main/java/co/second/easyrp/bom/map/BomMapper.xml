@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.second.easyrp.bom.map.BomMapper">
+
+	<!-- (2024년 5월 14일 오전 9시 25분 박현우) -->
+
+	<!-- Product 테이블에서 단일 튜플을 가져오는 쿼리 -->
+	<select id="getHyunwooProductData"
+		resultType="co.second.easyrp.bom.service.BomVO">
+		SELECT p.cod AS 'prodCod',
+		p.prodname AS 'productName',
+		p2.name AS 'productGroupName'
+		FROM product p
+		LEFT JOIN productgroup p2
+		ON p.productgroup_cod = p2.cod
+		WHERE p.is_bominsert = 'N' AND
+		p.deleteyn = 'N';
+	</select>
+
+	<insert id="insertFn"
+		parameterType="co.second.easyrp.bom.service.BomVO">
+		INSERT INTO bom (
+		prod_cod,
+		inv_cod,
+		quantity)
+		VALUES(
+		#{productCod},
+		#{invCod},
+		#{quantity}
+		);
+	</insert>
+
+	<update id="updateFn"
+		parameterType="co.second.easyrp.bom.service.BomVO">
+		UPDATE bom
+		SET
+		prod_cod = #{prodCod},
+		inv_cod = #{invCod},
+		quantity = #{quantity}
+		WHERE prod_cod = #{prodCod}
+	</update>
+
+	<!-- BOM 전체 삭제 -->
+	<delete id="deleteFn"
+		parameterType="co.second.easyrp.bom.service.BomVO">
+		delete from bom
+		WHERE prod_cod = #{prodCod};
+	</delete>
+
+	<!-- BOM 개별 삭제 -->
+	<delete id="eachDeleteFn"
+		parameterType="co.second.easyrp.bom.service.BomVO">
+		DELETE FROM bom
+		WHERE prod_cod = #{prodCod} AND inv_cod =
+		#{invCod};
+	</delete>
+
+
+
+</mapper>

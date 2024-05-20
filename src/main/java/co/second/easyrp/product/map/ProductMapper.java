@@ -2,6 +2,7 @@ package co.second.easyrp.product.map;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +28,8 @@ public interface ProductMapper {
 		    @Param("preSearchDate") Date preSearchDate, 
 		    @Param("postSearchDate") Date postSearchDate
 			);
+	
+	//제품찾기 modal에 뿌려줄 리스트를 가져오기위한 메소드
+	//2024년 5월 14일 하서현
+	List<Map<String, Object>> prodSearch();
 }

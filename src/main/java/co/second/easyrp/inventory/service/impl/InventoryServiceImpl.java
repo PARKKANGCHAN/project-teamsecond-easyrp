@@ -2,6 +2,7 @@ package co.second.easyrp.inventory.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -51,6 +52,12 @@ public class InventoryServiceImpl implements InventoryService {
 		return inventorymapper.deleteInventory(vo);
 	}
 	
-
+	//자재찾기 modal에 뿌려줄 리스트를 가져오기위한 메소드
+	//2024년 5월 14일 오후 2시 28분 하서현
+	@Override
+	public List<Map<String, Object>> inventorySearch() {
+		// TODO Auto-generated method stub
+		return inventorymapper.inventorySearch();
+	}
 
 }

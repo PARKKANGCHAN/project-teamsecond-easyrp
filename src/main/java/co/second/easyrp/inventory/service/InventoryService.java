@@ -2,6 +2,7 @@ package co.second.easyrp.inventory.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -30,4 +31,8 @@ public interface InventoryService {
 	int insertInventory(InventoryVO vo);
 	int updateInventory(InventoryVO vo);
 	int deleteInventory(InventoryVO vo);
+	
+	//자재찾기 modal에 뿌려줄 리스트를 가져오기위한 메소드
+	//2024년 5월 14일 오후 2시 28분 하서현
+	List<Map<String, Object>> inventorySearch();
 }

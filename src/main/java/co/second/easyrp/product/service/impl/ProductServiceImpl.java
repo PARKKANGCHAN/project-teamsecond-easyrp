@@ -2,6 +2,7 @@ package co.second.easyrp.product.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -31,6 +32,14 @@ public class ProductServiceImpl implements ProductService {
 			Date postSearchDate) {
 		// TODO Auto-generated method stub
 		return productmapper.countProductLists(cod, warehouse, employee, account, preSearchDate, postSearchDate);
+	}
+
+	//제품찾기 modal에 뿌려줄 리스트를 가져오기위한 메소드
+	//2024년 5월 14일 하서현
+	@Override
+	public List<Map<String, Object>> prodSearch() {
+		// TODO Auto-generated method stub
+		return productmapper.prodSearch();
 	}
 
 }

@@ -142,7 +142,7 @@
 											</c:if>
 											<c:if test="${empty inventoryCountList}">
 											<tr>
-												<td colspan="4">해당 재고가 없습니다.</td>
+												<td colspan='8' style="text-align:center">실사기록이 없습니다.</td>
 											</tr>
 											</c:if>
 										</tbody>

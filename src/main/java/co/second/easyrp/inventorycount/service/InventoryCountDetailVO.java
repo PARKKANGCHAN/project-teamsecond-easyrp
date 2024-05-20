@@ -14,10 +14,11 @@ public class InventoryCountDetailVO {
 	private String employeeCod;
 	private Date countDate;
 	private Date invDate;
-	private String warehouseCod;
 	private String locationCod;
 	private String countclass;
 	private String account;
 	private String deleteyn;
 	private String note;
+	private int diffQty;
+	
 }

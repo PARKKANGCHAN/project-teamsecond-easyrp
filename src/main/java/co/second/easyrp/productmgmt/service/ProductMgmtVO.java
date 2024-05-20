@@ -22,7 +22,9 @@ public class ProductMgmtVO {
 	private String warehouseCod;
 	private String productGroupCod;
 	private int unitCod;
+	private int unitAmount;
 	private int mgmtUnitCod;
+	private int mgmtUnitAmount;
 	private String account;
 	private String note;
 	private String employeeCod;
@@ -31,4 +33,5 @@ public class ProductMgmtVO {
 	private String warehouseName;
 	private String unitName;
 	private String mgmtUnitName;
+	private String isBominsert;
 }

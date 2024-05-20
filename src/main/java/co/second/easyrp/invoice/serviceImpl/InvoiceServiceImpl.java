@@ -10,6 +10,7 @@ import co.second.easyrp.invoice.mapper.InvoiceMapper;
 import co.second.easyrp.invoice.service.InvoiceService;
 import co.second.easyrp.invoice.service.InvoiceVO;
 import co.second.easyrp.invoice.service.SearchVO;
+import co.second.easyrp.invoicedetail.service.InvoicedetailVO;
 
 @Service
 @Primary
@@ -47,21 +48,27 @@ public class InvoiceServiceImpl implements InvoiceService {
 	}
 
 	@Override
-	public int mrpClosingUpdateToY(String mrpCod) {
+	public int mrpClosingUpdateToY(InvoicedetailVO invoicedetailVo) {
 		// TODO Auto-generated method stub
-		return invoiceMapper.mrpClosingUpdateToY(mrpCod);
+		return invoiceMapper.mrpClosingUpdateToY(invoicedetailVo);
 	}
 
 	@Override
-	public int mrpClosingUpdateToN(String mrpCod) {
+	public int mrpClosingUpdateToN(InvoicedetailVO invoicedetailVo) {
 		// TODO Auto-generated method stub
-		return invoiceMapper.mrpClosingUpdateToN(mrpCod);
+		return invoiceMapper.mrpClosingUpdateToN(invoicedetailVo);
 	}
 
 	@Override
 	public int countInvoiceTables(SearchVO searchVo) {
 		// TODO Auto-generated method stub
 		return invoiceMapper.countInvoiceTables(searchVo);
+	}
+
+	@Override
+	public int selectMaxCod() {
+		// TODO Auto-generated method stub
+		return invoiceMapper.selectMaxCod();
 	}
 
 }
