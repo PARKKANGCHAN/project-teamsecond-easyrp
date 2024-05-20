@@ -18,12 +18,6 @@ public interface BomMapper {
 	// stdprice 삽입하기
 	int insertStdprice(BomVO bomVO);
 	
-	// 데이터베이스에 데이터를 수정하기 위한 기능 인터페이스
-	int updateFn(BomVO bomVO);
-	
 	// 데이터베이스에 데이터를 삭제하기 위한 기능 인터페이스
-	int deleteFn(String cod);
-	
-	// 데이터베이스에 데이터를 삭제하기 위한 기능 인터페이스
-	int eachDeleteFn(BomVO bomVO);
+	int deleteBom(BomVO bomVO);
 }

@@ -25,21 +25,6 @@ public class BomServiceImpl implements BomService {
 	}
 
 	@Override
-	public int updateFn(BomVO bomVO) {
-		return bomMapper.updateFn(bomVO);
-	}
-
-	@Override
-	public int deleteFn(String cod) {
-		return bomMapper.deleteFn(cod);
-	}
-
-	@Override
-	public int eachDeleteFn(BomVO bomVO) {
-		return bomMapper.eachDeleteFn(bomVO);
-	}
-
-	@Override
 	public List<BomVO> getHyunwooProductData() {
 		return bomMapper.getHyunwooProductData();
 	}
@@ -52,5 +37,10 @@ public class BomServiceImpl implements BomService {
 	@Override
 	public List<BomVO> getBomDetailData(String prodCod) {
 		return bomMapper.getBomDetailData(prodCod);
+	}
+
+	@Override
+	public int deleteBom(BomVO bomVO) {
+		return bomMapper.deleteBom(bomVO);
 	}
 }

@@ -48,26 +48,14 @@
 		UPDATE product
 		SET
 		stdprice = #{stdprice}
-		WHERE cod =
-		#{prodCod}
-	</update>
-
-	<update id="updateFn"
-		parameterType="co.second.easyrp.bom.service.BomVO">
-		UPDATE bom
-		SET
-		prod_cod = #{prodCod},
-		inv_cod = #{invCod},
-		quantity = #{quantity}
-		WHERE prod_cod = #{prodCod}
+		WHERE cod = #{prodCod}
 	</update>
 
 	<!-- BOM 개별 삭제 -->
-	<delete id="eachDeleteFn"
+	<delete id="deleteBom"
 		parameterType="co.second.easyrp.bom.service.BomVO">
 		DELETE FROM bom
-		WHERE prod_cod = #{prodCod} AND inv_cod =
-		#{invCod}
+		WHERE prod_cod = #{prodCod}
 	</delete>
 
 
