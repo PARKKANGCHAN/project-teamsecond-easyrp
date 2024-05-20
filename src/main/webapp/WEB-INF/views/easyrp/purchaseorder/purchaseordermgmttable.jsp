@@ -1424,108 +1424,52 @@
     };
     
     function applyInvoiceSetValue() {
-    	let keyList = [];
-    	$('.applyInvoiceProd').each((index, value) => {
-				keyList.push($(value).data('key'));
-    	   });
     	let rows = '';
     	$('.applyInvoiceChkBox').each((index, item) => {
-    		var invoiceCod = $(item).data('invoice-cod');
-    		var invoicedetailNum = $(item).data('invoicedetail-num');
-    		var productCod = $(item).data('product-cod');
-            var prodname = $(item).data('prodname');
-            var invQty = $(item).data('inv-qty');
-            var unitCod = $(item).data('unit-cod');
-            var unitName = $(item).data('unit-name');
-            var invMgmtQty = $(item).data('inv-mgmt-qty');
-            var mgmtUnitCod = $(item).data('mgmt-unit-cod');
-            var mgmtUnitName = $(item).data('mgmt-unit-name');
-            var unitprice = $(item).data('unitprice');
-            var vax = $(item).data('vax');
-            var supprice = $(item).data('supprice');
-            var total = $(item).data('total');
-            var key = $(item).data('key');
-            const values = [
-        		{
-        			name: 'productCod',
-        			value: productCod
-        		},
-            	{
-        			name: 'invoiceCod',
-        			value: invoiceCod
-        		},
-            	{
-        			name: 'invoicedetailNum',
-        			value: invoicedetailNum
-        		},
-        		{
-            		name: '',
-            		value: prodname
-        		},
-            	{
-            		name: 'invQty',
-            		value: invQty
-        		},
-        		{
-            		name: 'unitInv',
-            		value: unitCod
-        		},
-        		{
-            		name: '',
-            		value: unitName
-        		},
-        		{
-            		name: 'mgmtQty',
-            		value: invMgmtQty
-        		},
-        		{
-            		name: 'unitMgmt',
-            		value: mgmtUnitCod
-        		},
-        		{
-            		name: '',
-            		value: mgmtUnitName
-        		},
-            	{
-            		name: 'unitprice',
-            		value: unitprice
-        		},
-            	{
-            		name: 'vax',
-            		value: vax
-        		},
-            	{
-            		name: 'supprice',
-            		value: supprice
-        		},
-            	{
-            		name: 'total',
-            		value: total
-        		}
-        		];
-        	if(prodname.includes('inv') === true) {
-        		amounts = 'data-prodmgmtunitamount="undefined" data-produnitamount="undefined" data-invmgmtunitamount="'+ mgmtUnitAmount +'" data-invunitamount="' + unitAmount + '"';
-        	} else {
-        		amounts = 'data-prodmgmtunitamount="' + mgmtUnitAmount + '" data-produnitamount="' + unitAmount + '" data-invmgmtunitamount="undefined" data-invunitamount="undefined"';
-        	}
-
-    		if(item.checked === true && keyList.indexOf(key) !== -1) {
-    			return true;
-    		} 
-    		else if(item.checked === false) {
-    			$('tr[data-key="'+ key +'"]').remove();
-    		}
-    		else {
-                let row = '<tr class="applyInvoiceProd prodList" data-key="'+ key +'">';
-                values.forEach((data) => {
-                	if(data.name === 'unitInv' || data.name === 'unitMgmt' || data.name === 'invoiceCod' || data.name === 'invoicedetailNum') {
-        				row += '<input type="hidden" name="'+ data.name +'" value="'+ data.value +'"/>'	
-        			} else {
-                    	rows += '<td><input type="hidden" name="'+ data.name +'" value="'+ data.value +'"><span>' + data.value + '</span><button type="button" class="editBox" onClick="amountChange(' + "'+'," + "'" + prodInputKey + "'" + ')">+</button><button type="button" class="editBox" onClick="amountChange(' + "'-'," + "'" + prodInputKey + "'" + ')">-</button></td>';
-        			}
-                });
-            	row += '<td><button type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
-                rows += row;    			
+    		if(item.checked === true) {
+        		var invoiceCod = $(item).data('invoice-cod');
+        		var invoicedetailNum = $(item).data('invoicedetail-num');
+        		var productCod = $(item).data('product-cod');
+                var prodname = $(item).data('prodname');
+        		var inventoryCod = $(item).data('inventory-cod');
+                var invname = $(item).data('invname');
+                var invQty = $(item).data('inv-qty');
+                var prodUnitCod = $(item).data('prod-unit-cod');
+                var prodUnitName = $(item).data('prod-unit-name');
+                var invUnitCod = $(item).data('inv-unit-cod');
+                var invUnitName = $(item).data('inv-unit-name');
+                var invMgmtQty = $(item).data('inv-mgmt-qty');
+                var prodMgmtUnitCod = $(item).data('prod-mgmt-unit-cod');
+                var prodMgmtUnitName = $(item).data('prod-mgmt-unit-name');
+                var invMgmtUnitCod = $(item).data('inv-mgmt-unit-cod');
+                var invMgmtUnitName = $(item).data('inv-mgmt-unit-name');
+                var invMgmtUnitAmount = $(item).data('inv-mgmt-unit-amount');
+                var invUnitAmount = $(item).data('inv-unit-amount');
+                var prodMgmtUnitAmount = $(item).data('prod-mgmt-unit-amount');
+                var prodUnitAmount = $(item).data('prod-unit-amount');
+                var unitprice = $(item).data('unitprice');
+                var vax = $(item).data('vax');
+                var supprice = $(item).data('supprice');
+                var total = $(item).data('total');
+                var key = $(item).data('key');
+            	if(productCod == null) {
+            		amounts = 'data-prodmgmtunitamount="undefined" data-produnitamount="undefined" data-invmgmtunitamount="'+ invMgmtUnitAmount +'" data-invunitamount="' + invUnitAmount + '"';
+            	} else {
+            		amounts = 'data-prodmgmtunitamount="' + prodMgmtUnitAmount + '" data-produnitamount="' + prodUnitAmount + '" data-invmgmtunitamount="undefined" data-invunitamount="undefined"';
+            	}
+                    let row = '<tr class="applyInvoiceProd prodList" data-key="'+ key +'" ' + amounts + '">';
+                 
+                    if(item.name === 'unitMgmt' || item.name === 'unitInv') {
+                    	rows += '<input type="hidden" name="'+ item.name +'" value="'+ item.value +'">';
+            		} else if(item.name === 'mgmtQty') {
+                    	rows += '<td><input type="hidden" name="'+ item.name +'" value="'+ item.value +'"><span>' + item.value + '</span><button type="button" class="editBox" onClick="amountChange(' + "'+'," + "'" + prodInputKey + "'" + ')">+</button><button type="button" class="editBox" onClick="amountChange(' + "'-'," + "'" + prodInputKey + "'" + ')">-</button></td>';
+            		} else {
+                    	rows += '<td><input type="hidden" name="'+ item.name +'" value="'+ item.value +'"><span>' + item.value + '</span></td>';
+            		}
+            	})
+                    
+                    row += '<td><button type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
+                    rows += row;    			
     		}
     	});
        $('#detailList').append(rows);    
@@ -1567,7 +1511,7 @@
                          item.prodname +
                          '" data-inventory-cod="' +
                          item.product_cod +
-                         '" data-prodname="' +
+                         '" data-invname="' +
                          item.prodname +
                          '" data-unitprice="' +
                          item.unitprice +
@@ -1579,16 +1523,32 @@
                          item.total +
                          '" data-inv-qty="' +
                          item.inv_qty +
-                         '" data-unit-cod="' +
-                         item.unit_cod +
-                         '" data-unit-name="' +
-                         item.unit_name +
+                         '" data-prod-unit-cod="' +
+                         item.prod_unit_cod +
+                         '" data-prod-unit-name="' +
+                         item.prod_unit_name +
+                         '" data-prod-mgmt-unit-cod="' +
+                         item.prod_mgmt_unit_cod +
+                         '" data-prod-mgmt-unit-name="' +
+                         item.prod_mgmt_unit_name +
+                         '" data-prod-mgmt-unit-amount="' +
+                         item.prod_mgmt_unit_amount +
+                         '" data-prod-unit-amount="' +
+                         item.prod_unit_amount +
+                         '" data-inv-unit-cod="' +
+                         item.inv_unit_cod +
+                         '" data-inv-unit-name="' +
+                         item.inv_unit_name +
+                         '" data-inv-mgmt-unit-cod="' +
+                         item.inv_mgmt_unit_cod +
+                         '" data-inv-mgmt-unit-name="' +
+                         item.inv_mgmt_unit_name +
+                         '" data-inv-mgmt-unit-amount="' +
+                         item.inv_mgmt_unit_amount +
+                         '" data-inv-unit-amount="' +
+                         item.inv_mgmt_unit_name +
                          '" data-inv-mgmt-qty="' +
                          item.inv_mgmt_qty +
-                         '" data-mgmt-unit-cod="' +
-                         item.mgmt_unit_cod +
-                         '" data-mgmt-unit-name="' +
-                         item.mgmt_unit_name +
                          '" data-key="' +
                          item.invoice_cod + item.num +
                          '" ' +
@@ -1603,22 +1563,22 @@
                          item.num +
                          '</td>' +
                          '<td>' +
-                         item.product_cod +
+                         (item.product_cod == null ? item.inventory_cod : item.product_cod) +
                          '</td>' +
                          '<td>' +
-                         item.prodname +
+                         (item.prodname == null ? item.invname : item.prodname) +
                          '</td>' +
                          '<td>' +
                          item.inv_mgmt_qty +
                          '</td>' +
                          '<td>' +
-                         item.mgmt_unit_name +
+                         (item.prod_mgmt_unit_name == null ? item.inv_mgmt_unit_name : item.prod_mgmt_unit_name) +
                          '</td>' +
                          '<td>' +
                          item.inv_qty +
                          '</td>' +
                          '<td>' +
-                         item.unit_name +
+                         (item.prod_unit_name == null ? item.inv_unit_name : item.prod_unit_name) +
                          '</td>' +
                          '<td>' +
                          item.unitprice +
@@ -1646,8 +1606,8 @@
           $('.searchValue').each(function (index,item) {
              const inqDate = $(item).data('inq-date').toLowerCase();
              const invoiceCod = $(this).data('invoice-cod').toLowerCase()
-             const productCod = $(this).data('product-cod').toLowerCase()
-             const prodname = $(this).data('prodname').toLowerCase()
+             const productCod = ($(this).data('product-cod') == null ? $(this).data('inventory-cod').toLowerCase() : $(this).data('product-cod').toLowerCase());
+             const prodname = ($(this).data('prodname') == null ? $(this).data('invname').toLowerCase() : $(this).data('prodname').toLowerCase());
              $(this).toggle(inqDate.includes(searchInputVlaue) 
             		 		|| invoiceCod.includes(searchInputVlaue)
             		 		|| productCod.includes(searchInputVlaue)
