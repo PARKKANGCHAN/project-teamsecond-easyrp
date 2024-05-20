@@ -25,4 +25,5 @@ public interface InventoryCountMapper {
 	List<ProductInventoryVO> getProdInvAccount(ProductInventoryVO productinventoryvo);
 	int selectMaxCod();
 	String wareHouseCod(String warehouse);
+	Integer getcomputingqty(String prodinvcod);
 }

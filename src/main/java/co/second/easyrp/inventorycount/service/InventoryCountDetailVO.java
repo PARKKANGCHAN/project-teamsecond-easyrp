@@ -21,4 +21,5 @@ public class InventoryCountDetailVO {
 	private String deleteyn;
 	private String note;
 	private int diffQty;
+	private int computingQty;
 }

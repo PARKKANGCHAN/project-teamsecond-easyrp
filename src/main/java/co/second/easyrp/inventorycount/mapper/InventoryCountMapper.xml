@@ -10,7 +10,7 @@ SELECT
 			l.name AS location,
 			ic.count_date,
 			ic.inv_date,
-			ic.countclass,
+			ic.countclass
 		FROM inventorycount ic
 		LEFT JOIN inventorycountdetail icd
 		ON ic.cod = icd.inventorycount_cod
@@ -29,13 +29,13 @@ SELECT
 			AND ic.cod = #{searchCod}
 		</if>
 		<if test="searchEmployee != null and searchEmployee != ''">
-			AND employee LIKE CONCAT('%', #{searchEmployee}, '%')
+			AND e.name LIKE CONCAT('%', #{searchEmployee}, '%')
 		</if>
 		<if test="searchWarehouse != null and searchWarehouse != ''">
-			AND warehouse LIKE CONCAT('%', #{searchWarehouse}, '%')
+			AND w.name LIKE CONCAT('%', #{searchWarehouse}, '%')
 		</if>
 		<if test="searchLocation != null and searchLocation != ''">
-			AND location LIKE CONCAT('%', #{searchLocation}, '%')
+			AND l.name LIKE CONCAT('%', #{searchLocation}, '%')
 		</if>
 		<if test="searchInventory != null and searchInventory != ''">
 			AND i.name = #{searchInventory}
@@ -159,11 +159,11 @@ SELECT
 		 WHERE i.cod=#{cod}
 	</select>
 	<insert id="insertInventoryCount">
-		INSERT INTO inventorycount 
-		Values(#{cod}, #{employeeCod}, #{countDate}, #{invDate}, #{warehouseCod}, #{countclass}, #{deleteyn})
+		INSERT INTO inventorycount(cod, employee_cod, warehouse_cod, countclass, deleteyn)
+		Values(#{cod}, #{employeeCod}, #{warehouseCod}, #{countclass}, 'N')
 	</insert>
 	<insert id="insertCountDetailList">
-		INSERT INTO inventorycountdetail(inventorycount_cod, product_cod, inventory_cod, spec, unit_cod, qty, note, diff_qty)
+		INSERT INTO inventorycountdetail(inventorycount_cod, product_cod, inventory_cod, unit_cod, qty, account, note, diff_qty)
 		Values(#{inventorycountCod}, #{productCod}, #{inventoryCod}, #{unitCod}, #{qty}, #{account}, #{note}, #{diffQty}-#{computingQty})
 	</insert>
 	<select id="warehouseList">
@@ -182,7 +182,7 @@ SELECT
 		 LEFT JOIN warehouse w
 		 ON w.cod = p.warehouse_cod
 		 WHERE w.name=#{name}
-		   AND 
+		   AND p.deleteyn = 'N'
 
 		 UNION 
 		 
@@ -197,6 +197,7 @@ SELECT
 		 LEFT JOIN warehouse w
 		 	 ON w.cod = i.warehouse_cod
 		 WHERE w.name=#{name}
+		   AND i.deleteyn = 'N'
 	</select>
 		<select id="selectedWarehouseList">
 	 SELECT cod, name
@@ -238,5 +239,16 @@ SELECT
 	<select id="selectMaxCod">
 	SELECT COALESCE(MAX(CAST(RIGHT (cod,3) AS SIGNED)), 0) AS cod 
 	FROM inventorycount
+	</select>
+	<select id="getcomputingqty">
+	SELECT qty as computingQty
+	  FROM inventory
+	WHERE cod=#{cod}  
+	
+	UNION
+	
+	SELECT cur_inv_qty as computingQty
+	  FROM product
+	 WHERE cod=#{cod}
 	</select>
 </mapper>

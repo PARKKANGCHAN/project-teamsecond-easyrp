@@ -183,7 +183,10 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     	                                <td class="diffQty">\${diffQty}</td>
     	                                <td class="procclass">\${procclass}</td>
     	                                <td class="adjQty">\${item.adjQty}</td>
-    	                                <td class="note"><input type="text" name="note" class="form-control" placeholder="비고를 입력해주세요."/></td>
+    	                                <td class="note">
+    	                                	<input type="text" name="note" class="form-control" placeholder="비고를 입력해주세요."/>
+    	                                </td>
+    	                                
     	                            </tr>`;
     	                    };
     	                });
@@ -242,7 +245,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
      	                                    <td class="procclass">\${procclass}</td>
      	                                    <td class="adjQty">\${items.adjQty}</td>
      	                                    <td class="note"><input type="text" name="note" class="form-control" placeholder="비고를 입력해주세요."/></td>
-     	                                </tr>`;
+     	                                    </tr>`;
      	                        };
      	                    });
      	                    $('#inventoryCountInsertBody').html(rows);
@@ -265,10 +268,14 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
            
            console.log(countqtylist);
            console.log(countnote); */
-           let checkedInput = $('input:number[name="countqty"]');
+           let prodinvcod = $('input:text[name="prodInvCod"]');
+           let prodinvaccountlist = $('input:radio[name="accountBtn"]:checked').val();
+           let checkedInput = $('input[name="countqty"]');
            let checkedNote = $('input:text[name="note"]');
            let countqty = [];
            let note = [];
+           let prodinvlist = [];
+           prodinvlist.push(prodinvcod.eq(i).val());
            
            for(i =0; i < checkedInput.length; i++){
         	   if(checkedInput.eq(i).val() !== ""){
@@ -289,9 +296,10 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                traditional: true,
                data: {
                    warehouse: warehouselist,
-                   prodinv: prodinvaccount,
+                   prodinvaccount: prodinvaccountlist,
                    countqty: countqty,
                    note : note,
+                   prodinvcod : prodinvlist,
                },
                method: 'GET',
                success: function (data) {

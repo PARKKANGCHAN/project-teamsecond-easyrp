@@ -1,7 +1,8 @@
 package co.second.easyrp.inventorycount.service;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,8 +14,10 @@ import lombok.ToString;
 public class InventoryCountVO {
 	private String cod;
 	private String employeeCod;
-	private SimpleDateFormat countDate;
-	private SimpleDateFormat invDate;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+	private Date countDate;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+	private Date invDate;
 	private String warehouseCod;
 	private String locationCod;
 	private String countclass;

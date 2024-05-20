@@ -118,6 +118,12 @@ public class InventoryCountSerivceImpl implements InventoryCountService {
 		return inventorycountmapper.wareHouseCod(warehouse);
 	}
 
+	@Override
+	public Integer getcomputingqty(String prodinvcod) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.getcomputingqty(prodinvcod);
+	}
+
 
 
 }
