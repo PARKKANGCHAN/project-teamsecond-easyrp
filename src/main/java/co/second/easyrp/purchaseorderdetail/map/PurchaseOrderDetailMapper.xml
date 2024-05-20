@@ -6,10 +6,16 @@
 		INSERT INTO purchaseorderdetail (
 				num,
 				purchaseorder_cod,
+			<if test="invoiceCod != null and invoiceCod != ''">
 				invoice_cod,
 				invoicedetail_num,
+			</if>
+			<if test='productCod.substring(0,3) eq "prd".toString()'>
 				product_cod,
-				dday,
+			</if>
+			<if test='productCod.substring(0,3) eq "inv".toString()'>
+				inventory_cod,
+			</if>
 				unit_mgmt,
 				mgmt_qty,
 				unit_inv,
@@ -21,10 +27,11 @@
 			) VALUES(
 				#{num},
 				#{purchaseorderCod},
+			<if test="invoiceCod != null and invoiceCod != ''">
 				#{invoiceCod},
 				#{invoicedetailNum},
+			</if>
 				#{productCod},
-				#{dday},
 				#{unitMgmt},
 				#{mgmtQty},
 				#{unitInv},
@@ -35,4 +42,31 @@
 				#{total}
 			)
 	</insert>
+	
+	<!-- 특정 발주번호에 해당하는 발주상세리스트를 가져오기위한 쿼리 -->
+	<!-- 하서현 -->
+	<select id="poDetailListByPoCod">
+		SELECT p.*,
+		   (SELECT p2.prodname FROM product p2 WHERE p2.cod = p.product_cod) as 'prodname',
+		   (SELECT p2.unit_cod FROM product p2 WHERE p2.cod = p.product_cod) as 'prod_unit_cod',
+		   (SELECT p2.mgmt_unit_cod FROM product p2 WHERE p2.cod = p.product_cod) as 'prod_mgmt_unit_cod',
+		   (SELECT p2.mgmt_unit_amount FROM product p2 WHERE p2.cod = p.product_cod) as 'prod_mgmt_unit_amount',
+		   (SELECT p2.unit_amount FROM product p2 WHERE p2.cod = p.product_cod) as 'prod_unit_amount',
+		   (SELECT i.mgmt_unit_cod FROM inventory i WHERE i.cod = p.inventory_cod) as 'inv_mgmt_unit_cod',
+		   (SELECT i.unit_cod FROM inventory i WHERE i.cod = p.inventory_cod) as 'inv_unit_cod',
+		   (SELECT i.mgmt_unit_amount FROM inventory i WHERE i.cod = p.inventory_cod) as 'inv_mgmt_unit_amount',
+		   (SELECT i.unit_amount FROM inventory i WHERE i.cod = p.inventory_cod) as 'inv_unit_amount',
+		   (SELECT i.name FROM inventory i WHERE i.cod = p.inventory_cod) as 'invname',
+		   (SELECT u.name FROM unit u WHERE u.cod = p.unit_inv) as 'unit_inv_name',
+		   (SELECT u.name FROM unit u WHERE u.cod = p.unit_mgmt) as 'unit_mgmt_name'
+		FROM purchaseorderdetail p
+		WHERE p.purchaseorder_cod = #{poCod}
+	</select>
+	
+	<!-- 특정 발주상세데이터를 삭제하는 쿼리 -->
+	<!-- 하서현 -->
+	<delete id="delPoDetail">
+		DELETE FROM purchaseorderdetail
+		WHERE purchaseorder_cod = #{poCod} AND num = #{num}
+	</delete>
 </mapper>

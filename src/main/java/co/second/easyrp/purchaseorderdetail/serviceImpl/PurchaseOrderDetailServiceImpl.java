@@ -1,5 +1,8 @@
 package co.second.easyrp.purchaseorderdetail.serviceImpl;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -22,4 +25,15 @@ public class PurchaseOrderDetailServiceImpl implements PurchaseOrderDetailServic
 		return purchaseOrderDetailMapper.insertPoDetail(vo);
 	}
 
+	@Override
+	public List<Map<String, Object>> poDetailListByPoCod(String PoCod) {
+		// TODO Auto-generated method stub
+		return purchaseOrderDetailMapper.poDetailListByPoCod(PoCod);
+	}
+
+	@Override
+	public int delPoDetail(String poCod, int num) {
+		// TODO Auto-generated method stub
+		return purchaseOrderDetailMapper.delPoDetail(poCod, num);
+	}
 }

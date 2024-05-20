@@ -63,14 +63,15 @@
 	</select>
 	<sql id="poMgmtList">
 		SELECT  p.cod,
-			p.po_date,
+			date_format(p.po_date, '%Y-%m-%d') as 'po_date',
 			p.state_cod,
 			(SELECT s.name FROM state s WHERE s.cod = p.state_cod) as 'stateName',
-			p.ibound_date,
-			p.closing_date,
-			p.dday,
+			date_format(p.ibound_date, '%Y-%m-%d') as 'ibound_date',
+			date_format(p.closing_date, '%Y-%m-%d') as 'closing_date',
+			date_format(p.dday, '%Y-%m-%d') as 'dday',
 			p.client_cod,
 			(SELECT c.name FROM client c WHERE p.client_cod = c.cod) as 'clientName',
+			p.taxdivision_cod,
 			(SELECT t.name FROM taxdivision t  WHERE p.taxdivision_cod = t.cod) as 'taxDivName',
 			p.employee_cod_writer,
 			(SELECT e.name FROM employee e  WHERE p.employee_cod_writer = e.cod) as 'empNameWriter',
@@ -152,8 +153,10 @@
 			taxdivision_cod,
 			employee_cod_writer,
 			employee_cod_po,
-			employee_cod_ibound,
-			dday
+			employee_cod_ibound
+		<if test="dday != null and dday != ''">
+			,dday
+		</if>
 		) VALUES(
 			#{cod},
 			#{poDate},
@@ -161,11 +164,14 @@
 			#{taxdivisionCod},
 			#{employeeCodWriter},
 			#{employeeCodPo},
-			#{employeeCodIbound},
-			#{dday}
+			#{employeeCodIbound}
+		<if test="dday != null and dday != ''">
+			,#{dday}
+		</if>
 		)
 	</insert>
 	
+<<<<<<< HEAD
 	<select id="selectPurchaseOrdersClosing">
 		SELECT *
 		FROM (
@@ -176,5 +182,13 @@
 			<include refid="searchCondition"/>
 		ORDER BY cod DESC
 		LIMIT #{size} OFFSET #{offset}
+=======
+	
+	<!-- 특정 발주데이터를 가져오기위한 쿼리 -->
+	<!-- 하서현 -->
+	<select id="selectPo">
+		<include refid="poMgmtList"/>
+		WHERE p.cod = #{key}
+>>>>>>> 50b72a06094a57f8edfceebdb998b5ca05f66858
 	</select>
 </mapper>

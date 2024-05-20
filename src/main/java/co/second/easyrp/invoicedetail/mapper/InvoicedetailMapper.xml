@@ -3,13 +3,25 @@
 <mapper namespace="co.second.easyrp.invoicedetail.mapper.InvoicedetailMapper">
 
 	<!-- 발주등록페이지에 있는 청구적용 저장값불러오기에서 modal에 뿌려줄 청구리스트를 가져오기위한 메소드(승인된 청구리스트만 가져옵니다) -->	
+	<!-- 이미 청구적용된 건은 가져오지 않습니다 -->	
 	<select id="applyInvoice">
 		SELECT date_format(i.inq_date, '%Y-%m-%d') as 'inq_date',
 			   i2.invoice_cod,
 			   i2.num,
 			   i2.product_cod,
 			   (SELECT p.prodname FROM product p WHERE p.cod = i2.product_cod) as 'prodname',
-			   i2.inq_qty,
+   			   (SELECT p.unit_cod FROM product p WHERE p.cod = i2.product_cod) as 'prod_unit_cod',
+			   (SELECT u.name FROM unit u  WHERE u.cod = (SELECT p.unit_cod FROM product p WHERE p.cod = i2.product_cod)) as 'prod_unit_name',
+			   (SELECT p.mgmt_unit_cod FROM product p WHERE p.cod = i2.product_cod) as 'prod_mgmt_unit_cod',
+			   (SELECT u.name FROM unit u  WHERE u.cod = (SELECT p.mgmt_unit_cod FROM product p WHERE p.cod = i2.product_cod)) as 'prod_mgmt_unit_name',
+			   i2.inventory_cod,
+			   (SELECT i.name FROM inventory i WHERE i.cod = i2.inventory_cod) as 'invname',
+   			   (SELECT i.unit_cod FROM inventory i WHERE i.cod = i2.inventory_cod) as 'inv_unit_cod',
+			   (SELECT u.name FROM unit u  WHERE u.cod = (SELECT i.unit_cod FROM inventory i WHERE i.cod = i2.inventory_cod)) as 'inv_unit_name',
+   			   (SELECT i.mgmt_unit_cod FROM inventory i WHERE i.cod = i2.inventory_cod) as 'inv_mgmt_unit_cod',
+			   (SELECT u.name FROM unit u  WHERE u.cod = (SELECT i.mgmt_unit_cod FROM inventory i WHERE i.cod = i2.inventory_cod)) as 'inv_mgmt_unit_name',
+			   i2.inv_qty,
+			   i2.inv_mgmt_qty,
 			   i2.unitprice,
 			   i2.supprice,
 			   i2.vax,
@@ -19,7 +31,16 @@
 		     i2.closing = 'N'
 		WHERE i.inv_class = '구매' AND
 			  i.inq_class = 'Y' AND
-			  i.deleteyn = 'N'
+			  i.deleteyn = 'N' AND
+		CONCAT(i2.invoice_cod, i2.num) not in(
+				SELECT CONCAT(p.invoice_cod, p.invoicedetail_num)
+				FROM purchaseorderdetail p
+				WHERE invoice_cod is not null AND
+		  		p.purchaseorder_cod in(
+		  			SELECT p2.cod
+		  			FROM purchaseorder p2
+		  			WHERE p2.deleteyn = 'n')
+		  		)
 	</select>
 	
 	<insert id="insertInvoicedetail">
