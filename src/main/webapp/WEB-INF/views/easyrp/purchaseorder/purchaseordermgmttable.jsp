@@ -419,7 +419,7 @@
 										  		  id="applyInvoice"
 												  data-bs-toggle="modal"
 												  data-bs-target="#applyInvoiceModal">청구적용</button>
-									<button type="button" style="display: none" class="btn btn-primary editBox" onClick="estimateChange()">수정완료</button>
+									<button type="button" style="display: none" class="btn btn-primary editBox" onClick="poUpdate()">수정완료</button>
 									<button type="button" style="display: none" class="btn btn-primary editBox" onClick="poChangeDel()">취소</button>
 								</td>
 							</tr>
@@ -806,7 +806,6 @@
 		
 		//수정을 취소하는 함수
 		function poChangeDel() {
-			prodInputKey = 1;
 			$('.editBox').css('display', 'none');
 			$('.printBox').css('display', '');
 			detailModalPrint();	
@@ -827,7 +826,6 @@
 							options += '<option value="' + item.cod + '">' + item.name + '</option>';
 						}
 					});
-					console.log(options);
 					$('#taxDiv').html(options);
 				}
 			});
@@ -835,6 +833,7 @@
 		
 		//수정
 		function poChangeBtn() {
+			prodInputKey = 1;
 			$('.printBox').css('display', 'none');
 			$('.editBox').css('display', '');
 		}
@@ -870,7 +869,6 @@
 	             data: {key : cod},
 	             dataType:"json",
 	             success: function (data) {
-	            	 console.log(data);
 	            	 const poValues = [
 	            		 data.cod,
 	            		 data.po_date,
@@ -936,7 +934,6 @@
 	             success: function (data) {
 	            	 let rows = '';
 	            	 $(data).each((index, item) => {
-	            		 console.log(item);
 	            		 let row = '<tr id="'+ item.purchaseorder_cod + item.num +'" data-prodmgmtunitamount="' + item.prod_mgmt_unit_amount + '" data-produnitamount="' + item.prod_unit_amount + '" data-invmgmtunitamount="' + item.inv_mgmt_unit_amount + '" data-invunitamount="' + item.inv_unit_amount + '">'
 	            		 row += '<td>' + (item.invoice_cod == null ? '' : item.invoice_cod) + '</td>'; 
  		            	 row += '<td>' + (item.invoicedetail_num == null ? '' : item.invoicedetail_num) + '</td>'; 
@@ -976,8 +973,6 @@
  	    	const invQty = $('#' + id).children('td:nth-child(7)').children('span');
  	    	let mgmtUnitAmount = '';
  	    	let unitAmount = '';
- 	    	console.log(mgmtQty.children());
- 	    	console.log($('#' + id).data('invmgmtunitamount') !== 'undefined');
  	    	if($('#' + id).data('invmgmtunitamount') !== 'undefined') {
  	 	    	mgmtUnitAmount = $('#' + id).data('invmgmtunitamount');
  	 	    	unitAmount = $('#' + id).data('invunitamount');
@@ -1425,6 +1420,7 @@
     
     function applyInvoiceSetValue() {
     	let rows = '';
+    	let amounts = '';
     	$('.applyInvoiceChkBox').each((index, item) => {
     		if(item.checked === true) {
         		var invoiceCod = $(item).data('invoice-cod');
@@ -1452,26 +1448,30 @@
                 var supprice = $(item).data('supprice');
                 var total = $(item).data('total');
                 var key = $(item).data('key');
+    		
             	if(productCod == null) {
             		amounts = 'data-prodmgmtunitamount="undefined" data-produnitamount="undefined" data-invmgmtunitamount="'+ invMgmtUnitAmount +'" data-invunitamount="' + invUnitAmount + '"';
             	} else {
             		amounts = 'data-prodmgmtunitamount="' + prodMgmtUnitAmount + '" data-produnitamount="' + prodUnitAmount + '" data-invmgmtunitamount="undefined" data-invunitamount="undefined"';
             	}
-                    let row = '<tr class="applyInvoiceProd prodList" data-key="'+ key +'" ' + amounts + '">';
-                 
-                    if(item.name === 'unitMgmt' || item.name === 'unitInv') {
-                    	rows += '<input type="hidden" name="'+ item.name +'" value="'+ item.value +'">';
-            		} else if(item.name === 'mgmtQty') {
-                    	rows += '<td><input type="hidden" name="'+ item.name +'" value="'+ item.value +'"><span>' + item.value + '</span><button type="button" class="editBox" onClick="amountChange(' + "'+'," + "'" + prodInputKey + "'" + ')">+</button><button type="button" class="editBox" onClick="amountChange(' + "'-'," + "'" + prodInputKey + "'" + ')">-</button></td>';
-            		} else {
-                    	rows += '<td><input type="hidden" name="'+ item.name +'" value="'+ item.value +'"><span>' + item.value + '</span></td>';
-            		}
-            	})
-                    
+                    let row = '<tr id="'+ key +'" class="applyInvoiceProd prodList" data-key="'+ key +'" ' + amounts + '">';
+                    row += '<td>'+ invoiceCod +'</td><td>'+ invoicedetailNum +'</td>';
+                    row += '<td>'+ (productCod == null ? inventoryCod : productCod) +'</td>';
+                    row += '<td>'+ (prodname == null ? invname : prodname) +'</td>';
+                    row += '<td><span>'+ invMgmtQty +'</span><button type="button" class="editBox" onClick="amountChange(' + "'+'," + "'" + key + "'" + ')">+</button><button type="button" class="editBox" onClick="amountChange(' + "'-'," + "'" + key + "'" + ')">-</button></td>';
+                    row += '<td>'+ (productCod == null ? invMgmtUnitName : prodMgmtUnitName) +'</td>';
+                    row += '<td><span>'+ invQty +'</span></td>';
+                    row += '<td>'+ (productCod == null ? invUnitName : prodUnitName) +'</td>';
+                    row += '<td><span>'+ unitprice +'</span></td>';
+                    row += '<td><span>'+ supprice +'</span></td>';
+                    row += '<td><span>'+ vax +'</span></td>';
+                    row += '<td><span>'+ total +'</span></td>';
+                    row += '<input type="hidden" name='+ (productCod == null ? "invMgmtUnitCod" : "prodMgmtUnitCod" ) +' value="'+ (productCod == null ? invMgmtUnitCod : prodMgmtUnitCod) +'">';
+                    row += '<input type="hidden" name='+ (productCod == null ? "invUnitCod" : "prodUnitCod" ) +' value="'+ (productCod == null ? invUnitCod : prodUnitCod) +'">';
                     row += '<td><button type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
                     rows += row;    			
-    		}
-    	});
+    			}	
+    		});
        $('#detailList').append(rows);    
        $('#applyInvoiceModal').modal('hide');
        $('.modal-backdrop').remove();
@@ -1479,6 +1479,10 @@
 
     function applyInvoiceModal() {
        $('#applyInvoice').on('click', function () {
+    	   let aleadyExist = [];
+    	   $('.applyInvoiceProd').each((index,item) => {
+    		  aleadyExist.push($(item).data('key')); 
+    	   });
     	   $.ajax({
              url: 'applyInvoice',
              method: 'GET',
@@ -1486,115 +1490,120 @@
              success: function (data) {
                 let rows = '';
                 data.forEach(function (item) {
-                      rows +=
-                         '<tr class="searchValue" data-inq-date="' +
-                         item.inq_date +
-                         '" data-invoice-cod="' +
-                         item.invoice_cod +
-                         '" data-invoicedetail-num="' +
-                         item.invoicedetail_num +
-                         '" data-product-cod="' +
-                         item.product_cod +
-                         '" data-prodname="' +
-                         item.prodname +
-                         '" onClick="rowChk('+ "'" + item.invoice_cod + item.num + "'" + ')">' +
-                         '<td><input type="checkbox" class="applyInvoiceChkBox"' +
-                         'id="' +
-                         item.invoice_cod + item.num +
-                         '" data-invoice-cod="' +
-                         item.invoice_cod +
-                         '" data-invoicedetail-num="' +
-                         item.num +
-                         '" data-product-cod="' +
-                         item.product_cod +
-                         '" data-prodname="' +
-                         item.prodname +
-                         '" data-inventory-cod="' +
-                         item.product_cod +
-                         '" data-invname="' +
-                         item.prodname +
-                         '" data-unitprice="' +
-                         item.unitprice +
-                         '" data-vax="' +
-                         item.vax +
-                         '" data-supprice="' +
-                         item.supprice +
-                         '" data-total="' +
-                         item.total +
-                         '" data-inv-qty="' +
-                         item.inv_qty +
-                         '" data-prod-unit-cod="' +
-                         item.prod_unit_cod +
-                         '" data-prod-unit-name="' +
-                         item.prod_unit_name +
-                         '" data-prod-mgmt-unit-cod="' +
-                         item.prod_mgmt_unit_cod +
-                         '" data-prod-mgmt-unit-name="' +
-                         item.prod_mgmt_unit_name +
-                         '" data-prod-mgmt-unit-amount="' +
-                         item.prod_mgmt_unit_amount +
-                         '" data-prod-unit-amount="' +
-                         item.prod_unit_amount +
-                         '" data-inv-unit-cod="' +
-                         item.inv_unit_cod +
-                         '" data-inv-unit-name="' +
-                         item.inv_unit_name +
-                         '" data-inv-mgmt-unit-cod="' +
-                         item.inv_mgmt_unit_cod +
-                         '" data-inv-mgmt-unit-name="' +
-                         item.inv_mgmt_unit_name +
-                         '" data-inv-mgmt-unit-amount="' +
-                         item.inv_mgmt_unit_amount +
-                         '" data-inv-unit-amount="' +
-                         item.inv_mgmt_unit_name +
-                         '" data-inv-mgmt-qty="' +
-                         item.inv_mgmt_qty +
-                         '" data-key="' +
-                         item.invoice_cod + item.num +
-                         '" ' +
-                         '/></td>' +
-                         '<td>' +
-                         item.inq_date +
-                         '</td>' +
-                         '<td>' +
-                         item.invoice_cod +
-                         '</td>' +
-                         '<td>' +
-                         item.num +
-                         '</td>' +
-                         '<td>' +
-                         (item.product_cod == null ? item.inventory_cod : item.product_cod) +
-                         '</td>' +
-                         '<td>' +
-                         (item.prodname == null ? item.invname : item.prodname) +
-                         '</td>' +
-                         '<td>' +
-                         item.inv_mgmt_qty +
-                         '</td>' +
-                         '<td>' +
-                         (item.prod_mgmt_unit_name == null ? item.inv_mgmt_unit_name : item.prod_mgmt_unit_name) +
-                         '</td>' +
-                         '<td>' +
-                         item.inv_qty +
-                         '</td>' +
-                         '<td>' +
-                         (item.prod_unit_name == null ? item.inv_unit_name : item.prod_unit_name) +
-                         '</td>' +
-                         '<td>' +
-                         item.unitprice +
-                         '</td>' +
-                         '<td>' +
-                         item.vax +
-                         '</td>' +
-                         '<td>' +
-                         item.supprice +
-                         '</td>' +
-                         '<td>' +
-                         item.total +
-                         '</td>' +
-                         '</tr></label>';
-                         
-                });
+                	if(aleadyExist.includes(item.invoice_cod + item.num) === false) {
+	                		rows +=
+	                            '<tr class="searchValue" data-inq-date="' +
+	                            item.inq_date +
+	                            '" data-invoice-cod="' +
+	                            item.invoice_cod +
+	                            '" data-invoicedetail-num="' +
+	                            item.num +
+	                            '" data-product-cod="' +
+	                            item.product_cod +
+	                            '" data-prodname="' +
+	                            item.prodname +
+	                            '" data-inventory-cod="' +
+	                            item.inventory_cod +
+	                            '" data-invname="' +
+	                            item.invname +
+	                            '" onClick="rowChk('+ "'" + item.invoice_cod + item.num + "'" + ')">' +
+	                            '<td><input type="checkbox" class="applyInvoiceChkBox"' +
+	                            'id="' +
+	                            item.invoice_cod + item.num +
+	                            '" data-invoice-cod="' +
+	                            item.invoice_cod +
+	                            '" data-invoicedetail-num="' +
+	                            item.num +
+	                            '" data-product-cod="' +
+	                            item.product_cod +
+	                            '" data-prodname="' +
+	                            item.prodname +
+	                            '" data-inventory-cod="' +
+	                            item.product_cod +
+	                            '" data-invname="' +
+	                            item.prodname +
+	                            '" data-unitprice="' +
+	                            item.unitprice +
+	                            '" data-vax="' +
+	                            item.vax +
+	                            '" data-supprice="' +
+	                            item.supprice +
+	                            '" data-total="' +
+	                            item.total +
+	                            '" data-inv-qty="' +
+	                            item.inv_qty +
+	                            '" data-prod-unit-cod="' +
+	                            item.prod_unit_cod +
+	                            '" data-prod-unit-name="' +
+	                            item.prod_unit_name +
+	                            '" data-prod-mgmt-unit-cod="' +
+	                            item.prod_mgmt_unit_cod +
+	                            '" data-prod-mgmt-unit-name="' +
+	                            item.prod_mgmt_unit_name +
+	                            '" data-prod-mgmt-unit-amount="' +
+	                            item.prod_mgmt_unit_amount +
+	                            '" data-prod-unit-amount="' +
+	                            item.prod_unit_amount +
+	                            '" data-inv-unit-cod="' +
+	                            item.inv_unit_cod +
+	                            '" data-inv-unit-name="' +
+	                            item.inv_unit_name +
+	                            '" data-inv-mgmt-unit-cod="' +
+	                            item.inv_mgmt_unit_cod +
+	                            '" data-inv-mgmt-unit-name="' +
+	                            item.inv_mgmt_unit_name +
+	                            '" data-inv-mgmt-unit-amount="' +
+	                            item.inv_mgmt_unit_amount +
+	                            '" data-inv-unit-amount="' +
+	                            item.inv_mgmt_unit_name +
+	                            '" data-inv-mgmt-qty="' +
+	                            item.inv_mgmt_qty +
+	                            '" data-key="' +
+	                            item.invoice_cod + item.num +
+	                            '" ' +
+	                            '/></td>' +
+	                            '<td>' +
+	                            item.inq_date +
+	                            '</td>' +
+	                            '<td>' +
+	                            item.invoice_cod +
+	                            '</td>' +
+	                            '<td>' +
+	                            item.num +
+	                            '</td>' +
+	                            '<td>' +
+	                            (item.product_cod == null ? item.inventory_cod : item.product_cod) +
+	                            '</td>' +
+	                            '<td>' +
+	                            (item.prodname == null ? item.invname : item.prodname) +
+	                            '</td>' +
+	                            '<td>' +
+	                            item.inv_mgmt_qty +
+	                            '</td>' +
+	                            '<td>' +
+	                            (item.prod_mgmt_unit_name == null ? item.inv_mgmt_unit_name : item.prod_mgmt_unit_name) +
+	                            '</td>' +
+	                            '<td>' +
+	                            item.inv_qty +
+	                            '</td>' +
+	                            '<td>' +
+	                            (item.prod_unit_name == null ? item.inv_unit_name : item.prod_unit_name) +
+	                            '</td>' +
+	                            '<td>' +
+	                            item.unitprice +
+	                            '</td>' +
+	                            '<td>' +
+	                            item.vax +
+	                            '</td>' +
+	                            '<td>' +
+	                            item.supprice +
+	                            '</td>' +
+	                            '<td>' +
+	                            item.total +
+	                            '</td>' +
+	                            '</tr>';
+                	}
+	            });
                 $('#applyInvoiceModalTableBody').html(rows);
                 $('#applyInvoiceModal').modal('show');
              },
@@ -1618,8 +1627,21 @@
     
     applyInvoiceModal();
     /* 청구적용 Modal END */
- 	   
- 	    /* 상세페이지 Modal END */
+ 	
+    //수정완료 함수
+    function poUpdate() {
+    	let updateData = []
+    	$('#detailModalHead').children('tbody').children('tr').each((index, item) => {
+			const input = $(item).children('td').children('input');
+			const select = $(item).children('td').children('select');
+			console.log(input);
+			console.log(select);
+    		console.log(updateData);
+    	});
+    	
+    };
+    
+ 	/* 상세페이지 Modal END */
 
 	</script>
 </body>
