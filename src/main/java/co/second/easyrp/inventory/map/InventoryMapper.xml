@@ -75,4 +75,12 @@
 			(SELECT p.name FROM productgroup p WHERE p.cod = i.productgroup_cod) As 'prodgroupName'
 		FROM inventory i
 	</select>
+	
+	<!-- 2024.05.20 14:06 손지은 추가 -->
+	<!-- 인벤토리 가용재고 가져오는 코드 -->
+	<select id="selectInventoryQty">
+		SELECT (cur_inv_qty - safety_inv_qty) AS 'qty'
+		FROM inventory 
+		WHERE cod = #{cod}
+	</select>
 </mapper>

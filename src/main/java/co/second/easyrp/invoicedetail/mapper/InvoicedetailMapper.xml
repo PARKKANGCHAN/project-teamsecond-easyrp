@@ -29,7 +29,7 @@
 	</insert>
 	
 	<select id="selectInvoicedetailByInvoiceCod">
-		SELECT i.num, i.invoice_cod, i.mrp_cod, i2.inv_class, i.product_cod, p.prodname, i3.name AS 'invname', i.inventory_cod, i3.name AS 'invProdname', p.spec, i3.spec AS 'invSpec', m.take_date, i.inv_qty, u.name AS 'unitName', u2.name AS 'invUnitName', u3.name AS 'mgmtUnitName', u4.name AS 'invMgmtUnitName', c.name AS 'clientName'
+		SELECT DISTINCT i.num, i.invoice_cod, i.mrp_cod, i2.inv_class, i.product_cod, p.prodname, i3.name AS 'invname', i.inventory_cod, i3.name AS 'invProdname', p.spec, i3.spec AS 'invSpec', m.take_date, i.inv_qty, u.name AS 'unitName', u2.name AS 'invUnitName', u3.name AS 'mgmtUnitName', u4.name AS 'invMgmtUnitName', c.name AS 'clientName', e.name AS 'employeeName', i2.inv_date, i2.inv_class, i.inv_mgmt_Qty, i2.note, i2.prod_ready 
 		FROM invoicedetail i
 		JOIN invoice i2
 		ON i.invoice_cod = i2.cod 
@@ -55,7 +55,10 @@
 		ON o.cod = o2.cod 
 		JOIN client c 
 		ON o2.client_cod = c.cod 
+		JOIN employee e 
+		ON i2.employee_cod = e.cod 
 		WHERE i.invoice_cod = #{invoiceCod}
+		ORDER BY i.num
 	</select>
 	
 	<update id="deleteInvoicedetail">
@@ -63,5 +66,13 @@
 		SET
 		deleteyn = 'Y'
 		WHERE invoice_cod = #{invoiceCod}
+	</update>
+	
+	<update id="updateInvoicedetail">
+		UPDATE invoicedetail
+		SET
+		inv_mgmt_qty = #{invMgmtQty}
+		WHERE invoice_cod = #{invoiceCod}
+		AND num = #{num}
 	</update>
 </mapper>

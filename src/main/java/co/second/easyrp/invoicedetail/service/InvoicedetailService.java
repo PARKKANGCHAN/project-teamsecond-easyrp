@@ -9,4 +9,5 @@ public interface InvoicedetailService {
 	int insertInvoicedetail(InvoicedetailVO invoicedetailVo); // 청구상세 삽입
 	List<InvoicedetailVO> selectInvoicedetailByInvoiceCod(InvoicedetailVO invoicedetailVo); // 청구번호로 청구상세 불러오기
 	int deleteInvoicedetail(InvoicedetailVO invoicedetailVo); // 청구상세 삭제
+	int updateInvoicedetail(InvoicedetailVO invoicedetailVo); // 청구상세 수정
 }

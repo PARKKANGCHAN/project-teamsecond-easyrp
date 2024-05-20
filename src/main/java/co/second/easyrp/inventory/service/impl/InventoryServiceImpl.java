@@ -60,4 +60,12 @@ public class InventoryServiceImpl implements InventoryService {
 		return inventorymapper.inventorySearch();
 	}
 
+	//안전재고를 계산해서 가져오는 메소드
+	//2024.05.20 14:12 손지은 추가
+	@Override
+	public int selectInventoryQty(String cod) {
+		// TODO Auto-generated method stub
+		return inventorymapper.selectInventoryQty(cod);
+	}
+
 }

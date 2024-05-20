@@ -18,9 +18,9 @@
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
 						<h3>
-							<a href="/easyrp/commontable">청구관리</a>
+							<a href="/easyrp/commontable">입고마감관리</a>
 						</h3>
-						<p class="text-subtitle text-muted">청구 조회, 등록, 수정, 삭제</p>
+						<p class="text-subtitle text-muted">입고 마감</p>
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
 						<nav aria-label="breadcrumb"
@@ -48,21 +48,6 @@
 											<form id="searchForm" action="mrpmanagement" method="get">
 												<div class="mb-4" style="text-align: center">
 													<table class="table table-bordered" id="searchTable">
-														<tr>
-															<td width="100">계획구분</td>
-															<td><select id="searchPlan" name="searchPlan" class="form-select">
-																<option value="수주">수주정보 기반</option>
-																<option value="계획">생산계획 기반</option>
-															</select></td>
-															<td width="100">품 번</td>
-															<td><input type="text" id="searchProdCod"
-																name="searchProdCod" class="form-control"
-																value="${searchProdCod}" placeholder="품번을 입력해주세요." /></td>
-															<td width="100">품 명</td>
-															<td><input type="text" id="searchProdName"
-																name="searchProdName" class="form-control"
-																value="${searchProdName}" placeholder="품명을 입력해주세요." /></td>
-														</tr>
 														<tr>
 															<td width="100">검색 날짜</td>
 															<td colspan="2"><input type="date"

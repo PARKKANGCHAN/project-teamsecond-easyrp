@@ -64,4 +64,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		return purchaseOrderMapper.newPoCod();
 	}
 
+	@Override
+	public List<Map<String, Object>> selectPurchaseOrdersClosing(PurchaseOrderVO vo) {
+		// TODO Auto-generated method stub
+		vo.setOffset((vo.getPage() - 1) * vo.getSize());
+		return purchaseOrderMapper.selectPurchaseOrdersClosing(vo);
+	}
+
 }

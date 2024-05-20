@@ -42,4 +42,10 @@ public class InvoicedetailServiceImpl implements InvoicedetailService {
 		return invoicedetailMapper.deleteInvoicedetail(invoicedetailVo);
 	}
 
+	@Override
+	public int updateInvoicedetail(InvoicedetailVO invoicedetailVo) {
+		// TODO Auto-generated method stub
+		return invoicedetailMapper.updateInvoicedetail(invoicedetailVo);
+	}
+
 }

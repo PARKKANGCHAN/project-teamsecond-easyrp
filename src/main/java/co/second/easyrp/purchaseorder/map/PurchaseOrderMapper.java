@@ -29,4 +29,8 @@ public interface PurchaseOrderMapper {
 	//발주등록을할때 고유한 발주번호를 부여해주기위한 메소드
 	//하서현
 	String newPoCod();
+	
+	//2024.05.20 15:25 손지은 추가
+	//매입마감된 목록만 가져오는 메소드
+	List<Map<String, Object>> selectPurchaseOrdersClosing(PurchaseOrderVO vo);
 }

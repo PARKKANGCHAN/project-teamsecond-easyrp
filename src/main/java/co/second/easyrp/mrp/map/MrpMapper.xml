@@ -151,7 +151,7 @@
 	</select>
 	
 	<select id="selectBom">
-		SELECT inv_cod, quantity as 'invQty'
+		SELECT inv_cod, inv_cod AS 'inventoryCod', quantity AS 'invQty' 
 		FROM bom
 		WHERE prod_cod = #{productCod}
 	</select>
