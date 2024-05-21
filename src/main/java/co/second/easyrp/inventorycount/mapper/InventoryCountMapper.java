@@ -13,7 +13,7 @@ public interface InventoryCountMapper {
 	int insertInventoryCount(InventoryCountVO vo);
 	int updateInventoryCount(InventoryCountVO vo);
 	int deleteInventoryCount(InventoryCountVO vo);
-	InventoryCountVO selectInventoryCountList(InventoryCountVO vo);
+	List<InventoryCountVO> selectInventoryCountList(String countdetail);
 	List<InventoryCountDetailVO> selectedInventoryCountDetailList(String countdetail);
 	int countInventoryCountLists(SearchVO searchVo);
 	List<ProductInventoryVO> getAllProductInventoryList();

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
    <head>
@@ -36,7 +37,58 @@
                         <div class="card-header py-3">
                            <div class="d-flex" style="justify-content: space-between">
                               <h5 class="m-0">재고 실사 상세</h5>
-                              <!-- 여기에 inventorycount 정보 넣어주기 -->
+                              	<div class="m-2">
+	                              <table class="table table-hover mb-0">
+											<thead>
+												<tr>
+													<th>실사번호</th>
+													<th>실사일자</th>
+													<th>재고기준일</th>
+													<th>창고</th>
+													<th>장소</th>
+													<th>실사구분</th>
+													<th>담당자</th>
+												</tr>
+											</thead>
+											<tbody>
+											<c:if test="${not empty inventoryCountList}">
+												<c:forEach var="inventoryCountList" items="${inventoryCountList}">
+													<tr>
+														<td class="text-bold-500" >${inventoryCountList.cod }</td>
+														<td>
+															<fmt:formatDate value="${inventoryCountList.countDate}" pattern="yyyy-MM-dd"/>
+														</td>
+														<td class="text-bold-500">
+															<fmt:formatDate value="${inventoryCountList.invDate}" pattern="yyyy-MM-dd"/>
+														</td>
+														<td>${inventoryCountList.warehouse}</td>
+														<td>${inventoryCountList.location}</td>
+														<td>${inventoryCountList.countclass}</td>
+														<td>${inventoryCountList.employee}</td>
+														<td>
+															<div class="btn-group">
+																<button type="button"
+																	class="btn btn-primary dropdown-toggle"
+																	data-bs-toggle="dropdown" aria-expanded="false">
+																	<i class="fa-solid fa-gear"></i>
+																</button>
+																<ul class="dropdown-menu">
+																	<li><a class="dropdown-item"
+																		href="deleteinventoryCountList?cod=${inventoryCountList.cod}">삭제</a></li>
+																</ul>
+															</div>
+														</td>
+													</tr>
+												</c:forEach>
+											</c:if>
+											<c:if test="${empty inventoryCountList}">
+												<tr>
+													<td colspan='8' style="text-align:center">실사기록이 없습니다.</td>
+												</tr>
+											</c:if>
+										</tbody>
+									</table>
+								</div>
                            </div>
                         </div>
 
@@ -50,7 +102,7 @@
                               </tr>
 										<thead>
 											<tr>
-												<th><!-- 재고실사 상세번호 --></th>
+												<th>No.</th>
 												<th>품번</th>
 												<th>품명</th>
 												<th>품목구분</th>
@@ -66,17 +118,30 @@
 										<tbody id="inventoryCountInsertBody">
 										<c:if test="${not empty inventoryCountDetailList }">
 											<c:forEach var="inventoryCountDetailList" items="${inventoryCountDetailList }">
-												<td class="text-bold-500">${inventoryCountDetailList.num }</td>
-													
+													<td class="text-bold-500">${inventoryCountDetailList.num }</td>
+												<c:if test="${empty inventoryCountDetailList.productCod }">
+													<td>${inventoryCountDetailList.inventoryCod }</td>
+												</c:if>
+												<c:if test="${empty inventoryCountDetailList.inventoryCod }">
+													<td>${inventoryCountDetailList.productCod }</td>
+												</c:if>
+												<c:if test="${empty inventoryCountDetailList.product }">
+													<td>${inventoryCountDetailList.inventory }</td>
+												</c:if>
+												<c:if test="${empty inventoryCountDetailList.inventory }">
+													<td>${inventoryCountDetailList.product }</td>
+												</c:if>
 													<td class="text-bold-500">${inventoryCountDetailList.account }</td>
-													<td>${inventoryCountDetailList.computingQty }
+													<td>${inventoryCountDetailList.computingQty }</td>
 													<td>${inventoryCountDetailList.qty }</td>
 													<td>${inventoryCountDetailList.diffQty}
 													<td>${inventoryCountDetailList.procClass }</td>
 													<td>
-														<input type="number"  name="adjustmntqty" id="adjustmntqty${inventoryCountDetailList.num}" class="adjustmntqtyinput form-control" placeholder="조정재고량을 입력해주세요." />
+														<input type="number"  name="adjustmntqty" id="adjustmntqty\${inventoryCountDetailList.num}" class="adjustmntqtyinput form-control" placeholder="조정재고량을 입력해주세요." />
 													</td>
-													<td><input type="text" id="note\${inventoryCountDetailList.num }" name="note" class="form-control" placeholder="비고를 입력해주세요."/></td>
+													<td>
+														<input type="text" id="note\${inventoryCountDetailList.num }" name="note" class="form-control" placeholder="비고를 입력해주세요."/>
+													</td>
 											</c:forEach>
 										</c:if>
 										</tbody>
@@ -105,88 +170,8 @@
      
       <script type="text/javascript">
          /*Product&InventoryModalTable START */
-         
-        function setCountDiff(countQtyInputId, computingQtyId){
-        	let countQtyInputData = $('#'+countQtyInputId).val();
-            if (countQtyInputData != null && countQtyInputData !== "") {
-            	
-             	let computingQty =$('#'+computingQtyId).text(); // 전산재고
-            	console.log(computingQty);
-            	let diffQty=computingQty-countQtyInputData; //차이수량
-            	$('#' + countQtyInputId).closest('tr').find('.diffQty').text(diffQty);
-            } else {
-                // 입력된 값이 비어 있으면 차이수량을 0으로 설정
-                $('#' + countQtyInputId).closest('tr').find('.diffQty').text(0);
-               }
-        }
-         
-        
-      $('#warehouseBox').on('change', function () {
-    	    if ($('#inventoryCountInsertBody').children().length > 0) {
-    	        if (!confirm("창고 변경 시, 기존 데이터가 소멸됩니다. 변경하시겠습니까?")) {
-    	            return;
-    	        }
-    	    }
-    	    warehouselist = $("#warehouseBox").val();
-			
-    	    // 새로운 Promise 객체 생성
-    	    new Promise((resolve, reject) => {
-    	        $.ajax({
-    	            url: 'api/get-prodinv',
-    	            traditional: true,
-    	            data: {
-    	                warehouse: warehouselist,
-    	            },
-    	            method: 'GET',
-    	            success: function (data) {
-    	                console.log(data);
-    	                let rows = '';
-    	                if (data.length < 1) {
-    	                    rows += `<tr><td colspan='9' style="text-align:center">창고에 재고가 없습니다.</td></tr>`;
-    	                }
-    	                data.forEach(function (item) {
-    	                    if (item.cod) {
-    	                        let num = rows.length;
-    	                        let diffQty = item.computingQty - item.countQty;
-    	                        let procclass = '';
-    	                        if (item.procclass != null) {
-    	                            procclass = item.procclass;
-    	                        } else {
-    	                            procclass = '미처리';
-    	                        }
-    	                        rows +=
-    	                            `<tr class="searchData" data-cod="\${item.cod}" data-name="\${item.name}" style="cursor: pointer">
-    	                                <td><input type="checkbox" name="prodInvCod" value="\${item.cod}"></td>
-    	                                <td class="cod">\${item.cod}</td>
-    	                                <td class="name">\${item.name}</td>
-    	                                <td class="account" id="\${item.account}\${num}" value="\${item.account}">\${item.account}</td>
-    	                                <td class="computingQty" id="\${item.cod}\${num}">\${item.computingQty}</td>
-    	                                <td width=100 class="countQty">
-    	                                    <input type="number" name="countqty" onkeyup="setCountDiff(this.id, '\${item.cod}\${num}')" id="\${item.cod}" class="countqtyinput form-control" placeholder="실사재고량을 입력해주세요." />
-    	                                </td>
-    	                                <td class="diffQty">\${diffQty}</td>
-    	                                <td class="procclass">\${procclass}</td>
-    	                                <td class="adjQty">\${item.adjQty}</td>
-    	                                <td class="note">
-    	                                	<input type="text" id="note\${item.cod}" name="note" class="form-control" placeholder="비고를 입력해주세요."/>
-    	                                </td>
-    	                                <tr/>
-    	                            </tr>`;
-    	                    };
-    	                });
-    	                $('#inventoryCountInsertBody').html(rows);
-    	                resolve(); // Promise 객체 성공 상태로 변경
-    	            },
-    	            error: function (xhr, status, error) {
-    	                reject(error); // Promise 객체 실패 상태로 변경
-    	                console.error('AJAX error:', error);
-    	            }
-    	        });
-    	    }).then(() => {
-    	        $('input[name=accountBtn]').on('change', function () {
-    	        	
-    	        	let prodinvaccountlist = $('input:radio[name="accountBtn"]:checked').val();
-    	        	 
+  /* 	function inventoryadjcnt(){
+        	 
     	        	$.ajax({
      	                url: 'api/get-prodinvlist',
      	                traditional: true,
@@ -194,44 +179,13 @@
      	                    warehouse: warehouselist,
      	                    prodinv: prodinvaccountlist,
      	                },
-     	                method: 'GET',
-     	                success: function (data2) {
-     	                    console.log(data2);
-     	                    let rows = '';
+     	                method: 'POST',
+     	                success: function (data) {
+     	                    console.log(data);
      	                    data2.forEach(function (items) {
      	                        if (items.cod) {
-     	                            let num = rows.length;
-     	                            let diffQty = items.computingQty - items.countQty;
-     	                            let procclass = '';
-     	                            if (items.procclass != null) {
-     	                                procclass = items.procclass;
-     	                            } else {
-     	                                procclass = '미처리';
-     	                            }
-     	                            if (items.account == '완제품' && data2.length < 1) {
-     	                                rows += `<tr><td colspan='9' style="text-align:center">완제품이 없습니다.</td></tr>`;
-     	                            } else if ((items.account == '부품' || items.account == '원자재') && data2.length < 1) {
-     	                                rows += `<tr><td colspan='9' style="text-align:center">자재가 없습니다.</td></tr>`;
-     	                            }
-     	                            rows +=
-     	                                `<tr class="searchdata" data2-cod="\${items.cod}" name="countList" data2-name="\${items.name}" style= "cursor: pointer">
-     	                                    <td><input type="checkbox" name="prodInvCod" value="\${items.cod}"></td>
-     	                                    <td class="cod">\${items.cod}</td>
-     	                                    <td class="name">\${items.name}</td>
-     	                                    <td class="account" id="\${items.account}\${num}" value="\${items.account}">\${items.account}</td>
-     	                                    <td class="computingQty" id="\${items.cod}\${num}">\${items.computingQty}</td>
-     	                                    <td width=100 class="countQty">
-     	                                        <input type="number" name="countqty" onkeyup="setCountDiff(this.id, '\${items.cod}\${num}')" id="\${items.cod}" class="countqtyinput form-control" placeholder="실사재고량을 입력해주세요." required/>
-     	                                    </td>
-     	                                    <td class="diffQty">\${diffQty}</td>
-     	                                    <td class="procclass">\${procclass}</td>
-     	                                    <td class="adjQty">\${items.adjQty}</td>
-     	                                    <td class="note"><input type="text" name="note" class="form-control" placeholder="비고를 입력해주세요."/></td>
-     	                                   <tr/>
-     	                                    </tr>`;
-     	                        };
-     	                    });
-     	                    $('#inventoryCountInsertBody').html(rows);
+
+     	                         
      	                },
      	                error: function (items) {
      	                    console.error('AJAX error:', error);
@@ -242,7 +196,7 @@
     	           
     	        });
     	    });
-
+    	    }
       
        function accountlist() {
            /* countqtylist = $('input:text[name="countqty"]').val();
@@ -251,7 +205,7 @@
            
            console.log(countqtylist);
            console.log(countnote); */
-           let prodinvcod = $('input:checkbox[name="prodInvCod"]:checked');
+   /*        let prodinvcod = $('input:checkbox[name="prodInvCod"]:checked');
            let prodinvaccountlist = $('input:radio[name="accountBtn"]:checked').val();
            let checkedInput = $('input[name="countqty"]');
            let checkedNote = $('input:text[name="note"]');

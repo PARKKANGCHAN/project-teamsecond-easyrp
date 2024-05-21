@@ -96,7 +96,6 @@ public class InventoryCountController {
 	@ResponseBody
 	public String inventoryCountInsertFn( HttpServletRequest httpservletrequest, HttpSession httpsession) {
 		String rs = "N";
-//		InventoryCountVO inventorycountvo = new InventoryCountVO();	
 		String[] prodinvcod;
 		String[] countqty;
 		String[] note;
@@ -134,29 +133,30 @@ public class InventoryCountController {
 				
 				boolean prodinvcods = prodinvcod[i].contains("prd");
 				if(prodinvcods) {
-					System.out.println("prodinvcod:"+prodinvcod[i]);
+					
 					inventorycountdetailvo.setProductCod(prodinvcod[i]);
 					inventorycountdetailvo.setComputingQty(inventorycountservice.getcomputingqty(prodinvcod[i]));
 				}else {
 					inventorycountdetailvo.setInventoryCod(prodinvcod[i]);
 					inventorycountdetailvo.setComputingQty(inventorycountservice.getcomputingqty(prodinvcod[i]));
 				}
+				
+				System.out.println("prodinvcod:"+prodinvcod[i]);
 				inventorycountdetailvo.setInventorycountCod(inventorycountvo.getCod());
 				inventorycountdetailvo.setQty(Integer.parseInt(countqty[i]));	
 				inventorycountdetailvo.setNote(note[i]);
 				inventorycountdetailvo.setUnitCod(1);
 				inventorycountdetailvo.setDiffQty(inventorycountdetailvo.getDiffQty());
 				
+				List<ProductInventoryVO> result = new ArrayList<>();
+				List<ProductInventoryVO> prodinvs = inventorycountservice.getAllSelectedCountList(prodinvcod[i]);
+				result.addAll(prodinvs);
+				System.out.println(result.toString());
 				
-		List<ProductInventoryVO> result = new ArrayList<>();
-		List<ProductInventoryVO> prodinvs = inventorycountservice.getAllSelectedCountList(prodinvcod[i]);
-		result.addAll(prodinvs);
-		System.out.println(result.toString());
-		
-		
+				System.out.println(inventorycountdetailvo);
+				inventorycountservice.insertInventoryCount(inventorycountvo);
+				inventorycountservice.insertCountDetailList(inventorycountdetailvo);
 		}
-			inventorycountservice.insertInventoryCount(inventorycountvo);
-			inventorycountservice.insertCountDetailList(inventorycountdetailvo);
 			}
 		rs = "Y";
 		
@@ -212,11 +212,15 @@ public class InventoryCountController {
 	
 	@PostMapping("inventorycountdelivr")
 	public String inventorycountdelivery(Model model, HttpServletRequest httpservletrequest) {
+		
 		String countdetail = httpservletrequest.getParameter("detailkey");
 		
-		List<InventoryCountDetailVO> inventoryCountDetailList =new ArrayList<>();
+		List<InventoryCountDetailVO> inventoryCountDetailList =new ArrayList<InventoryCountDetailVO>();
 		inventoryCountDetailList = inventorycountservice.selectedInventoryCountDetailList(countdetail);
+		List<InventoryCountVO> inventoryCountList = new ArrayList<InventoryCountVO>();
+		inventoryCountList = inventorycountservice.selectInventoryCountList(countdetail);
 		
+		model.addAttribute("inventoryCountList", inventoryCountList);
 		model.addAttribute("inventoryCountDetailList", inventoryCountDetailList);
 		
 		return "easyrp/inventory/inventorycountdetail";

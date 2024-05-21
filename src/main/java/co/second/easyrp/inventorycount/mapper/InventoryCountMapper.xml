@@ -97,8 +97,8 @@ SELECT
 		 	ON w.cod = ic.warehouse_cod
 		  LEFT JOIN location l
 		    ON l.cod = ic.location_cod
-		 WHERE deleteyn = 'N'
-		   AND cod= #{cod}
+		 WHERE ic.deleteyn = 'N'
+		   AND ic.cod= #{cod}
 
 		</select>
 		<select id="selectedInventoryCountDetailList">

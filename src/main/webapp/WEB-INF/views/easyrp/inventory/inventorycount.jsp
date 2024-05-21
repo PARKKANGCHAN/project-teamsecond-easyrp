@@ -189,7 +189,7 @@
 								<a href="inventorycountinsert" style="color: white">등록</a>
 							</button>
 						</div>
-						<form action="inventorycountdelivr" method="post" countdelivr" id="countdelivr">
+						<form action="inventorycountdelivr" method="post" name="countdelivr" id="countdelivr">
 							<input type="hidden" name="detailkey" id="hiddendetailkey" />
 						</form>
 					</div>
