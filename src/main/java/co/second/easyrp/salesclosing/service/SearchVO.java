@@ -1,5 +1,7 @@
 package co.second.easyrp.salesclosing.service;
 
+import java.sql.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

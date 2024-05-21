@@ -64,7 +64,7 @@
 															<td width="10%"><select class="form-control"
 																id="searchSalesClosingState"
 																name="searchSalesClosingState">
-																	<option value="N"
+																	<option value=""
 																		${searchVO.searchSalesClosingState == '' ? 'selected' : ''}>선택</option>
 																	<option value="Y"
 																		${searchVO.searchSalesClosingState == 'Y' ? 'selected' : ''}>마감
@@ -112,7 +112,7 @@
 											<tbody>
 												<c:forEach var="salesClosing" items="${salesClosing}"
 													varStatus="status">
-													<tr data-row-id="${status.index}" class="commonDetailTable">
+													<tr data-row-id="${status.index}" data-sales-closing-state="${salesClosing.salesClosingState}" data-sales-closing-date="${salesClosing.salesClosingDate}" class="commonDetailTable">
 														<td><input type="checkbox" name="orderCodChk"
 															class="form-check-input" /></td>
 														<td class="text-bold-500">${salesClosing.orderCod}</td>
@@ -207,37 +207,74 @@
 		/* checkBtn Disabled 함수 END  */
 
 		$(document).ready(function() {
+			
+		    $('#salesClosingForm').submit(function(event) {
+		        // 체크되지 않은 항목 제거
+		        $("input[name='orderCodChk']:not(:checked)").each(function() {
+		            var rowId = $(this).closest('tr').data('row-id');
+		            console.log(rowId);
+		            $(`input[name='rowOrderCodDatas[\${rowId}].orderCod']`).remove();
+		        });
+		    });
 
-			/* 체크박스 All Check 확인 및 기능 START */
-			$("#orderAllCheck").click(function() {
-				if ($("#orderAllCheck").is(":checked")) {
-					checkedBtnActive();
-					$("input[name=orderCodChk]").prop("checked", true);
-				} else {
-					checkedBtnDisabled();
-					$("input[name=orderCodChk]").prop("checked", false);
-				}
-			});
+		    // 체크박스 클릭 이벤트 처리
+		    $("input[name='orderCodChk']").click(function() {
+		        var $row = $(this).closest('tr');
+		        var salesClosingState = $row.data('sales-closing-state');
+		        var salesClosingDate = $row.data('sales-closing-date');
 
-			$("input[name=orderCodChk]").click(function() {
+		        if (salesClosingState === 'Y' && salesClosingDate) {
+		            alert("이미 매출마감이 완료된 데이터 입니다.");
+		            $(this).prop('checked', false); // 체크 해제
+		        }
 
-				if ($("input[name=orderCodChk]").is(":checked")) {
-					checkedBtnActive();
-				} else {
-					checkedBtnDisabled();
-				}
+		        // 전체 체크박스 상태 업데이트
+		        updateAllCheckState();
+		        // 제출 버튼 상태 업데이트
+		        updateSubmitButtonState();
+		    });
 
-				let totalChk = $("input[name=orderCodChk]").length;
-				let checked = $("input[name=orderCodChk]:checked").length;
+		    // 전체 체크박스 클릭 이벤트 처리
+		    $("#orderAllCheck").click(function() {
+		        if ($(this).is(":checked")) {
+		            $("input[name='orderCodChk']").each(function() {
+		                var $row = $(this).closest('tr');
+		                var salesClosingState = $row.data('sales-closing-state');
+		                var salesClosingDate = $row.data('sales-closing-date');
 
-				if (totalChk != checked) {
-					$("#orderAllCheck").prop("checked", false);
-				} else {
-					$("#orderAllCheck").prop("checked", true);
-				}
-				;
-			});
-			/* 체크박스 All Check 확인 및 기능 END */
+		                if (salesClosingState === 'Y' && salesClosingDate) {
+		                    alert("매출마감이 되지 않은 데이터만 체크합니다.");
+		                    $(this).prop('checked', false); // 체크 해제
+		                } else {
+		                    $(this).prop('checked', true); // 체크 설정
+		                }
+		            });
+		        } else {
+		            $("input[name='orderCodChk']").prop("checked", false); // 모든 체크 해제
+		        }
+		        // 제출 버튼 상태 업데이트
+		        updateSubmitButtonState();
+		    });
+
+		    // 전체 체크박스 상태 업데이트 함수
+		    function updateAllCheckState() {
+		        let totalChk = $("input[name='orderCodChk']").length;
+		        let checked = $("input[name='orderCodChk']:checked").length;
+
+		        $("#orderAllCheck").prop('checked', totalChk === checked);
+		    }
+
+		    // 제출 버튼 활성화/비활성화 업데이트 함수
+		    function updateSubmitButtonState() {
+		        if ($("input[name='orderCodChk']:checked").length > 0) {
+		            $('#closingSubmitBtn').prop('disabled', false);
+		        } else {
+		            $('#closingSubmitBtn').prop('disabled', true);
+		        }
+		    }
+
+		    // 초기 제출 버튼 상태 설정
+		    updateSubmitButtonState();
 		});
 	</script>
 </body>

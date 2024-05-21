@@ -1,6 +1,5 @@
 package co.second.easyrp.salesclosing.web;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,21 +15,21 @@ import co.second.easyrp.salesclosing.service.SearchVO;
 
 @Controller
 public class SalesClosingController {
-	
+
 	@Autowired
 	SalesClosingService salesClosingService;
-	
+
 	// 매출 마감 관리 페이지 이동
 	// 2024년 5월 20일 오후 12시 49분 추가 박현우
 	@GetMapping("/salesclosing")
-	public String salesClosing(SearchVO searchVO, Model model, @RequestParam (defaultValue = "1") int page) {
+	public String salesClosing(SearchVO searchVO, Model model, @RequestParam(defaultValue = "1") int page) {
 		searchVO.setOffset((page - 1) * searchVO.getPageSize());
-		
+
 		List<SalesClosingVO> salesClosing = salesClosingService.tableAllList(searchVO);
-		
+
 		// 제품 개수 만큼 페이지 네이션 생성을 위한 변수
 		int totalRecords = salesClosingService.countTable(searchVO);
-		
+
 		// 제품 개수 / 10(페이지사이즈)를 해서, 총 페이지 개수를 정한다.
 		int totalPages = (int) Math.ceil((double) totalRecords / searchVO.getPageSize());
 		int pageGroupSize = 10;
@@ -38,31 +37,24 @@ public class SalesClosingController {
 		int currentPageGroup = (searchVO.getPageSize() - 1) / pageGroupSize;
 		int startPage = currentPageGroup * pageGroupSize + 1;
 		int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
-		
+
 		model.addAttribute("searchVO", searchVO);
 		model.addAttribute("salesClosing", salesClosing);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("startPage", startPage);
-		 
-		
+
 		return "easyrp/salesclosing/salesclosing";
 	}
-	
-	
+
 	@PostMapping("/salesclosingupdate")
 	public String salesClosingUpdate(SalesClosingVO salesClosingVO) {
 		
-		System.out.println(salesClosingVO.getRowOrderCodDatas());
-		
-		for (SalesClosingVO salesClosingVoVar : salesClosingVO.getRowOrderCodDatas()) {
-			
-			salesClosingVoVar.setOrderCod(salesClosingVO.getOrderCod());
+		for (SalesClosingVO salesClosing : salesClosingVO.getRowOrderCodDatas()) {
+			salesClosingService.salesClosingUpdate(salesClosing);
 		}
-		
-		System.out.println("매출 마감이 완료 되었습니다.");
+
 		return "redirect:/salesclosing";
 	}
-	
 
 }

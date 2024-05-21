@@ -26,8 +26,7 @@
 		</if>
 		<if
 			test="preSearchDate != null and preSearchDate != '' and postSearchDate != null and postSearchDate != ''">
-			AND o.sales_closing_date BETWEEN #{preSearchDate} AND
-			#{postSearchDate}
+			AND o.sales_closing_date BETWEEN #{preSearchDate} AND #{postSearchDate}
 		</if>
 		GROUP BY o.cod
 		HAVING COUNT(*) = COUNT(CASE WHEN o.delivery_state = 102
