@@ -12,7 +12,7 @@ public interface InventoryCountService {
 	int updateInventoryCount(InventoryCountVO vo);
 	int deleteInventoryCount(InventoryCountVO vo); 
 	InventoryCountVO selectInventoryCountList(InventoryCountVO vo);
-	InventoryCountDetailVO selectedInventoryCountDetailList(InventoryCountDetailVO inventorycountdetailvo);
+	List<InventoryCountDetailVO> selectedInventoryCountDetailList(String countdetail);
 	List<ProductInventoryVO> getAllProductInventoryList();
 	List<ProductInventoryVO> getAllSelectedCountList(String prodInvCod);
 	int countInventoryCountLists(SearchVO searchVo);

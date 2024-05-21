@@ -4,7 +4,7 @@
 	namespace="co.second.easyrp.inventorycount.mapper.InventoryCountMapper">
 	<select id="inventoryCountList">
 SELECT 
-			i.cod,
+			ic.cod,
 			e.name AS employee,
 			w.name AS warehouse,
 			l.name AS location,
@@ -102,7 +102,7 @@ SELECT
 
 		</select>
 		<select id="selectedInventoryCountDetailList">
-		SELECT num, inventorycount_cod, product_cod, spec
+		SELECT icd.num, icd.product_cod, icd.inventory_cod, icd.inventorycount_cod, p.prodname as product, i.name as inventory,icd.computing_qty, icd.qty, icd.diff_qty, icd.note 
 		  FROM inventorycountdetail icd
 		LEFT JOIN inventorycount ic
 		  ON icd.inventorycount_cod = ic.cod
@@ -112,7 +112,9 @@ SELECT
 		  ON icd.inventory_cod = i.cod
 		LEFT JOIN unit u
 		  ON icd.unit_cod = u.cod
-		LEFT JOIN adjustmentdetail_num=
+		LEFT JOIN inventoryadjustmentdetail iad
+		  ON iad.num=icd.adjustmentdetail_num
+	   WHERE icd.inventorycount_cod=#{cod}
 		</select>
 	<select id="getAllProductInventoryList">
 		 SELECT  p.prodname as name, p.cod as cod, p.cur_inv_qty as computingQty, ia.procclass
@@ -163,8 +165,8 @@ SELECT
 		Values(#{cod}, #{employeeCod}, #{warehouseCod}, #{countclass}, 'N')
 	</insert>
 	<insert id="insertCountDetailList">
-		INSERT INTO inventorycountdetail(inventorycount_cod, product_cod, inventory_cod, unit_cod, qty, account, note, diff_qty)
-		Values(#{inventorycountCod}, #{productCod}, #{inventoryCod}, #{unitCod}, #{qty}, #{account}, #{note}, #{diffQty}-#{computingQty})
+		INSERT INTO inventorycountdetail(inventorycount_cod, product_cod, inventory_cod, computing_qty, unit_cod, qty, note, diff_qty)
+		Values(#{inventorycountCod}, #{productCod}, #{inventoryCod}, #{computingQty}, #{unitCod}, #{qty}, #{note}, #{diffQty}-#{computingQty})
 	</insert>
 	<select id="warehouseList">
 	 SELECT cod, name
@@ -218,8 +220,16 @@ SELECT
 		 ON ia.cod = iad.inventoryadjustment_cod
 		 LEFT JOIN warehouse w
 		 ON w.cod = p.warehouse_cod
-		 WHERE p.account=#{account}
-		   AND w.name=#{warehouse}
+		 where w.name=#{warehouse}
+		 <choose>
+		   <when test="account.equals('완제품') or account.equals('전체')">
+       	   AND p.account IN ('완제품')
+       	 </when>
+       	 <when test="account.equals('자재')">
+       	   AND p.account = #{account}
+       	 </when>
+		 </choose>
+		  
 
 		 UNION 
 		 
@@ -233,15 +243,28 @@ SELECT
 		 	 ON ia.cod = iad.inventoryadjustment_cod
 		 LEFT JOIN warehouse w
 		 	 ON w.cod = i.warehouse_cod
-		 WHERE i.account=#{account}
-		   AND w.name=#{warehouse}
+		 WHERE w.name=#{warehouse}
+       	<choose>
+       	 <when test="account.equals('자재') or account.equals('전체')">
+       	   AND i.account IN ('부품', '원자재')
+       	 </when>
+       	 <when test="account.equals('완제품')">
+       	   AND i.account = #{account}
+       	 </when>
+       	</choose>
+            
+        
+        
+
 	</select>
+	
 	<select id="selectMaxCod">
 	SELECT COALESCE(MAX(CAST(RIGHT (cod,3) AS SIGNED)), 0) AS cod 
 	FROM inventorycount
 	</select>
+	
 	<select id="getcomputingqty">
-	SELECT qty as computingQty
+	SELECT cur_inv_qty as computingQty
 	  FROM inventory
 	WHERE cod=#{cod}  
 	
@@ -251,4 +274,6 @@ SELECT
 	  FROM product
 	 WHERE cod=#{cod}
 	</select>
+
+
 </mapper>

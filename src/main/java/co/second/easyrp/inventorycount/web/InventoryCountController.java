@@ -13,20 +13,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.second.easyrp.inventory.service.InventoryService;
-import co.second.easyrp.inventory.service.InventoryVO;
 import co.second.easyrp.inventorycount.service.InventoryCountDetailVO;
 import co.second.easyrp.inventorycount.service.InventoryCountService;
 import co.second.easyrp.inventorycount.service.InventoryCountVO;
 import co.second.easyrp.inventorycount.service.ProductInventoryVO;
 import co.second.easyrp.inventorycount.service.SearchVO;
-import co.second.easyrp.mrp.service.MrpVO;
 import co.second.easyrp.product.service.ProductService;
-import co.second.easyrp.warehouse.service.WareHouseService;
 import co.second.easyrp.warehouse.service.WareHouseVO;
 
 @Controller
@@ -95,16 +93,15 @@ public class InventoryCountController {
 	}
 	
 	@RequestMapping("/api/get-prodinvinsert")
+	@ResponseBody
 	public String inventoryCountInsertFn( HttpServletRequest httpservletrequest, HttpSession httpsession) {
-		
+		String rs = "N";
 //		InventoryCountVO inventorycountvo = new InventoryCountVO();	
 		String[] prodinvcod;
-		String[] prodinvaccount;
 		String[] countqty;
 		String[] note;
 		String warehouse;
 		
-		prodinvaccount = httpservletrequest.getParameterValues("prodinvaccount");
 		prodinvcod= httpservletrequest.getParameterValues("prodinvcod");
 		countqty = httpservletrequest.getParameterValues("countqty");
 		note = httpservletrequest.getParameterValues("note");
@@ -126,7 +123,7 @@ public class InventoryCountController {
     		inventorycountvo.setWarehouse(warehouse);
     	}
     	
-    	inventorycountvo.setCod(newCode);
+    	inventorycountvo.setCod("invcnt"+newCode);
     	inventorycountvo.setEmployeeCod((String) httpsession.getAttribute("empCode"));
     	inventorycountvo.setWarehouseCod(inventorycountservice.wareHouseCod(warehouse));
     	inventorycountvo.setCountclass("정기");
@@ -139,14 +136,12 @@ public class InventoryCountController {
 				if(prodinvcods) {
 					System.out.println("prodinvcod:"+prodinvcod[i]);
 					inventorycountdetailvo.setProductCod(prodinvcod[i]);
-					inventorycountdetailvo.setAccount(prodinvaccount[i]);
 					inventorycountdetailvo.setComputingQty(inventorycountservice.getcomputingqty(prodinvcod[i]));
 				}else {
 					inventorycountdetailvo.setInventoryCod(prodinvcod[i]);
-					inventorycountdetailvo.setAccount("원자재");
 					inventorycountdetailvo.setComputingQty(inventorycountservice.getcomputingqty(prodinvcod[i]));
 				}
-				inventorycountdetailvo.setInventorycountCod(newCode);
+				inventorycountdetailvo.setInventorycountCod(inventorycountvo.getCod());
 				inventorycountdetailvo.setQty(Integer.parseInt(countqty[i]));	
 				inventorycountdetailvo.setNote(note[i]);
 				inventorycountdetailvo.setUnitCod(1);
@@ -163,37 +158,9 @@ public class InventoryCountController {
 			inventorycountservice.insertInventoryCount(inventorycountvo);
 			inventorycountservice.insertCountDetailList(inventorycountdetailvo);
 			}
-			
-//		inventorycountvo.setCod(cod);
-//		inventorycountvo = inventorycountservice.selectInventoryCountList(inventorycountvo);
-//		InventoryCountDetailVO inventorycountdetailvo = new InventoryCountDetailVO();
-//		inventorycountdetailvo = inventorycountservice.selectedInventoryCountDetailList(inventorycountdetailvo);
-//		
-//    	int maxNumber = inventorycountservice.selectMaxCod() + 1;
-//    	String newCode = String.format("%03d", maxNumber);
-//    	
-//    	SimpleDateFormat countdate = new SimpleDateFormat("dd-MM-yyyy");
-//    	
-//    	inventorycountvo.setCod(newCode);
-//    	inventorycountvo.setCountDate(inventorycountvo.getCountDate());
-//    	inventorycountvo.setEmployeeCod((String) httpsession.getAttribute("empCode"));
-//    	inventorycountvo.setCountDate(countdate);
-//    	inventorycountvo.setInvDate(countdate);
-//    	inventorycountvo.setCountclass("정기");
-//    	inventorycountvo.setWarehouse(warehouse);
-//    	
-//    	inventorycountdetailvo.setInventorycountCod(newCode);
-//    	inventorycountdetailvo.setLocationCod(locationCod);
-//    	inventorycountdetailvo.setAccount(account);
-//    	inventorycountdetailvo.setNote(note);
-//    	inventorycountdetailvo.setDiffQty(diffQty);
-//    	inventorycountdetailvo.setProductCod(productCod);
-//    	inventorycountdetailvo.setInventoryCod(inventoryCod);
-//	
-//		inventorycountservice.insertInventoryCount(inventorycountvo);
-//		inventorycountservice.insertCountDetailList(inventorycountdetailvo);
-	
-		return "redirect:/inventorycount";
+		rs = "Y";
+		
+		return rs;
 	}
 	
 	
@@ -227,34 +194,32 @@ public class InventoryCountController {
 		String prodinv = httpservletrequest.getParameter("prodinv");
 		String warehouse = httpservletrequest.getParameter("warehouse");
 		
-
+		
 		ProductInventoryVO prodinvvo= new ProductInventoryVO();
 		
+		
 		prodinvvo.setAccount(prodinv);
+		
 		prodinvvo.setWarehouse(warehouse);
 		System.out.println(prodinv);
 	//System.out.println(inventorycountservice.getProdInvAccount(prodinvvo));
 		
+		
+			
+		
 		return inventorycountservice.getProdInvAccount(prodinvvo);
 	}
-//	@GetMapping("/api/get-count")
-//	@ResponseBody
-//	public List<ProductInventoryVO> getCount(HttpServletRequest httpservletrequest){
-//		
-//		String[] itemList;
-//		
-//		itemList = httpservletrequest.getParameterValues("itemList");
-//		List<ProductInventoryVO> result = new ArrayList<>();
-//		
-//
-//		if(itemList != null) {
-//			for(int i=0; i<itemList.length; i++) {
-//		List<ProductInventoryVO> prodinvs = inventorycountservice.getAllSelectedCountList(itemList[i]);
-//		result.addAll(prodinvs);
-//			}
-//			 System.out.println(result.toString());
-//		}
-//		return result;
-//	}
+	
+	@PostMapping("inventorycountdelivr")
+	public String inventorycountdelivery(Model model, HttpServletRequest httpservletrequest) {
+		String countdetail = httpservletrequest.getParameter("detailkey");
+		
+		List<InventoryCountDetailVO> inventoryCountDetailList =new ArrayList<>();
+		inventoryCountDetailList = inventorycountservice.selectedInventoryCountDetailList(countdetail);
+		
+		model.addAttribute("inventoryCountDetailList", inventoryCountDetailList);
+		
+		return "easyrp/inventory/inventorycountdetail";
+	}
 	
 }

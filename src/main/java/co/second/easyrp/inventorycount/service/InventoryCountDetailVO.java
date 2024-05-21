@@ -22,4 +22,6 @@ public class InventoryCountDetailVO {
 	private String note;
 	private int diffQty;
 	private int computingQty;
+	private String productName;
+	private String inventoryName;
 }

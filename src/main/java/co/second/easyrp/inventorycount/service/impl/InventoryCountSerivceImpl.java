@@ -58,11 +58,6 @@ public class InventoryCountSerivceImpl implements InventoryCountService {
 		return inventorycountmapper.selectInventoryCountList(vo);
 	}
 
-	@Override
-	public InventoryCountDetailVO selectedInventoryCountDetailList(InventoryCountDetailVO inventorycountdetailvo) {
-		// TODO Auto-generated method stub
-		return inventorycountmapper.selectedInventoryCountDetailList(inventorycountdetailvo);
-	}
 
 	@Override
 	public List<ProductInventoryVO> getAllProductInventoryList() {
@@ -122,6 +117,12 @@ public class InventoryCountSerivceImpl implements InventoryCountService {
 	public Integer getcomputingqty(String prodinvcod) {
 		// TODO Auto-generated method stub
 		return inventorycountmapper.getcomputingqty(prodinvcod);
+	}
+
+	@Override
+	public List<InventoryCountDetailVO> selectedInventoryCountDetailList(String countdetail) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.selectedInventoryCountDetailList(countdetail);
 	}
 
 

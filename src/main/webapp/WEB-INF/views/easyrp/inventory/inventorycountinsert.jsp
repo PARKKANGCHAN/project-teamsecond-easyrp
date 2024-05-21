@@ -44,7 +44,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                            <form id="insertForm" name="insertForm" action="api/get-prodinvinsert" method="post">
                               <div class="mb-4">
 	                              <div class="form-check form-check-inline">
-	                              <label for="warehouseBox">창고</label>
+	                             <span style="font-weight:bold">창고</span>
 	                              </div>
 				                  	<div class="form-check form-check-inline">
 					                  	<select id="warehouseBox" class="form-select" style="width: 150px">
@@ -55,24 +55,25 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 					                 	</select>
 				                 	</div>
 				                 	<div class="form-check form-check-inline">
+				                 	<div class="form-check form-check-inline"><span style="font-weight:bold">품목구분</span></div>
 					                 	<div class="form-check form-check-inline">
-										  <input class="form-check-input" type="radio" name="accountBtn" id="productRadioButton" value="완제품" checked>
-										  <label class="form-check-label" for="productRadioButton">완제품</label>
-										</div>
-										<div class="form-check form-check-inline">
-										  <input class="form-check-input" type="radio" name="accountBtn" id="inventoryRadioButton" value="부품">
-										  <label class="form-check-label" for="inventoryRadioButton">부품</label>
-										</div>
-										<div class="form-check form-check-inline">
-										  <input class="form-check-input" type="radio" name="accountBtn" id="materialsRadioButton" value="원자재">
-										  <label class="form-check-label" for="materialsRadioButton">원자재</label>
-										</div>
-										<div>
-											<input type="hidden" name="employee" value="${sessionScope.empCode }" />
-										</div>
+											  <input class="form-check-input" type="radio" name="accountBtn" id="productinventoryRadioButton" value="전체" checked>
+											  <label class="form-check-label" for="productinventoryRadioButton">전체</label>
+											</div>
+						                 	<div class="form-check form-check-inline">
+											  <input class="form-check-input" type="radio" name="accountBtn" id="productRadioButton" value="완제품">
+											  <label class="form-check-label" for="productRadioButton">완제품</label>
+											</div>
+											<div class="form-check form-check-inline">
+											  <input class="form-check-input" type="radio" name="accountBtn" id="inventoryRadioButton" value="자재">
+											  <label class="form-check-label" for="inventoryRadioButton">자재</label>
+											</div>
+											<div>
+												<input type="hidden" name="employee" value="${sessionScope.empCode }" />
+											</div>
 									</div>
 							</div>
-							<div>
+							<div class="mb-5">
                                <table class="table table-hover mb-0">
                               <!-- 재고 목록 모달 -->
                               <tr>
@@ -90,12 +91,11 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 												<th>조정수량</th>
 												<th>비고</th>
 											</tr>
+											<tr/>
 										</thead>
 										<tbody id="inventoryCountInsertBody">
 											<!-- 모달에서 선택한 데이터 Ajax로 html속성 삽입 -->
 										</tbody>
-										<tr>
-										</tr>
 									</table>
                               </div>
                               <!-- 공통등록 Button START -->
@@ -184,9 +184,9 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     	                                <td class="procclass">\${procclass}</td>
     	                                <td class="adjQty">\${item.adjQty}</td>
     	                                <td class="note">
-    	                                	<input type="text" name="note" class="form-control" placeholder="비고를 입력해주세요."/>
+    	                                	<input type="text" id="note\${item.cod}" name="note" class="form-control" placeholder="비고를 입력해주세요."/>
     	                                </td>
-    	                                
+    	                                <tr/>
     	                            </tr>`;
     	                    };
     	                });
@@ -226,9 +226,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
      	                            }
      	                            if (items.account == '완제품' && data2.length < 1) {
      	                                rows += `<tr><td colspan='9' style="text-align:center">완제품이 없습니다.</td></tr>`;
-     	                            } else if (items.account == '부품' && data2.length < 1) {
-     	                                rows += `<tr><td colspan='9' style="text-align:center">자재가 없습니다.</td></tr>`;
-     	                            }else if (items.account == '원자재' && data2.length < 1) {
+     	                            } else if ((items.account == '부품' || items.account == '원자재') && data2.length < 1) {
      	                                rows += `<tr><td colspan='9' style="text-align:center">자재가 없습니다.</td></tr>`;
      	                            }
      	                            rows +=
@@ -245,6 +243,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
      	                                    <td class="procclass">\${procclass}</td>
      	                                    <td class="adjQty">\${items.adjQty}</td>
      	                                    <td class="note"><input type="text" name="note" class="form-control" placeholder="비고를 입력해주세요."/></td>
+     	                                   <tr/>
      	                                    </tr>`;
      	                        };
      	                    });
@@ -268,26 +267,24 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
            
            console.log(countqtylist);
            console.log(countnote); */
-           let prodinvcod = $('input:text[name="prodInvCod"]');
+           let prodinvcod = $('input:checkbox[name="prodInvCod"]:checked');
            let prodinvaccountlist = $('input:radio[name="accountBtn"]:checked').val();
            let checkedInput = $('input[name="countqty"]');
            let checkedNote = $('input:text[name="note"]');
+           warehouselist = $("#warehouseBox").val();
            let countqty = [];
            let note = [];
            let prodinvlist = [];
-           prodinvlist.push(prodinvcod.eq(i).val());
            
-           for(i =0; i < checkedInput.length; i++){
-        	   if(checkedInput.eq(i).val() !== ""){
-        		   countqty.push(checkedInput.eq(i).val());
-        	   }
+           for(i =0; i< prodinvcod.length; i++){
+        		  prodinvlist.push(prodinvcod.eq(i).val());
+        	}
+           
+           for(i =0; i< prodinvlist.length; i++){
+        	   countqty.push($("#"+ prodinvlist[i]).val());
+        	   note.push($("#note"+prodinvlist[i]).val());
            }
            
-           for(i=0; i< checkedNote.length; i++){
-        	   if(checkedNote.eq(i).val() !== ""){
-        		   note.push(checkedNote.eq(i).val());
-        	   }
-           }
            console.log("countqty list : ",countqty); 
            console.log("note list : ",note); 
            
@@ -303,10 +300,17 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                },
                method: 'GET',
                success: function (data) {
-        			console.log(data);
+            	   console.log(data);
+        			if(data === "Y"){
+        				alert("데이터가 정상적으로 생성되었습니다.");
+        			let url = `/easyrp/inventorycount`;
+        			location.replace(url);
                    }
-           }); 
-       }		
+           }, error: function(error){
+        	   console.log("error :", error);
+           } 
+       });
+      }
              
   /*       $(document).ready(function () {
                 $.ajax({
