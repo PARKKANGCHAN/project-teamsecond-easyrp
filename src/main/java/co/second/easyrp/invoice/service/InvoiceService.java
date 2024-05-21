@@ -17,4 +17,5 @@ public interface InvoiceService {
 	
 	//2024.05.17 13:32 손지은 추가
 	int selectMaxCod();
+	int updateInvoiceClosing(String cod); //invoice closing을 N->Y로 변경
 }

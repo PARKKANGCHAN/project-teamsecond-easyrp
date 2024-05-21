@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import co.second.easyrp.invoicedetail.mapper.InvoicedetailMapper;
 import co.second.easyrp.invoicedetail.service.InvoicedetailService;
 import co.second.easyrp.invoicedetail.service.InvoicedetailVO;
+import co.second.easyrp.orderdetail.service.OrderdetailVO;
 
 @Service
 @Primary
@@ -48,4 +49,15 @@ public class InvoicedetailServiceImpl implements InvoicedetailService {
 		return invoicedetailMapper.updateInvoicedetail(invoicedetailVo);
 	}
 
+	@Override
+	public int updateOrderdetailDeliveryState(String cod, int num, int deliveryState) {
+		// TODO Auto-generated method stub
+		return invoicedetailMapper.updateOrderdetailDeliveryState(cod, num, deliveryState);
+	}
+
+	@Override
+	public OrderdetailVO selectOrderdetailByInvoice(String cod, int num) {
+		// TODO Auto-generated method stub
+		return invoicedetailMapper.selectOrderdetailByInvoice(cod, num);
+	}
 }

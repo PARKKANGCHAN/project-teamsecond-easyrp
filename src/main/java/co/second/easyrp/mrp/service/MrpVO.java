@@ -46,4 +46,6 @@ public class MrpVO {
 	private int invoiceUnitAmount;
 	private String clientName;
 	private int unitprice;
+	private String prodCod;
+	private int curInvQty;
 }

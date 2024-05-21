@@ -92,4 +92,11 @@
 	<select id="selectMaxCod">
 		SELECT COALESCE(MAX(CAST(RIGHT (cod,3) AS SIGNED)), 0) AS cod FROM invoice
 	</select>
+	
+	<update id="updateInvoiceClosing">
+		UPDATE invoice
+		SET
+		closing = 'Y'
+		WHERE cod = #{cod}
+	</update>
 </mapper>

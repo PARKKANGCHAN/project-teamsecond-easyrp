@@ -96,4 +96,32 @@
 		WHERE invoice_cod = #{invoiceCod}
 		AND num = #{num}
 	</update>
+	
+	<update id="updateOrderdetailState">
+		UPDATE orderdetail
+		SET
+		delivery_state = #{deliveryState}
+		WHERE cod = #{cod}
+		AND num = #{num}
+	</update>
+	
+	<select id="selectOrderdetailByInvoice">
+		SELECT o.cod, o.num  
+		FROM invoicedetail i
+		JOIN mrp m 
+		ON i.mrp_cod = m.cod 
+		JOIN mps m2 
+		ON m.mps_cod = m2.cod 
+		JOIN orderdetail o 
+		ON m2.order_cod = o.cod AND m2.orderdetail_num = o.num 
+		WHERE i.invoice_cod = #{arg0} 
+		AND i.num = #{arg1}
+	</select>
+	
+	<update id="updateOrderdetailDeliveryState">
+		UPDATE orderdetail 
+		SET delivery_state = #{arg2}
+		WHERE cod = #{arg0}
+		AND num = #{arg1}
+	</update>
 </mapper>

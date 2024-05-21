@@ -328,7 +328,7 @@
                   		  let poDate = new Date($('#takeDate').val());
                           poDate.setDate(poDate.getDate()-3);
                           let formattedPoDate = poDate.getFullYear() + '-' + ('0' + (poDate.getMonth() + 1)).slice(-2) + '-' + ('0' + poDate.getDate()).slice(-2);
-                          if (item.invCod) {
+                          if (($('#qty').val() * item.invQty - item.curInvQty) > 0) {
                              otherRows +=
                           	  '<tr>'+
                                 '<td>' +
@@ -350,7 +350,7 @@
                                 $('#dday').val() +
                                 '</td>'+
                                 '<td>' +
-                                ($('#qty').val() * item.invQty) +
+                                ($('#qty').val() * item.invQty - item.curInvQty) +
                                 '</td>' +
                                 '<td>' +
                                 item.unitName +

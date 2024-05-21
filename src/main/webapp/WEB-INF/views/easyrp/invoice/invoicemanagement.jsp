@@ -130,7 +130,7 @@
 													</td>
 													<td>
 														<c:if test="${invoiceTable.prodReady eq 'Y'}">
-															<button type="button" class="btn btn-primary">생산지시</button>
+															<button type="button" class="btn btn-primary" onclick="production(${invoiceTable.cod})">생산지시</button>
 														</c:if>
 														<c:if test="${invoiceTable.prodReady eq 'N'}">
 															<button class="btn disabled">생산대기</button>
@@ -265,18 +265,36 @@
     	}
     </script>
     
+    <!-- 생산지시 버튼을 누르면 완제품은 증가시키고, 사용된 자재는 차감시킨다. -->
+    <script>
+    function production(cod){
+    	$.ajax({
+    		url: 'productionfn',
+    		data: {cod : cod},
+    		dataType: 'JSON',
+    		success: function(response){
+    			console.log(response);
+    			alert("생산이 완료되었습니다.");
+    		}
+    		error: function(xhr, status, error) {
+    			console.error('실패');
+    		}
+    	});
+    }
+    </script>
+    
     <script>
  // 견적 상세 모달 관련 함수 시작
     
-    // estimateDetail(estimateCod) 시작
+    // estimateDetail(cod) 시작
 	// 견적 상세 모달에서 목록을 불러오는 함수입니다. 여기서 금액계산을 하고, 견적 상세 목록의 수정, 삭제하는 함수도 정의하였습니다. 함수안에 함수가 정의되어 있어서 헷갈릴 수 있습니다.
-    function estimateDetail(estimateCod) {
+    function estimateDetail(cod) {
     	
     	// estimatedetail ajax 통신 시작
     	$.ajax({
     		url: 'api/get-invoicedetail',
     		type: 'GET',
-    		data: {invoiceCod : estimateCod},
+    		data: {invoiceCod : cod},
     		dataType: 'JSON',
     		success: function(response) {
     			console.log(response);
@@ -339,31 +357,6 @@
     		        var buttonGroup = $('<div>').append(editButton);
     		        
     			    newRow.append($('<td>').append(buttonGroup));
-    				
-    				// 계산을 앞단에서 했는데 db에서 트리거를 사용해서 먼저 계산한 다음 뿌려줘도 될 것 같습니다.
-    		        // 각 항목의 총 가격 계산 및 표시
-    		        /*
-    		        var totalPriceItem = item.unitprice * item.qty;
-    		        newRow.append($('<td>').text(totalPriceItem.toLocaleString())); // 숫자를 형식화하여 표시
-    		        totalPrice += totalPriceItem; // 총 가격 합계 누적
-    		        
-    		        // 각 항목의 부가세 계산 및 표시
-    		        var vat = Math.floor(totalPriceItem * 0.1);
-    		        newRow.append($('<td>').text(vat.toLocaleString())); 
-    		        totalVat += vat; // 부가세 합계 누적
-    		        
-    		        // 각 항목의 총합 계산 및 표시
-    		        var totalItem = totalPriceItem + vat;
-    		        newRow.append($('<td>').text(totalItem.toLocaleString())); 
-    		        totalSum += totalItem; // 총합 합계 누적
-    				
-    		        // 각 견적 상세 목록에 수정과 삭제 버튼을 달아주었고 onclick 함수를 바로 정의했습니다.
-    		        var editButton = $('<button>').text('수정').addClass('btn btn-primary').css('margin-right', '2px');
-    		        var deleteButton = $('<button>').text('삭제').addClass('btn btn-primary');
-    		        var buttonGroup = $('<div>').append(editButton).append(deleteButton);
-    		        
-    			    newRow.append($('<td>').append(buttonGroup));
-    			    */
     			    
     				$('#detailList').after(newRow);
     			    
@@ -389,7 +382,7 @@
     				            $('.generatedRow').remove();
     				            
     				            // 수정 성공 시 해당 함수를 호출하여 전체적으로 다시 렌더링
-    				            estimateDetail(estimateCod);
+    				            estimateDetail(cod);
     				            
     				    	},
     				    	error: function(xhr, status, error) {
@@ -399,42 +392,6 @@
     				    });
     				    
     				});
-    				
-    			    /*
-    				editButton.on('click', function() {
-    				    var productCod = item.productCod;
-     				    var estimateCod = item.cod;
-    				    var num = item.num;
-    				    var qty = $('#qty_' + item.num).val();
-    				    
-    				    
-    				    $.ajax({
-    				    	url: 'estimateupdate',
-    				    	type: 'POST',
-    				    	data: {
-    				    		cod : estimateCod,
-    				    		qty : qty,
-    				    		num : num
-    				    	},
-    				    	dataType: 'JSON',
-    				    	success: function(response){
-    				    		console.log('성공');
-    				    		alert('수정이 완료되었습니다.');
-    				    		
-    				            // 성공 시 기존 데이터 삭제
-    				            $('.generatedRow').remove();
-    				            
-    				            // 수정 성공 시 해당 함수를 호출하여 전체적으로 다시 렌더링
-    				            estimateDetail(estimateCod);
-    				            
-    				    	},
-    				    	error: function(xhr, status, error) {
-    							console.error('실패');
-    							console.log(xhr,status);
-    						}
-    				    });
-    				    
-    				});*/
     				
     				$('#detailModal').on('hidden.bs.modal', function () {
     				    // 모달이 닫힐 때 생성된 tr 요소 제거
@@ -450,9 +407,9 @@
     	});
     	// estimatedetail ajax 통신 끝
     }
- 	// estimateDetail(estimateCod) 끝
+ 	// estimateDetail(cod) 끝
 
-    		// readonly 없애는 함수
+    	// readonly 없애는 함수
 		function estimateChange() {
 			$('input').removeAttr('readonly');
 		}
