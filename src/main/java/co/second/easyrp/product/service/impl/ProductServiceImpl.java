@@ -42,4 +42,10 @@ public class ProductServiceImpl implements ProductService {
 		return productmapper.prodSearch();
 	}
 
+	@Override
+	public int updateCurInvQtyFromPrd(int amount, String cod) {
+		// TODO Auto-generated method stub
+		return productmapper.updateCurInvQtyFromPrd(amount, cod);
+	}
+
 }

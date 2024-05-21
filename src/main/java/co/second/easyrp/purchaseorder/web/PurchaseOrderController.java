@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import co.second.easyrp.inventory.service.InventoryService;
+import co.second.easyrp.invoice.service.InvoiceService;
+import co.second.easyrp.product.service.ProductService;
 import co.second.easyrp.purchaseorder.service.PurchaseOrderService;
 import co.second.easyrp.purchaseorder.service.PurchaseOrderVO;
 import co.second.easyrp.purchaseorderdetail.service.PurchaseOrderDetailService;
@@ -22,9 +25,15 @@ import co.second.easyrp.purchaseorderdetail.service.PurchaseOrderDetailVO;
 @Controller
 public class PurchaseOrderController {
 	@Autowired
-	PurchaseOrderService purchaseOrderService;
+	private PurchaseOrderService purchaseOrderService;
 	@Autowired
-	PurchaseOrderDetailService purchaseOrderDetailService;
+	private PurchaseOrderDetailService purchaseOrderDetailService;
+	@Autowired
+	private ProductService productService;
+	@Autowired
+	private InventoryService inventoryService;
+	@Autowired
+	private InvoiceService invoiceService;
 	
 	//발주관리 페이지로 이동 + 발주목록
 	//하서현
@@ -97,9 +106,38 @@ public class PurchaseOrderController {
 	public int ajaxPoUpdate(@RequestBody PurchaseOrderVO poVO) {
 		System.out.println(poVO);
 		int returnInt = 0;
+		
+		Map<String, Object> prevPoVO = purchaseOrderService.selectPo(poVO.getCod());
+		List<Map<String, Object>> poDetailList = purchaseOrderDetailService.poDetailListByPoCod(poVO.getCod());
+		//업데이트 객체에 입고일이 들어가있고 기존 객체에 입고일이 없을경우 재고량 증가
+		if(!poVO.getIboundDate().isEmpty() && prevPoVO.get("ibound_date").toString().isEmpty()) {
+			for (PurchaseOrderDetailVO poDetailVO : poVO.getPoDetailList()) {
+				if(!poDetailVO.getProductCod().toString().isEmpty()) {
+					//제품의 현재고량 증가
+					productService.updateCurInvQtyFromPrd((int)poDetailVO.getInvQty(), poDetailVO.getProductCod().toString());
+				} else {
+					//자재의 현재고량 증가
+					inventoryService.updateCurInvQtyFromInv((int)poDetailVO.getInvQty(), poDetailVO.getInventoryCod().toString());
+				}
+			}
+		}
+		
+		//업데이트 객체에 입고일이 없고 기존객체에 입고일이 있을경우
+		if(poVO.getIboundDate().isEmpty() && !prevPoVO.get("ibound_date").toString().isEmpty()) {
+			for (Map<String, Object> poDetailVO : poDetailList) {
+				if(!poDetailVO.get("product_cod").toString().isEmpty()) {
+					//제품의 현재고량 감소(되돌리기)
+					productService.updateCurInvQtyFromPrd(-(int)poDetailVO.get("inv_qty"), poDetailVO.get("product_cod").toString());
+				} else {
+					//자재의 현재고량 감소(되돌리기)
+					inventoryService.updateCurInvQtyFromInv(-(int)poDetailVO.get("inv_qty"), poDetailVO.get("inventory_cod").toString());
+				}
+			}
+		}
+		
 		returnInt = purchaseOrderService.updatePo(poVO);
 		returnInt = purchaseOrderDetailService.delPoDetailAll(poVO);
-		
+
 		int poDetailNum = 1;
 		for (PurchaseOrderDetailVO poDetailVO : poVO.getPoDetailList()) {
 			poDetailVO.setPurchaseorderCod(poVO.getCod());
@@ -107,7 +145,9 @@ public class PurchaseOrderController {
 			returnInt = purchaseOrderDetailService.insertPoDetail(poDetailVO);
 			poDetailNum++;
 		}
-		
+
+		invoiceService.updateIboundynOrProdReady();
+
 		return returnInt;
 	};
 	
@@ -117,7 +157,25 @@ public class PurchaseOrderController {
 	@ResponseBody
 	public int iboundRegis(PurchaseOrderVO poVO) {
 		int returnInt = 0;
+		Map<String, Object> prevPoVO = purchaseOrderService.selectPo(poVO.getCod());
+		List<Map<String, Object>> poDetailList = purchaseOrderDetailService.poDetailListByPoCod(poVO.getCod());
+		//업데이트 객체에 입고일이 들어가있고 기존 객체에 입고일이 없을경우 재고량 증가
+		if(!poVO.getIboundDate().isEmpty() && prevPoVO.get("ibound_date").toString().isEmpty()) {
+			for (Map<String, Object> poDetailVO : poDetailList) {
+				if(!poDetailVO.get("product_cod").toString().isEmpty()) {
+					//제품의 현재고량 증가
+					productService.updateCurInvQtyFromPrd((int)poDetailVO.get("inv_qty"), poDetailVO.get("product_cod").toString());
+				} else {
+					//자재의 현재고량 증가
+					inventoryService.updateCurInvQtyFromInv((int)poDetailVO.get("inv_qty"), poDetailVO.get("inventory_cod").toString());
+				}
+			}
+		}
+		poVO.setStateCod(203);
 		returnInt = purchaseOrderService.updatePo(poVO);
+
+		invoiceService.updateIboundynOrProdReady();
+
 		return returnInt;
 	};
 	

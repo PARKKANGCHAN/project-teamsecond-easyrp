@@ -633,7 +633,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
               		  }; 
               	   });
                       rows +=
-                         '<tr class="searchValue" data-inq-date="' +
+                         '<tr class="invoiceSearchValue" data-inq-date="' +
                          item.inq_date +
                          '" data-invoice-cod="' +
                          item.invoice_cod +
@@ -744,7 +744,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
        $('#applyInvoiceInput').on('keyup', function () {
           var searchInputVlaue = $(this).val().toLowerCase()
-          $('.searchValue').each(function (index,item) {
+          $('.invoiceSearchValue').each(function (index,item) {
              const inqDate = $(item).data('inq-date').toLowerCase();
              const invoiceCod = $(this).data('invoice-cod').toLowerCase()
              const productCod = $(this).data('product-cod').toLowerCase()
@@ -828,7 +828,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                          "','" +
                          $(e.target).data('input-unitcod') +
                          '\')" ' +
-                         'class="searchValue" data-cod="' +
+                         'class="prodSearchValue" data-cod="' +
                          item.cod +
                          '" data-prodname="' +
                          item.prodname +
@@ -866,7 +866,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
        $('#prodSearchInput').on('keyup', function () {
             var searchInputVlaue = $(this).val().toLowerCase();
-           $('.searchValue').each(function () {
+           $('.prodSearchValue').each(function () {
               const cod = $(this).data('cod').toLowerCase();
               const prodname = $(this).data('prodname').toLowerCase();
               const prodgroupName = $(this).data('prodgroupname').toLowerCase();
@@ -951,7 +951,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                           $(e.target).data('input-unitcod') +
 
                           '\')" ' +
-                          'class="searchValue" data-cod="' +
+                          'class="invSearchValue" data-cod="' +
                           item.cod +
                           '" data-name="' +
                           item.name +
@@ -989,7 +989,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
        $('#invSearchInput').on('keyup', function () {
            var searchInputVlaue = $(this).val().toLowerCase()
-           $('.searchValue').each(function () {
+           $('.invSearchValue').each(function () {
               var cod = $(this).data('cod').toLowerCase()
               var name = $(this).data('name').toLowerCase()
               var prodgroupName = $(this).data('prodgroupname').toLowerCase()

@@ -60,4 +60,10 @@ public class InventoryServiceImpl implements InventoryService {
 		return inventorymapper.inventorySearch();
 	}
 
+	@Override
+	public int updateCurInvQtyFromInv(int amount, String cod) {
+		// TODO Auto-generated method stub
+		return inventorymapper.updateCurInvQtyFromInv(amount, cod);
+	}
+
 }

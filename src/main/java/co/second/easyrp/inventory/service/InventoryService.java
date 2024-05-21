@@ -35,4 +35,9 @@ public interface InventoryService {
 	//자재찾기 modal에 뿌려줄 리스트를 가져오기위한 메소드
 	//2024년 5월 14일 오후 2시 28분 하서현
 	List<Map<String, Object>> inventorySearch();
+	
+	//자재의 현재고량을 증가 또는 감소하는 메소드
+	//하서현
+	int updateCurInvQtyFromInv(@Param("amount")int amount, @Param("cod")String cod);
+
 }

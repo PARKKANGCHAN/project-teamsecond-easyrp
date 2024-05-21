@@ -995,7 +995,7 @@
  		            	 row += '<td name="total"><span>' + item.total + '</span></td>'; 
 	            		 row += '<input type="hidden" name="unitMgmt" value="'+ (item.product_cod == null ? item.inv_mgmt_unit_cod : item.prod_mgmt_unit_cod) +'">';
 	            		 row += '<input type="hidden" name="unitInv" value="'+ (item.product_cod == null ? item.inv_unit_cod : item.prod_unit_cod) +'">';
- 		            	 row += '<td><button type="button" class="btn-primary" onClick="poDetailDel(' + "'" + item.purchaseorder_cod + "', " + item.num + ')">삭제</button></td></tr>'
+ 		            	 row += '<td><button type="button" style="display: none" class="btn-primary editBox" onClick="poDetailDel(' + "'" + item.purchaseorder_cod + "', " + item.num + ')">삭제</button></td></tr>'
 	            		 rows += row;
 	            	 });
 	            	 $('#detailList').html(rows);
@@ -1157,11 +1157,11 @@
                          "','" +
                          $(e.target).data('input-unitcod') +
                          '\')" ' +
-                         'class="searchValue" data-cod="' +
+                         'class="prodSearchValue" data-cod="' +
                          item.cod +
                          '" data-prodname="' +
                          item.prodname +
-                         '" data-prodgroupName="' +
+                         '" data-prodgroupname="' +
                          item.prodgroupName +
                          '" style= "' +
                          'cursor: pointer' +
@@ -1194,11 +1194,11 @@
        });
 
        $('#prodSearchInput').on('keyup', function () {
-           var searchInputVlaue = $(this).val().toLowerCase()
-           $('.searchValue').each(function () {
-              var cod = $(this).data('cod').toLowerCase()
-              var prodname = $(this).data('prodname').toLowerCase()
-              var prodgroupName = $(this).data('prodgroupName').toLowerCase()
+           var searchInputVlaue = $(this).val().toLowerCase();
+           $('.prodSearchValue').each(function () {
+              const cod = $(this).data('cod').toLowerCase();
+              const prodname = $(this).data('prodname').toLowerCase();
+              const prodgroupName = $(this).data('prodgroupname').toLowerCase();
               $(this).toggle(cod.includes(searchInputVlaue) 
              		 		|| prodname.includes(searchInputVlaue)
              		 		|| prodgroupName.includes(searchInputVlaue))
@@ -1280,11 +1280,11 @@
                           $(e.target).data('input-unitcod') +
 
                           '\')" ' +
-                          'class="searchValue" data-cod="' +
+                          'class="invSearchValue" data-cod="' +
                           item.cod +
                           '" data-name="' +
                           item.name +
-                          '" data-prodgroupName="' +
+                          '" data-prodgroupname="' +
                           item.prodgroupName +
                           '" style= "' +
                           'cursor: pointer' +
@@ -1318,13 +1318,13 @@
 
        $('#invSearchInput').on('keyup', function () {
            var searchInputVlaue = $(this).val().toLowerCase()
-           $('.searchValue').each(function () {
-              var cod = $(this).data('cod').toLowerCase()
-              var name = $(this).data('name').toLowerCase()
-              var productgroupCod = $(this).data('productgroup-cod').toLowerCase()
+           $('.invSearchValue').each(function () {
+              const cod = $(this).data('cod').toLowerCase();
+              const name = $(this).data('name').toLowerCase();
+              const prodgroupName = $(this).data('prodgroupname').toLowerCase();
               $(this).toggle(cod.includes(searchInputVlaue) 
              		 		|| name.includes(searchInputVlaue)
-             		 		|| productgroupCod.includes(searchInputVlaue))
+             		 		|| prodgroupName.includes(searchInputVlaue))
            });
         });
      };
@@ -1416,7 +1416,7 @@
     		}
     	})
     	prodInputKey++;
-    	rows += '<td><button type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
+    	rows += '<td><button class="editBox" style="display: none" type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
     	$('#detailList').append(rows);
     	$('#prodInputModal').modal('hide');
     	$('#detailModal').modal('show');
@@ -1511,7 +1511,7 @@
                     row += '<td name="total"><span>'+ total +'</span></td>';
                     row += '<input type="hidden" name="unitMgmt" value="'+ (productCod == null ? invMgmtUnitCod : prodMgmtUnitCod) +'">';
                     row += '<input type="hidden" name="unitInv" value="'+ (productCod == null ? invUnitCod : prodUnitCod) +'">';
-                    row += '<td><button type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
+                    row += '<td><button class="editBox" style="display: none" type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
                     rows += row;    			
     			}	
     		});
@@ -1535,7 +1535,7 @@
                 data.forEach(function (item) {
                 	if(aleadyExist.includes(item.invoice_cod + item.num) === false) {
 	                		rows +=
-	                            '<tr class="searchValue" data-inq-date="' +
+	                            '<tr class="invoiceSearchValue" data-inq-date="' +
 	                            item.inq_date +
 	                            '" data-invoice-cod="' +
 	                            item.invoice_cod +
@@ -1655,7 +1655,7 @@
 
        $('#applyInvoiceInput').on('keyup', function () {
           var searchInputVlaue = $(this).val().toLowerCase()
-          $('.searchValue').each(function (index,item) {
+          $('.invoiceSearchValue').each(function (index,item) {
              const inqDate = $(item).data('inq-date').toLowerCase();
              const invoiceCod = $(this).data('invoice-cod').toLowerCase()
              const productCod = ($(this).data('product-cod') == null ? $(this).data('inventory-cod').toLowerCase() : $(this).data('product-cod').toLowerCase());
@@ -1675,6 +1675,13 @@
     function poUpdate() {
     	let updateData = {};
     	let detailList = [];
+    	if($('#iboundDate').val() !== '' && $('#stateCod').val() < 203) {
+    		$('#stateCod').val(203);
+    	}
+    	if($('#iboundDate').val() === '' && $('#stateCod').val() >= 203) {
+    		alert('입고일을 입력해주세요');
+    		return;
+    	}
     	$('#detailModalHead').children('tbody').children('tr').each((index, item) => {
 			$(item).children('td').each((index, td) => {
 				if($(td).children('input').length == 0) {
