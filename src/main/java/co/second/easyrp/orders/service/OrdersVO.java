@@ -48,4 +48,6 @@ public class OrdersVO {
 	private int curRemainQty;
 	private int deliveryState;
 	private String estimateCod;
+	private String instockyn;
+	
 }

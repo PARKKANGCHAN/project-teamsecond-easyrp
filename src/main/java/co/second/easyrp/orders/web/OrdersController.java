@@ -159,6 +159,7 @@ public class OrdersController {
     	ordervo.setEmployeeCod(employeeCod);
     	ordervo.setClientName(clientName);
     	ordervo.setDday(dday);
+    	ordervo.setEstimateCod(estimateCod);
     	
     	orderService.ordersInsert(ordervo);
     	
@@ -175,10 +176,7 @@ public class OrdersController {
     		orderService.ordersInsert2(cod, prodname, qty);
     	}
     	
-    	if (estimateCod != null) {
-    		
-    	}
-    	
+
     	
     	return "redirect:/ordersmanagement";
     }

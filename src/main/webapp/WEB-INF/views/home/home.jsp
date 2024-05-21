@@ -279,10 +279,10 @@
                     });
                     
                     if (!myChart) {
-                        // 차트가 없는 경우, 차트를 생성합니다.
+                        // 차트가 없는 경우 차트를 생성합니다.
                         createChart(orderSalesData, planSalesData);
                     } else {
-                        // 차트가 있는 경우, 데이터를 업데이트합니다.
+                        // 차트가 있는 경우 데이터를 업데이트합니다.
                         updateChart(myChart, orderSalesData, planSalesData);
                     }
                 },

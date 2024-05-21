@@ -79,12 +79,13 @@
 			select CONCAT('ord', LPAD(COALESCE(MAX(SUBSTRING(o.cod, 4)), 0) + 1, 3, '0')) from orders o
 		</selectKey>
 		
-		INSERT INTO orders (cod, client_cod, employee_cod, dday)
+		INSERT INTO orders (cod, client_cod, employee_cod, dday, estimate_cod)
 		values ( 
 		    #{cod},
 		    (SELECT cod FROM client WHERE name = #{clientName}),
 		    #{employeeCod},
-		    #{dday}
+		    #{dday},
+		    #{estimateCod}
 		)
 	</insert>
 	

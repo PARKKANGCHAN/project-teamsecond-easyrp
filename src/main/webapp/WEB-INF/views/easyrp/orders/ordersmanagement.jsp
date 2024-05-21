@@ -109,7 +109,8 @@
 											 	<th width="10%">담당자번호</th>
 												<th width="15%">금액</th>
 												<th width="10%">부가세</th>
-												<th width="15%">총액</th>
+												<th width="10%">총액</th>
+												<th width="5%"></th>
 												<th width="7.5%">설 정</th>
 											</tr>
 										</thead>
@@ -126,6 +127,11 @@
 													<td><fmt:formatNumber value="${orders.subtotal}" pattern="###,###"></fmt:formatNumber></td>
 													<td>10%</td>
 													<td><fmt:formatNumber value="${orders.total}" pattern="###,###"></fmt:formatNumber></td>
+													<td id="warehouseIcon" style="color : red">
+														<c:if test="${orders.instockyn == 'Y'}">
+															입고!!
+														</c:if>
+													</td>
 													<td>
 														<div class="btn-group">
 															<button type="button"
@@ -317,11 +323,11 @@
 							<th colspan="1">상품 코드</th>
 							<th colspan="1" style="width: 160px;">상품 명</th>
 							<th colspan="1" style="width: 120px;">수 량</th>
-							<th colspan="1">단 가</th>
+							<th colspan="1" style="width: 120px;">단 가</th>
 							<th colspan="1">공급가액</th>
 							<th colspan="1">부가세</th>
 							<th colspan="1">금 액</th>
-							<th colspan="1">수정 및 삭제</th>
+							<th colspan="1" style="width: 80px;"></th>
 						</tr>
 						<tbody id="OrderRegistermodalTableBody">
 
@@ -479,7 +485,7 @@
    <script type="text/javascript">
 	
    // 수주 등록 모달 관련 함수 시작
-
+		
 
  	
  	
@@ -488,7 +494,7 @@
     		console.log("registeraddRow");
     		var uniqueId = generateUniqueId();
     		
-			var newRow = $('<tr class="generatedRow">');
+			var newRow = $('<tr class="RegisterGeneratedRow">');
 			
 			newRow.append($('<td>').attr({
 				'id': 'productCod',
@@ -546,6 +552,7 @@
 
 		// 수주 처음 등록하는 모달 끄기
 		function registerModalclose() {
+			$('.RegisterGeneratedRow').remove();
 			$('#registeraddRowButton').prop('disabled', false);
 		}
 		
@@ -565,10 +572,23 @@
         // 수주 처음 등록시 완제품 목록을 보여주는 모달에서 선택
         function setRegisterProductValue(uniqueId, cod, productName) {
         	var inputId = '#RegisterProductName' + uniqueId; 
+        	var isDuplicate = false;
         	
-        	$(inputId).val(productName);
-        	$('#kvModal').modal('hide');
-            $('.modal-backdrop').remove();
+        	// 클래스가 RegisterProductName인 요소를 모두 확인합니다.
+        	$('.RegisterProductName').each(function() {
+        		if($(this).val() === productName) {
+        			isDuplicate = true; 
+        			return false; // 중복값이 발견되면 each 루프를 중단합니다.
+        		}
+        	});
+        	
+        	if(!isDuplicate) { //
+        		$(inputId).val(productName);
+	        	$('#kvModal').modal('hide');
+	            $('.modal-backdrop').remove();
+        	} else {
+        		alert('이미 같은 제품이 존재합니다.');
+        	}
         }
         
         // 견적 목록 모달에서 견적 선택해서 수주 목록이 생기게
@@ -597,7 +617,7 @@
         			
         			estimateDetailList.forEach(function (item, index) {
         				rows += `
-        					<tr class="generatedRow">
+        					<tr class="RegisterGeneratedRow">
 	        					<td name="productCod\${index}" id="RegisterProductCod\${index}">\${item.productCod}</td>
 	        					<td><input type="text" readonly class="form-control RegisterProductName" name="prodname\${index}" id="RegisterProductName\${index}" value="\${item.prodName}"></td>
 	        					<td><input type="number" readonly class="form-control RegisterProductQty" name="qty\${index}" id="RegisterProductQty\${index}" value="\${item.qty}"></td>
@@ -728,7 +748,7 @@
 		// 수주 등록 모달에서 '수주 등록' 버튼. 수주 내용을 새로 등록하는 함수
         function OrderRegister() {
         	
-            var rows = $('.generatedRow');
+            var rows = $('.RegisterGeneratedRow');
             
             // 서버로 전송할 데이터를 저장할 배열을 생성합니다.
             var dataToSend = [];
@@ -782,6 +802,9 @@
             // 현재 타임스탬프를 이용하여 고유한 ID 생성
             return Date.now();
         }
+        
+        
+        
 
    
    // 수주 등록 모달 관련 함수 끝
@@ -881,22 +904,25 @@
     		        
     		        switch(item.deliverState){
     		        	case 100:
-	    					newRow.append($('<td>').text("출고의뢰중"));
+	    					newRow.append($('<td>').attr({'class' : 'deliverState'}).text("출고의뢰중"));
 	    					break;
 	    		        case 101:
-	    					newRow.append($('<td>').text("일부 출고"));
+	    					newRow.append($('<td>').attr({'class' : 'deliverState'}).text("일부 출고"));
 	    		        	break;
 	    		        case 102:
-	    					newRow.append($('<td>').text("출고 완료"));
+	    					newRow.append($('<td>').attr({'class' : 'deliverState'}).text("출고 완료"));
 	    		        	break;
 	    		        case 103:
-	    					newRow.append($('<td>').text("미출고"));
+	    					newRow.append($('<td>').attr({'class' : 'deliverState'}).text("미출고"));
 	    		        	break;
 	    		        case 104:
-	    					newRow.append($('<td>').text("재고 없음"));
+	    					newRow.append($('<td>').attr({'class' : 'deliverState'}).text("재고 없음"));
 	    					break;
+	    		        case 105:
+	    		        	newRow.append($('<td>').attr({'class' : 'deliverState'}).text("입고 완료"));
+	    		        	break;
 	    		        default:
-	    					newRow.append($('<td>').text("--"));
+	    					newRow.append($('<td>').attr({'class' : 'deliverState'}).text("--"));
 	    		        	
     		        }
     		        
@@ -907,6 +933,8 @@
     			    	deliveryButton.prop('disabled', true);
     			    }
     			    newRow.append($('<td>').append(buttonGroup));
+    			    
+    			    
 
     				$('#detailList').after(newRow);
     				
@@ -950,20 +978,16 @@
     					});
     					
     				})
-    				
-
-    				
     			});
     			// orderDetialList.forEach 상세 리스트의 각 요소에 적용하는 함수 끝
-    			
-
-    			
     		},
     		error: function(xhr, status, error) {
     			console.error('실패');
     		}
     	});
     	// orderdetail ajax 통신 끝
+    	
+    	
     	
     }
  	// orderDetail(orderCod) 끝
@@ -1086,30 +1110,13 @@
                   data.forEach(function (item, index) {
                       
 //  					console.log(item);
-                        rows +=
-                           '<tr onclick="setValue(\'' +
-                           item.cod +
-                           "', '" +
-                           item.prodName +
-                           '\')" ' +
-                           'class="searchValue" data-cod="' +
-                           item.cod +
-                           '" data-value="' +
-                           item.prodName +
-                           '" style= "' +
-                           'cursor: pointer' +
-                           '">' +
-                           '<td>' +
-                           (index + 1) +
-                           '</td>' +
-                           '<td>' +
-                           item.cod +
-                           '</td>' +
-                           '<td>' +
-                           item.prodName +
-                           '</td>' +
-                           '</tr>';
-
+                        rows += `
+                           <tr onclick="setValue('\${item.cod}','\${item.prodName}')" class="searchValue" data-cod="\${item.cod}" data-value="\${item.prodName}" style="cursor: pointer"> 
+	                           <td>\${(index + 1)}</td>
+	                           <td>\${item.cod}</td>
+	                           <td>\${item.prodName}</td>
+                           </tr> 
+                           `;
                   });
                   $('#modalTableBody').html(rows);
                    $('#kvModal').modal('show');
