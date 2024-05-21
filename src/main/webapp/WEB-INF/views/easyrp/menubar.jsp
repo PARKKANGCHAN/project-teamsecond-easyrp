@@ -320,7 +320,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                   <!-- 자재 관리 / 재고 평가 END -->
                   <!-- 자재 관리 END -->
 
-                     <a href="commontable" class="sidebar-link toggle">
+                     <a href="commonspecification" class="sidebar-link toggle">
                         📝<span style="font-weight: 800 !important">공통 사용 테이블</span>
                      </a>
                </ul>
