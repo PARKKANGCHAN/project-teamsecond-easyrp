@@ -10,7 +10,7 @@
 </head>
 <body>
 	<!-- ( 2024년 5월 20일 오후 12시 45분 박현우 ) -->
-	<!-- 매출 마감 테이블 START -->
+	<!-- 출고 완료 매출 마감 테이블 START -->
 	<div id="main">
 		<header class="mb-3">
 			<a href="#" class="burger-btn d-block d-xl-none"> <i
@@ -51,7 +51,7 @@
 											<div class="col-12 col-md-6 order-md-1 order-last">
 												<h3>검색</h3>
 											</div>
-											<form id="searchForm" action="collectedmoney" method="get">
+											<form id="searchForm" action="salesclosing" method="get">
 												<div class="mb-4" style="text-align: center">
 													<table class="table table-bordered" id="searchTable">
 														<tr class="text-center">
@@ -65,7 +65,7 @@
 																id="searchSalesClosingState"
 																name="searchSalesClosingState">
 																	<option value="N"
-																		${searchVO.searchSalesClosingState == 'N' ? 'selected' : ''}>선택</option>
+																		${searchVO.searchSalesClosingState == '' ? 'selected' : ''}>선택</option>
 																	<option value="Y"
 																		${searchVO.searchSalesClosingState == 'Y' ? 'selected' : ''}>마감
 																		완료</option>
@@ -96,39 +96,45 @@
 									</div>
 									<!-- 검색 FORM END -->
 
+									<form id="salesClosingForm" action="salesclosingupdate" method="post" onsubmit="return confirm('한번 매출마감 처리를 하면 되돌릴 수 없습니다. 정말 매출마감 처리를 하시겠습니까?');">
+										<table class="table table-hover mb-0">
+											<thead>
 
-									<table class="table table-hover mb-0">
-										<thead>
-											<tr>
-												<th width="1%">체크</th>
-												<th width="5%">마감 수주 번호</th>
-												<th width="10%">매출 마감 금액</th>
-												<th width="10%">마감 완료 유무</th>
-												<th width="10%">마감 완료 날짜</th>
-											</tr>
-										</thead>
-										<tbody>
-											<c:forEach var="salesClosing" items="${salesClosing}">
-												<tr class="commonDetailTable">
-													<td><input type="checkbox" class="form-check-input" /></td>
-													<td class="text-bold-500">${salesClosing.orderCod}</td>
-													<!-- 마감 수주 번호  -->
-													<td><fmt:formatNumber value="${salesClosing.total }"
-															pattern="#,###" />원</td>
-													<!-- 매출 마감 금액  -->
-													<td>${salesClosing[0].salesClosingState }</td>
-													<!-- 매출 마감 완료 유무 -->
-													<td>${salesClosing[0].salesClosingDate }</td>
-													<!-- 초과일수 -->
-												</tr>
-											</c:forEach>
-											<c:if test="${empty salesClosing}">
 												<tr>
-													<td colspan="7" class="text-center">데이터가 존재하지 않습니다.</td>
+													<th width="1%"><input type="checkbox"
+														id="orderAllCheck" class="form-check-input" /></th>
+													<th width="5%">마감 수주 번호</th>
+													<th width="10%">매출 마감 금액</th>
+													<th width="10%">마감 완료 유무</th>
+													<th width="10%">마감 완료 날짜</th>
 												</tr>
-											</c:if>
-										</tbody>
-									</table>
+											</thead>
+											<tbody>
+												<c:forEach var="salesClosing" items="${salesClosing}"
+													varStatus="status">
+													<tr data-row-id="${status.index}" class="commonDetailTable">
+														<td><input type="checkbox" name="orderCodChk"
+															class="form-check-input" /></td>
+														<td class="text-bold-500">${salesClosing.orderCod}</td>
+														<input type="hidden" name ="rowOrderCodDatas[${status.index}].orderCod" value="${salesClosing.orderCod}" />
+														<!-- 마감 수주 번호  -->
+														<td><fmt:formatNumber value="${salesClosing.total }"
+																pattern="#,###" />원</td>
+														<!-- 매출 마감 금액  -->
+														<td>${salesClosing.salesClosingState }</td>
+														<!-- 매출 마감 완료 유무 -->
+														<td>${salesClosing.salesClosingDate }</td>
+														<!-- 초과일수 -->
+													</tr>
+												</c:forEach>
+												<c:if test="${empty salesClosing}">
+													<tr>
+														<td colspan="7" class="text-center">데이터가 존재하지 않습니다.</td>
+													</tr>
+												</c:if>
+											</tbody>
+										</table>
+									
 								</div>
 							</div>
 						</div>
@@ -162,59 +168,77 @@
 						</ul>
 					</nav>
 					<!-- 페이지네이션 END -->
-
-
 					<div class="d-flex"
 						style="padding-bottom: 0.5rem; padding-top: 0.5rem">
 						<div class="col-md-6">
-							<button type="button" class="btn btn-primary" disabled>
-								<a href="#" style="color: white" disabled>매출 마감 등록</a>
-							</button>
-							<button type="button" class="btn btn-danger" disabled>
-								<a href="#" style="color: white">매출 마감 취소</a>
+							<button type="submit" id="closingSubmitBtn"
+								class="btn btn-primary" disabled>매출 마감 등록
 							</button>
 						</div>
 					</div>
+					</form>
 				</div>
 			</section>
 		</div>
 	</div>
-	<!-- 자재 관리 테이블 END -->
-
-	<!-- 공통 Modal START  -->
-	<div class="modal fade" id="loadModal" tabindex="-1"
-		data-bs-backdrop="static" data-bs-keyboard="false"
-		aria-labelledby="loadModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<!-- 여기에 load된 jsp모달이 삽입됩니다.  -->
-			</div>
-		</div>
-	</div>
-	<!-- 공통 Modal END  -->
+	<!-- 출고 완료 매출 마감 관리 테이블 END -->
 
 
 	<script type="text/javascript">
 		/* 검색 form 초기화 START */
 		function resetSearchForm() {
 			$('#searchOrderCod').val('');
-			$("#searchSalesClosingState").val("N").prop("selected", true);
+			$("#searchSalesClosingState").val("").prop("selected", true);
 			$('#preSearchDate').val('');
 			$('#postSearchDate').val('');
 		}
 		/* 검색 form 초기화 END */
 
-		/* 수금완료 처리 시에 confirm Action START  */
-		function confirmCompleteAction() {
-			return confirm("한번 수금완료 처리를 하면 되돌릴 수 없습니다. 정말 수금완료 처리를 하시겠습니까?");
+		/* checkBtn 활성화 함수 START  */
+		function checkedBtnActive() {
+			$('#closingSubmitBtn').prop('disabled', false);
 		}
-		/* 수금완료 처리 시에 confirm Action END  */
+		/* checkBtn 활성화 함수 END  */
 
-		/* 삭제 처리 시에 confirm Action START  */
-		function confirmDeleteAction() {
-			return confirm("한번 삭제 처리를 하면 되돌릴 수 없습니다. 정말 삭제 처리를 하시겠습니까?");
+		/* checkBtn Disabled 함수 START  */
+		function checkedBtnDisabled() {
+			$('#closingSubmitBtn').prop('disabled', true);
 		}
-		/* 삭제 처리 시에 confirm Action END  */
+		/* checkBtn Disabled 함수 END  */
+
+		$(document).ready(function() {
+
+			/* 체크박스 All Check 확인 및 기능 START */
+			$("#orderAllCheck").click(function() {
+				if ($("#orderAllCheck").is(":checked")) {
+					checkedBtnActive();
+					$("input[name=orderCodChk]").prop("checked", true);
+				} else {
+					checkedBtnDisabled();
+					$("input[name=orderCodChk]").prop("checked", false);
+				}
+			});
+
+			$("input[name=orderCodChk]").click(function() {
+
+				if ($("input[name=orderCodChk]").is(":checked")) {
+					checkedBtnActive();
+				} else {
+					checkedBtnDisabled();
+				}
+
+				let totalChk = $("input[name=orderCodChk]").length;
+				let checked = $("input[name=orderCodChk]:checked").length;
+
+				if (totalChk != checked) {
+					$("#orderAllCheck").prop("checked", false);
+				} else {
+					$("#orderAllCheck").prop("checked", true);
+				}
+				;
+			});
+			/* 체크박스 All Check 확인 및 기능 END */
+		});
 	</script>
 </body>
 </html>

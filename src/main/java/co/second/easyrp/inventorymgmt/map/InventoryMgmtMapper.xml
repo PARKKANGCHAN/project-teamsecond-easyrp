@@ -153,7 +153,6 @@
 		);
 	</insert>
 
-	<!-- 완료 -->
 	<update id="updateFn"
 		parameterType="co.second.easyrp.inventorymgmt.service.InventoryMgmtVO">
 		UPDATE inventory

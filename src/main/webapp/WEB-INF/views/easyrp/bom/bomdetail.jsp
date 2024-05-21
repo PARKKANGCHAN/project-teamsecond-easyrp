@@ -387,7 +387,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> <%@ taglib uri="http://java
                 /* 원자재 모달 불러오기 END  */
 
                /* 콤마 있는 부분 제거 한 후 ParseInt해서 submit START */
-         function parseIntSubmit() {
+         		function parseIntSubmit() {
                 $('#stdprice').val(parseInt($('#stdprice').val().replace(/,/g, ''), 10));
 
                 // 폼을 제출합니다.

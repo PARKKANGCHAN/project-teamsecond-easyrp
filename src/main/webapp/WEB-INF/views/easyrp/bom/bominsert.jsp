@@ -174,7 +174,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
          $(document).ready(function () {
             let rowIdCounter = 0;
-            let invCodSet = new Set(); // 중복을 확인하는 Set (Set는 중복을 허용하지않는 value를 넣을 수있는 배열)
+            let invCodSet = new Set() ; // 중복을 확인하는 Set (Set는 중복을 허용하지않는 value를 넣을 수있는 배열)
 
             /* input type=text에 숫자만 들어가게 하는 이벤트 START */
             $('#materialTable').on('input', '.quantity-input', function () {
@@ -292,7 +292,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                
                updateTotalPrice();
             });
-
             /* 동적으로 생성된 tr 삭제 버튼 클릭 이벤트 END  */
          });
 

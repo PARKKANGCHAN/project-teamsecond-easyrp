@@ -23,4 +23,14 @@ public class SalesClosingServiceImpl implements SalesClosingService {
 		return salesClosingMapper.tableAllList(searchVO);
 	}
 
+	@Override
+	public int countTable(SearchVO searchVO) {
+		return salesClosingMapper.countTable(searchVO);
+	}
+
+	@Override
+	public int salesClosingUpdate(SalesClosingVO salesClosingVO) {
+		return salesClosingMapper.salesClosingUpdate(salesClosingVO);
+	}
+
 }
