@@ -192,9 +192,9 @@
 													<td>${p.empNameIbound }</td>
 													<td class="text-bold-500">${p.taxDivName }</td>
 													<td>${p.printcnt }</td>
-													<td>${p.state_cod }</td>
+													<td>${p.stateName }</td>
 													<td>${p.dday }</td>
-													<td>${p.iboundDate }</td>
+													<td>${p.ibound_date }</td>
 													<td>${p.closing_date }</td>
 													<td class="text-bold-500">${p.note }</td>
 													<td>
@@ -210,11 +210,14 @@
 																		data-bs-toggle="modal" data-bs-target="#detailModal"
 																		onclick="selectCod('${p.cod }')">상세보기</button>
 																</li>
-																<li><a class="dropdown-item"
-																	href="employeeupdate?cod=${p.cod}">입고처리</a></li>
+																<li>
+																<button type="button" class="dropdown-item"
+																		data-bs-toggle="modal" data-bs-target="#iboundRegisModal"
+																		onclick="selectCod('${p.cod }')">입고처리</button>
+																</li>
 																<li>
 																	<button type="button" class="dropdown-item"
-																		data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="selectCod('${e.cod }')">삭제</button>
+																		data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="selectCod('${p.cod }')">삭제</button>
 																</li>
 															</ul>
 														</div>
@@ -308,7 +311,7 @@
 							<th scope="col">과세구분</th>
 							<td>
 								<span id="taxDivPrint" class="printBox"></span>
-								<select id="taxDiv" class="editBox" style="display: none">
+								<select id="taxdivisionCod" class="editBox" style="display: none">
 								</select>
 							</td>
 							<th scope="col">입고일자</th>
@@ -364,7 +367,7 @@
 							<th scope="col">상태</th>
 							<td>
 								<span id="stateNamePrint" class="printBox"></span>
-								<select id="state" class="editBox" style="display: none">
+								<select id="stateCod" class="editBox" style="display: none">
 								</select>
 							</td>
 							<th scope="col">비고</th>
@@ -449,7 +452,7 @@
 				<div class="modal-footer" style="border-top: 0">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-primary" onclick="deleteEmp()">삭제</button>
+					<button type="button" class="btn btn-primary" onclick="deletePo()">삭제</button>
 				</div>
 			</div>
 		</div>
@@ -692,6 +695,49 @@
 		</div>
 	</div>
 	<!-- 자재찾기 Modal END  -->
+	
+	<!-- 입고처리 Modal -->
+	<div class="modal fade" id="iboundRegisModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true"
+		data-dismiss="modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="iboundRegisModalLabel">입고처리</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div>
+						<span>입고일</span> <input id="iboundDateInput" type="date" />
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-primary" onClick="iboundRegis()">등록</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 입고처리 Modal end -->
+	<!--삭제 Modal -->
+	<div class="modal fade" id="deleteModal" tabindex="-1"
+		aria-labelledby="deleteModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" style="border-bottom: 0">
+				</div>
+				<div class="modal-body">삭제하시겠습니까?</div>
+				<div class="modal-footer" style="border-top: 0">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-primary" onclick="deletePo()">삭제</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 삭제 Modal end -->
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
 		let cod = "";
@@ -826,7 +872,7 @@
 							options += '<option value="' + item.cod + '">' + item.name + '</option>';
 						}
 					});
-					$('#taxDiv').html(options);
+					$('#taxdivisionCod').html(options);
 				}
 			});
 		}
@@ -907,10 +953,10 @@
 		            		 $(item).children('span:nth-child(2)').text(poValues[index].name);
 		            		 $(item).children('input:nth-child(3)').val(poValues[index].cod);
 		            		 $(item).children('input:nth-child(4)').val(poValues[index].name);
-	            		 } else if($(item).children('#taxDiv').length === 1) {
+	            		 } else if($(item).children('#taxdivisionCod').length === 1) {
 		            		 $(item).children('span:nth-child(1)').text(poValues[index].name);
 	            			 taxDivList(poValues[index].cod); 
-	            		 } else if($(item).children('#state').length === 1) {
+	            		 } else if($(item).children('#stateCod').length === 1) {
 		            		 $(item).children('span:nth-child(1)').text(poValues[index].name);
 	            			 let options = '';
 	            			 options += '<option value="200"'+ (poValues[index].cod == '200' ? 'selected' : '') +'>발주</option>';
@@ -918,7 +964,7 @@
 	            			 options += '<option value="202"'+ (poValues[index].cod == '202' ? 'selected' : '') +'>입고검사</option>';
 	            			 options += '<option value="203"'+ (poValues[index].cod == '203' ? 'selected' : '') +'>입고처리</option>';
 	            			 options += '<option value="204"'+ (poValues[index].cod == '204' ? 'selected' : '') +'>매입마감</option>';
-	            		 	 $('#state').html(options);
+	            		 	 $('#stateCod').html(options);
 	            		 } else {
 		            		 $(item).children('span').text(poValues[index]);
 		            		 $(item).children('input').val(poValues[index]);
@@ -935,23 +981,20 @@
 	            	 let rows = '';
 	            	 $(data).each((index, item) => {
 	            		 let row = '<tr id="'+ item.purchaseorder_cod + item.num +'" data-prodmgmtunitamount="' + item.prod_mgmt_unit_amount + '" data-produnitamount="' + item.prod_unit_amount + '" data-invmgmtunitamount="' + item.inv_mgmt_unit_amount + '" data-invunitamount="' + item.inv_unit_amount + '">'
-	            		 row += '<td>' + (item.invoice_cod == null ? '' : item.invoice_cod) + '</td>'; 
- 		            	 row += '<td>' + (item.invoicedetail_num == null ? '' : item.invoicedetail_num) + '</td>'; 
- 		            	 row += '<td>' + (item.product_cod == null ? item.inventory_cod : item.product_cod) + '</td>'; 
+	            		 row += '<td name="invoiceCod">' + (item.invoice_cod == null ? '' : item.invoice_cod) + '</td>'; 
+ 		            	 row += '<td name="invoicedetailNum">' + (item.invoicedetail_num == null ? '' : item.invoicedetail_num) + '</td>'; 
+ 		            	 row += '<td name='+ (item.product_cod == null ? "inventoryCod" : "productCod") +'>' + (item.product_cod == null ? item.inventory_cod : item.product_cod) + '</td>'; 
  		            	 row += '<td>' + (item.prodname == null ? item.invname : item.prodname) + '</td>'; 
- 		            	 row += '<td><span>' + item.mgmt_qty + '</span><button type="button" style="display: none" class="editBox" onClick="amountChange(' + "'+'," + "'" + item.purchaseorder_cod + item.num + "'" + ')">+</button><button type="button" style="display: none" class="editBox" onClick="amountChange(' + "'-'," + "'" + item.purchaseorder_cod + item.num + "'" + ')">-</button></td>'; 
+ 		            	 row += '<td name="mgmtQty"><span>' + item.mgmt_qty + '</span><button type="button" style="display: none" class="editBox" onClick="amountChange(' + "'+'," + "'" + item.purchaseorder_cod + item.num + "'" + ')">+</button><button type="button" style="display: none" class="editBox" onClick="amountChange(' + "'-'," + "'" + item.purchaseorder_cod + item.num + "'" + ')">-</button></td>'; 
  		            	 row += '<td>' + item.unit_mgmt_name + '</td>'; 
- 		            	 row += '<td><span>' + item.inv_qty + '</span></td>'; 
+ 		            	 row += '<td name="invQty"><span>' + item.inv_qty + '</span></td>'; 
  		            	 row += '<td>' + item.unit_inv_name + '</td>'; 
- 		            	 row += '<td><span>' + item.unitprice + '</span></td>'; 
- 		            	 row += '<td><span>' + item.suppprice + '</span></td>'; 
- 		            	 row += '<td><span>' + item.vax + '</span></td>'; 
- 		            	 row += '<td><span>' + item.total + '</span></td>'; 
-	            		 row += '<input type="hidden" name="'+ item.prod_mgmt_unit_cod +'" value="'+ item.prod_mgmt_unit_cod +'">';
-	            		 row += '<input type="hidden" name="'+ item.prod_unit_cod +'" value="'+ item.prod_unit_cod +'">';
-	            		 row += '<input type="hidden" name="'+ item.inv_mgmt_unit_cod +'" value="'+ item.inv_mgmt_unit_cod +'">';
-	            		 row += '<input type="hidden" name="'+ item.inv_unit_cod +'" value="'+ item.inv_unit_cod +'">';
-	            		 row += '<input type="hidden" name="'+ item.name +'" value="'+ item.value +'">';
+ 		            	 row += '<td name="unitprice"><span>' + item.unitprice + '</span></td>'; 
+ 		            	 row += '<td name="supprice"><span>' + item.suppprice + '</span></td>'; 
+ 		            	 row += '<td name="vax"><span>' + item.vax + '</span></td>'; 
+ 		            	 row += '<td name="total"><span>' + item.total + '</span></td>'; 
+	            		 row += '<input type="hidden" name="unitMgmt" value="'+ (item.product_cod == null ? item.inv_mgmt_unit_cod : item.prod_mgmt_unit_cod) +'">';
+	            		 row += '<input type="hidden" name="unitInv" value="'+ (item.product_cod == null ? item.inv_unit_cod : item.prod_unit_cod) +'">';
  		            	 row += '<td><button type="button" class="btn-primary" onClick="poDetailDel(' + "'" + item.purchaseorder_cod + "', " + item.num + ')">삭제</button></td></tr>'
 	            		 rows += row;
 	            	 });
@@ -1309,7 +1352,7 @@
     	let amounts = '';
     	const values = [
     		{
-    			name: 'productCod',
+    			name: (cod.includes('inv') ? 'inventoryCod' : 'productCod'),
     			value: cod
     		},
     		{
@@ -1367,9 +1410,9 @@
     		if(item.name === 'unitMgmt' || item.name === 'unitInv') {
             	rows += '<input type="hidden" name="'+ item.name +'" value="'+ item.value +'">';
     		} else if(item.name === 'mgmtQty') {
-            	rows += '<td><input type="hidden" name="'+ item.name +'" value="'+ item.value +'"><span>' + item.value + '</span><button type="button" class="editBox" onClick="amountChange(' + "'+'," + "'" + prodInputKey + "'" + ')">+</button><button type="button" class="editBox" onClick="amountChange(' + "'-'," + "'" + prodInputKey + "'" + ')">-</button></td>';
+            	rows += '<td name="'+ item.name +'"><span>' + item.value + '</span><button type="button" class="editBox" onClick="amountChange(' + "'+'," + "'" + prodInputKey + "'" + ')">+</button><button type="button" class="editBox" onClick="amountChange(' + "'-'," + "'" + prodInputKey + "'" + ')">-</button></td>';
     		} else {
-            	rows += '<td><input type="hidden" name="'+ item.name +'" value="'+ item.value +'"><span>' + item.value + '</span></td>';
+            	rows += '<td name="'+ item.name +'"><span>' + item.value + '</span></td>';
     		}
     	})
     	prodInputKey++;
@@ -1455,19 +1498,19 @@
             		amounts = 'data-prodmgmtunitamount="' + prodMgmtUnitAmount + '" data-produnitamount="' + prodUnitAmount + '" data-invmgmtunitamount="undefined" data-invunitamount="undefined"';
             	}
                     let row = '<tr id="'+ key +'" class="applyInvoiceProd prodList" data-key="'+ key +'" ' + amounts + '">';
-                    row += '<td>'+ invoiceCod +'</td><td>'+ invoicedetailNum +'</td>';
-                    row += '<td>'+ (productCod == null ? inventoryCod : productCod) +'</td>';
-                    row += '<td>'+ (prodname == null ? invname : prodname) +'</td>';
-                    row += '<td><span>'+ invMgmtQty +'</span><button type="button" class="editBox" onClick="amountChange(' + "'+'," + "'" + key + "'" + ')">+</button><button type="button" class="editBox" onClick="amountChange(' + "'-'," + "'" + key + "'" + ')">-</button></td>';
+                    row += '<td name="invoiceCod">'+ invoiceCod +'</td><td name="invoicedetailNum">'+ invoicedetailNum +'</td>';
+                    row += '<td name='+ (productCod == null ? "inventoryCod" : "productCod") +'>'+ (productCod == null ? inventoryCod : productCod) +'</td>';
+                    row += '<td name='+ (prodname == null ? "invname" : "prodname") +'>'+ (prodname == null ? invname : prodname) +'</td>';
+                    row += '<td name="mgmtQty"><span>'+ invMgmtQty +'</span><button type="button" class="editBox" onClick="amountChange(' + "'+'," + "'" + key + "'" + ')">+</button><button type="button" class="editBox" onClick="amountChange(' + "'-'," + "'" + key + "'" + ')">-</button></td>';
                     row += '<td>'+ (productCod == null ? invMgmtUnitName : prodMgmtUnitName) +'</td>';
-                    row += '<td><span>'+ invQty +'</span></td>';
+                    row += '<td name="invQty"><span>'+ invQty +'</span></td>';
                     row += '<td>'+ (productCod == null ? invUnitName : prodUnitName) +'</td>';
-                    row += '<td><span>'+ unitprice +'</span></td>';
-                    row += '<td><span>'+ supprice +'</span></td>';
-                    row += '<td><span>'+ vax +'</span></td>';
-                    row += '<td><span>'+ total +'</span></td>';
-                    row += '<input type="hidden" name='+ (productCod == null ? "invMgmtUnitCod" : "prodMgmtUnitCod" ) +' value="'+ (productCod == null ? invMgmtUnitCod : prodMgmtUnitCod) +'">';
-                    row += '<input type="hidden" name='+ (productCod == null ? "invUnitCod" : "prodUnitCod" ) +' value="'+ (productCod == null ? invUnitCod : prodUnitCod) +'">';
+                    row += '<td name="unitprice"><span>'+ unitprice +'</span></td>';
+                    row += '<td name="supprice"><span>'+ supprice +'</span></td>';
+                    row += '<td name="vax"><span>'+ vax +'</span></td>';
+                    row += '<td name="total"><span>'+ total +'</span></td>';
+                    row += '<input type="hidden" name="unitMgmt" value="'+ (productCod == null ? invMgmtUnitCod : prodMgmtUnitCod) +'">';
+                    row += '<input type="hidden" name="unitInv" value="'+ (productCod == null ? invUnitCod : prodUnitCod) +'">';
                     row += '<td><button type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
                     rows += row;    			
     			}	
@@ -1630,18 +1673,120 @@
  	
     //수정완료 함수
     function poUpdate() {
-    	let updateData = []
+    	let updateData = {};
+    	let detailList = [];
     	$('#detailModalHead').children('tbody').children('tr').each((index, item) => {
-			const input = $(item).children('td').children('input');
-			const select = $(item).children('td').children('select');
-			console.log(input);
-			console.log(select);
-    		console.log(updateData);
+			$(item).children('td').each((index, td) => {
+				if($(td).children('input').length == 0) {
+					updateData[$(td).children('select').attr('id')] = $(td).children('select').val();
+				} else {
+					updateData[$(td).children('input:nth-of-type(1)').attr('id')] = $(td).children('input:nth-of-type(1)').val();
+				}
+			});
+    	});
+
+    	$('#detailList').children('tr').each((index, tr) => {
+    		let detailData = {};
+    		$(tr).children().each((index, item) => {
+	        		if($(item).attr('name') != null && $(item).attr('name') !== '') {
+	        			if($(item).prop('tagName') === 'TD') {
+	        				if($(item).children().length === 0) {
+		    					detailData[$(item).attr('name')] = $(item).text();
+		        			} else {
+		        				detailData[$(item).attr('name')] = $(item).children('span').text();
+		        			};
+		    			}
+		    			if($(item).prop('tagName') === 'INPUT') {
+		    				detailData[$(item).attr('name')] = $(item).val();
+		        		};
+	    			}
+    		});
+    		detailList.push(detailData);
     	});
     	
+    	updateData.poDetailList = detailList;
+		console.log(updateData);
+    	
+		$.ajax({
+			url: 'ajaxPoUpdate',
+			method: 'POST',
+			traditional: true,
+			contentType: "application/json; charset=utf-8",
+			data: JSON.stringify(updateData),
+			success: function(data) {
+				if(data <= 0) {
+					alert('예상치못한 오류가 발생했습니다.');
+				} else {
+					poChangeDel();
+				}
+			},
+			error: function(error) {
+				console.log(error);
+			}
+		});
     };
     
  	/* 상세페이지 Modal END */
+ 	
+ 	
+ 	/* 입고처리를 하는 함수 */
+ 	function iboundRegis() {
+			const iboundDate = $("#iboundDateInput").val();
+
+			if(iboundDate == "") {
+				alert("입고일을 입력해주세요");
+				return;
+			}
+			
+			$.ajax({
+				url: "iboundregis",
+				data: {
+					cod: cod,
+					iboundDate: iboundDate
+				},
+				method: "POST",
+				success: function(res) {
+					if(res > 0) {
+						$("#iboundRegisModal").modal('hide');
+					} else {
+						alert("예상치못한 에러가 발생했습니다");
+					}
+				},
+				error: function(error) {
+					console.log(error);
+					alert("예상치못한 에러가 발생했습니다");
+				}
+			});
+		}
+ 	
+ 	/* 특정한 발주건을 삭제하는 함수 */
+ 	const deletePo = () => {
+			$.ajax({
+				url: "deletepo",
+				data: {
+					cod: cod,
+					deleteyn: 'Y'
+				},
+				method: "POST",
+				success: function(res) {
+					console.log(res);
+					if(res > 0) {
+						$("#"+cod).remove();
+						if($(".poMgmtList").length == 0 && $(".active > a").text() != 1) {
+							document.getElementById($(".active > a").text()-1).click();
+						}
+						$("#deleteModal").modal('hide');
+					} else {
+						alert("예상치못한 에러가 발생했습니다");
+					}
+				},
+				error: function(error) {
+					console.log(error);
+					alert("예상치못한 에러가 발생했습니다");
+				}
+			});
+		}
+ 	
 
 	</script>
 </body>

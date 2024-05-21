@@ -74,4 +74,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		return purchaseOrderMapper.selectPo(key);
 	}
 
+	@Override
+	public int updatePo(PurchaseOrderVO vo) {
+		// TODO Auto-generated method stub
+		return purchaseOrderMapper.updatePo(vo);
+	}
+
 }

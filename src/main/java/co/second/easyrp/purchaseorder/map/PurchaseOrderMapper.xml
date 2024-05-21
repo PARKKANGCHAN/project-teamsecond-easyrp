@@ -157,6 +157,9 @@
 		<if test="dday != null and dday != ''">
 			,dday
 		</if>
+		<if test="note != null and note != ''">
+			,note
+		</if>
 		) VALUES(
 			#{cod},
 			#{poDate},
@@ -168,6 +171,9 @@
 		<if test="dday != null and dday != ''">
 			,#{dday}
 		</if>
+		<if test="note != null and note != ''">
+			,#{note}
+		</if>
 		)
 	</insert>
 	
@@ -178,4 +184,49 @@
 		<include refid="poMgmtList"/>
 		WHERE p.cod = #{key}
 	</select>
+	
+	<!-- 발주테이블의 정보를 수정하는 쿼리 -->
+	<!-- 하서현 -->
+	<update id="updatePo">
+		UPDATE purchaseorder
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="poDate != null and poDate != ''">
+				po_date = #{poDate},
+			</if>
+			<if test="closingDate != null and closingDate != ''">
+				closing_date = #{closingDate},
+			</if>
+			<if test="clientCod != null and clientCod != ''">
+				client_cod = #{clientCod},
+			</if>
+			<if test="taxdivisionCod != null and taxdivisionCod != ''">
+				taxdivision_cod = #{taxdivisionCod},
+			</if>
+			<if test="employeeCodWriter != null and employeeCodWriter != ''">
+				employee_cod_writer = #{employeeCodWriter},
+			</if>
+			<if test="employeeCodPo != null and employeeCodPo != ''">
+				employee_cod_po = #{employeeCodPo},
+			</if>
+			<if test="employeeCodIbound != null and employeeCodIbound != ''">
+				employee_cod_ibound = #{employeeCodIbound},
+			</if>
+			<if test="note != null and note != ''">
+				note = #{note},
+			</if>
+			<if test="deleteyn != null and deleteyn != ''">
+				deleteyn = #{deleteyn},
+			</if>
+			<if test="iboundDate != null and iboundDate != ''">
+				ibound_date = #{iboundDate},
+			</if>
+			<if test="stateCod != null and stateCod != ''">
+				state_cod = #{stateCod},
+			</if>
+			<if test="dday != null and dday != ''">
+				dday = #{dday},
+			</if>
+		</trim>
+		WHERE cod = #{cod}
+	</update>
 </mapper>

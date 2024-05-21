@@ -39,7 +39,7 @@
 		CONCAT(i2.invoice_cod, i2.num) not in(
 				SELECT CONCAT(p.invoice_cod, p.invoicedetail_num)
 				FROM purchaseorderdetail p
-				WHERE invoice_cod is not null AND
+				WHERE invoice_cod is not null AND invoice_cod != '' AND
 		  		p.purchaseorder_cod in(
 		  			SELECT p2.cod
 		  			FROM purchaseorder p2

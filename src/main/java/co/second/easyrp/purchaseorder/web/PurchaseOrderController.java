@@ -3,6 +3,8 @@ package co.second.easyrp.purchaseorder.web;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,7 @@ public class PurchaseOrderController {
 	PurchaseOrderDetailService purchaseOrderDetailService;
 	
 	//발주관리 페이지로 이동 + 발주목록
+	//하서현
 	@RequestMapping("/purchaseordermgmttable")
 	public String purchaseOrderList(Model model, PurchaseOrderVO vo) {
 		List<Map<String, Object>> returnList = purchaseOrderService.poMgmtListPaged(vo); 
@@ -44,6 +47,7 @@ public class PurchaseOrderController {
 	}
 	
 	//발주등록 페이지로 이동
+	//하서현
 	@RequestMapping("/purchaseordermgmtinsert")
 	public String purchaseordermgmtinsert(Model model) {
 		model.addAttribute("taxDivList", purchaseOrderService.taxDivList());
@@ -51,8 +55,10 @@ public class PurchaseOrderController {
 	}
 	
 	//발주등록
+	//하서현
 	@PostMapping("/purchaseorderinsertfn")
 	public String purchaseorderinsertfn(Model model, PurchaseOrderVO poVO) {
+		System.out.println(poVO);
 		String poCod = purchaseOrderService.newPoCod();
 		int poDetailNum = 1;
 		poVO.setCod(poCod);
@@ -67,6 +73,7 @@ public class PurchaseOrderController {
 	}
 	
 	//특정 발주데이터를 보내주는 메소드
+	//하서현
 	@PostMapping("/ajaxSelectPo")
 	@ResponseBody
 	public Map<String, Object> ajaxSelectPo(String key) {
@@ -75,6 +82,7 @@ public class PurchaseOrderController {
 	}
 	
 	//과세구분 리스트를 보내주는 메소드
+	//하서현
 	@PostMapping("/taxDivList")
 	@ResponseBody
 	public List<Map<String, Object>> taxDivList() {
@@ -82,4 +90,46 @@ public class PurchaseOrderController {
 		return taxDivList;
 	}
 	
+	//발주정보를 수정하는 메소드
+	//하서현
+	@PostMapping("/ajaxPoUpdate")
+	@ResponseBody
+	public int ajaxPoUpdate(@RequestBody PurchaseOrderVO poVO) {
+		System.out.println(poVO);
+		int returnInt = 0;
+		returnInt = purchaseOrderService.updatePo(poVO);
+		returnInt = purchaseOrderDetailService.delPoDetailAll(poVO);
+		
+		int poDetailNum = 1;
+		for (PurchaseOrderDetailVO poDetailVO : poVO.getPoDetailList()) {
+			poDetailVO.setPurchaseorderCod(poVO.getCod());
+			poDetailVO.setNum(poDetailNum);
+			returnInt = purchaseOrderDetailService.insertPoDetail(poDetailVO);
+			poDetailNum++;
+		}
+		
+		return returnInt;
+	};
+	
+	//특정한 발주건에 대하여 입고처리를 하는 메소드
+	//하서현
+	@PostMapping("/iboundregis")
+	@ResponseBody
+	public int iboundRegis(PurchaseOrderVO poVO) {
+		int returnInt = 0;
+		returnInt = purchaseOrderService.updatePo(poVO);
+		return returnInt;
+	};
+	
+	//특정한 발주건을 삭제하는 메소드
+	//하서현
+	@PostMapping("/deletepo")
+	@ResponseBody
+	public int deletePo(PurchaseOrderVO poVO) {
+		System.out.println(poVO);
+		int returnInt = 0;
+		returnInt = purchaseOrderService.updatePo(poVO);
+		return returnInt;
+	};
+
 }

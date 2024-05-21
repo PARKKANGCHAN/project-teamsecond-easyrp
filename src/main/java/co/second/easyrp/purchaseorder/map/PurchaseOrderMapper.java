@@ -34,4 +34,8 @@ public interface PurchaseOrderMapper {
 	//하서현
 	Map<String, Object> selectPo(String key);
 
+	//발주테이블의 정보를 수정하는 메소드
+	//하서현
+	int updatePo(PurchaseOrderVO vo);
+
 }
