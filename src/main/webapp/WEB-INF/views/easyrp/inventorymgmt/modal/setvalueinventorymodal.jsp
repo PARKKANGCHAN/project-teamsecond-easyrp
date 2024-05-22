@@ -64,33 +64,6 @@
 					},
 				});
 			}
-
-            /* 모달에서 값을 설정하는 것 START  */
-/*             $(document).on('click', '.setValue', function() {
-                let valueName = $(this).data('name');
-                let valueCod = $(this).data('cod');
-                let valueUnitprice = $(this).data('unitprice');
-
-                let rowId = $('#loadModal').data('row-id');
-                
-                
-                if (invCodSet.has(valueCod)) {
-                    alert("이미 추가된 원자재입니다.");
-                    return;
-                }
-                invCodSet.add(valueCod); // Set에 추가
-                
-                let $parentRow = $(parent.document).find(`tr[data-row-id="\${rowId}"]`);
-                $parentRow.find(`#invName\${rowId}`).val(valueName);
-                $parentRow.find(`#invCod\${rowId}`).val(valueCod);
-                $parentRow.find(`#unitprice\${rowId}`).text(addCommas(valueUnitprice));
-                $parentRow.find(`#quantity\${rowId}`).prop("disabled", false);
-
-                $('#loadModal', parent.document).modal('hide');
-                $(parent.document).find('.modal-backdrop').remove();
-                $('body').removeClass('modal-open');
-            }); */
-            /* 모달에서 값을 설정하는 것 END  */
             
 			/* 검색기능 START */
 			$('#modalSearch').on('keyup', function() {
