@@ -76,8 +76,7 @@
 		address,
 		postcode,
 		manager_name,
-		manager_tel,
-		discount_class)
+		manager_tel)
 		VALUES(
 		#{cod},
 		#{name},
@@ -86,9 +85,8 @@
 		#{address},
 		#{postcode},
 		#{managerName},
-		#{managerTel},
-		#{discountClass}
-		);
+		#{managerTel}
+		)
 	</insert>
 
 	<update id="clientUpdateFn"
@@ -101,9 +99,8 @@
 		address = #{address},
 		postcode = #{postcode},
 		manager_name = #{managerName},
-		manager_tel = #{managerTel},
-		discount_class = #{discountClass}
-		WHERE cod = #{cod};
+		manager_tel = #{managerTel}
+		WHERE cod = #{cod}
 	</update>
 
 	<update id="clientDeleteFn"

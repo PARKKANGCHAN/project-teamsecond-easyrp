@@ -145,15 +145,14 @@
 							<li
 								class="page-item <c:if test='${startPage == 1}'>disabled</c:if>">
 								<a class="page-link"
-								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&searchOrderCod=${searchVO.searchOrderCod }&searchSalesClosingState=${searchVO.searchSalesClosingState}
-								&preSearchDate=${searchVO.preSearchDate }&postSearchDate=${searchVO.postSearchDate }</c:if>">이전
+								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&searchOrderCod=${searchVO.searchOrderCod }&searchSalesClosingState=${searchVO.searchSalesClosingState}&preSearchDate=${searchVO.preSearchDate }&postSearchDate=${searchVO.postSearchDate }</c:if>">이전
 									10 페이지</a>
 							</li>
 							<c:forEach begin="${startPage}" end="${endPage}" var="i">
 								<li
 									class="page-item <c:if test='${i == currentPage}'>active</c:if>">
 									<a class="page-link"
-									href="?page=${i}&searchOrderCod=${searchVO.searchOrderCod }}&searchSalesClosingState=${searchVO.searchSalesClosingState}
+									href="?page=${i}&searchOrderCod=${searchVO.searchOrderCod }&searchSalesClosingState=${searchVO.searchSalesClosingState}
 								&preSearchDate=${searchVO.preSearchDate }&postSearchDate=${searchVO.postSearchDate }">${i}</a>
 								</li>
 							</c:forEach>

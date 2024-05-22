@@ -102,15 +102,16 @@
 									<table class="table table-hover mb-0">
 										<thead>
 											<tr>
-												<th width="10%">수주번호</th>
-												<th width="10%">등록일자</th>
-												<th width="10%">납기일</th>
-												<th width="10%">고객번호</th>
-											 	<th width="10%">담당자번호</th>
-												<th width="15%">금액</th>
-												<th width="10%">부가세</th>
-												<th width="10%">총액</th>
+												<th width="5%">수주번호</th>
+												<th width="6%">등록일자</th>
+												<th width="6%">납기일</th>
+												<th width="5%">고객번호</th>
+											 	<th width="5%">담당자번호</th>
+												<th width="8%">금액</th>
+												<th width="5%">부가세</th>
+												<th width="8%">총 액</th>
 												<th width="5%"></th>
+												<th width="8%"></th>
 												<th width="7.5%">설 정</th>
 											</tr>
 										</thead>
@@ -131,6 +132,14 @@
 														<c:if test="${orders.instockyn == 'Y'}">
 															입고!!
 														</c:if>
+													</td>
+													<td>
+													<c:if test="${orders.outboundState == 'Y' and orders.isSpecification == 'N'}">
+														<a href="orderspecification?orderCod=${orders.cod}"><button type="button" class="btn btn-primary">거래명세서 발급</button></a>
+													</c:if>
+													<c:if test="${orders.outboundState == 'Y' and orders.isSpecification == 'Y'}">
+														<button type="button" class="btn btn-primary"><a href="orderspecification?orderCod=${orders.cod}">거래명세서 재발급</a></button>
+													</c:if>
 													</td>
 													<td>
 														<div class="btn-group">
@@ -258,14 +267,14 @@
 							<td colspan="1" id="totalvax"></td>
 							<td colspan="1" id="totalsum"></td>
 						</tr>
-						<tr>
+<!-- 						<tr>
 							<td colspan="6" style="border-bottom-width: 0px">
 								<button type="button" class="btn btn-primary">전표 생성</button>
 								<button type="button" class="btn btn-primary">출력</button>
-<!-- 								<button type="button" class="btn btn-primary" onClick="estimateChange()">수주 수정</button> -->
-<!--                                 <button type="button" class="btn btn-primary" id="addRowButton" onClick="addRow()">제품 추가</button> -->
+								<button type="button" class="btn btn-primary" onClick="estimateChange()">수주 수정</button>
+                                <button type="button" class="btn btn-primary" id="addRowButton" onClick="addRow()">제품 추가</button>
 							</td>
-						</tr>
+						</tr> -->
 					</table>
 				</div>
 				
