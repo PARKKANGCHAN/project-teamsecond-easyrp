@@ -50,4 +50,8 @@ public class OrdersVO {
 	private String estimateCod;
 	private String instockyn;
 	
+	// 2024년 5월 22일 오후 12시 02분 박현우 추가
+	private String outboundState;
+	private String isSpecification;
+	
 }
