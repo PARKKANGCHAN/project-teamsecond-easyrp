@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import co.second.easyrp.inventorycount.InventoryAdjustmentDetailVO;
 import co.second.easyrp.inventorycount.mapper.InventoryCountMapper;
+import co.second.easyrp.inventorycount.service.InventoryAdjustmentVO;
 import co.second.easyrp.inventorycount.service.InventoryCountDetailVO;
 import co.second.easyrp.inventorycount.service.InventoryCountService;
 import co.second.easyrp.inventorycount.service.InventoryCountVO;
@@ -125,6 +127,46 @@ public class InventoryCountSerivceImpl implements InventoryCountService {
 		return inventorycountmapper.selectedInventoryCountDetailList(countdetail);
 	}
 
+	@Override
+	public String selectinventoryadjustmentdetail(int adjustmentnum) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.selectinventoryadjustmentdetail(adjustmentnum);
+	}
 
+	@Override
+	public String selectedInventoryCountDetailName(int adjustmentnum) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.selectedInventoryCountDetailName(adjustmentnum);
+	}
+
+	@Override
+	public Integer getcountqty(int adjustmentnum) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.getcountqty(adjustmentnum);
+	}
+
+	@Override
+	public Integer getprice(String prodinvcod) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.getprice(prodinvcod);
+	}
+
+	@Override
+	public int insertAdjustmentList(InventoryAdjustmentVO inventoryadjustmentvo) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.insertAdjustmentList(inventoryadjustmentvo);
+	}
+
+	@Override
+	public int insertAdjustmentDetailList(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.insertAdjustmentDetailList(inventoryadjustmentdetailvo);
+	}
+
+	@Override
+	public int selectMaxinvadjCod() {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.selectMaxinvadjCod();
+	}
 
 }

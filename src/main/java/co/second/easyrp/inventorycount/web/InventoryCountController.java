@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.second.easyrp.inventory.service.InventoryService;
+import co.second.easyrp.inventorycount.InventoryAdjustmentDetailVO;
+import co.second.easyrp.inventorycount.service.InventoryAdjustmentVO;
 import co.second.easyrp.inventorycount.service.InventoryCountDetailVO;
 import co.second.easyrp.inventorycount.service.InventoryCountService;
 import co.second.easyrp.inventorycount.service.InventoryCountVO;
@@ -116,7 +118,7 @@ public class InventoryCountController {
 		
 		int maxNumber = inventorycountservice.selectMaxCod() + 1;
     	String newCode = String.format("%03d", maxNumber);
-    	
+    	System.out.println("NewCode :"+ newCode);
     	
     	if(warehouse != null) {
     		inventorycountvo.setWarehouse(warehouse);
@@ -127,34 +129,38 @@ public class InventoryCountController {
     	inventorycountvo.setWarehouseCod(inventorycountservice.wareHouseCod(warehouse));
     	inventorycountvo.setCountclass("정기");
     	
-		
+    	inventorycountservice.insertInventoryCount(inventorycountvo);
+    	
+    
+    	
 		if(prodinvcod != null) {
 			for(int i=0; i<prodinvcod.length; i++) {
+				int computingqty = inventorycountservice.getcomputingqty(prodinvcod[i]);
+				int countingqty = Integer.parseInt(countqty[i]);
 				
+				System.out.println(computingqty);
 				boolean prodinvcods = prodinvcod[i].contains("prd");
 				if(prodinvcods) {
 					
+							
 					inventorycountdetailvo.setProductCod(prodinvcod[i]);
-					inventorycountdetailvo.setComputingQty(inventorycountservice.getcomputingqty(prodinvcod[i]));
+					inventorycountdetailvo.setComputingQty(computingqty);
 				}else {
 					inventorycountdetailvo.setInventoryCod(prodinvcod[i]);
-					inventorycountdetailvo.setComputingQty(inventorycountservice.getcomputingqty(prodinvcod[i]));
+					inventorycountdetailvo.setComputingQty(computingqty);
 				}
+				
+				
 				
 				System.out.println("prodinvcod:"+prodinvcod[i]);
 				inventorycountdetailvo.setInventorycountCod(inventorycountvo.getCod());
-				inventorycountdetailvo.setQty(Integer.parseInt(countqty[i]));	
+				inventorycountdetailvo.setQty(countingqty);	
 				inventorycountdetailvo.setNote(note[i]);
 				inventorycountdetailvo.setUnitCod(1);
-				inventorycountdetailvo.setDiffQty(inventorycountdetailvo.getDiffQty());
-				
-				List<ProductInventoryVO> result = new ArrayList<>();
-				List<ProductInventoryVO> prodinvs = inventorycountservice.getAllSelectedCountList(prodinvcod[i]);
-				result.addAll(prodinvs);
-				System.out.println(result.toString());
+				inventorycountdetailvo.setDiffQty(computingqty-countingqty);
 				
 				System.out.println(inventorycountdetailvo);
-				inventorycountservice.insertInventoryCount(inventorycountvo);
+				
 				inventorycountservice.insertCountDetailList(inventorycountdetailvo);
 		}
 			}
@@ -220,10 +226,71 @@ public class InventoryCountController {
 		List<InventoryCountVO> inventoryCountList = new ArrayList<InventoryCountVO>();
 		inventoryCountList = inventorycountservice.selectInventoryCountList(countdetail);
 		
+		System.out.println(inventoryCountList);
+		System.out.println(inventoryCountDetailList);
+		
 		model.addAttribute("inventoryCountList", inventoryCountList);
 		model.addAttribute("inventoryCountDetailList", inventoryCountDetailList);
 		
 		return "easyrp/inventory/inventorycountdetail";
 	}
 	
+	@PostMapping("/api/get-adjustment")
+	@ResponseBody
+	public String adjustment(HttpServletRequest httpservletrequest, HttpSession httpsession) {
+		String rs = "N";
+		String [] adjust;
+		String [] note;
+		String [] adjustnum;
+		
+		adjust = httpservletrequest.getParameterValues("adjust");
+		note = httpservletrequest.getParameterValues("note");
+		adjustnum = httpservletrequest.getParameterValues("adjustnum");
+		
+		InventoryAdjustmentVO inventoryadjustmentvo = new InventoryAdjustmentVO();
+		InventoryAdjustmentDetailVO inventoryadjustmentdetailvo = new InventoryAdjustmentDetailVO();
+		InventoryCountDetailVO inventorycountdetailvo = new InventoryCountDetailVO();
+		
+		int maxNumber = inventorycountservice.selectMaxinvadjCod() + 1;
+    	String newCode = String.format("%03d", maxNumber);
+    	System.out.println("NewCode :"+ newCode);
+    	
+    	inventoryadjustmentvo.setCod("invadj"+newCode);
+    	inventoryadjustmentvo.setEmployeeCod((String) httpsession.getAttribute("empCode"));
+    	inventorycountservice.insertAdjustmentList(inventoryadjustmentvo);
+    	
+    	if(adjust != null) {
+    		for(int i=0; i<adjust.length; i++) {
+    			int adjustnumber = Integer.parseInt(adjustnum[i]);
+    			String prodinvCod=inventorycountservice.selectinventoryadjustmentdetail(adjustnumber);    			
+    			String prodinv=inventorycountservice.selectedInventoryCountDetailName(adjustnumber);
+    			inventoryadjustmentdetailvo.setInventoryadjustmentCod(inventoryadjustmentvo.getCod());
+    			int computingqty = inventorycountservice.getcomputingqty(prodinvCod);
+    			int countingqty = inventorycountservice.getcountqty(adjustnumber);
+    			int unitprice =inventorycountservice.getprice(prodinvCod);
+    			int qty=Integer.parseInt(adjust[i]);
+    			
+    			boolean prodinvcods = prodinvCod.contains("prd");			
+    			if(prodinvcods) {
+    				inventoryadjustmentdetailvo.setProductCod(prodinvCod);
+    				inventoryadjustmentdetailvo.setProduct(prodinv);
+				}else {
+					inventoryadjustmentdetailvo.setInvCod(prodinvCod);
+					inventoryadjustmentdetailvo.setInventory(prodinv);
+				}
+    			inventoryadjustmentdetailvo.setUnitCod(1);
+    			inventoryadjustmentdetailvo.setComputingQty(computingqty);
+    			inventoryadjustmentdetailvo.setCountQty(countingqty);
+    			inventoryadjustmentdetailvo.setNote(note[i]);
+    			inventoryadjustmentdetailvo.setQty(qty);
+    			inventoryadjustmentdetailvo.setUnitPrice(unitprice);
+    			inventoryadjustmentdetailvo.setPrice(unitprice*qty);
+    			
+    			inventorycountservice.insertAdjustmentDetailList(inventoryadjustmentdetailvo);
+    		}
+	
+    	}
+    	rs = "Y";
+    	return rs;
+	}
 }

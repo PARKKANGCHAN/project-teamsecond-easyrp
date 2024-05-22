@@ -2,6 +2,8 @@ package co.second.easyrp.inventorycount.mapper;
 
 import java.util.List;
 
+import co.second.easyrp.inventorycount.InventoryAdjustmentDetailVO;
+import co.second.easyrp.inventorycount.service.InventoryAdjustmentVO;
 import co.second.easyrp.inventorycount.service.InventoryCountDetailVO;
 import co.second.easyrp.inventorycount.service.InventoryCountVO;
 import co.second.easyrp.inventorycount.service.ProductInventoryVO;
@@ -26,4 +28,11 @@ public interface InventoryCountMapper {
 	int selectMaxCod();
 	String wareHouseCod(String warehouse);
 	Integer getcomputingqty(String prodinvcod);
+	String selectinventoryadjustmentdetail(int adjustmentnum);
+	String selectedInventoryCountDetailName(int adjustmentnum);
+	Integer getcountqty(int adjustmentnum);
+	Integer getprice(String prodinvcod);
+	int insertAdjustmentList(InventoryAdjustmentVO inventoryadjustmentvo);
+	int insertAdjustmentDetailList(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo);
+	int selectMaxinvadjCod();
 }

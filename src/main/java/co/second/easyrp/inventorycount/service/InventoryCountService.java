@@ -1,6 +1,8 @@
 package co.second.easyrp.inventorycount.service;
 
 import java.util.List;
+
+import co.second.easyrp.inventorycount.InventoryAdjustmentDetailVO;
 import co.second.easyrp.warehouse.service.WareHouseVO;
 
 
@@ -24,4 +26,11 @@ public interface InventoryCountService {
 	int selectMaxCod();
 	String wareHouseCod(String warehouse);
 	Integer getcomputingqty(String prodinvcod);
+	String selectinventoryadjustmentdetail(int adjustmentnum);
+	String selectedInventoryCountDetailName(int adjustmentnum);
+	Integer getcountqty(int adjustmentnum);
+	Integer getprice(String prodinvcod);
+	int insertAdjustmentList(InventoryAdjustmentVO inventoryadjustmentvo);
+	int insertAdjustmentDetailList(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo);
+	int selectMaxinvadjCod();
 }

@@ -261,12 +261,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
       
        function accountlist() {
-           /* countqtylist = $('input:text[name="countqty"]').val();
-           countnote = $('input:text[name="note"]').val();
-           
-           
-           console.log(countqtylist);
-           console.log(countnote); */
            let prodinvcod = $('input:checkbox[name="prodInvCod"]:checked');
            let prodinvaccountlist = $('input:radio[name="accountBtn"]:checked').val();
            let checkedInput = $('input[name="countqty"]');

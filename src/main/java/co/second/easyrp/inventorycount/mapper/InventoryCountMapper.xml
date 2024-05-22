@@ -3,8 +3,8 @@
 <mapper
 	namespace="co.second.easyrp.inventorycount.mapper.InventoryCountMapper">
 	<select id="inventoryCountList">
-SELECT 
-			ic.cod,
+		SELECT 
+			distinct ic.cod,
 			e.name AS employee,
 			w.name AS warehouse,
 			l.name AS location,
@@ -102,7 +102,7 @@ SELECT
 
 		</select>
 		<select id="selectedInventoryCountDetailList">
-		SELECT icd.num, icd.product_cod, icd.inventory_cod, icd.inventorycount_cod, p.prodname as product, i.name as inventory,icd.computing_qty, icd.qty, icd.diff_qty, icd.note 
+		SELECT icd.num, icd.product_cod, icd.inventory_cod, icd.inventorycount_cod, p.prodname as product, i.name as inventory,icd.computing_qty, icd.qty, icd.diff_qty, icd.note, icd.proc_class 
 		  FROM inventorycountdetail icd
 		LEFT JOIN inventorycount ic
 		  ON icd.inventorycount_cod = ic.cod
@@ -117,7 +117,7 @@ SELECT
 	   WHERE icd.inventorycount_cod=#{cod}
 		</select>
 	<select id="getAllProductInventoryList">
-		 SELECT  p.prodname as name, p.cod as cod, p.cur_inv_qty as computingQty, ia.procclass
+		 SELECT  p.prodname as name, p.cod as cod, p.cur_inv_qty as computingQty, icd.procclass
 		 FROM product p
 		 LEFT JOIN inventorycountdetail icd
 		 ON icd.inventory_cod = p.cod
@@ -166,7 +166,15 @@ SELECT
 	</insert>
 	<insert id="insertCountDetailList">
 		INSERT INTO inventorycountdetail(inventorycount_cod, product_cod, inventory_cod, computing_qty, unit_cod, qty, note, diff_qty)
-		Values(#{inventorycountCod}, #{productCod}, #{inventoryCod}, #{computingQty}, #{unitCod}, #{qty}, #{note}, #{diffQty}-#{computingQty})
+		Values(#{inventorycountCod}, #{productCod}, #{inventoryCod}, #{computingQty}, #{unitCod}, #{qty}, #{note}, #{diffQty})
+	</insert>
+	<insert id="insertAdjustmentList">
+		INSERT INTO inventoryadjustment(cod, employee_cod)
+		Values(#{cod}, #{employeeCod})
+	</insert>
+	<insert id="insertAdjustmentDetailList">
+		INSERT INTO inventoryadjustmentdetail(num, inventoryadjustment_cod, inv_cod, product_cod, unit_cod, computing_qty, qty, note, count_qty, unit_price, price)
+		Values(#{num}, #{inventoryadjustmentCod}, #{invCod}, #{productCod}, #{unitCod}, #{computingQty}, #{qty}, #{note}, #{countQty}, #{unitPrice}, #{price})
 	</insert>
 	<select id="warehouseList">
 	 SELECT cod, name
@@ -263,17 +271,86 @@ SELECT
 	FROM inventorycount
 	</select>
 	
+		<select id="selectMaxinvadjCod">
+	SELECT COALESCE(MAX(CAST(RIGHT (cod,3) AS SIGNED)), 0) AS cod 
+	FROM inventoryadjustment
+	</select>
+	
 	<select id="getcomputingqty">
 	SELECT cur_inv_qty as computingQty
-	  FROM inventory
-	WHERE cod=#{cod}  
+	  FROM inventory i
+	WHERE i.cod=#{cod}  
 	
 	UNION
 	
 	SELECT cur_inv_qty as computingQty
-	  FROM product
-	 WHERE cod=#{cod}
+	  FROM product p
+	 WHERE p.cod=#{cod}
 	</select>
+	<select id="selectinventoryadjustmentdetail">
+		 SELECT p.cod as cod
+		 FROM product p
+		 LEFT JOIN inventorycountdetail icd
+		 ON icd.product_cod = p.cod
+		 LEFT JOIN inventoryadjustmentdetail iad
+		 ON icd.adjustmentdetail_num = iad.num
+		 LEFT JOIN inventoryadjustment ia
+		 ON ia.cod = iad.inventoryadjustment_cod
+		 WHERE icd.num=#{num}
 
+		 UNION 
+		 
+		 SELECT i.cod as cod
+		   FROM inventory i
+		 LEFT JOIN inventorycountdetail icd
+		 	 ON icd.inventory_cod = i.cod
+		 LEFT JOIN inventoryadjustmentdetail iad
+		 	 ON icd.adjustmentdetail_num = iad.num
+		 LEFT JOIN inventoryadjustment ia
+		 	 ON ia.cod = iad.inventoryadjustment_cod
+		 WHERE icd.num=#{num}
+	</select>
+	<select id="selectedInventoryCountDetailName">
+		 SELECT p.prodname as product
+		 FROM product p
+		 LEFT JOIN inventorycountdetail icd
+		 ON icd.product_cod = p.cod
+		 LEFT JOIN inventoryadjustmentdetail iad
+		 ON icd.adjustmentdetail_num = iad.num
+		 LEFT JOIN inventoryadjustment ia
+		 ON ia.cod = iad.inventoryadjustment_cod
+		 WHERE icd.num=#{num}
+
+		 UNION 
+		 
+		 SELECT i.name as inventory
+		   FROM inventory i
+		 LEFT JOIN inventorycountdetail icd
+		 	 ON icd.inventory_cod = i.cod
+		 LEFT JOIN inventoryadjustmentdetail iad
+		 	 ON icd.adjustmentdetail_num = iad.num
+		 LEFT JOIN inventoryadjustment ia
+		 	 ON ia.cod = iad.inventoryadjustment_cod
+		 WHERE icd.num=#{num} 
+	</select>
+	<select id="getcountqty">
+	SELECT qty as countQty
+	  FROM inventorycountdetail
+	WHERE num=#{num}
+	</select>
+	
+	<select id="getprice">
+		 SELECT p.unitprice
+		 FROM product p
+		 WHERE p.cod = #{cod}
+
+		 UNION 
+		 
+		 SELECT i.unitprice
+		   FROM inventory i
+		 WHERE i.cod = #{cod}
+
+	</select>
+	
 
 </mapper>

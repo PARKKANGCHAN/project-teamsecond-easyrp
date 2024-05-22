@@ -30,6 +30,7 @@
                   </div>
                </div>
             </div>
+            
             <section class="section">
                <div class="row" id="table-hover-row">
                   <div class="col-12">
@@ -37,7 +38,9 @@
                         <div class="card-header py-3">
                            <div class="d-flex" style="justify-content: space-between">
                               <h5 class="m-0">재고 실사 상세</h5>
-                              	<div class="m-2">
+                              	
+                           </div>
+                           <div class="mt-5 mb-3">
 	                              <table class="table table-hover mb-0">
 											<thead>
 												<tr>
@@ -65,19 +68,6 @@
 														<td>${inventoryCountList.location}</td>
 														<td>${inventoryCountList.countclass}</td>
 														<td>${inventoryCountList.employee}</td>
-														<td>
-															<div class="btn-group">
-																<button type="button"
-																	class="btn btn-primary dropdown-toggle"
-																	data-bs-toggle="dropdown" aria-expanded="false">
-																	<i class="fa-solid fa-gear"></i>
-																</button>
-																<ul class="dropdown-menu">
-																	<li><a class="dropdown-item"
-																		href="deleteinventoryCountList?cod=${inventoryCountList.cod}">삭제</a></li>
-																</ul>
-															</div>
-														</td>
 													</tr>
 												</c:forEach>
 											</c:if>
@@ -89,7 +79,6 @@
 										</tbody>
 									</table>
 								</div>
-                           </div>
                         </div>
 
                         
@@ -102,7 +91,6 @@
                               </tr>
 										<thead>
 											<tr>
-												<th>No.</th>
 												<th>품번</th>
 												<th>품명</th>
 												<th>품목구분</th>
@@ -115,10 +103,10 @@
 											</tr>
 											<tr/>
 										</thead>
-										<tbody id="inventoryCountInsertBody">
+										<tbody id="inventoryCountDetailBody">
 										<c:if test="${not empty inventoryCountDetailList }">
 											<c:forEach var="inventoryCountDetailList" items="${inventoryCountDetailList }">
-													<td class="text-bold-500">${inventoryCountDetailList.num }</td>
+											<tr>
 												<c:if test="${empty inventoryCountDetailList.productCod }">
 													<td>${inventoryCountDetailList.inventoryCod }</td>
 												</c:if>
@@ -137,19 +125,20 @@
 													<td>${inventoryCountDetailList.diffQty}
 													<td>${inventoryCountDetailList.procClass }</td>
 													<td>
-														<input type="number"  name="adjustmntqty" id="adjustmntqty\${inventoryCountDetailList.num}" class="adjustmntqtyinput form-control" placeholder="조정재고량을 입력해주세요." />
+														<input type="number"  name="adjustmntqty" id="${inventoryCountDetailList.num}" class="adjustmntqtyinput form-control" placeholder="조정재고량을 입력해주세요." />
 													</td>
 													<td>
-														<input type="text" id="note\${inventoryCountDetailList.num }" name="note" class="form-control" placeholder="비고를 입력해주세요."/>
+														<input type="text" id="note${inventoryCountDetailList.num }" name="note" class="form-control" placeholder="비고를 입력해주세요."/>
 													</td>
+											</tr>
 											</c:forEach>
-										</c:if>
+											</c:if>
 										</tbody>
 									</table>
                               </div>
                               <!-- 공통등록 Button START -->
                               <div style="text-align: center">
-                                 <button type="button" onclick="accountlist()" class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">등록</button>
+                                 <button type="button" onclick="adjustmentlist()" class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">등록</button>
                                  <a href="inventorycount" class="me-2">
                                     <button type="button"class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4">등록취소</button>
                                  </a>
@@ -169,74 +158,36 @@
       
      
       <script type="text/javascript">
-         /*Product&InventoryModalTable START */
-  /* 	function inventoryadjcnt(){
-        	 
-    	        	$.ajax({
-     	                url: 'api/get-prodinvlist',
-     	                traditional: true,
-     	                data: {
-     	                    warehouse: warehouselist,
-     	                    prodinv: prodinvaccountlist,
-     	                },
-     	                method: 'POST',
-     	                success: function (data) {
-     	                    console.log(data);
-     	                    data2.forEach(function (items) {
-     	                        if (items.cod) {
+		 function adjustmentlist() {
+           let adjustmentQty = $('input[name="adjustmntqty"]');
+           let note = $('input:text[name="note"]');
 
-     	                         
-     	                },
-     	                error: function (items) {
-     	                    console.error('AJAX error:', error);
-     	                }
-     	            });
-    	        });
-    	        
-    	           
-    	        });
-    	    });
-    	    }
-      
-       function accountlist() {
-           /* countqtylist = $('input:text[name="countqty"]').val();
-           countnote = $('input:text[name="note"]').val();
-           
-           
-           console.log(countqtylist);
-           console.log(countnote); */
-   /*        let prodinvcod = $('input:checkbox[name="prodInvCod"]:checked');
-           let prodinvaccountlist = $('input:radio[name="accountBtn"]:checked').val();
-           let checkedInput = $('input[name="countqty"]');
-           let checkedNote = $('input:text[name="note"]');
-           warehouselist = $("#warehouseBox").val();
-           let countqty = [];
-           let note = [];
-           let prodinvlist = [];
-           
-           for(i =0; i< prodinvcod.length; i++){
-        		  prodinvlist.push(prodinvcod.eq(i).val());
+           let adjustmentQtyList = [];
+           let noteList = [];
+		   let adjustmentnumList = [];          
+
+           for(i =0; i< adjustmentQty.length; i++){
+        	   adjustmentnumList.push(adjustmentQty.eq(i).attr("id"));
+        	   adjustmentQtyList.push(adjustmentQty.eq(i).val());
         	}
            
-           for(i =0; i< prodinvlist.length; i++){
-        	   countqty.push($("#"+ prodinvlist[i]).val());
-        	   note.push($("#note"+prodinvlist[i]).val());
+           for(i =0; i< note.length; i++){
+        	   noteList.push(note.eq(i).val());
            }
            
-           console.log("countqty list : ",countqty); 
-           console.log("note list : ",note); 
+           console.log("adjustmentQtyList : ",adjustmentQtyList); 
+           console.log("note list : ", noteList);
+           console.log("adjustmentnumList : ", adjustmentnumList);
            
-           $.ajax({
-               url: 'api/get-prodinvinsert',
+            $.ajax({
+               url: 'api/get-adjustment',
                traditional: true,
                data: {
-                   warehouse: warehouselist,
-                   prodinvaccount: prodinvaccountlist,
-                   countqty: countqty,
-                   note : note,
-                   prodinvcod : prodinvlist,
+                   adjust: adjustmentQtyList,
+                   note : noteList,
+                   adjustnum : adjustmentnumList,
                },
-               method: 'GET',
+               method: 'POST',
                success: function (data) {
             	   console.log(data);
         			if(data === "Y"){
@@ -247,29 +198,8 @@
            }, error: function(error){
         	   console.log("error :", error);
            } 
-       });
-      }
-             
-  /*       $(document).ready(function () {
-                $.ajax({
-                   url: 'api/get-warehouselist',
-                 method: 'GET',
-                 success: function (data) {
-                     let rows = '';
-                     data.forEach(function (item) {
-                        if (item.cod) {
-                           rows +=
-                        	   `<option id="\${item.cod }" value="\${item.name}">\${item.name }</option>`
-                        }
-                     });
-                     $('#warehouseBox').html(rows);  
-                  },
-               });
-            });*/
-            
-         /* Product&InventoryModalTable END */
-		
-
+       }); 
+      } 
       </script>
    </body>
 </html>

@@ -304,40 +304,11 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                         <span style="font-weight: 800 !important">재고 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="inventorymovement" class="submenu-link">재고 이동 관리</a></li>
                         <li class="submenu-item"><a href="inventorycount" class="submenu-link">재고 실사 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">재고 조정</a></li>
+                        <li class="submenu-item"><a href="inventory" class="submenu-link">현 재고 현황</a></li>
                      </ul>
                   </li>
                   <!-- 자재 관리 / 재고 관리 END -->
-
-                  <!-- 자재 관리 / 재고 현황 START -->
-                  <li class="sidebar-item has-sub">
-                     <a href="#" class="sidebar-link">
-                        <span style="font-weight: 800 !important">재고 현황</span>
-                     </a>
-                     <ul class="submenu">
-                        <li class="submenu-item"><a href="inventory" class="submenu-link">현 재고 현황</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">재고 수불 현황</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">과다 재고 현황</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">부동 재고 현황</a></li>
-                     </ul>
-                  </li>
-                  <!-- 자재 관리 / 재고 현황 END -->
-
-                  <!-- 자재 관리 / 재고 평가 START -->
-                  <li class="sidebar-item has-sub">
-                     <a href="#" class="sidebar-link">
-                        <span style="font-weight: 800 !important">재고 평가</span>
-                     </a>
-                     <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">생산품 표준 원가</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">재고 평가</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">재고 자산 현황</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">대체 출고 내역 현황</a></li>
-                     </ul>
-                  </li>
-                  <!-- 자재 관리 / 재고 평가 END -->
                   <!-- 자재 관리 END -->
 
                      <a href="commontable" class="sidebar-link toggle">
