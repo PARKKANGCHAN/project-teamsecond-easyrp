@@ -121,7 +121,6 @@
 														<td class="text-bold-500">${mpsTable.prodname }</td>
 														<td>${mpsTable.spec }</td>
 														<td>${mpsTable.unitName }</td>
-														<td><fmt:formatDate value="${mpsTable.deliveryDate }" pattern="yyyy-MM-dd"/></td>
 														<td><fmt:formatDate value="${mpsTable.dday }" pattern="yyyy-MM-dd"/></td>
 														<td>${mpsTable.qty }</td>
 														<td>${mpsTable.clientName }</td>

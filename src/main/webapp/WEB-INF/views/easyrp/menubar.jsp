@@ -260,11 +260,13 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                   <!-- 구매 관리 / 입고 관리 START -->
                   <li class="sidebar-item has-sub">
                      <a href="#" class="sidebar-link">
-                        <span style="font-weight: 800 !important">입고 관리</span>
+                        <span style="font-weight: 800 !important">매입 마감 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="purchasedeadline" class="submenu-link">매입 마감 관리</a></li>
+                        <li class="submenu-item"><a href="purchaseclosing" class="submenu-link">매입 마감 관리</a></li>
+                        <!-- 
                         <li class="submenu-item"><a href="#" class="submenu-link">입고 집계</a></li>
+                         -->
                      </ul>
                   </li>
                   <!-- 구매 관리 / 입고 관리 END -->

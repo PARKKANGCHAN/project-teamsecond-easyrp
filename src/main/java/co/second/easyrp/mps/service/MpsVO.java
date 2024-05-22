@@ -34,8 +34,6 @@ public class MpsVO {
 	private String spec;
 	private String unitName;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
-	private Date deliveryDate;
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date dday;
 	private String clientName;
 	

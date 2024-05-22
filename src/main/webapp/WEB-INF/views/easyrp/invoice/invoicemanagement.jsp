@@ -326,14 +326,14 @@
     					newRow.append($('<td>').text(item.prodname));
     					newRow.append($('<td>').text(item.spec));
     					newRow.append($('<td>').text(item.unitName));
-    					newRow.append($('<td>').text(item.invQty));
-    					newRow.append($('<td>').text(item.mgmtUnitName));
     					newRow.append($('<td>').append($('<input>').attr({
         					'id': 'qty_' + item.num,
         				    'type': 'number',
         				    'readonly': 'readonly',
         				    'class': 'form-control',
-        				}).css('width', '120px').val(item.invMgmtQty)));
+        				}).css('width', '120px').val(item.invQty)));
+    					newRow.append($('<td>').text(item.mgmtUnitName));
+    					newRow.append($('<td>').text(item.invMgmtQty));
     				}else{
     					newRow.append($('<td>').text(item.inventoryCod));
     					newRow.append($('<td>').text(item.invname));
