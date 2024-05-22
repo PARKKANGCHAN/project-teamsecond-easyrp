@@ -148,6 +148,7 @@ public class MrpController {
     		mrpVo.setUnitName(inventoryMgmtVo.getUnitName());
     		mrpVo.setAccount(inventoryMgmtVo.getAccount());
     		mrpVo.setInvQty(bomList.get(i).getInvQty());
+    		mrpVo.setCurInvQty(inventoryMgmtVo.getCurInvQty() - inventoryMgmtVo.getSafetyInvQty());
     		
     		mrpVoList.add(mrpVo);
     	}

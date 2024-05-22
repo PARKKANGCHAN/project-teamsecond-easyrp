@@ -153,7 +153,6 @@
 		);
 	</insert>
 
-	<!-- 완료 -->
 	<update id="updateFn"
 		parameterType="co.second.easyrp.inventorymgmt.service.InventoryMgmtVO">
 		UPDATE inventory
@@ -180,6 +179,16 @@
 		productgroup_cod = #{productGroupCod}
 		WHERE cod = #{cod};
 	</update>
+	
+	<!-- 2024.05.21 14:36 손지은 추가 -->
+	<update id="qtyupdateFn"
+		parameterType="co.second.easyrp.inventorymgmt.service.InventoryMgmtVO">
+		UPDATE inventory
+		SET
+		cur_inv_qty = #{curInvQty},
+		cur_inv_price = #{curInvPrice}
+		WHERE cod = #{cod};
+	</update>
 
 	<!-- 완료 -->
 	<update id="deleteFn"
@@ -192,8 +201,9 @@
 
 	<select id="apiTableAllList"
 		resultType="co.second.easyrp.inventorymgmt.service.InventoryMgmtVO">
-		SELECT cod, name, deleteyn
+		SELECT cod, name, deleteyn, unitprice
 		FROM inventory
+		where deleteyn = 'N' 
 		ORDER BY cod DESC
 	</select>
 

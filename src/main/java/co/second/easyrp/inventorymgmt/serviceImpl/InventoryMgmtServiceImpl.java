@@ -70,4 +70,9 @@ public class InventoryMgmtServiceImpl implements InventoryMgmtService {
 		return inventoryMgmtMapper.apiTableAllList();
 	}
 
+	@Override
+	public int qtyupdateFn(InventoryMgmtVO inventoryMgmtVO) {
+		return inventoryMgmtMapper.qtyupdateFn(inventoryMgmtVO);
+	}
+
 }

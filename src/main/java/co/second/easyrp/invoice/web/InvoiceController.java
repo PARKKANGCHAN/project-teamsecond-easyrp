@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import co.second.easyrp.inventory.service.InventoryService;
 import co.second.easyrp.invoice.service.InvoiceService;
 import co.second.easyrp.invoice.service.InvoiceVO;
 import co.second.easyrp.invoice.service.SearchVO;
-import co.second.easyrp.invoicedetail.mapper.InvoicedetailMapper;
 import co.second.easyrp.invoicedetail.service.InvoicedetailService;
 import co.second.easyrp.invoicedetail.service.InvoicedetailVO;
 import co.second.easyrp.mrp.service.MrpService;
@@ -25,6 +25,8 @@ public class InvoiceController {
 	@Autowired InvoiceService invoiceService;
 	@Autowired InvoicedetailService invoicedetailService;
 	@Autowired MrpService mrpService;
+	@Autowired InventoryService inventoryService;
+	
 	
 	@GetMapping("invoicemanagement")
 	public String invoiceManagement(SearchVO searchVo, Model model) {
@@ -47,7 +49,7 @@ public class InvoiceController {
         model.addAttribute("endPage", endPage);
         model.addAttribute("startPage", startPage);
         
-		return "easyrp/invoice/invoicemanagement";
+		return "easyrp/invoice/invoicemgmt";
 	}
 	
 	@RequestMapping("invoiceinsert")
@@ -61,12 +63,15 @@ public class InvoiceController {
 		String newCode = String.format("%03d", maxNumber);
 		String invoiceCode = "inv" + newCode;
 		invoiceVo.setCod(invoiceCode);
+        int count2 = 0;
 		
 		List<InvoicedetailVO> invoicedetailList = new ArrayList<>();
 		for(int i=0; i<mrpCodList.length; i++) {
-			MrpVO mrpVo = new MrpVO();
+			MrpVO mrpVo = new MrpVO(); 
+			List<MrpVO> bomList = new ArrayList<MrpVO>();
 			mrpVo.setCod(mrpCodList[i]);
 			mrpVo = mrpService.mrpSelect(mrpVo);
+			int count1 = 0; //생산할 수 있는 청구상세 행의 개수
 			
 			InvoicedetailVO invoicedetailVo = new InvoicedetailVO();
 			invoicedetailVo.setNum(i+1);
@@ -84,8 +89,27 @@ public class InvoiceController {
 			}else {
 				invoicedetailVo.setInvMgmtQty(((int)Math.ceil(mrpVo.getQty() / mrpVo.getInvoiceUnitAmount()))+1);
 			}
+			if(invoiceVo.getInvClass().equals("생산")) {
+				bomList = mrpService.selectBom(invoicedetailVo.getProductCod());
+				for(int j=0; j<bomList.size(); j++) {
+					int requiredQty = bomList.get(j).getInvQty() * invoicedetailVo.getInvQty();
+					int availableQty = inventoryService.selectInventoryQty(bomList.get(j).getInvCod());
+					if(requiredQty <= availableQty) { //필요수량보다 가용재고가 많거나 같으면
+						count1++; //count를 증가시킨다.
+					}
+					if(bomList.size() == count1) {
+						count2++;
+					}
+		    	}
+			}
+			if(count2 == mrpCodList.length) {
+				invoiceVo.setProdReady("Y");
+			}else {
+				invoiceVo.setProdReady("N");
+			}
 			invoicedetailList.add(invoicedetailVo);
 		}
+		
 		invoiceService.insertInvoice(invoiceVo);
 		
 		for(int i=0; i<invoicedetailList.size(); i++) {
@@ -132,5 +156,4 @@ public class InvoiceController {
 		}
 		return mrpList; 
 	}
-	
 }

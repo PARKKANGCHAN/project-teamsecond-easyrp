@@ -71,6 +71,7 @@
                $(parent.document).find('#prodCod').val(prodCod);
                $(parent.document).find('#productName').val(productName);
                $(parent.document).find('#productGroupName').val(productGroupName);
+               $(parent.document).find('#addtrButton').attr('disabled', false);
 
                $('#loadModal', parent.document).modal('hide');
             });

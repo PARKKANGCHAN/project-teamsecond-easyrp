@@ -71,4 +71,10 @@ public class InvoiceServiceImpl implements InvoiceService {
 		return invoiceMapper.selectMaxCod();
 	}
 
+	@Override
+	public int updateInvoiceClosing(String cod) {
+		// TODO Auto-generated method stub
+		return invoiceMapper.updateInvoiceClosing(cod);
+	}
+
 }

@@ -45,10 +45,11 @@
 										data-bs-toggle="modal" data-bs-target="#dataModal"
 										style="float: left; width: 24%">
 											수주정보 가져오기</button>
+											<!-- 
 										<button type="button" class="btn btn-primary" id="loadDatas"
 											data-bs-toggle="modal" data-bs-target="#dataModal"
 											style="float: left; width: 24%">
-											판매계획 가져오기</button>
+											판매계획 가져오기</button> -->
 									</div>
 								</div>
 							</div>
@@ -328,7 +329,7 @@
                   		  let poDate = new Date($('#takeDate').val());
                           poDate.setDate(poDate.getDate()-3);
                           let formattedPoDate = poDate.getFullYear() + '-' + ('0' + (poDate.getMonth() + 1)).slice(-2) + '-' + ('0' + poDate.getDate()).slice(-2);
-                          if (item.invCod) {
+                          if (item.curInvQty <= 0 || item.curInvQty < ($('#qty').val() * item.invQty)) {
                              otherRows +=
                           	  '<tr>'+
                                 '<td>' +
@@ -350,7 +351,7 @@
                                 $('#dday').val() +
                                 '</td>'+
                                 '<td>' +
-                                ($('#qty').val() * item.invQty) +
+                                ($('#qty').val() * item.invQty - item.curInvQty) +
                                 '</td>' +
                                 '<td>' +
                                 item.unitName +

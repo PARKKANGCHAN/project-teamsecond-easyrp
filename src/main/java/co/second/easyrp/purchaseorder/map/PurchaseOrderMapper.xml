@@ -165,4 +165,16 @@
 			#{dday}
 		)
 	</insert>
+	
+	<select id="selectPurchaseOrdersClosing">
+		SELECT *
+		FROM (
+		<include refid="poMgmtList" />
+		) as p
+		WHERE deleteyn = 'N'
+		AND state_cod = 204
+			<include refid="searchCondition"/>
+		ORDER BY cod DESC
+		LIMIT #{size} OFFSET #{offset}
+	</select>
 </mapper>

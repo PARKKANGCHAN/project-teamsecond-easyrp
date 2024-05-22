@@ -17,6 +17,7 @@ public class InvoiceVO {
 	private String employeeCodInq;
 	private String inqReason;
 	private String note;
+	private String prodReady;
 	private String deleteyn;
 	
 	private String employeeName;

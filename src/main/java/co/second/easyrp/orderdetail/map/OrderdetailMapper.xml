@@ -15,7 +15,8 @@
 		ON p.unit_cod = u.cod 
 		WHERE od.mps_state = 'N'
 		AND od.deleteyn = 'N'
-		AND od.delivery_state = 101;
+		AND od.delivery_state = 101
+		OR od.delivery_state = 104
 	</select>
 	<select id="orderdetailSelectList"></select>
 	<insert id="orderdetailInsert"></insert>

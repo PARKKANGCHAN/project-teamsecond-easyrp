@@ -3,7 +3,7 @@
 <mapper namespace="co.second.easyrp.mps.map.MpsMapper">
 	<!-- 2024.05.09 오후 12:11 손지은 / order by desc를 ask로 수정 -->
 	<select id="mpsSelectListAll">
-		SELECT m.cod, m.plan_date, m.product_cod, p.prodname, p.spec, u.name as 'unitName', od.delivery_date, o.dday, m.qty, c.name as 'clientName', m.note, p.spec, o.dday, m.account
+		SELECT m.cod, m.plan_date, m.product_cod, p.prodname, p.spec, u.name as 'unitName', o.dday, m.qty, c.name as 'clientName', m.note, p.spec, o.dday, m.account
 		FROM mps m
 		JOIN product p 
 		ON m.product_cod =  p.cod 
@@ -38,7 +38,7 @@
 	</select>
 	
 	<select id="mpsSelectListAllModal">
-		SELECT m.cod, m.plan_date, m.product_cod, p.prodname, p.spec, u.name as 'unitName', od.delivery_date, o.dday, m.qty, c.name as 'clientName', m.note, p.spec, o.dday, m.account
+		SELECT m.cod, m.plan_date, m.product_cod, p.prodname, p.spec, u.name as 'unitName', o.dday, m.qty, c.name as 'clientName', m.note, p.spec, o.dday, m.account
 		FROM mps m
 		JOIN product p 
 		ON m.product_cod =  p.cod 
@@ -89,7 +89,7 @@
 	</select>
 	
 	<select id="mpsSelect">
-		SELECT m.cod, m.order_cod, m.orderdetail_num, m.plan_date, m.product_cod, p.prodname, p.spec, u.name as 'unitName', od.delivery_date, o.dday, m.qty, c.name as 'clientName', m.note, m.account
+		SELECT m.cod, m.order_cod, m.orderdetail_num, m.plan_date, m.product_cod, p.prodname, p.spec, u.name as 'unitName', o.dday, m.qty, c.name as 'clientName', m.note, m.account
 		FROM mps m
 		JOIN product p 
 		ON m.product_cod =  p.cod 

@@ -1,5 +1,9 @@
 package co.second.easyrp.invoicedetail.service;
 
+import java.sql.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,4 +27,19 @@ public class InvoicedetailVO {
 	private int total;
 	private String closing;
 	private String deleteyn;
+	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+	private Date invDate;
+	private String employeeName;
+	private String note;
+	private String prodname;
+	private String spec;
+	private String unitName;
+	private String mgmtUnitName;
+	private String invname;
+	private String invSpec;
+	private String invUnitName;
+	private String invMgmtUnitName;
+	private String clientName;
+	private String invClass;
 }

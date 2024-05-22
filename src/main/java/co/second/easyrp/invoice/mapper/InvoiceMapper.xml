@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.second.easyrp.invoice.mapper.InvoiceMapper">
 	<select id="selectInvoiceAll">
-		SELECT i.cod, i.inv_date, i.inv_class, i.employee_cod, e.name AS 'employeeName', i.note  
+		SELECT i.cod, i.inv_date, i.inv_class, i.employee_cod, e.name AS 'employeeName', i.note, i.prod_ready 
 		FROM invoice i
 		JOIN employee e
 		ON i.employee_cod = e.cod
@@ -63,8 +63,8 @@
 	
 	<insert id="insertInvoice">
 		INSERT INTO easyrp.invoice
-		(cod, inv_date, inv_class, employee_cod, note)
-		VALUES(#{cod}, #{invDate}, #{invClass}, #{employeeCod}, #{note});
+		(cod, inv_date, inv_class, employee_cod, note, prod_ready)
+		VALUES(#{cod}, #{invDate}, #{invClass}, #{employeeCod}, #{note}, #{prodReady});
 	</insert>
 	<update id="updateInvoice"></update>
 	
@@ -92,4 +92,11 @@
 	<select id="selectMaxCod">
 		SELECT COALESCE(MAX(CAST(RIGHT (cod,3) AS SIGNED)), 0) AS cod FROM invoice
 	</select>
+	
+	<update id="updateInvoiceClosing">
+		UPDATE invoice
+		SET
+		closing = 'Y'
+		WHERE cod = #{cod}
+	</update>
 </mapper>
