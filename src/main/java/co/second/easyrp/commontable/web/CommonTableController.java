@@ -107,4 +107,9 @@ public class CommonTableController {
 		return commonTableService.getAllCopyDatas();
 	}
 
+	
+	@GetMapping("/commonspecification")
+	public String commonSpecification() {
+		return "easyrp/specification/notiles/commonspecification";
+	}
 }

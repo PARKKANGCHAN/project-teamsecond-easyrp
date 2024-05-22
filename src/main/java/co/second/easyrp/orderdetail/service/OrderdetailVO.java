@@ -23,7 +23,7 @@ public class OrderdetailVO {
 	private int curRemainPrice;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date deliveryDate;
-	private int deleverState;
+	private int deliverState;
 	private String note;
 	private String mpsState;
 	private String deleteyn;
@@ -40,4 +40,5 @@ public class OrderdetailVO {
 	private String empName;
 	private String deptName;
 	private int productPrice;
+	private int availableQty;
 }

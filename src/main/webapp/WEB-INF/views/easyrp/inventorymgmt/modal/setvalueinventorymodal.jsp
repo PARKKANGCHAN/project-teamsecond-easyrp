@@ -38,6 +38,8 @@
 
 	<script type="text/javascript">
 		$(document).ready(function() {
+			
+			
 			/* modal CRUD START */
 			function loadData() {
 				$.ajax({
@@ -47,8 +49,8 @@
 						let rows = '';
 						data.forEach(function(item, index) {
 							if (item.cod && item.deleteyn === 'N') {
-								rows += `<tr class="searchData setValue hyunwoo-pointer" data-cod="\${item.cod}" data-name="\${item.name}" >
-									<td>${item.cod}</td>
+								rows += `<tr class="searchData setValue hyunwoo-pointer" data-unitprice="\${item.unitprice}" data-cod="\${item.cod}" data-name="\${item.name}" >
+									<td>\${item.cod}</td>
 									<td class="hyunwoo-flex-wrap">
 									<input type="text" id="updateName\${item.cod}" name="name" class="form-control hyunwoo-input-disabled hyunwoo-pointer" value="\${item.name}" readonly />
 									</td>
@@ -62,21 +64,7 @@
 					},
 				});
 			}
-
-			$(document).on('click', '.setValue', function() {
-				let valueName = $(this).data('name');
-				let valueCod = $(this).data('cod');
-
-				/* 제품등록부분 value 삽입 */
-				$(parent.document).find('#inventoryName').val(valueName);
-				$(parent.document).find('#inventoryCod').val(valueCod);
-
-				/* 모달 닫기 수정 */
-				$('#loadModal', parent.document).modal('hide'); // 서브 모달 닫기
-				$(parent.document).find('.modal-backdrop').remove(); // 배경 제거
-				$('body').removeClass('modal-open'); // 스크롤바 복원
-			});
-
+            
 			/* 검색기능 START */
 			$('#modalSearch').on('keyup', function() {
 				let searchInputValue = $(this).val().toLowerCase();

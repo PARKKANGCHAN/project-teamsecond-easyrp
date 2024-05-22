@@ -38,4 +38,5 @@ public class EstimateVO {
 	private String deptName;
 	private int unitprice;
 	private int totalsum;
+	private String employeeName;
 }

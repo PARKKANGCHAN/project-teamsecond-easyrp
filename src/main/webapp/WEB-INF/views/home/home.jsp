@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>EasyRP</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 	<div id="main">
@@ -21,87 +24,29 @@
 			<section class="row">
 				<div class="col-12 col-lg-9">
 					<div class="row">
-						<div class="col-6 col-lg-3 col-md-6">
-							<div class="card">
-								<div class="card-body px-4 py-4-5">
-									<div class="row">
-										<div
-											class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-											<div class="stats-icon purple mb-2">
-												<i class="iconly-boldShow"></i>
-											</div>
-										</div>
-										<div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-											<h6 class="text-muted font-semibold">Profile Views</h6>
-											<h6 class="font-extrabold mb-0">112.000</h6>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-6 col-lg-3 col-md-6">
-							<div class="card">
-								<div class="card-body px-4 py-4-5">
-									<div class="row">
-										<div
-											class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-											<div class="stats-icon blue mb-2">
-												<i class="iconly-boldProfile"></i>
-											</div>
-										</div>
-										<div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-											<h6 class="text-muted font-semibold">Followers</h6>
-											<h6 class="font-extrabold mb-0">183.000</h6>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-6 col-lg-3 col-md-6">
-							<div class="card">
-								<div class="card-body px-4 py-4-5">
-									<div class="row">
-										<div
-											class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-											<div class="stats-icon green mb-2">
-												<i class="iconly-boldAdd-User"></i>
-											</div>
-										</div>
-										<div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-											<h6 class="text-muted font-semibold">Following</h6>
-											<h6 class="font-extrabold mb-0">80.000</h6>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-6 col-lg-3 col-md-6">
-							<div class="card">
-								<div class="card-body px-4 py-4-5">
-									<div class="row">
-										<div
-											class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-											<div class="stats-icon red mb-2">
-												<i class="iconly-boldBookmark"></i>
-											</div>
-										</div>
-										<div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-											<h6 class="text-muted font-semibold">Saved Post</h6>
-											<h6 class="font-extrabold mb-0">112</h6>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header">
-									<h4>Profile Visit</h4>
+									<h4>월별 판매계획 대비 목표 달성량</h4>
 								</div>
 								<div class="card-body">
-									<div id="chart-profile-visit"></div>
+									<div>
+										<select id="yearSelector">
+											<option value="2024">2024</option>
+											<option value="2023">2023</option>
+											<option value="2022">2022</option>
+											<option value="2021">2021</option>
+											<option value="2020">2020</option>
+											<option value="2019">2019</option>
+											
+										</select> 
+										<select id="productSelector">
+											<c:forEach items="${productList}" var="p">
+												<option value="${p.productCod }">${p.prodname }</option>
+											</c:forEach>
+										</select>
+										<canvas id="myChart"></canvas>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -301,4 +246,94 @@
 		</footer>
 	</div>
 </body>
+<script>
+
+	
+	
+    $(document).ready(function() {
+    	
+    	let myChart;
+    	
+        function fetchData() {
+            const productCod = $('#productSelector').val();
+            const year = $('#yearSelector').val();
+			
+            
+            $.ajax({
+                url: `ChartUpdate?productCod=\${productCod}&year=\${year}`,
+                method: 'GET',
+                success: function(data) {
+                    console.log('data : ', data);
+                    
+                    const orderData = data.orderData;
+                    const planData = data.planData;
+                    
+                    const orderSalesData = Array(12).fill(0);
+                    orderData.forEach(item => {
+                        orderSalesData[item.month - 1] = item.totalQty;  // 월별 주문량 데이터 채우기
+                    });
+                    
+                    const planSalesData = Array(12).fill(0);
+                    planData.forEach(item => {
+                        planSalesData[item.month - 1] = item.totalQty;  // 월별 판매 계획량 데이터 채우기
+                    });
+                    
+                    if (!myChart) {
+                        // 차트가 없는 경우 차트를 생성합니다.
+                        createChart(orderSalesData, planSalesData);
+                    } else {
+                        // 차트가 있는 경우 데이터를 업데이트합니다.
+                        updateChart(myChart, orderSalesData, planSalesData);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching data: ", error);
+                }
+            });
+        }
+
+	
+        function createChart(orderData, planData) {
+            const ctx = document.getElementById('myChart').getContext('2d');
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                    datasets: [
+                        {
+                            label: '주문 수량',
+                            data: orderData,
+                            borderWidth: 1,
+                            type: 'bar'
+                        },
+                        {
+                            label: '판매 계획 수량',
+                            data: planData,
+                            borderWidth: 1,
+                            type: 'line'
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateChart(chart, orderData, planData) {
+            chart.data.datasets[0].data = orderData;
+            chart.data.datasets[1].data = planData;
+            chart.update();
+        }
+
+        $('#productSelector, #yearSelector').change(fetchData);
+        fetchData();  // 초기 로드 시 데이터 가져오기
+    });
+	
+</script>
+
 </html>

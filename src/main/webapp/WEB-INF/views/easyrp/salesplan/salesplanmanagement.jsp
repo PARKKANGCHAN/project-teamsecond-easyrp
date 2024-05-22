@@ -48,33 +48,29 @@
 											<div class="col-12 col-md-6 order-md-1 order-last">
 												<h3>검색</h3>
 											</div>
-											<form id="searchForm" action="commontable" method="get">
+											<form id="searchForm" action="salesplanmanagement" method="get">
 												<div class="mb-4" style="text-align: center">
 													<table class="table table-bordered" id="searchTable">
 														<tr>
-															<td width="100">글 번호</td>
-															<td><input type="text" id="searchNumber"
-																name="searchNumber" class="form-control"
-																value="${searchNumber}"
-																placeholder="글 번호를 입력해주세요." /></td>
-															<td width="100">제 목</td>
-															<td><input type="text" id="searchTitle"
-																name="searchTitle" class="form-control"
-																value="${searchTitle}"
-																placeholder="제목을 입력해주세요." /></td>
-															<td width="100">내 용</td>
-															<td><input type="text" id="searchContent"
-																name="searchContent" class="form-control"
-																value="${searchContent}"
-																placeholder="내용을 입력해주세요." /></td>
-															<td width="100">작성자</td>
-															<td><input type="text" id="searchAuthor"
-																name="searchAuthor" class="form-control"
-																value="${searchAuthor}"
-																placeholder="작성자를 입력해주세요." /></td>
+															<td width="120">판매계획 번호</td>
+															<td><input type="text" id="searchCod"
+																name="cod" class="form-control"
+																value="${cod}"
+																placeholder="판매계획 번호를 입력해주세요." /></td>
+															<td width="100">고객 번호</td>
+															<td><input type="text" id="searchClientCod"
+																name="clientCod" class="form-control"
+																value="${clientCod}"
+																placeholder="고객 번호를 입력해주세요." /></td>
+															<td width="100">제품번호</td>
+															<td><input type="text" id="searchProductCod"
+																name="productCod" class="form-control"
+																value="${productCod}"
+																placeholder="제품 번호를 입력해주세요." /></td>
+															
 														</tr>
 														<tr>
-															<td width="100">검색 날짜</td>
+															<td width="120">검색 날짜</td>
 															<td colspan="2"><input type="date"
 																id="preSearchDate" name="preSearchDate"
 																value="${preSearchDate}"
@@ -114,7 +110,7 @@
 											<c:forEach items="${salesplan }" var="salesplan" >
 												<tr>
 													<td class="text-bold-500">${salesplan.cod }</td>
-													<td>${salesplan.planDate }</td>
+													<td><fmt:formatDate value="${salesplan.planDate }" pattern="yyyy-MM-dd" /></td>
 													<td>${salesplan.clientCod }</td>
 													<td class="text-bold-500">${salesplan.productCod }</td>
 													<td>${salesplan.basicplnQty }</td>
@@ -190,8 +186,10 @@
 <script type="text/javascript">
         function resetSearchForm() {
             $('#searchCod').val('');
-            $('#searchName').val('');
-            $('#searchLocation').val('');
+            $('#searchClientCod').val('');
+            $('#searchProductCod').val('');
+            $('#preSearchDate').val('');
+            $('#postSearchDate').val('');
         }
 </script>
 

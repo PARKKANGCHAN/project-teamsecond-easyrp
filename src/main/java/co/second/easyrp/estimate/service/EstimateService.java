@@ -15,6 +15,8 @@ public interface EstimateService {
 		    @Param("cod") String cod,
 		    @Param("clientCod") String clientCod,
 		    @Param("employeeCod") String employeeCod,
+		    @Param("employeeName") String employeeName,
+		    @Param("orderyn") String orderyn,
 		    @Param("preSearchDate") Date preSearchDate, 
 		    @Param("postSearchDate") Date postSearchDate
 		);
@@ -36,6 +38,8 @@ public interface EstimateService {
 		    @Param("cod") String cod,
 		    @Param("clientCod") String clientCod,
 		    @Param("employeeCod") String employeeCod,
+		    @Param("employeeName") String employeeName,
+		    @Param("orderyn") String orderyn,
 		    @Param("preSearchDate") Date preSearchDate, 
 		    @Param("postSearchDate") Date postSearchDate
 		);

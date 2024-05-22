@@ -36,16 +36,6 @@
                         <div class="card-header py-3">
                            <div class="d-flex" style="justify-content: space-between">
                               <h5 class="m-0">공통 등록</h5>
-                              <button
-                                 type="button"
-                                 class="btn btn-primary"
-                                 id="loadDatas"
-                                 data-bs-toggle="modal"
-                                 data-bs-target="#dataModal"
-                                 style="float: left; width: 10%"
-                              >
-                                 데이터 가져오기
-                              </button>
                            </div>
                         </div>
                         <div class="card-body mb-3">
@@ -103,47 +93,17 @@
                                           />
                                        </td>
                                     </tr>
-                                    <!-- 모달로 입력 테스트 -->
-                                    <tr>
-                                       <td width="150">모달 입력 테스트</td>
-                                       <td>
-                                          <input
-                                             type="text"
-                                             id="modalInput"
-                                             name="modalInput"
-                                             class="form-control"
-                                             style="width: 80%; float: left"
-                                             placeholder="모달을 이용해서 입력하는 테스트"
-                                             required
-                                          />
-                                          <button
-                                             type="button"
-                                             class="btn btn-primary"
-                                             id="loadValues"
-                                             data-bs-toggle="modal"
-                                             data-bs-target="#kvModal"
-                                             style="margin-left: 2rem; width: 10%"
-                                          >
-                                             저장 값 가져오기
-                                          </button>
-                                       </td>
-                                    </tr>
+
                                  </table>
                               </div>
                               <!-- 공통등록 Button START -->
                               <div style="text-align: center">
-                                 <button
-                                    type="submit"
-                                    class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4"
-                                 >
-                                    공통등록
+                                 <button type="submit" class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4" >
+                                    등록
                                  </button>
 								<a href="salesplanmanagement">
-                                    <button
-                                       type="button"
-                                       class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4"
-                                    >
-                                       등록취소
+                                    <button type="button" class="px-5 py-3 btn btn-primary border-2 rounded-pill animated slideInDown mb-4 ms-4" >
+                                       취소
                                     </button>
                                  </a>
                               </div>
