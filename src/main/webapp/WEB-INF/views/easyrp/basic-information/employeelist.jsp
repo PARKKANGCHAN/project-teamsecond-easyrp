@@ -240,6 +240,13 @@
 	<!-- 삭제 Modal end -->
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
+	//모달 스크롤바
+	function modalScroll() {
+		$('.modal-body').addClass('overflow-y-auto');
+		$('.modal-body').css('height', '60vh');
+	};
+	modalScroll();
+
 		let cod = "";
 		const selectCod = (value) => {
 			cod = value;

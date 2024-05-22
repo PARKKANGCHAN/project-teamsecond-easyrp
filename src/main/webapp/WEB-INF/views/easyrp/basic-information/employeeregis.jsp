@@ -140,6 +140,13 @@
 	<!-- 부서찾기 Modal END  -->
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
+	//모달 스크롤바
+	function modalScroll() {
+		$('.modal-body').addClass('overflow-y-auto');
+		$('.modal-body').css('height', '60vh');
+	};
+	modalScroll();
+
 		function checkNumber(event) {
 		  if(event.key >= 0 && event.key <= 9) {
 		    return true;

@@ -181,7 +181,15 @@
 										<tbody>
 											<c:forEach items="${poMgmtList }" var="p">
 												<tr id="${p.cod }" class="poMgmtList">
-													<td class="text-bold-500">${p.cod }</td>
+													<td class="text-bold-500">
+														<a href="#"
+														   data-bs-target="#detailModal" 
+														   data-bs-toggle="modal" 
+														   class="detailModalBtn"
+														   onclick="selectCod('${p.cod}')">
+															${p.cod }
+														</a>
+													</td>
 													<td>${p.po_date }</td>
 													<td>${p.clientName }</td>
 													<td class="text-bold-500">${p.employee_cod_writer }</td>
@@ -280,11 +288,11 @@
 		<div class="modal-dialog modal-xl" style="width: 1400px;">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="detailModalLabel">수주 상세 페이지</h5>
+					<h5 class="modal-title" id="detailModalLabel">발주 상세 페이지</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close" onClick="Modalclose()"></button>
 				</div>
-				<div class="modal-body">
+				<div class="">
 					<table id="detailModalHead" class="table">
 						<tr>
 							<th scope="col">발주번호</th>
@@ -400,13 +408,18 @@
 						</tbody>
 						<tfoot>
 							<tr>
-								<th colspan="1">총 합</th>
-								<td colspan="1"></td>
-								<td colspan="1"></td>
-								<td colspan="1"></td>
-								<td colspan="1" id="totalprice"></td>
-								<td colspan="1" id="totalvax"></td>
-								<td colspan="1" id="totalsum"></td>
+								<th>총 합</th>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td id="totalprice"></td>
+								<td id="totalvax"></td>
+								<td id="totalsum"></td>
 							</tr>
 							<tr>
 								<td colspan="6" style="border-bottom-width: 0px">
@@ -448,7 +461,7 @@
 			<div class="modal-content">
 				<div class="modal-header" style="border-bottom: 0">
 				</div>
-				<div class="modal-body">삭제하시겠습니까?</div>
+				<div class="">삭제하시겠습니까?</div>
 				<div class="modal-footer" style="border-top: 0">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">취소</button>
@@ -509,7 +522,6 @@
 						<thead>
 							<tr>
 								<th></th>
-								<th>승인일자</th>
 								<th>청구번호</th>
 								<th>NO.</th>
 								<th>품번</th>
@@ -707,7 +719,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<div class="modal-body">
+				<div class="">
 					<div>
 						<span>입고일</span> <input id="iboundDateInput" type="date" />
 					</div>
@@ -728,7 +740,7 @@
 			<div class="modal-content">
 				<div class="modal-header" style="border-bottom: 0">
 				</div>
-				<div class="modal-body">삭제하시겠습니까?</div>
+				<div class="">삭제하시겠습니까?</div>
 				<div class="modal-footer" style="border-top: 0">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">취소</button>
@@ -740,6 +752,13 @@
 	<!-- 삭제 Modal end -->
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
+	//모달 스크롤바
+	function modalScroll() {
+		$('.modal-body').addClass('overflow-y-auto');
+		$('.modal-body').css('height', '60vh');
+	};
+	modalScroll();
+
 		let cod = "";
 		function selectCod(value) {
 			cod = value;
@@ -884,26 +903,24 @@
 			$('.editBox').css('display', '');
 		}
 		
-		//발주상세데이터를 삭제하는 함수
-		function poDetailDel(poCod, num) {
-			$.ajax({
-				url: 'delPoDetailFn',
-				method: 'POST',
-				data: {
-					poCod: poCod,
-					num: num
-				},
-				success: function(data) {
-					if(data > 0) {
-						$('#' + poCod + num).remove();
-						alert('삭제가 완료되었습니다.');
-					}
-				},
-				error: function(error) {
-					console.log(error);
-				}
-			}) ;
-		 } 
+		//총합을 계산해주는 함수
+		async function totalRowCal() {
+			let supprice = 0;
+			let vax = 0;
+			let total = 0;
+			$('td[name="supprice"]').each((index,item) => {
+				supprice += Number($(item).children('span').text())
+			});
+			$('td[name="vax"]').each((index,item) => {
+				vax += Number($(item).children('span').text())
+			});
+			$('td[name="total"]').each((index,item) => {
+				total += Number($(item).children('span').text())
+			});
+			$('#totalprice').text(supprice);	
+			$('#totalvax').text(vax);	
+			$('#totalsum').text(total);
+		}
 		 
 		//상세페이지에 값을 뿌려주는 함수
 		function detailModalPrint() {
@@ -996,13 +1013,13 @@
  		            	 row += '<td name="total"><span>' + item.total + '</span></td>'; 
 	            		 row += '<input type="hidden" name="unitMgmt" value="'+ (item.product_cod == null ? item.inv_mgmt_unit_cod : item.prod_mgmt_unit_cod) +'">';
 	            		 row += '<input type="hidden" name="unitInv" value="'+ (item.product_cod == null ? item.inv_unit_cod : item.prod_unit_cod) +'">';
- 		            	 row += '<td><button type="button" style="display: none" class="btn-primary editBox" onClick="poDetailDel(' + "'" + item.purchaseorder_cod + "', " + item.num + ')">삭제</button></td></tr>'
+ 		            	 row += '<td><button type="button" style="display: none" class="btn-primary editBox" onClick="{delProd(event)}">삭제</button></td></tr>'
 	            		 rows += row;
 	            	 });
 	            	 $('#detailList').html(rows);
- 	             }
+					 totalRowCal();
+	             }
 	          }); 
- 
 		 }
 	    function detailModal() {
 	       $('.detailModalBtn').on('click', function () {
@@ -1029,13 +1046,14 @@
  	    		mgmtQty.text(Number(mgmtQty.text()) + Number(mgmtUnitAmount));
  	    		invQty.text(Number(invQty.text()) + Number(unitAmount));
  	    		poDetailTotalCal(mgmtUnitAmount, id);
- 	 	    	console.log(mgmtQty.text() + '    ' + invQty.text() + '    ' + mgmtUnitAmount + '    ' + unitAmount);
+				totalRowCal();
  	    		break;
  	    	case '-':
  	    		if(Number(mgmtQty.text()) - mgmtUnitAmount !== 0) {
  	    			mgmtQty.text(Number(mgmtQty.text()) - Number(mgmtUnitAmount));
  	 	    		invQty.text(Number(invQty.text()) - Number(unitAmount));
  	 	    		poDetailTotalCal(mgmtUnitAmount, id);
+ 	 	    		totalRowCal();
  	    		}
  	    		break;
  			default:
@@ -1050,7 +1068,6 @@
  	    	const supprice = unitprice * qty;
  	    	const vax = supprice/10;
  	    	const total = supprice + vax;
- 	    	console.log(unitprice + '    ' + qty + '    ' + supprice + '    ' + vax + '    ' + total + '    ' );
  	    	$('#' + id).children('td:nth-child(10)').children('span').text((supprice));
  	    	$('#' + id).children('td:nth-child(11)').children('span').text((vax));
  	    	$('#' + id).children('td:nth-child(12)').children('span').text((total));
@@ -1421,11 +1438,13 @@
     	$('#detailList').append(rows);
     	$('#prodInputModal').modal('hide');
     	$('#detailModal').modal('show');
+    	totalRowCal();
     }
     
     /* 주문제품목록에 있는 항목을 삭제하는 함수 */
     function delProd(e) {
     	e.target.parentElement.parentElement.remove();
+    	totalRowCal();
     }
     
     
@@ -1519,6 +1538,7 @@
        $('#detailList').append(rows);    
        $('#applyInvoiceModal').modal('hide');
        $('.modal-backdrop').remove();
+       totalRowCal();
     }
 
     function applyInvoiceModal() {
@@ -1536,9 +1556,7 @@
                 data.forEach(function (item) {
                 	if(aleadyExist.includes(item.invoice_cod + item.num) === false) {
 	                		rows +=
-	                            '<tr class="invoiceSearchValue" data-inq-date="' +
-	                            item.inq_date +
-	                            '" data-invoice-cod="' +
+	                            '<tr class="invoiceSearchValue" data-invoice-cod="' +
 	                            item.invoice_cod +
 	                            '" data-invoicedetail-num="' +
 	                            item.num +
@@ -1607,9 +1625,6 @@
 	                            '" ' +
 	                            '/></td>' +
 	                            '<td>' +
-	                            item.inq_date +
-	                            '</td>' +
-	                            '<td>' +
 	                            item.invoice_cod +
 	                            '</td>' +
 	                            '<td>' +
@@ -1657,12 +1672,10 @@
        $('#applyInvoiceInput').on('keyup', function () {
           var searchInputVlaue = $(this).val().toLowerCase()
           $('.invoiceSearchValue').each(function (index,item) {
-             const inqDate = $(item).data('inq-date').toLowerCase();
              const invoiceCod = $(this).data('invoice-cod').toLowerCase()
              const productCod = ($(this).data('product-cod') == null ? $(this).data('inventory-cod').toLowerCase() : $(this).data('product-cod').toLowerCase());
              const prodname = ($(this).data('prodname') == null ? $(this).data('invname').toLowerCase() : $(this).data('prodname').toLowerCase());
-             $(this).toggle(inqDate.includes(searchInputVlaue) 
-            		 		|| invoiceCod.includes(searchInputVlaue)
+             $(this).toggle(invoiceCod.includes(searchInputVlaue) 
             		 		|| productCod.includes(searchInputVlaue)
             		 		|| prodname.includes(searchInputVlaue))
           });
@@ -1721,7 +1734,8 @@
 			traditional: true,
 			contentType: "application/json; charset=utf-8",
 			data: JSON.stringify(updateData),
-			success: function(data) {
+			success: async function(data) {
+				const res = await data;
 				if(data <= 0) {
 					alert('예상치못한 오류가 발생했습니다.');
 				} else {

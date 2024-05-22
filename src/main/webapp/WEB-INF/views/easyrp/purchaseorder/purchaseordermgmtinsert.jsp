@@ -283,7 +283,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 						<thead>
 							<tr>
 								<th></th>
-								<th>승인일자</th>
 								<th>청구번호</th>
 								<th>NO.</th>
 								<th>품번</th>
@@ -324,20 +323,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 				</div>
 				<div class="modal-body">
 					<div>
-						<button type="button"
-							id="prodSearchModalBtn"
-							class="btn btn-primary"
-							data-input-cod="prodCod"
-							data-input-name="prodName"
-							data-input-mgmtunitamount="prodMgmtUnitAmount"
-							data-input-mgmtunitname="prodMgmtUnitName"
-							data-input-unitamount="prodUnitAmount"
-							data-input-unitname="prodUnitName"
-							data-input-unitprice="prodUnitprice"
-							data-input-mgmtunitcod="mgmtUnitCod"
-							data-input-unitcod="unitCod"
-							data-bs-toggle="modal"
-							data-bs-target="#prodSearchModal">제품찾기</button>
 						<button type="button"
 							id="invSearchModalBtn"
 							class="btn btn-primary"
@@ -470,7 +455,14 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 	</div>
 	<!-- 자재찾기 Modal END  -->
 	<script type="text/javascript">
-   
+	//모달 스크롤바
+	function modalScroll() {
+		$('.modal-body').addClass('overflow-y-auto');
+		$('.modal-body').css('height', '60vh');
+	};
+	modalScroll();
+	
+	
 	/* 거래처.사원찾기 Modal START */
     function setValue(cod,name,inputId1,inputId2) {
        $('#'+ inputId1).val(cod);
@@ -633,9 +625,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
               		  }; 
               	   });
                       rows +=
-                         '<tr class="invoiceSearchValue" data-inq-date="' +
-                         item.inq_date +
-                         '" data-invoice-cod="' +
+                         '<tr class="invoiceSearchValue" data-invoice-cod="' +
                          item.invoice_cod +
                          '" data-product-cod="' +
                          item.product_cod +
@@ -695,9 +685,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                          checkedStr +
                          '/></td>' +
                          '<td>' +
-                         item.inq_date +
-                         '</td>' +
-                         '<td>' +
                          item.invoice_cod +
                          '</td>' +
                          '<td>' +
@@ -745,12 +732,10 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
        $('#applyInvoiceInput').on('keyup', function () {
           var searchInputVlaue = $(this).val().toLowerCase()
           $('.invoiceSearchValue').each(function (index,item) {
-             const inqDate = $(item).data('inq-date').toLowerCase();
              const invoiceCod = $(this).data('invoice-cod').toLowerCase()
              const productCod = $(this).data('product-cod').toLowerCase()
              const prodname = $(this).data('prodname').toLowerCase()
-             $(this).toggle(inqDate.includes(searchInputVlaue) 
-            		 		|| invoiceCod.includes(searchInputVlaue)
+             $(this).toggle(invoiceCod.includes(searchInputVlaue)
             		 		|| productCod.includes(searchInputVlaue)
             		 		|| prodname.includes(searchInputVlaue))
           });
