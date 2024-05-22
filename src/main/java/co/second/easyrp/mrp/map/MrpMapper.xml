@@ -34,7 +34,7 @@
 			AND m.plan_date BETWEEN #{preSearchDate} AND
 			#{postSearchDate}
 		</if>
-		ORDER BY m.po_date
+		ORDER BY m.po_date desc
 		LIMIT #{pageSize} OFFSET #{offset}
 	</select>
 	<select id="countMrpTables">

@@ -24,7 +24,7 @@
 			AND m.plan_date BETWEEN #{preSearchDate} AND
 			#{postSearchDate}
 		</if>
-		ORDER BY i.cod
+		ORDER BY i.cod desc
 		LIMIT #{pageSize} OFFSET #{offset}
 	</select>
 	
