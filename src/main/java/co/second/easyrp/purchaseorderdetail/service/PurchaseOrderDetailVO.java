@@ -18,6 +18,7 @@ public class PurchaseOrderDetailVO {
 	private String invoiceCod;
 	private int invoicedetailNum;
 	private String productCod;
+	private String inventoryCod;
 	private int unitMgmt;
 	private int mgmtQty;
 	private int unitInv;

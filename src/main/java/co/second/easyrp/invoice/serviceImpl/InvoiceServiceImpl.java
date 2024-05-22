@@ -1,6 +1,7 @@
 package co.second.easyrp.invoice.serviceImpl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -10,6 +11,7 @@ import co.second.easyrp.invoice.mapper.InvoiceMapper;
 import co.second.easyrp.invoice.service.InvoiceService;
 import co.second.easyrp.invoice.service.InvoiceVO;
 import co.second.easyrp.invoice.service.SearchVO;
+import co.second.easyrp.invoicedetail.service.InvoicedetailVO;
 
 @Service
 @Primary
@@ -47,15 +49,15 @@ public class InvoiceServiceImpl implements InvoiceService {
 	}
 
 	@Override
-	public int mrpClosingUpdateToY(InvoiceVO invoiceVo) {
+	public int mrpClosingUpdateToY(InvoicedetailVO invoicedetailVo) {
 		// TODO Auto-generated method stub
-		return invoiceMapper.mrpClosingUpdateToY(invoiceVo);
+		return invoiceMapper.mrpClosingUpdateToY(invoicedetailVo);
 	}
 
 	@Override
-	public int mrpClosingUpdateToN(InvoiceVO invoiceVo) {
+	public int mrpClosingUpdateToN(InvoicedetailVO invoicedetailVo) {
 		// TODO Auto-generated method stub
-		return invoiceMapper.mrpClosingUpdateToN(invoiceVo);
+		return invoiceMapper.mrpClosingUpdateToN(invoicedetailVo);
 	}
 
 	@Override
@@ -68,6 +70,23 @@ public class InvoiceServiceImpl implements InvoiceService {
 	public int selectMaxCod() {
 		// TODO Auto-generated method stub
 		return invoiceMapper.selectMaxCod();
+	}
+
+	@Override
+	public int updateInvoiceClosing(String cod) {
+		// TODO Auto-generated method stub
+		return invoiceMapper.updateInvoiceClosing(cod);
+	}
+		
+	public int updateIboundynOrProdReady() {
+		// TODO Auto-generated method stub
+		return invoiceMapper.updateIboundynOrProdReady();
+	}
+
+	@Override
+	public List<Map<String, Object>> allIboundedInvoiceList() {
+		// TODO Auto-generated method stub
+		return invoiceMapper.allIboundedInvoiceList();
 	}
 
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="co.second.easyrp.specification.map.SpecificationMapper">
+
+	<!-- 테이블의 메인에 값을 깔기 위한 쿼리 START -->
+	<select id="getOrderDatas"
+		parameterType="co.second.easyrp.specification.service.SpecificationVO"
+		resultType="co.second.easyrp.specification.service.SpecificationVO">
+		SELECT o.cod 'orderCod',
+			   c.name AS 'clientName',
+			   c.address AS 'clientAddress',
+			   c.manager_tel AS 'clientTel',
+			   o.order_date AS 'orderDate',
+			   p.prodname AS 'productName',
+			   od.qty AS 'orderQty',
+			   od.product_price AS 'unitPrice',
+			   od.subtotal AS 'supplyPrice',
+			   o.outbound_state AS 'outboundState',
+	   	 	   o.is_specification AS 'isSpecification'
+		FROM orders o
+		JOIN client c ON c.cod = o.client_cod
+		JOIN orderdetail od ON o.cod = od.cod
+		JOIN product p ON od.product_cod = p.cod
+		WHERE o.cod = #{orderCod}
+	</select>
+	<!-- 테이블의 메인에 값을 깔기 위한 쿼리 END -->
+
+</mapper>

@@ -3,20 +3,27 @@
 <mapper namespace="co.second.easyrp.estimate.map.EstimateMapper">
 
 	<select id="EstimateSelectList">
-		SELECT *
-		FROM estimate
-		WHERE DELETEYN = 'N'
+		SELECT e.cod, e.est_date , e.client_cod, e.employee_cod , e2.name as employeeName , e.deleteyn , e.orderyn, e.vax ,e.total , e.subtotal
+		FROM estimate e
+		LEFT JOIN employee e2 on e.employee_cod = e2.cod
+		WHERE e.DELETEYN = 'N'
 		<if test="cod != null and cod != ''">
-			AND cod = #{cod}
+			AND e.cod = #{cod}
 		</if>
 		<if test="clientCod != null and clientCod != ''">
-			AND client_cod LIKE CONCAT('%', #{clientCod}, '%')
+			AND e.client_cod LIKE CONCAT('%', #{clientCod}, '%')
 		</if>
 		<if test="employeeCod != null and employeeCod != ''">
-			AND employee_cod LIKE CONCAT('%', #{employeeCod}, '%')
+			AND e.employee_cod LIKE CONCAT('%', #{employeeCod}, '%')
+		</if>
+		<if test="employeeName != null and employeeName != ''">
+			AND e2.name LIKE CONCAT('%', #{employeeName}, '%')
+		</if>
+		<if test="orderyn != null and orderyn != ''">
+			AND e.orderyn LIKE CONCAT('%', #{orderyn}, '%')
 		</if>
 		<if test="preSearchDate != null and postSearchDate != null">
-			AND est_date BETWEEN #{preSearchDate} AND
+			AND e.est_date BETWEEN #{preSearchDate} AND
 			#{postSearchDate}
 		</if>
 		ORDER BY cod DESC

@@ -125,7 +125,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                        <td>
                                           <input type="text" 
                                           		 id="searchEmpCodIbound"
-												 name="EmpCodIbound"
+												 name="employeeCodIbound"
 												 class="form-control"
 												 placeholder="사원번호"
 												 required
@@ -156,7 +156,17 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                              id="dday"
                                              name="dday"
                                              class="form-control"
-                                             required
+                                          />
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td width="150">비고</td>
+                                       <td>
+                                          <input
+                                             type="text"
+                                             id="note"
+                                             name="note"
+                                             class="form-control"
                                           />
                                        </td>
                                     </tr>
@@ -180,8 +190,10 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                           		<tr>
                                           			<th>품번</th>
                                           			<th>품명</th>
-                                          			<th>관리단위 수량</th>
-                                          			<th>재고단위 수량</th>
+                                          			<th>관리단위수량</th>
+                                          			<th>관리단위</th>
+                                          			<th>재고단위수량</th>
+                                          			<th>재고단위</th>
                                           			<th>단가</th>
                                           			<th>부가세</th>
                                           			<th>공급가</th>
@@ -276,7 +288,10 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 								<th>NO.</th>
 								<th>품번</th>
 								<th>품명</th>
-								<th>수량</th>
+								<th>관리단위수량</th>
+								<th>관리단위</th>
+								<th>재고단위수량</th>
+								<th>재고단위</th>
 								<th>단가</th>
 								<th>부가세</th>
 								<th>공급가</th>
@@ -333,6 +348,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 							data-input-unitamount="prodUnitAmount"
 							data-input-unitname="prodUnitName"
 							data-input-unitprice="prodUnitprice"
+							data-input-mgmtunitcod="mgmtUnitCod"
+							data-input-unitcod="unitCod"
 							data-bs-toggle="modal"
 							data-bs-target="#invSearchModal">자재찾기</button>
 					</div>
@@ -355,16 +372,16 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 						<input id="unitCod" type="hidden" />
 					</div>
 					<div>
-						<span>단가</span> <input id="prodUnitprice" type="text" readonly />
+						<span>단가</span> <input id="prodUnitprice" type="number" readonly />
 					</div>
 					<div>
-						<span>부가세</span> <input id="prodVax" type="text" readonly />
+						<span>부가세</span> <input id="prodVax" type="number" readonly />
 					</div>
 					<div>
-						<span>공급가</span> <input id="prodSupprice" type="text" readonly />
+						<span>공급가</span> <input id="prodSupprice" type="number" readonly />
 					</div>
 					<div>
-						<span>합계액</span> <input id="prodTotal" type="text" readonly />
+						<span>합계액</span> <input id="prodTotal" type="number" readonly />
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -548,44 +565,28 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     	   });
     	let rows = '';
     	$('.applyInvoiceChkBox').each((index, item) => {
+    		var invoiceCod = $(item).data('invoice-cod');
+    		var invoicedetailNum = $(item).data('invoicedetail-num');
     		var productCod = $(item).data('product-cod');
             var prodname = $(item).data('prodname');
-            var inqQty = $(item).data('inq-qty');
+    		var inventoryCod = $(item).data('inventory-cod');
+            var invname = $(item).data('invname');
+            var invQty = $(item).data('inv-qty');
+            var invMgmtQty = $(item).data('inv-mgmt-qty');
+            var invMgmtUnitCod = $(item).data('inv-mgmt-unit-cod');
+            var invMgmtUnitName = $(item).data('inv-mgmt-unit-name');
+            var invUnitCod = $(item).data('inv-unit-cod');
+            var invUnitName = $(item).data('inv-unit-name');
+            var prodMgmtUnitCod = $(item).data('prod-mgmt-unit-cod');
+            var prodMgmtUnitName = $(item).data('prod-mgmt-unit-name');
+            var prodUnitCod = $(item).data('prod-unit-cod');
+            var prodUnitName = $(item).data('prod-unit-name');
             var unitprice = $(item).data('unitprice');
             var vax = $(item).data('vax');
             var supprice = $(item).data('supprice');
             var total = $(item).data('total');
             var key = $(item).data('key');
-            const values = [
-        		{
-        			name: 'productCod',
-        			value: productCod
-        		},
-        		{
-            		name: '',
-            		value: prodname
-        		},
-            	{
-            		name: 'qty',
-            		value: inqQty
-        		},
-            	{
-            		name: 'unitPrice',
-            		value: unitprice
-        		},
-            	{
-            		name: 'vax',
-            		value: vax
-        		},
-            	{
-            		name: 'supprice',
-            		value: supprice
-        		},
-            	{
-            		name: 'total',
-            		value: total
-        		}
-        		];
+            
     		if(item.checked === true && keyList.indexOf(key) !== -1) {
     			return true;
     		} 
@@ -594,9 +595,19 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     		}
     		else {
                 let row = '<tr class="applyInvoiceProd prodList" data-key="'+ key +'">';
-                values.forEach((data) => {
-                    row += '<td><input type="hidden" name="'+ data.name +'" value="'+ data.value +'">' + data.value + '</td>';                	
-                });
+                row += '<input type="hidden" name="invoiceCod" value="'+ invoiceCod +'">';                	
+                row += '<input type="hidden" name="invoicedetailNum" value="'+ invoicedetailNum +'">';                	
+                row += '<input type="hidden" name="unitInv" value="'+ (productCod == null ? invUnitCod : prodUnitCod) +'">';                	
+                row += '<input type="hidden" name="unitMgmt" value="'+ (productCod == null ? invMgmtUnitCod : prodMgmtUnitCod) +'">';                	
+                row += '<td><input type="hidden" name='+ (productCod == null ? "inventoryCod" : "productCod") +' value="'+ (productCod == null ? inventoryCod : productCod) +'">' + (productCod == null ? inventoryCod : productCod) + '</td>';                	
+                row += '<td>' + (productCod == null ? invname : prodname) + '</td>';                	
+                row += '<td><input type="hidden" name="mgmtQty" value="'+ invMgmtQty + '">'+ invMgmtQty +'</td>';                	
+                row += '<td>' + (productCod == null ? invMgmtUnitName : prodMgmtUnitName) + '</td>';                	
+                row += '<td><input type="hidden" name="invQty" value="'+ invQty + '">'+ invQty +'</td>';                	
+                row += '<td><input type="hidden" name="unitprice" value="'+ unitprice + '">'+ unitprice +'</td>';                	
+                row += '<td><input type="hidden" name="vax" value="'+ vax + '">'+ vax +'</td>';                	
+                row += '<td><input type="hidden" name="supprice" value="'+ supprice + '">'+ supprice +'</td>';                	
+                row += '<td><input type="hidden" name="total" value="'+ total + '">'+ total +'</td>';                	
                 row += '<td><button type="button" aria-label="Close" onClick="{delProd(event)}">X</button></td></tr>';
                 rows += row;    			
     		}
@@ -622,36 +633,34 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
               		  }; 
               	   });
                       rows +=
-                         '<tr class="searchValue" data-inq-date="' +
+                         '<tr class="invoiceSearchValue" data-inq-date="' +
                          item.inq_date +
                          '" data-invoice-cod="' +
                          item.invoice_cod +
-                         '" data-num="' +
-                         item.num +
                          '" data-product-cod="' +
                          item.product_cod +
+                         '" data-inventory-cod="' +
+                         item.inventory_cod +
                          '" data-prodname="' +
                          item.prodname +
-                         '" data-inq-qty="' +
-                         item.inq_qty +
-                         '" data-unitprice="' +
-                         item.unitprice +
-                         '" data-vax="' +
-                         item.vax +
-                         '" data-supprice="' +
-                         item.supprice +
-                         '" data-total="' +
-                         item.total +
+                         '" data-invname="' +
+                         item.invname +
                          '" onClick="rowChk('+ "'" + item.invoice_cod + item.num + "'" + ')">' +
                          '<td><input type="checkbox" class="applyInvoiceChkBox"' +
                          'id="' +
                          item.invoice_cod + item.num +
+                         '" data-invoice-cod="' +
+                         item.invoice_cod +
+                         '" data-invoicedetail-num="' +
+                         item.num +
                          '" data-product-cod="' +
                          item.product_cod +
+                         '" data-inventory-cod="' +
+                         item.inventory_cod +
                          '" data-prodname="' +
                          item.prodname +
-                         '" data-inq-qty="' +
-                         item.inq_qty +
+                         '" data-invname="' +
+                         item.invname +
                          '" data-unitprice="' +
                          item.unitprice +
                          '" data-vax="' +
@@ -660,6 +669,26 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                          item.supprice +
                          '" data-total="' +
                          item.total +
+                         '" data-inv-qty="' +
+                         item.inv_qty +
+                         '" data-prod-unit-cod="' +
+                         item.prod_unit_cod +
+                         '" data-prod-unit-name="' +
+                         item.prod_unit_name +
+                         '" data-inv-unit-cod="' +
+                         item.inv_unit_cod +
+                         '" data-inv-unit-name="' +
+                         item.inv_unit_name +
+                         '" data-inv-mgmt-qty="' +
+                         item.inv_mgmt_qty +
+                         '" data-inv-mgmt-unit-cod="' +
+                         item.inv_mgmt_unit_cod +
+                         '" data-inv-mgmt-unit-name="' +
+                         item.inv_mgmt_unit_name +
+                         '" data-prod-mgmt-unit-cod="' +
+                         item.prod_mgmt_unit_cod +
+                         '" data-prod-mgmt-unit-name="' +
+                         item.prod_mgmt_unit_name +
                          '" data-key="' +
                          item.invoice_cod + item.num +
                          '" ' +
@@ -675,13 +704,22 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                          item.num +
                          '</td>' +
                          '<td>' +
-                         item.product_cod +
+                         (item.product_cod == null ? item.inventory_cod : item.product_cod) +
                          '</td>' +
                          '<td>' +
-                         item.prodname +
+                         (item.product_cod == null ? item.invname : item.prodname) +
                          '</td>' +
                          '<td>' +
-                         item.inq_qty +
+                         item.inv_mgmt_qty +
+                         '</td>' +
+                         '<td>' +
+                         (item.product_cod == null ? item.inv_mgmt_unit_name : item.prod_mgmt_unit_name) +
+                         '</td>' +
+                         '<td>' +
+                         item.inv_qty +
+                         '</td>' +
+                         '<td>' +
+                         (item.product_cod == null ? item.inv_unit_name : item.prod_unit_name) +
                          '</td>' +
                          '<td>' +
                          item.unitprice +
@@ -706,7 +744,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
        $('#applyInvoiceInput').on('keyup', function () {
           var searchInputVlaue = $(this).val().toLowerCase()
-          $('.searchValue').each(function (index,item) {
+          $('.invoiceSearchValue').each(function (index,item) {
              const inqDate = $(item).data('inq-date').toLowerCase();
              const invoiceCod = $(this).data('invoice-cod').toLowerCase()
              const productCod = $(this).data('product-cod').toLowerCase()
@@ -727,10 +765,9 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     	 $('#prodInputModal').modal('show');
    	});
     
-    function prodSearchSetValue(cod,name,mgmtUnitAmount,mgmtUnitName,unitAmount,unitName,unitprice,...inputIds) {
-       $('#prodMgmtUnitAmount').val(mgmtUnitAmount);
+    function prodSearchSetValue(cod,name,mgmtUnitAmount,mgmtUnitName,unitAmount,unitName,unitprice,mgmtUnitCod,unitCod,...inputIds) {
    	   $('#prodSearchModal').modal('hide');
-       const inputs = [cod,name,mgmtUnitAmount,mgmtUnitName,unitAmount,unitName,unitprice];
+       const inputs = [cod,name,mgmtUnitAmount,mgmtUnitName,unitAmount,unitName,unitprice,mgmtUnitCod,unitCod];
        inputIds.forEach((item,index) => {
     	   if(item === 'prodMgmtUnitName' || item === 'prodUnitName') {
     	    	$('#'+ item).text(inputs[index]);   
@@ -740,9 +777,9 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 	   })
 	   $('#mgmtUnitAmount').val(mgmtUnitAmount);
 	   $('#unitAmount').val(unitAmount);
-       $('#prodMgmtUnitAmount').attr('onchange', totalCal(mgmtUnitAmount));
+	   totalCal(mgmtUnitAmount);
        $('#prodInputModal').modal('show');
-   		}
+   	}
 
     function prodSearchModal() {
        $('#prodSearchModalBtn').on('click', function (e) {
@@ -769,6 +806,10 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                          "','" +
                          item.unitprice +
                          "','" +
+                         item.mgmt_unit_cod +
+                         "','" +
+                         item.unit_cod +
+                         "','" +
                          $(e.target).data('input-cod') +
                          "','" +
                          $(e.target).data('input-name') +
@@ -782,12 +823,16 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                          $(e.target).data('input-unitname') +
                          "','" +
                          $(e.target).data('input-unitprice') +
+                         "','" +
+                         $(e.target).data('input-mgmtunitcod') +
+                         "','" +
+                         $(e.target).data('input-unitcod') +
                          '\')" ' +
-                         'class="searchValue" data-cod="' +
+                         'class="prodSearchValue" data-cod="' +
                          item.cod +
                          '" data-prodname="' +
                          item.prodname +
-                         '" data-prodgroupName="' +
+                         '" data-prodgroupname="' +
                          item.prodgroupName +
                          '" style= "' +
                          'cursor: pointer' +
@@ -820,16 +865,16 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
        });
 
        $('#prodSearchInput').on('keyup', function () {
-           var searchInputVlaue = $(this).val().toLowerCase()
-           $('.searchValue').each(function () {
-              var cod = $(this).data('cod').toLowerCase()
-              var prodname = $(this).data('prodname').toLowerCase()
-              var prodgroupName = $(this).data('prodgroupName').toLowerCase()
+            var searchInputVlaue = $(this).val().toLowerCase();
+           $('.prodSearchValue').each(function () {
+              const cod = $(this).data('cod').toLowerCase();
+              const prodname = $(this).data('prodname').toLowerCase();
+              const prodgroupName = $(this).data('prodgroupname').toLowerCase();
               $(this).toggle(cod.includes(searchInputVlaue) 
              		 		|| prodname.includes(searchInputVlaue)
              		 		|| prodgroupName.includes(searchInputVlaue))
-           });
-        });
+         	  }); 
+         });
      };
     
     prodSearchModal();
@@ -851,10 +896,11 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
      	    	$('#'+ item).val(inputs[index]);   
      	   }
  	   });
-       totalCal();
+
        $('#mgmtUnitAmount').val(mgmtUnitAmount);
 	   $('#unitAmount').val(unitAmount);
-       $('#prodInputModal').modal('show');
+		totalCal(mgmtUnitAmount);
+	   $('#prodInputModal').modal('show');
    		}
 
     function invSearchModal() {
@@ -905,11 +951,11 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                           $(e.target).data('input-unitcod') +
 
                           '\')" ' +
-                          'class="searchValue" data-cod="' +
+                          'class="invSearchValue" data-cod="' +
                           item.cod +
                           '" data-name="' +
                           item.name +
-                          '" data-prodgroupName="' +
+                          '" data-prodgroupname="' +
                           item.prodgroupName +
                           '" style= "' +
                           'cursor: pointer' +
@@ -943,13 +989,13 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
        $('#invSearchInput').on('keyup', function () {
            var searchInputVlaue = $(this).val().toLowerCase()
-           $('.searchValue').each(function () {
+           $('.invSearchValue').each(function () {
               var cod = $(this).data('cod').toLowerCase()
               var name = $(this).data('name').toLowerCase()
-              var productgroupCod = $(this).data('productgroup-cod').toLowerCase()
+              var prodgroupName = $(this).data('prodgroupname').toLowerCase()
               $(this).toggle(cod.includes(searchInputVlaue) 
              		 		|| name.includes(searchInputVlaue)
-             		 		|| productgroupCod.includes(searchInputVlaue))
+             		 		|| prodgroupName.includes(searchInputVlaue))
            });
         });
      };
@@ -961,9 +1007,9 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     function totalCal(amount) {
     	const unitprice = Number($("#prodUnitprice").val());
     	const qty = Number($("#prodMgmtUnitAmount").val() / amount);
-    	const vax = unitprice/10;
-    	const supprice = unitprice + vax;
-    	const total = supprice * qty;
+    	const supprice = unitprice * qty;
+    	const vax = supprice/10;
+    	const total = supprice + vax;
     	$('#prodVax').val(vax);
     	$('#prodSupprice').val(supprice);
     	$('#prodTotal').val(total);
@@ -977,22 +1023,33 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     	const unitAmount = $('#prodUnitAmount').val();
     	const mgmtUnitCod = $('#mgmtUnitCod').val();
     	const unitCod = $('#unitCod').val();
+    	const mgmtUnitName = $('#prodMgmtUnitName').text();
+    	const unitName = $('#prodUnitName').text();
     	const unitprice = $('#prodUnitprice').val();
     	const vax = $('#prodVax').val();
     	const supprice = $('#prodSupprice').val();
     	const total = $('#prodTotal').val();
+
     	const values = [
     		{
-    			name: 'productCod',
+    			name: (cod.includes('inv') ? 'inventoryCod' : 'productCod'),
     			value: cod
     		},
     		{
         		name: '',
         		value: name
     		},
-        	{
+    		{
         		name: 'mgmtQty',
         		value: mgmtUnitAmount
+    		},
+    		{
+        		name: 'unitInv',
+        		value: unitCod
+    		},
+    		{
+        		name: '',
+        		value: unitName
     		},
     		{
         		name: 'invQty',
@@ -1003,11 +1060,11 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
         		value: mgmtUnitCod
     		},
     		{
-        		name: 'unitInv',
-        		value: unitCod
+        		name: '',
+        		value: mgmtUnitName
     		},
         	{
-        		name: 'unitPrice',
+        		name: 'unitprice',
         		value: unitprice
     		},
         	{
@@ -1022,10 +1079,14 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
         		name: 'total',
         		value: total
     		}
-    		];
+    	    ];
     	let rows = '<tr class="prodList">';
     	values.forEach((item,index) => {
-        	rows += '<td><input type="hidden" name="'+ item.name +'" value="'+ item.value +'">' + item.value + '</td>';
+    		if(item.name === 'unitMgmt' || item.name === 'unitInv'){
+            	rows += '<input type="hidden" name="'+ item.name +'" value="'+ item.value +'">';
+    		} else {
+            	rows += '<td><input type="hidden" name="'+ item.name +'" value="'+ item.value +'">' + item.value + '</td>';
+    		}
     	})
     	rows += '<td><button type="button" aria-label="Close" onClick="{delProd(event)}">X</button></td></tr>';
     	$('#prodList').append(rows);
@@ -1042,6 +1103,18 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     	if($('.prodList').length === 0) {
     		alert("주문제품을 입력해주세요");
     		returnBool = false;
+    	} else {
+    		$('.prodList').each((index,item) => {
+    			$($(item).children()).each((childIndex,childItem) => {
+    				if($(childItem).prop('tagName') === 'INPUT') {
+    					$(childItem).attr('name', 'poDetailList['+ index +'].'.concat($(childItem).attr('name')));
+    				} else if($(childItem).prop('tagName') === 'TD' && 
+    						  $(childItem).children('input').attr('name') !== '' &&
+    						  $(childItem).children('input').attr('name') != null) {
+    					$(childItem).children('input').attr('name', 'poDetailList['+ index +'].'.concat($(childItem).children('input').attr('name')));
+    				}
+    			})
+    		})
     	}
     	return returnBool;
     }
@@ -1056,17 +1129,21 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     	case '+':
     		prodMgmtUnitAmount.val(Number(prodMgmtUnitAmount.val()) + mgmtUnitAmount);
     		prodUnitAmount.val(Number(prodUnitAmount.val()) + unitAmount);
+    		totalCal(mgmtUnitAmount);
     		break;
     	case '-':
     		if(prodMgmtUnitAmount.val() - mgmtUnitAmount !== 0) {
     			prodMgmtUnitAmount.val(Number(prodMgmtUnitAmount.val()) - mgmtUnitAmount);
         		prodUnitAmount.val(Number(prodUnitAmount.val()) - unitAmount);
+        		totalCal(mgmtUnitAmount);
     		}
     		break;
 		default:
 			break;
     	}
     }
+    
+    
     
       </script>
    </body>

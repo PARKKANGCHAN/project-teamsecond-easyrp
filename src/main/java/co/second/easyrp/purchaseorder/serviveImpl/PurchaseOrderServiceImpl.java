@@ -58,10 +58,39 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		return purchaseOrderMapper.insertPo(vo);
 	}
 
+	//고유한 발주번호를 부여해주기위한 메소드
+	//하서현
 	@Override
 	public String newPoCod() {
 		// TODO Auto-generated method stub
 		return purchaseOrderMapper.newPoCod();
+	}
+
+	@Override
+	public List<Map<String, Object>> selectPurchaseOrdersClosing(PurchaseOrderVO vo) {
+		// TODO Auto-generated method stub
+		vo.setOffset((vo.getPage() - 1) * vo.getSize());
+		return purchaseOrderMapper.selectPurchaseOrdersClosing(vo);
+	}
+
+	//특정 발주데이터를 가져오기위한 메소드
+	//하서현
+	@Override
+	public Map<String, Object> selectPo(String key) {
+		// TODO Auto-generated method stub
+		return purchaseOrderMapper.selectPo(key);
+	}
+
+	@Override
+	public int updatePo(PurchaseOrderVO vo) {
+		// TODO Auto-generated method stub
+		return purchaseOrderMapper.updatePo(vo);
+	}
+
+	@Override
+	public int updateIboundDateClosingDateDdayNote(PurchaseOrderVO vo) {
+		// TODO Auto-generated method stub
+		return purchaseOrderMapper.updateIboundDateClosingDateDdayNote(vo);
 	}
 
 }

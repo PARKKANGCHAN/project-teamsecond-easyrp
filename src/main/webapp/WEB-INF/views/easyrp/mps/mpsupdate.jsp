@@ -91,7 +91,7 @@
 											<tr>
 												<td width="150">출고예정일</td>
 												<td><input type="text" id="deliveryDate" name="deliveryDate"
-													class="form-control" value="${mpsData.deliveryDate}" disabled/>
+													class="form-control" value="" disabled/>
 												</td>
 											</tr>
 											<!-- 납기일 INPUT -->

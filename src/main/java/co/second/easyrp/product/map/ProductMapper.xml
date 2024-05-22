@@ -71,4 +71,11 @@
 			(SELECT p2.name FROM productgroup p2 WHERE p2.cod = p.productgroup_cod) As 'prodgroupName'
 		FROM product p;
 	</select>
+	
+	<!-- 제품의 현재고량을 증가 또는 감소하는 쿼리 -->
+	<!-- 하서현 -->
+	<update id="updateCurInvQtyFromPrd">
+		UPDATE product SET cur_inv_qty = cur_inv_qty + #{amount} WHERE cod = #{cod}
+	</update>
+	
 	</mapper>

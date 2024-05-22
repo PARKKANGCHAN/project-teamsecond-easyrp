@@ -152,8 +152,13 @@
 			taxdivision_cod,
 			employee_cod_writer,
 			employee_cod_po,
-			employee_cod_ibound,
-			dday
+			employee_cod_ibound
+		<if test="dday != null and dday != ''">
+			,dday
+		</if>
+		<if test="note != null and note != ''">
+			,note
+		</if>
 		) VALUES(
 			#{cod},
 			#{poDate},
@@ -161,8 +166,84 @@
 			#{taxdivisionCod},
 			#{employeeCodWriter},
 			#{employeeCodPo},
-			#{employeeCodIbound},
-			#{dday}
+			#{employeeCodIbound}
+		<if test="dday != null and dday != ''">
+			,#{dday}
+		</if>
+		<if test="note != null and note != ''">
+			,#{note}
+		</if>
 		)
 	</insert>
+	
+	<select id="selectPurchaseOrdersClosing">
+		SELECT *
+		FROM (
+		<include refid="poMgmtList" />
+		) as p
+		WHERE deleteyn = 'N'
+		AND state_cod = 204
+			<include refid="searchCondition"/>
+		ORDER BY cod DESC
+		LIMIT #{size} OFFSET #{offset}
+	</select>
+	
+	<!-- 발주테이블의 정보를 수정하는 쿼리 -->
+	<!-- 하서현 -->
+	<update id="updatePo">
+		UPDATE purchaseorder
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="poDate != null and poDate != ''">
+				po_date = #{poDate},
+			</if>
+			<if test="closingDate != null and closingDate != ''">
+				closing_date = #{closingDate},
+			</if>
+			<if test="clientCod != null and clientCod != ''">
+				client_cod = #{clientCod},
+			</if>
+			<if test="taxdivisionCod != null and taxdivisionCod != ''">
+				taxdivision_cod = #{taxdivisionCod},
+			</if>
+			<if test="employeeCodWriter != null and employeeCodWriter != ''">
+				employee_cod_writer = #{employeeCodWriter},
+			</if>
+			<if test="employeeCodPo != null and employeeCodPo != ''">
+				employee_cod_po = #{employeeCodPo},
+			</if>
+			<if test="employeeCodIbound != null and employeeCodIbound != ''">
+				employee_cod_ibound = #{employeeCodIbound},
+			</if>
+			<if test="note != null and note != ''">
+				note = #{note},
+			</if>
+			<if test="deleteyn != null and deleteyn != ''">
+				deleteyn = #{deleteyn},
+			</if>
+			<if test="iboundDate != null and iboundDate != ''">
+				ibound_date = #{iboundDate},
+			</if>
+			<if test="stateCod != null and stateCod != ''">
+				state_cod = #{stateCod},
+			</if>
+			<if test="dday != null and dday != ''">
+				dday = #{dday},
+			</if>
+		</trim>
+		WHERE cod = #{cod}
+	</update>
+	
+	<!-- 입고일자.마감일자.납기일.비고를 update하는 메소드 -->
+	<!-- 하서현 -->
+	<update id="updateIboundDateClosingDateDdayNote">
+		UPDATE purchaseorder
+			<trim prefix="SET" suffixOverrides=",">
+				<if test="note == null or note == ''">note = null,</if>
+				<if test="iboundDate == null or iboundDate == ''">ibound_date = null,</if>
+				<if test="dday == null or dday == ''">dday = null,</if>
+				<if test="closingDate == null or closingDate == ''">closing_date = null,</if>
+			</trim>
+		WHERE cod = #{cod}
+	</update>	
+	
 </mapper>

@@ -30,4 +30,8 @@ public interface ProductService {
 	//제품찾기 modal에 뿌려줄 리스트를 가져오기위한 메소드
 	//2024년 5월 14일 하서현
 	List<Map<String, Object>> prodSearch();
+	
+	//제품의 현재고량을 증가 또는 감소하는 메소드
+	//하서현
+	int updateCurInvQtyFromPrd(int amount, String cod);
 }

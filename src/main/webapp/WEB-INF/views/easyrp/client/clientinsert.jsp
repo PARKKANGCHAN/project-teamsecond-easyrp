@@ -96,7 +96,7 @@
 													class="form-control" placeholder="거래처 우편번호를 입력해주세요."
 													required /></td>
 											</tr>
-											<tr>
+<!-- 											<tr>
 												<td width="150">거래처 등급</td>
 												<td><input type="text" id="discountClass"
 													name="discountClass" class="form-control"
@@ -106,7 +106,7 @@
 														id="loadDiscountValues" data-bs-toggle="modal"
 														data-bs-target="#loadDiscountValuesModal"
 														style="margin-left: 2rem; width: 15%">거래처 등급 입력</button></td>
-											</tr>
+											</tr> -->
 										</table>
 									</div>
 									<div style="text-align: center">
@@ -173,6 +173,14 @@
          }
 
          $(document).ready(function () {
+ 			/* input type=text에 숫자만 들어가게 하는 이벤트 START */
+ 			$('#postcode').on('input', function() {
+ 	            // 숫자 이외의 문자 제거
+ 	            this.value = this.value.replace(/[^0-9]/g, '');
+ 			});
+ 			/* input type=text에 숫자만 들어가게 하는 이벤트 END */
+        	 
+        	 
             $('#loadDiscountValues').on('click', function () {
                $.ajax({
                   url: 'api/get-discount',

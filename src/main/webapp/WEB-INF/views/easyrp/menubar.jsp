@@ -165,8 +165,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                      </a>
                      <ul class="submenu">
                         <li class="submenu-item"><a href="salesplanmanagement" class="submenu-link">판매 계획 관리</a></li>
-                        <li class="submenu-item"><a href="salesplanachivement" class="submenu-link">목표 달성 현황</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">매출 순위표</a></li>
                      </ul>
                   </li>
                   <!-- 영업 관리 / 판매 계획 관리 END -->
@@ -196,30 +194,13 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                   </li>
                   <!-- 영업 관리 / 수주 관리 END -->
 
-                  <!-- 영업 관리 / 출고 관리 START -->
-                  <li class="sidebar-item has-sub">
-                     <a href="#" class="sidebar-link">
-                        <span style="font-weight: 800 !important">출고 관리</span>
-                     </a>
-                     <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">출고 의뢰 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">출고 검사 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">출고 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">반품 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">수주 대비 출고 현황</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">출고 실적 집계표</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">수주 미납 현황</a></li>
-                     </ul>
-                  </li>
-                  <!-- 영업 관리 / 출고 관리 END -->
-
                   <!-- 영업 관리 / 매출 관리 START -->
                   <li class="sidebar-item has-sub">
                      <a href="#" class="sidebar-link">
-                        <span style="font-weight: 800 !important">매출 관리</span>
+                        <span style="font-weight: 800 !important">매출 마감 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">매출 마감 관리</a></li>
+                        <li class="submenu-item"><a href="salesclosing" class="submenu-link">매출 마감 관리</a></li>
                      </ul>
                   </li>
                   <!-- 영업 관리 / 매출 관리 END -->
@@ -231,7 +212,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                      </a>
                      <ul class="submenu">
                         <li class="submenu-item"><a href="collectedmoney" class="submenu-link">수금 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">고객 별 채권 현황</a></li>
                      </ul>
                   </li>
                   <!-- 영업 관리 / 매출 관리 END -->
@@ -260,7 +240,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                      </a>
                      <ul class="submenu">
                         <li class="submenu-item"><a href="invoicemanagement" class="submenu-link">청구 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">청구 품의</a></li>
                      </ul>
                   </li>
                   <!-- 구매 관리 / 청구 관리 END -->
@@ -281,14 +260,13 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                   <!-- 구매 관리 / 입고 관리 START -->
                   <li class="sidebar-item has-sub">
                      <a href="#" class="sidebar-link">
-                        <span style="font-weight: 800 !important">입고 관리</span>
+                        <span style="font-weight: 800 !important">매입 마감 관리</span>
                      </a>
                      <ul class="submenu">
-                        <li class="submenu-item"><a href="#" class="submenu-link">입고 의뢰 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">입고 검사 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">입고 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">매입 마감 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">매입&amp;입고 집계</a></li>
+                        <li class="submenu-item"><a href="purchaseclosing" class="submenu-link">매입 마감 관리</a></li>
+                        <!-- 
+                        <li class="submenu-item"><a href="#" class="submenu-link">입고 집계</a></li>
+                         -->
                      </ul>
                   </li>
                   <!-- 구매 관리 / 입고 관리 END -->
@@ -311,7 +289,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                   <!-- 자재 관리 / 재고 관리 END -->
                   <!-- 자재 관리 END -->
 
-                     <a href="commontable" class="sidebar-link toggle">
+                     <a href="commonspecification" class="sidebar-link toggle">
                         📝<span style="font-weight: 800 !important">공통 사용 테이블</span>
                      </a>
                </ul>

@@ -45,10 +45,11 @@
 										data-bs-toggle="modal" data-bs-target="#dataModal"
 										style="float: left; width: 24%">
 											수주정보 가져오기</button>
+											<!-- 
 										<button type="button" class="btn btn-primary" id="loadDatas"
 											data-bs-toggle="modal" data-bs-target="#dataModal"
 											style="float: left; width: 24%">
-											판매계획 가져오기</button>
+											판매계획 가져오기</button> -->
 									</div>
 								</div>
 							</div>

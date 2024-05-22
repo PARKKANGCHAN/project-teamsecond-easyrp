@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +19,7 @@
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
 						<h3>
-							<a href="/easyrp/commontable">청구관리(등록,수정 남음)</a>
+							<a href="/easyrp/commontable">청구관리</a>
 						</h3>
 						<p class="text-subtitle text-muted">청구 조회, 등록, 수정, 삭제</p>
 					</div>
@@ -97,6 +98,7 @@
 												<th>청구자</th>
 												<th>비고</th>
 												<th>기능</th>
+												<th>생산</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -116,18 +118,29 @@
 																<i class="fa-solid fa-gear"></i>
 															</button>
 															<ul class="dropdown-menu">
-																<li><a class="dropdown-item"
-																	href="invoiceupdate?cod=${invoiceTable.cod}">수정</a></li>
+																<li><a class="dropdown-item" href="#"
+																	id="loadDetail" data-bs-toggle="modal"
+																	data-bs-target="#detailModal"
+																	onclick="estimateDetail('${invoiceTable.cod}')"> 상세 보기
+																</a></li>
 																<li><a class="dropdown-item"
 																	href="invoicedeletefn?cod=${invoiceTable.cod}">삭제</a></li>
 															</ul>
 														</div>
 													</td>
+													<td>
+														<c:if test="${invoiceTable.prodReady eq 'Y'}">
+															<button type="button" class="btn btn-primary" onclick="production(${invoiceTable.cod})">생산지시</button>
+														</c:if>
+														<c:if test="${invoiceTable.prodReady eq 'N'}">
+															<button class="btn disabled">생산대기</button>
+														</c:if>
+													</td>
 												</tr>
 											</c:forEach>
 											<c:if test="${empty invoiceTable }">
 												<tr>
-													<td colspan="10" align="center">청구 내역이 없습니다.</td>
+													<td colspan="8" align="center">청구 내역이 없습니다.</td>
 												</tr>
 											</c:if>
 										</tbody>
@@ -181,126 +194,233 @@
 		</div>
 	</div>
 	<!-- 공통 사용 테이블 END -->
-	<!-- 퇴사등록 Modal -->
-	<div class="modal fade" id="quitRegisModal" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true"
-		data-dismiss="modal">
-		<div class="modal-dialog">
+	
+	<!-- 상세페이지 모달 START -->
+	<div class="modal fade" id="detailModal" tabindex="-1"
+		aria-labelledby="detailModalLabel" aria-hidden="true"
+		data-bs-backdrop='static' data-bs-keyboard='false'>
+		<div class="modal-dialog modal-xl" style="width: 1400px;">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="quitRegisModalLabel">퇴사등록</h1>
+					<h5 class="modal-title" id="detailModalLabel">청구 상세 페이지</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+						aria-label="Close" onClick="Modalclose()"></button>
 				</div>
 				<div class="modal-body">
-					<div>
-						<span>퇴사일</span> <input id="quitDate" type="date" />
-					</div>
-					<div>
-						<span>퇴사사유</span> <input id="quitReason" type="text" />
-					</div>
+					<table class="table">
+						<tr>
+							<th scope="col">청구 번호</th>
+							<td id="invoiceCod"></td>
+							<th scope="col">거래처 명</th>
+							<td id="clientName"></td>
+							<th scope="col">청구 날짜</th>
+							<td id="invDate"></td>
+							<td></td>
+						</tr>
+						<tr>
+							<th scope="col">청구자 명</th>
+							<td id="employeeName"></td>
+							<th scope="col">비고</th>
+							<td id="note" colspan="2"></td>
+							<td></td>
+						</tr>
+					</table>
+					<table class="table">
+						<tr id="detailList">
+							<th colspan="1">순번</th>
+							<th colspan="1">품번</th>
+							<th colspan="1">품명</th>
+							<th colspan="1">규격</th>
+							<th colspan="1">재고단위</th>
+							<th colspan="1">재고단위수량</th>
+							<th colspan="1">관리단위</th>
+							<th colspan="1">관리단위수량</th>
+							<th colspan="1">거래처</th>
+							<th colspan="1">수정</th>
+						<tr>
+							<td colspan="6" style="border-bottom-width: 0px">
+								<button type="button" class="btn btn-primary"
+									onClick="estimateChange()">수량 수정</button>
+							</td>
+						</tr>
+					</table>
 				</div>
+
+
+
+
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-primary" onClick="quitRegis()">등록</button>
+						data-bs-dismiss="modal" onClick="Modalclose()">닫기</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!--퇴사등록 Modal end -->
-	<!--삭제 Modal -->
-	<div class="modal fade" id="deleteModal" tabindex="-1"
-		aria-labelledby="deleteModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header" style="border-bottom: 0">
-				</div>
-				<div class="modal-body">삭제하시겠습니까?</div>
-				<div class="modal-footer" style="border-top: 0">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-primary" onclick="deleteEmp()">삭제</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- 삭제 Modal end -->
-	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
-	<script type="text/javascript">
-		let cod = "";
-		const selectCod = (value) => {
-			cod = value;
-		}
-	
-		const quitRegis = () => {
-			const quitDate = $("#quitDate").val();
-			const quitReason = $("#quitReason").val();
-			if(quitDate == "") {
-				alert("퇴사일을 입력해주세요");
-				return;
-			}
-			
-			$.ajax({
-				url: "quitregis",
-				data: {
-					cod: cod,
-					quitdate: quitDate,
-					quitReason: quitReason
-				},
-				method: "POST",
-				success: function(res) {
-					if(res > 0) {
-						$("#quitRegisModal").modal('hide');
-					} else {
-						alert("예상치못한 에러가 발생했습니다");
-					}
-				},
-				error: function(error) {
-					console.log(error);
-					alert("예상치못한 에러가 발생했습니다");
-				}
-			});
-		}
-		
-		const deleteEmp = () => {
-			$.ajax({
-				url: "deleteEmp",
-				data: {
-					cod: cod,
-					deleteyn: 'Y'
-				},
-				method: "POST",
-				success: function(res) {
-					if(res > 0) {
-						$("#"+cod).remove();
-						if($(".empList").length == 0 && $(".active > a").text() != 1) {
-							document.getElementById($(".active > a").text()-1).click();
-						}
-						$("#deleteModal").modal('hide');
-					} else {
-						alert("예상치못한 에러가 발생했습니다");
-					}
-				},
-				error: function(error) {
-					console.log(error);
-					alert("예상치못한 에러가 발생했습니다");
-				}
-			});
-		}
-		
-		function paging(page) {		    
-			let form = document.getElementById("searchForm");			
-			document.getElementById("page").value = page;			
-			form.submit();
-		}
-	</script>
+	<!-- 상세페이지 모달 END  -->
 	
 	<!-- 셀렉트박스 고정 자바스크립트 -->
     <script type="text/javascript">
     	window.onload = function(){
     		document.getElementById('searchPlan').value = '${searchPlan}';
     	}
+    </script>
+    
+    <!-- 생산지시 버튼을 누르면 완제품은 증가시키고, 사용된 자재는 차감시킨다. -->
+    <script>
+    function production(cod){
+    	$.ajax({
+    		url: 'productionfn',
+    		data: {cod : cod},
+    		dataType: 'JSON',
+    		success: function(response){
+    			console.log(response);
+    			alert("생산이 완료되었습니다.");
+    		}
+    		error: function(xhr, status, error) {
+    			console.error('실패');
+    		}
+    	});
+    }
+    </script>
+    
+    <script>
+ // 견적 상세 모달 관련 함수 시작
+    
+    // estimateDetail(cod) 시작
+	// 견적 상세 모달에서 목록을 불러오는 함수입니다. 여기서 금액계산을 하고, 견적 상세 목록의 수정, 삭제하는 함수도 정의하였습니다. 함수안에 함수가 정의되어 있어서 헷갈릴 수 있습니다.
+    function estimateDetail(cod) {
+    	
+    	// estimatedetail ajax 통신 시작
+    	$.ajax({
+    		url: 'api/get-invoicedetail',
+    		type: 'GET',
+    		data: {invoiceCod : cod},
+    		dataType: 'JSON',
+    		success: function(response) {
+    			console.log(response);
+    			
+                var invoicedetailList = response.invoicedetailList;
+                
+                var invoiceCod = invoicedetailList[0].invoiceCod;
+                var clientName = invoicedetailList[0].clientName;
+                var invDate = invoicedetailList[0].invDate;
+                var employeeName = invoicedetailList[0].employeeName;
+                var note = invoicedetailList[0].note;
+    		    
+                // 견적 상세 모달 상단에 넣은 값입니다.
+    			$('#invoiceCod').text(invoiceCod);
+    			$('#clientName').text(clientName);
+     			$('#invDate').text(invDate);
+    			$('#employeeName').text(employeeName);
+    			$('#note').text(note);
+				
+    			// estimateDetialList.forEach 상세 리스트의 각 요소에 적용하는 함수 시작
+    			// 견적 상세 모달에서 각 상세 목록들에 들어가는 요소들 입니다.
+    			invoicedetailList.forEach(function(item) {
+    				
+    				var newRow = $('<tr class="generatedRow">');
+    				
+    				newRow.append($('<td>').text(item.num));
+    				if(item.invClass == '생산'){
+    					newRow.append($('<td>').text(item.productCod));
+    					newRow.append($('<td>').text(item.prodname));
+    					newRow.append($('<td>').text(item.spec));
+    					newRow.append($('<td>').text(item.unitName));
+    					newRow.append($('<td>').append($('<input>').attr({
+        					'id': 'qty_' + item.num,
+        				    'type': 'number',
+        				    'readonly': 'readonly',
+        				    'class': 'form-control',
+        				}).css('width', '120px').val(item.invQty)));
+    					newRow.append($('<td>').text(item.mgmtUnitName));
+    					newRow.append($('<td>').text(item.invMgmtQty));
+    				}else{
+    					newRow.append($('<td>').text(item.inventoryCod));
+    					newRow.append($('<td>').text(item.invname));
+    					newRow.append($('<td>').text(item.invSpec));
+    					newRow.append($('<td>').text(item.invUnitName));
+    					newRow.append($('<td>').text(item.invQty));
+    					newRow.append($('<td>').text(item.invMgmtUnitName));
+    					newRow.append($('<td>').append($('<input>').attr({
+        					'id': 'qty_' + item.num,
+        				    'type': 'number',
+        				    'readonly': 'readonly',
+        				    'class': 'form-control',
+        				}).css('width', '120px').val(item.invMgmtQty)));
+    				}
+    				newRow.append($('<td>').text(item.clientName));
+    				
+    				// 각 견적 상세 목록에 수정과 삭제 버튼을 달아주었고 onclick 함수를 바로 정의했습니다.
+    		        var editButton = $('<button>').text('수정').addClass('btn btn-primary').css('margin-right', '2px');
+    		        //var deleteButton = $('<button>').text('삭제').addClass('btn btn-primary');
+    		        //var buttonGroup = $('<div>').append(editButton).append(deleteButton);
+    		        var buttonGroup = $('<div>').append(editButton);
+    		        
+    			    newRow.append($('<td>').append(buttonGroup));
+    			    
+    				$('#detailList').after(newRow);
+    			    
+    			    editButton.on('click', function() {
+     				    var cod = item.invoiceCod;
+    				    var num = item.num;
+    				    var qty = $('#qty_' + item.num).val();
+    				    
+    				    
+    				    $.ajax({
+    				    	url: 'update-invoicedetail',
+    				    	type: 'POST',
+    				    	data: {
+    				    		cod : cod,
+    				    		qty : qty,
+    				    		num : num
+    				    	},
+    				    	success: function(response){
+    				    		console.log('성공');
+    				    		alert('수정이 완료되었습니다.');
+    				    		
+    				            // 성공 시 기존 데이터 삭제
+    				            $('.generatedRow').remove();
+    				            
+    				            // 수정 성공 시 해당 함수를 호출하여 전체적으로 다시 렌더링
+    				            estimateDetail(cod);
+    				            
+    				    	},
+    				    	error: function(xhr, status, error) {
+    							console.error('실패');
+    							console.log(xhr,status);
+    						}
+    				    });
+    				    
+    				});
+    				
+    				$('#detailModal').on('hidden.bs.modal', function () {
+    				    // 모달이 닫힐 때 생성된 tr 요소 제거
+    				    $('.generatedRow').remove();
+    				
+    				});	
+    			});
+    			// estimateDetialList.forEach 상세 리스트의 각 요소에 적용하는 함수 끝
+    		},
+    		error: function(xhr, status, error) {
+    			console.error('실패');
+    		}
+    	});
+    	// estimatedetail ajax 통신 끝
+    }
+ 	// estimateDetail(cod) 끝
+
+    	// readonly 없애는 함수
+		function estimateChange() {
+			$('input').removeAttr('readonly');
+		}
+ 	
+		// 견적 상세 모달 끄기
+		function Modalclose() {
+			$('#addRowButton').prop('disabled', false);
+		}
+   
+   // 견적 상세 모달 관련 함수 끝
+
     </script>
 </body>
 </html>

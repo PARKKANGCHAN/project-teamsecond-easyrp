@@ -15,7 +15,8 @@
 		ON p.unit_cod = u.cod 
 		WHERE od.mps_state = 'N'
 		AND od.deleteyn = 'N'
-		AND od.delivery_state = 101;
+		AND od.delivery_state = 101
+		OR od.delivery_state = 104
 	</select>
 	<select id="orderdetailSelectList"></select>
 	<insert id="orderdetailInsert"></insert>
@@ -33,10 +34,11 @@
 			od.total, 
 			od.cur_remain_price, 
 			od.delivery_date, 
-			od.delivery_state, 
+			od.delivery_state as deliverState, 
 			od.mps_state, 
 			od.product_price, 
 			od.subtotal, 
+			p.cur_inv_qty-p.saftey_inv_qty as availableQty,
 			d.name as deptName, o.cod as cod, p.prodname, c.name as clientName, e.name as empName 
 		from orderdetail od
 		join orders o on od.cod = o.cod 
