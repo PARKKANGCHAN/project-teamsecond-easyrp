@@ -36,7 +36,7 @@
 		UPDATE productgroup
 		SET
 		name = #{name}
-		WHERE cod = #{cod};
+		WHERE cod = #{cod}
 	</update>
 
 	<update id="deleteFn"
@@ -44,7 +44,7 @@
 		UPDATE productgroup
 		SET
 		DELETEYN = 'Y'
-		WHERE cod = #{cod};
+		WHERE cod = #{cod}
 	</update>
 
 

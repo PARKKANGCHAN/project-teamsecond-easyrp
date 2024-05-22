@@ -123,7 +123,9 @@
 		SELECT *
 		FROM employee
 		WHERE cod=#{cod} AND
-		password=#{password};
+		password=#{password}
+		AND deleteyn = 'N'
+      	AND quitdate IS NULL
 	</select>
 
 	<!-- 사원의 정보를 업데이트 하기위한 쿼리 -->

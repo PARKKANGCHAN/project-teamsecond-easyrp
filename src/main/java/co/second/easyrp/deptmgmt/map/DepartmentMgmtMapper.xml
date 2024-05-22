@@ -49,13 +49,12 @@
 	<select id="getMaxCode" resultType="String">
 		SELECT max(cod) as 'cod'
 		FROM department
-		WHERE deleteyn = 'N';
 	</select>
 	
 	<select id="getAllWorkplaceValues" resultType="co.second.easyrp.deptmgmt.service.WorkplaceVO">
 	  SELECT code, name, location
 	  FROM workplace
-	  where deleteyn = 'N';
+	  where deleteyn = 'N'
 	</select>
 	
 	<insert id="deptmgmtInsertFn" parameterType="co.second.easyrp.deptmgmt.service.DepartmentMgmtVO">

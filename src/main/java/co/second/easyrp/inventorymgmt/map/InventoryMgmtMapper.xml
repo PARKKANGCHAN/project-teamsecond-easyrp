@@ -107,8 +107,7 @@
 	<!-- 완료 -->
 	<select id="getMaxCode" resultType="String">
 		SELECT max(cod) as 'cod'
-		FROM
-		inventory;
+		FROM inventory;
 	</select>
 
 	<!-- 완료 -->
@@ -130,6 +129,7 @@
 		cod,
 		name,
 		mgmt_unit_cod,
+		mgmt_unit_amount,
 		note,
 		productgroup_cod)
 		VALUES(
@@ -148,6 +148,7 @@
 		#{cod},
 		#{name},
 		#{mgmtUnitCod},
+		#{mgmtUnitAmount},
 		#{note},
 		#{productGroupCod}
 		);
@@ -177,7 +178,7 @@
 		mgmt_unit_amount = #{mgmtUnitAmount},
 		note = #{note},
 		productgroup_cod = #{productGroupCod}
-		WHERE cod = #{cod};
+		WHERE cod = #{cod}
 	</update>
 	
 	<!-- 2024.05.21 14:36 손지은 추가 -->

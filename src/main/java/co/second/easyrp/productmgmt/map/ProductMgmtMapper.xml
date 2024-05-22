@@ -95,8 +95,7 @@
 	<!-- 완료 -->
 	<select id="getMaxCode" resultType="String">
 		SELECT max(cod) as 'cod'
-		FROM
-		product
+		FROM product
 	</select>
 
 	<!-- 완료 -->

@@ -128,19 +128,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                      </ul>
                   </li>
                   <!-- 기초 정보 관리 / 사원 및 부서 관리 END -->
-                  <!-- 기초 정보 관리 / 창고&제품 관리 START -->
-                  <li class="sidebar-item has-sub">
-                     <a href="#" class="sidebar-link">
-                        <span style="font-weight: 800 !important">제품 및 창고 관리</span>
-                     </a>
-                     <ul class="submenu">
-                        <li class="submenu-item"><a href="warehouse" class="submenu-link">창고 관리</a></li>
-                        <li class="submenu-item"><a href="productmgmt" class="submenu-link">제품 관리</a></li>
-                        <li class="submenu-item"><a href="inventorymgmt" class="submenu-link">자재 관리</a></li>
-                     </ul>
-                  </li>
-                  <!-- 기초 정보 관리 / 공장&창고&제품 관리 END -->
-                  <!-- 기초 정보 관리 / 거래처 관리 START -->
+                 <!-- 기초 정보 관리 / 거래처 관리 START -->
                   <li class="sidebar-item has-sub">
                      <a href="#" class="sidebar-link">
                         <span style="font-weight: 800 !important">거래처 관리</span>
@@ -150,6 +138,18 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                      </ul>
                   </li>
                   <!-- 기초 정보 관리 / 거래처 관리 END -->
+                  <!-- 기초 정보 관리 / 창고&제품 관리 START -->
+                  <li class="sidebar-item has-sub">
+                     <a href="#" class="sidebar-link">
+                        <span style="font-weight: 800 !important">제품 및 창고 관리</span>
+                     </a>
+                     <ul class="submenu">
+                        <li class="submenu-item"><a href="warehouse" class="submenu-link">창고 관리</a></li>
+                        <li class="submenu-item"><a href="inventorymgmt" class="submenu-link">자재 관리</a></li>
+                        <li class="submenu-item"><a href="productmgmt" class="submenu-link">제품 관리</a></li>
+                     </ul>
+                  </li>
+                  <!-- 기초 정보 관리 / 공장&창고&제품 관리 END -->
                   <!-- 기초 정보 관리 END -->
 
                   <!-- 영업 관리 START -->
@@ -288,10 +288,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                   </li>
                   <!-- 자재 관리 / 재고 관리 END -->
                   <!-- 자재 관리 END -->
-
-                     <a href="commonspecification" class="sidebar-link toggle">
-                        📝<span style="font-weight: 800 !important">공통 사용 테이블</span>
-                     </a>
                </ul>
             </div>
          </div>

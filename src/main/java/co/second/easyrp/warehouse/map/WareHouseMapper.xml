@@ -48,7 +48,6 @@
 	<select id="getMaxCode" resultType="String">
 		SELECT max(cod) as 'cod'
 		FROM warehouse
-		WHERE deleteyn = 'N';
 	</select>
 	
 	<insert id="warehouseInsertFn" parameterType="co.second.easyrp.warehouse.service.WareHouseVO">

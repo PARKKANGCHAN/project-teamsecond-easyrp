@@ -141,7 +141,7 @@
                      if (response === 'success') {
                         window.location.href = '/easyrp';
                      } else {
-                        alert('사원번호나 비밀번호가 틀렸습니다.');
+                        alert('로그인에 실패하셨습니다. 계속 실패 시 인사팀에 문의해주세요.');
                      }
                   },
                   error: function (xhr, status, error) {
@@ -155,6 +155,13 @@
          // 2024년 4월 30일 오전 12시 13분 추가 박현우
          $('#loginButton').click(function () {
             sendAjaxLoginRequest();
+         });
+         
+         // 추가: 엔터키 누르면 로그인 버튼 클릭
+         $(document).keydown(function (e) {
+             if (e.key === 'Enter') {
+                 sendAjaxLoginRequest();
+             }
          });
       </script>
    </body>

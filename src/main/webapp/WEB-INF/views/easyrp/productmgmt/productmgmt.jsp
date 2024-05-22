@@ -193,18 +193,6 @@
 							<button type="button" class="btn btn-primary">
 								<a href="bominsert" style="color: white">BOM 등록</a>
 							</button>
-							<button type="button" class="btn btn-primary">
-								<a id="unitmgmt" data-bs-toggle="modal"
-									data-bs-target="#loadModal" href="javascript:void(0);"
-									onclick="unitModal();" role="button" style="color: white">단위
-									관리</a>
-							</button>
-							<button type="button" class="btn btn-primary">
-								<a id="productGroupmgmt" data-bs-toggle="modal"
-									data-bs-target="#loadModal" href="javascript:void(0);"
-									onclick="productGroupModal();" role="button"
-									style="color: white">제품 그룹 관리</a>
-							</button>
 						</div>
 					</div>
 				</div>
@@ -277,7 +265,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body overflow-y-auto" style="height: 60vh">
 					<table class="table">
 						<thead>
 							<tr>
