@@ -68,6 +68,7 @@
 	<delete id="deleteInventory"></delete>
 	
 	<!-- 자재찾기 modal에 뿌려줄 리스트를 가져오기위한 쿼리 -->
+	<!-- 하서현 -->
 	<select id="inventorySearch">
 		SELECT i.*,
    		    (SELECT u.name FROM unit u WHERE u.cod = i.unit_cod) AS 'unitName',
@@ -83,4 +84,9 @@
 		FROM inventory 
 		WHERE cod = #{cod}
 	</select>
+	<!-- 자재의 현재고량을 증가 또는 감소하는 쿼리 -->
+	<!-- 하서현 -->
+	<update id="updateCurInvQtyFromInv">
+		UPDATE inventory SET cur_inv_qty = cur_inv_qty + #{amount} WHERE cod = #{cod};
+	</update>
 </mapper>

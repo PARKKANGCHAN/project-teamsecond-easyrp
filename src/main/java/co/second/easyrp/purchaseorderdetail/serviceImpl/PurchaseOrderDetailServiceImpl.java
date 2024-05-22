@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import co.second.easyrp.purchaseorder.service.PurchaseOrderVO;
 import co.second.easyrp.purchaseorderdetail.map.PurchaseOrderDetailMapper;
 import co.second.easyrp.purchaseorderdetail.service.PurchaseOrderDetailService;
 import co.second.easyrp.purchaseorderdetail.service.PurchaseOrderDetailVO;
@@ -35,5 +36,11 @@ public class PurchaseOrderDetailServiceImpl implements PurchaseOrderDetailServic
 	public int delPoDetail(String poCod, int num) {
 		// TODO Auto-generated method stub
 		return purchaseOrderDetailMapper.delPoDetail(poCod, num);
+	}
+
+	@Override
+	public int delPoDetailAll(PurchaseOrderVO vo) {
+		// TODO Auto-generated method stub
+		return purchaseOrderDetailMapper.delPoDetailAll(vo);
 	}
 }

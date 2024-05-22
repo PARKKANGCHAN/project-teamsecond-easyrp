@@ -35,5 +35,12 @@ public interface PurchaseOrderService {
 	//특정 발주데이터를 가져오기위한 메소드
 	//하서현
 	Map<String, Object> selectPo(String key);
+
+	//발주테이블의 정보를 수정하는 메소드
+	int updatePo(PurchaseOrderVO vo);
+	
+	//입고일자.마감일자.납기일.비고를 update하는 메소드
+	//하서현
+	int updateIboundDateClosingDateDdayNote(PurchaseOrderVO vo);
 }
 

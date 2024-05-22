@@ -13,12 +13,16 @@
    			   (SELECT p.unit_cod FROM product p WHERE p.cod = i2.product_cod) as 'prod_unit_cod',
 			   (SELECT u.name FROM unit u  WHERE u.cod = (SELECT p.unit_cod FROM product p WHERE p.cod = i2.product_cod)) as 'prod_unit_name',
 			   (SELECT p.mgmt_unit_cod FROM product p WHERE p.cod = i2.product_cod) as 'prod_mgmt_unit_cod',
+			   (SELECT p.mgmt_unit_amount FROM product p WHERE p.cod = i2.product_cod) as 'prod_mgmt_unit_amount',
+			   (SELECT p.unit_amount FROM product p WHERE p.cod = i2.product_cod) as 'prod_unit_amount',
 			   (SELECT u.name FROM unit u  WHERE u.cod = (SELECT p.mgmt_unit_cod FROM product p WHERE p.cod = i2.product_cod)) as 'prod_mgmt_unit_name',
 			   i2.inventory_cod,
 			   (SELECT i.name FROM inventory i WHERE i.cod = i2.inventory_cod) as 'invname',
    			   (SELECT i.unit_cod FROM inventory i WHERE i.cod = i2.inventory_cod) as 'inv_unit_cod',
 			   (SELECT u.name FROM unit u  WHERE u.cod = (SELECT i.unit_cod FROM inventory i WHERE i.cod = i2.inventory_cod)) as 'inv_unit_name',
    			   (SELECT i.mgmt_unit_cod FROM inventory i WHERE i.cod = i2.inventory_cod) as 'inv_mgmt_unit_cod',
+			   (SELECT i.mgmt_unit_amount FROM inventory i WHERE i.cod = i2.inventory_cod) as 'inv_mgmt_unit_amount',
+			   (SELECT i.unit_amount FROM inventory i WHERE i.cod = i2.inventory_cod) as 'inv_unit_amount',
 			   (SELECT u.name FROM unit u  WHERE u.cod = (SELECT i.mgmt_unit_cod FROM inventory i WHERE i.cod = i2.inventory_cod)) as 'inv_mgmt_unit_name',
 			   i2.inv_qty,
 			   i2.inv_mgmt_qty,
@@ -27,15 +31,14 @@
 			   i2.vax,
 			   i2.total
 		FROM invoice i
-		JOIN invoicedetail i2 ON i.cod = i2.invoice_cod AND
-		     i2.closing = 'N'
+		JOIN invoicedetail i2 ON i.cod = i2.invoice_cod
 		WHERE i.inv_class = '구매' AND
 			  i.inq_class = 'Y' AND
 			  i.deleteyn = 'N' AND
 		CONCAT(i2.invoice_cod, i2.num) not in(
 				SELECT CONCAT(p.invoice_cod, p.invoicedetail_num)
 				FROM purchaseorderdetail p
-				WHERE invoice_cod is not null AND
+				WHERE invoice_cod is not null AND invoice_cod != '' AND
 		  		p.purchaseorder_cod in(
 		  			SELECT p2.cod
 		  			FROM purchaseorder p2

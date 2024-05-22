@@ -67,5 +67,11 @@ public class InventoryServiceImpl implements InventoryService {
 		// TODO Auto-generated method stub
 		return inventorymapper.selectInventoryQty(cod);
 	}
+	
+	@Override
+	public int updateCurInvQtyFromInv(int amount, String cod) {
+		// TODO Auto-generated method stub
+		return inventorymapper.updateCurInvQtyFromInv(amount, cod);
+	}
 
 }

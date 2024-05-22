@@ -1,6 +1,7 @@
 package co.second.easyrp.invoice.serviceImpl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -75,6 +76,17 @@ public class InvoiceServiceImpl implements InvoiceService {
 	public int updateInvoiceClosing(String cod) {
 		// TODO Auto-generated method stub
 		return invoiceMapper.updateInvoiceClosing(cod);
+	}
+		
+	public int updateIboundynOrProdReady() {
+		// TODO Auto-generated method stub
+		return invoiceMapper.updateIboundynOrProdReady();
+	}
+
+	@Override
+	public List<Map<String, Object>> allIboundedInvoiceList() {
+		// TODO Auto-generated method stub
+		return invoiceMapper.allIboundedInvoiceList();
 	}
 
 }

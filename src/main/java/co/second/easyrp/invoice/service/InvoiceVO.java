@@ -21,4 +21,6 @@ public class InvoiceVO {
 	private String deleteyn;
 	
 	private String employeeName;
+
+	private String iboundyn;
 }

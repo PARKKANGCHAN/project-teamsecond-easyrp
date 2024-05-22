@@ -28,6 +28,7 @@ public class PurchaseOrderVO {
 	private String employeeCodIbound;
 	private int printcnt;
 	private String note;
+	private String deleteyn;
 	private String searchCod;
 	private String searchFromPoDate;
 	private String searchToPoDate;
