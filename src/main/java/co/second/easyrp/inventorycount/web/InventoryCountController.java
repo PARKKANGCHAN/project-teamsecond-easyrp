@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.second.easyrp.inventory.service.InventoryService;
-import co.second.easyrp.inventorycount.InventoryAdjustmentDetailVO;
+import co.second.easyrp.inventorycount.service.InventoryAdjustmentDetailVO;
 import co.second.easyrp.inventorycount.service.InventoryAdjustmentVO;
 import co.second.easyrp.inventorycount.service.InventoryCountDetailVO;
 import co.second.easyrp.inventorycount.service.InventoryCountService;
@@ -249,7 +249,6 @@ public class InventoryCountController {
 		
 		InventoryAdjustmentVO inventoryadjustmentvo = new InventoryAdjustmentVO();
 		InventoryAdjustmentDetailVO inventoryadjustmentdetailvo = new InventoryAdjustmentDetailVO();
-		InventoryCountDetailVO inventorycountdetailvo = new InventoryCountDetailVO();
 		
 		int maxNumber = inventorycountservice.selectMaxinvadjCod() + 1;
     	String newCode = String.format("%03d", maxNumber);
@@ -264,11 +263,12 @@ public class InventoryCountController {
     			int adjustnumber = Integer.parseInt(adjustnum[i]);
     			String prodinvCod=inventorycountservice.selectinventoryadjustmentdetail(adjustnumber);    			
     			String prodinv=inventorycountservice.selectedInventoryCountDetailName(adjustnumber);
-    			inventoryadjustmentdetailvo.setInventoryadjustmentCod(inventoryadjustmentvo.getCod());
     			int computingqty = inventorycountservice.getcomputingqty(prodinvCod);
     			int countingqty = inventorycountservice.getcountqty(adjustnumber);
     			int unitprice =inventorycountservice.getprice(prodinvCod);
     			int qty=Integer.parseInt(adjust[i]);
+    			
+    			inventoryadjustmentdetailvo.setInventoryadjustmentCod(inventoryadjustmentvo.getCod());
     			
     			boolean prodinvcods = prodinvCod.contains("prd");			
     			if(prodinvcods) {
@@ -285,10 +285,26 @@ public class InventoryCountController {
     			inventoryadjustmentdetailvo.setQty(qty);
     			inventoryadjustmentdetailvo.setUnitPrice(unitprice);
     			inventoryadjustmentdetailvo.setPrice(unitprice*qty);
+    			inventoryadjustmentdetailvo.setIcdnum(adjustnumber);
     			
     			inventorycountservice.insertAdjustmentDetailList(inventoryadjustmentdetailvo);
-    		}
+    			
+    			int adjnum = inventorycountservice.selectinventoryadjustmentnum(inventoryadjustmentdetailvo);
+    			
+    			System.out.println("adjust:" + adjnum);
+    			inventoryadjustmentdetailvo.setNum(adjnum);
+    			if(prodinvcods) {
+    				inventorycountservice.updateproductadjustment(inventoryadjustmentdetailvo);
+				}else {
+					inventorycountservice.updateinventoryadjustment(inventoryadjustmentdetailvo);
+				}
+    			System.out.println(inventoryadjustmentdetailvo);
+    			
+    			inventorycountservice.updateinventorycountdetailprocclass(inventoryadjustmentdetailvo);
 	
+    		}	
+    		
+    		
     	}
     	rs = "Y";
     	return rs;

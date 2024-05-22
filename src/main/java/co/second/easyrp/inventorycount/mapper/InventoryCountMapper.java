@@ -2,7 +2,7 @@ package co.second.easyrp.inventorycount.mapper;
 
 import java.util.List;
 
-import co.second.easyrp.inventorycount.InventoryAdjustmentDetailVO;
+import co.second.easyrp.inventorycount.service.InventoryAdjustmentDetailVO;
 import co.second.easyrp.inventorycount.service.InventoryAdjustmentVO;
 import co.second.easyrp.inventorycount.service.InventoryCountDetailVO;
 import co.second.easyrp.inventorycount.service.InventoryCountVO;
@@ -35,4 +35,8 @@ public interface InventoryCountMapper {
 	int insertAdjustmentList(InventoryAdjustmentVO inventoryadjustmentvo);
 	int insertAdjustmentDetailList(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo);
 	int selectMaxinvadjCod();
+	int updateinventoryadjustment(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo);
+	int updateproductadjustment(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo);
+	int updateinventorycountdetailprocclass(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo);
+	Integer selectinventoryadjustmentnum(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo);
 }
