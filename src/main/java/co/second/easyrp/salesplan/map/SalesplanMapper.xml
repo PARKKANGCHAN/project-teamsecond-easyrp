@@ -73,7 +73,7 @@
 	
 	<update id="SalesplanUpdate" parameterType="co.second.easyrp.salesplan.service.SalesplanVO">
 		update salesplan
-		set modpln_qty = #{modplnQty}
+		set basicpln_qty = #{modplnQty}
 		where cod = #{cod}
 	</update>
 	

@@ -235,10 +235,10 @@
         function createChart(orderData, planData) {
         	
         	// 전월 대비 주문 증가량 계산
-        	const orderGrowthData = orderData.map((value, index) => {
-        		if(index === 0) return 0;
-        		return value - orderData[index -1];
-        	})
+//         	const orderGrowthData = orderData.map((value, index) => {
+//         		if(index === 0) return 0;
+//         		return value - orderData[index -1];
+//         	})
         	
         	
         	
