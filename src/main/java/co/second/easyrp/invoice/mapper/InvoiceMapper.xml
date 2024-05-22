@@ -89,43 +89,38 @@
 		SELECT COALESCE(MAX(CAST(RIGHT (cod,3) AS SIGNED)), 0) AS cod FROM invoice
 	</select>
 	
-	<!-- 입고여부. 생산가능여부를 업데이트하는 쿼리 -->
+	<!-- 입고여부. 생산가능여부. 마감여부를 업데이트하는 쿼리 -->
 	<!-- 하서현 -->
 	<update id="updateIboundynOrProdReady">
 		UPDATE invoice i
 		<trim prefix="SET" suffixOverrides=",">
-			iboundyn = IF(i.cod in(<include refid="allIboundedInvoiceList"/>),'Y','N'),
-			prod_ready = IF(i.cod in(<include refid="allIboundedInvoiceList"/>),'Y','N'),
+			iboundyn = IF(i.cod in(SELECT allIboundedInvoiceList.invoice_cod FROM (<include refid="allIboundedInvoiceList"/>) allIboundedInvoiceList),'Y','N'),
+			prod_ready = IF(i.cod in(SELECT allIboundedInvoiceList.invoice_cod FROM (<include refid="allIboundedInvoiceList"/>) allIboundedInvoiceList),'Y','N'),
+			closing = IF(i.cod in(SELECT allIboundedInvoiceList.invoice_cod FROM (<include refid="allIboundedInvoiceList"/>) allIboundedInvoiceList),'Y','N'),
 		</trim>
 	</update>
 	
-	<!-- 마감된 청구상세수량 + 입고된 청구상세수량을 기반으로 완벽하게 입고된 청구건만 가져오는 쿼리 -->
+	<!-- 완벽하게 입고된 청구건만 가져오는 쿼리 -->
 	<!-- 하서현 -->
 	<sql id="allIboundedInvoiceList">
-		SELECT p2.invoice_cod, COUNT(p2.invoicedetail_num) + COUNT(i3.num) as 'iboundCount', inv.invCount
+		SELECT p2.invoice_cod, COUNT(p2.invoice_cod) as 'iboundedCount' , needIboundCount 
 		FROM purchaseorder p 
 		LEFT JOIN purchaseorderdetail p2
 		  ON p2.purchaseorder_cod = p.cod
-		LEFT JOIN invoicedetail i3 
-		  ON i3.invoice_cod = p2.invoice_cod AND i3.closing = 'Y'
 		LEFT JOIN (
-			SELECT i.invoice_cod , COUNT(i.num) as 'invCount'
-			FROM invoicedetail i
-			WHERE i.invoice_cod in(
-				SELECT i2.cod
-					FROM invoice i2
-					WHERE i2.inv_class = '구매'
-						AND i2.inq_class = 'Y'
-						AND i2.deleteyn = 'N'
-			)
-			GROUP BY i.invoice_cod 	  	
-		) inv
-		 ON inv.invoice_cod = p2.invoice_cod
-		  WHERE p.ibound_date IS NOT NULL
-		  AND p2.invoice_cod IS NOT NULL
-		GROUP BY p2.invoice_cod  
-		  HAVING COUNT(p2.invoicedetail_num) + COUNT(i3.num) = inv.invCount
-		;
+			SELECT i.cod,COUNT(i2.num) as 'needIboundCount'
+				FROM invoice i 
+				LEFT JOIN invoicedetail i2 
+					ON i2.invoice_cod = i.cod AND i2.deleteyn = 'N'
+				WHERE i.deleteyn = 'N'
+				GROUP BY i.cod
+		) needIboundTable
+			ON needIboundTable.cod = p2.invoice_cod
+		WHERE p.ibound_date IS NOT NULL
+		AND p2.invoice_cod IS NOT NULL
+		AND p.deleteyn = 'N'
+		GROUP BY p2.invoice_cod
+		HAVING needIboundTable.needIboundCount = COUNT(p2.invoice_cod)
 	</sql>
 	<update id="allIboundedInvoiceList">
 		<include refid="allIboundedInvoiceList"/>

@@ -80,4 +80,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		return purchaseOrderMapper.updatePo(vo);
 	}
 
+	@Override
+	public int updateIboundDateClosingDateDdayNote(PurchaseOrderVO vo) {
+		// TODO Auto-generated method stub
+		return purchaseOrderMapper.updateIboundDateClosingDateDdayNote(vo);
+	}
+
 }

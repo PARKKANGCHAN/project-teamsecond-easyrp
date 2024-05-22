@@ -978,6 +978,7 @@
 	             data: {poCod : cod},
 	             dataType:"json",
 	             success: function (data) {
+	            	 console.log(data);
 	            	 let rows = '';
 	            	 $(data).each((index, item) => {
 	            		 let row = '<tr id="'+ item.purchaseorder_cod + item.num +'" data-prodmgmtunitamount="' + item.prod_mgmt_unit_amount + '" data-produnitamount="' + item.prod_unit_amount + '" data-invmgmtunitamount="' + item.inv_mgmt_unit_amount + '" data-invunitamount="' + item.inv_unit_amount + '">'
@@ -1416,7 +1417,7 @@
     		}
     	})
     	prodInputKey++;
-    	rows += '<td><button class="editBox" style="display: none" type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
+    	rows += '<td><button class="editBox" type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
     	$('#detailList').append(rows);
     	$('#prodInputModal').modal('hide');
     	$('#detailModal').modal('show');
@@ -1511,7 +1512,7 @@
                     row += '<td name="total"><span>'+ total +'</span></td>';
                     row += '<input type="hidden" name="unitMgmt" value="'+ (productCod == null ? invMgmtUnitCod : prodMgmtUnitCod) +'">';
                     row += '<input type="hidden" name="unitInv" value="'+ (productCod == null ? invUnitCod : prodUnitCod) +'">';
-                    row += '<td><button class="editBox" style="display: none" type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
+                    row += '<td><button class="editBox" type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
                     rows += row;    			
     			}	
     		});

@@ -31,8 +31,7 @@
 			   i2.vax,
 			   i2.total
 		FROM invoice i
-		JOIN invoicedetail i2 ON i.cod = i2.invoice_cod AND
-		     i2.closing = 'N'
+		JOIN invoicedetail i2 ON i.cod = i2.invoice_cod
 		WHERE i.inv_class = '구매' AND
 			  i.inq_class = 'Y' AND
 			  i.deleteyn = 'N' AND

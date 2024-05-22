@@ -603,7 +603,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                 row += '<td>' + (productCod == null ? invname : prodname) + '</td>';                	
                 row += '<td><input type="hidden" name="mgmtQty" value="'+ invMgmtQty + '">'+ invMgmtQty +'</td>';                	
                 row += '<td>' + (productCod == null ? invMgmtUnitName : prodMgmtUnitName) + '</td>';                	
-                row += '<td><input type="hidden" name="mgmtQty" value="'+ invQty + '">'+ invQty +'</td>';                	
+                row += '<td><input type="hidden" name="invQty" value="'+ invQty + '">'+ invQty +'</td>';                	
                 row += '<td><input type="hidden" name="unitprice" value="'+ unitprice + '">'+ unitprice +'</td>';                	
                 row += '<td><input type="hidden" name="vax" value="'+ vax + '">'+ vax +'</td>';                	
                 row += '<td><input type="hidden" name="supprice" value="'+ supprice + '">'+ supprice +'</td>';                	
@@ -704,22 +704,22 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                          item.num +
                          '</td>' +
                          '<td>' +
-                         item.product_cod +
+                         (item.product_cod == null ? item.inventory_cod : item.product_cod) +
                          '</td>' +
                          '<td>' +
-                         item.prodname +
+                         (item.product_cod == null ? item.invname : item.prodname) +
                          '</td>' +
                          '<td>' +
                          item.inv_mgmt_qty +
                          '</td>' +
                          '<td>' +
-                         item.mgmt_unit_name +
+                         (item.product_cod == null ? item.inv_mgmt_unit_name : item.prod_mgmt_unit_name) +
                          '</td>' +
                          '<td>' +
                          item.inv_qty +
                          '</td>' +
                          '<td>' +
-                         item.unit_name +
+                         (item.product_cod == null ? item.inv_unit_name : item.prod_unit_name) +
                          '</td>' +
                          '<td>' +
                          item.unitprice +
@@ -1039,9 +1039,9 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
         		name: '',
         		value: name
     		},
-        	{
-        		name: 'invQty',
-        		value: unitAmount
+    		{
+        		name: 'mgmtQty',
+        		value: mgmtUnitAmount
     		},
     		{
         		name: 'unitInv',
@@ -1052,8 +1052,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
         		value: unitName
     		},
     		{
-        		name: 'mgmtQty',
-        		value: mgmtUnitAmount
+        		name: 'invQty',
+        		value: unitAmount
     		},
     		{
         		name: 'unitMgmt',

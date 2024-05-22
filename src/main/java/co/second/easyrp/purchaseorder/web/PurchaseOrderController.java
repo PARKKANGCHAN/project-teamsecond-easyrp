@@ -1,5 +1,6 @@
 package co.second.easyrp.purchaseorder.web;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
@@ -67,7 +68,6 @@ public class PurchaseOrderController {
 	//하서현
 	@PostMapping("/purchaseorderinsertfn")
 	public String purchaseorderinsertfn(Model model, PurchaseOrderVO poVO) {
-		System.out.println(poVO);
 		String poCod = purchaseOrderService.newPoCod();
 		int poDetailNum = 1;
 		poVO.setCod(poCod);
@@ -104,38 +104,62 @@ public class PurchaseOrderController {
 	@PostMapping("/ajaxPoUpdate")
 	@ResponseBody
 	public int ajaxPoUpdate(@RequestBody PurchaseOrderVO poVO) {
-		System.out.println(poVO);
 		int returnInt = 0;
+		System.out.println(poVO);
+		Map<String, Object> prevPoVO = purchaseOrderService.selectPo(poVO.getCod()); // 기존 발주정보
+		List<Map<String, Object>> poDetailList = purchaseOrderDetailService.poDetailListByPoCod(poVO.getCod()); //기존 발주상세리스트
 		
-		Map<String, Object> prevPoVO = purchaseOrderService.selectPo(poVO.getCod());
-		List<Map<String, Object>> poDetailList = purchaseOrderDetailService.poDetailListByPoCod(poVO.getCod());
-		//업데이트 객체에 입고일이 들어가있고 기존 객체에 입고일이 없을경우 재고량 증가
-		if(!poVO.getIboundDate().isEmpty() && prevPoVO.get("ibound_date").toString().isEmpty()) {
+		//업데이트 객체에 입고일이 들어가있고 기존객체에도 입고일이 있을때.(재고량을 되돌리고 새롭게 입고처리 해주기)
+		if(!poVO.getIboundDate().isEmpty() && !String.valueOf(prevPoVO.get("ibound_date")).equals("null")) {
+			for (Map<String, Object> poDetailVO : poDetailList) {
+				if(!String.valueOf(poDetailVO.get("product_cod")).equals("null")) {
+					//제품의 현재고량 감소(되돌리기)
+					productService.updateCurInvQtyFromPrd(-(int)poDetailVO.get("inv_qty"), String.valueOf(poDetailVO.get("product_cod")));
+				} else {
+					//자재의 현재고량 감소(되돌리기)
+					inventoryService.updateCurInvQtyFromInv(-(int)poDetailVO.get("inv_qty"), String.valueOf(poDetailVO.get("inventory_cod")));
+				}
+			}
+			
 			for (PurchaseOrderDetailVO poDetailVO : poVO.getPoDetailList()) {
-				if(!poDetailVO.getProductCod().toString().isEmpty()) {
+				if(!String.valueOf(poDetailVO.getProductCod()).equals("null")) {
 					//제품의 현재고량 증가
-					productService.updateCurInvQtyFromPrd((int)poDetailVO.getInvQty(), poDetailVO.getProductCod().toString());
+					productService.updateCurInvQtyFromPrd((int)poDetailVO.getInvQty(), String.valueOf(poDetailVO.getProductCod()));
 				} else {
 					//자재의 현재고량 증가
-					inventoryService.updateCurInvQtyFromInv((int)poDetailVO.getInvQty(), poDetailVO.getInventoryCod().toString());
+					inventoryService.updateCurInvQtyFromInv((int)poDetailVO.getInvQty(), String.valueOf(poDetailVO.getInventoryCod()));
 				}
 			}
 		}
 		
-		//업데이트 객체에 입고일이 없고 기존객체에 입고일이 있을경우
-		if(poVO.getIboundDate().isEmpty() && !prevPoVO.get("ibound_date").toString().isEmpty()) {
+		//업데이트 객체에 입고일이 들어가있고 기존 객체에 입고일이 없을경우 재고량 증가(입고처리)
+		if(!poVO.getIboundDate().isEmpty() && String.valueOf(prevPoVO.get("ibound_date")).equals("null")) {
+			for (PurchaseOrderDetailVO poDetailVO : poVO.getPoDetailList()) {
+				if(!String.valueOf(poDetailVO.getProductCod()).equals("null")) {
+					//제품의 현재고량 증가
+					productService.updateCurInvQtyFromPrd((int)poDetailVO.getInvQty(), String.valueOf(poDetailVO.getProductCod()));
+				} else {
+					//자재의 현재고량 증가
+					inventoryService.updateCurInvQtyFromInv((int)poDetailVO.getInvQty(), String.valueOf(poDetailVO.getInventoryCod()));
+				}
+			}
+		}
+		
+		//업데이트 객체에 입고일이 없고 기존객체에 입고일이 있을경우 재고량 되돌리기
+		if(poVO.getIboundDate().isEmpty() && !String.valueOf(prevPoVO.get("ibound_date")).equals("null")) {
 			for (Map<String, Object> poDetailVO : poDetailList) {
-				if(!poDetailVO.get("product_cod").toString().isEmpty()) {
+				if(!String.valueOf(poDetailVO.get("product_cod")).equals("null")) {
 					//제품의 현재고량 감소(되돌리기)
-					productService.updateCurInvQtyFromPrd(-(int)poDetailVO.get("inv_qty"), poDetailVO.get("product_cod").toString());
+					productService.updateCurInvQtyFromPrd(-(int)poDetailVO.get("inv_qty"), String.valueOf(poDetailVO.get("product_cod")));
 				} else {
 					//자재의 현재고량 감소(되돌리기)
-					inventoryService.updateCurInvQtyFromInv(-(int)poDetailVO.get("inv_qty"), poDetailVO.get("inventory_cod").toString());
+					inventoryService.updateCurInvQtyFromInv(-(int)poDetailVO.get("inv_qty"), String.valueOf(poDetailVO.get("inventory_cod")));
 				}
 			}
 		}
 		
 		returnInt = purchaseOrderService.updatePo(poVO);
+		returnInt = purchaseOrderService.updateIboundDateClosingDateDdayNote(poVO);
 		returnInt = purchaseOrderDetailService.delPoDetailAll(poVO);
 
 		int poDetailNum = 1;
@@ -146,7 +170,7 @@ public class PurchaseOrderController {
 			poDetailNum++;
 		}
 
-		invoiceService.updateIboundynOrProdReady();
+		returnInt = invoiceService.updateIboundynOrProdReady();
 
 		return returnInt;
 	};
@@ -159,14 +183,16 @@ public class PurchaseOrderController {
 		int returnInt = 0;
 		Map<String, Object> prevPoVO = purchaseOrderService.selectPo(poVO.getCod());
 		List<Map<String, Object>> poDetailList = purchaseOrderDetailService.poDetailListByPoCod(poVO.getCod());
+		
 		//업데이트 객체에 입고일이 들어가있고 기존 객체에 입고일이 없을경우 재고량 증가
-		if(!poVO.getIboundDate().isEmpty() && prevPoVO.get("ibound_date").toString().isEmpty()) {
+		if(!poVO.getIboundDate().isEmpty() && String.valueOf(prevPoVO.get("ibound_date")).equals("null")) {
 			for (Map<String, Object> poDetailVO : poDetailList) {
-				if(!poDetailVO.get("product_cod").toString().isEmpty()) {
+				if(!String.valueOf(poDetailVO.get("product_cod")).equals("null")) {
 					//제품의 현재고량 증가
 					productService.updateCurInvQtyFromPrd((int)poDetailVO.get("inv_qty"), poDetailVO.get("product_cod").toString());
 				} else {
 					//자재의 현재고량 증가
+					System.out.println(poDetailVO);
 					inventoryService.updateCurInvQtyFromInv((int)poDetailVO.get("inv_qty"), poDetailVO.get("inventory_cod").toString());
 				}
 			}
@@ -189,5 +215,7 @@ public class PurchaseOrderController {
 		returnInt = purchaseOrderService.updatePo(poVO);
 		return returnInt;
 	};
+	
+	
 
 }

@@ -230,6 +230,17 @@
 		WHERE cod = #{cod}
 	</update>
 	
-	
+	<!-- 입고일자.마감일자.납기일.비고를 update하는 메소드 -->
+	<!-- 하서현 -->
+	<update id="updateIboundDateClosingDateDdayNote">
+		UPDATE purchaseorder
+			<trim prefix="SET" suffixOverrides=",">
+				<if test="note == null or note == ''">note = null,</if>
+				<if test="iboundDate == null or iboundDate == ''">ibound_date = null,</if>
+				<if test="dday == null or dday == ''">dday = null,</if>
+				<if test="closingDate == null or closingDate == ''">closing_date = null,</if>
+			</trim>
+		WHERE cod = #{cod}
+	</update>	
 	
 </mapper>

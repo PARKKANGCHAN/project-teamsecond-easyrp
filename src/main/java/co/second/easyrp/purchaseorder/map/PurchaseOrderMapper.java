@@ -38,4 +38,7 @@ public interface PurchaseOrderMapper {
 	//하서현
 	int updatePo(PurchaseOrderVO vo);
 
+	//입고일자.마감일자.납기일.비고를 update하는 메소드
+	//하서현
+	int updateIboundDateClosingDateDdayNote(PurchaseOrderVO vo);
 }
