@@ -30,11 +30,33 @@ public class ChartController {
         List<ChartVO> orderData = chartService.getOrderByProductAndYear(productCod, year);
         dataMap.put("orderData", orderData);
         
+//        System.out.println("orderData : " + orderData);
+        
         // 판매 계획량 데이터 가져오기
         List<ChartVO> planData = chartService.getSalesPlanByProductAndYear(productCod, year);
         dataMap.put("planData", planData);
         
+//        System.out.println("planData : " + planData);
+        
+//        System.out.println("dataMap : " + dataMap);
+        
         return dataMap;
     }
+    
+//    @GetMapping("/DonutChartUpdate")
+//    @ResponseBody
+//    public Map<String, List<ChartVO>> getSalesRatioByProduct(ChartVO vo) {
+//
+//    	int year = vo.getYear();
+//    	int month = vo.getMonth();
+//    	
+//    	System.out.println(year);
+//    	System.out.println(month);
+//    	
+//    	
+//    	
+//    	return ;
+//    	
+//    }
 
 }
