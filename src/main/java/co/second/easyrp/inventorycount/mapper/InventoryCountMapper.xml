@@ -173,8 +173,9 @@ SELECT
 		Values(#{cod}, #{employeeCod})
 	</insert>
 	<insert id="insertAdjustmentDetailList">
-		INSERT INTO inventoryadjustmentdetail(num, inventoryadjustment_cod, inv_cod, product_cod, unit_cod, computing_qty, qty, note, count_qty, unit_price, price)
-		Values(#{num}, #{inventoryadjustmentCod}, #{invCod}, #{productCod}, #{unitCod}, #{computingQty}, #{qty}, #{note}, #{countQty}, #{unitPrice}, #{price})
+	
+		INSERT INTO inventoryadjustmentdetail(inventoryadjustment_cod, inv_cod, product_cod, unit_cod, computing_qty, qty, note, count_qty, unit_price, price)
+		Values(#{inventoryadjustmentCod}, #{invCod}, #{productCod}, #{unitCod}, #{computingQty}, #{qty}, #{note}, #{countQty}, #{unitPrice}, #{price})
 	</insert>
 	<select id="warehouseList">
 	 SELECT cod, name
@@ -351,6 +352,45 @@ SELECT
 		 WHERE i.cod = #{cod}
 
 	</select>
+	<update id="updateinventoryadjustment">
+	UPDATE 
+			inventory i
+	SET
+		i.cur_inv_qty = #{qty}
+	WHERE 
+		i.cod = #{inventoryCod}
+	</update>
 	
-
+		<update id="updateproductadjustment">
+	UPDATE 
+			product p
+	SET
+		p.cur_inv_qty = #{qty}
+	WHERE 
+		p.cod = #{productCod}
+	</update>
+	<update id="updateinventorycountdetailprocclass">
+	UPDATE 
+		inventorycountdetail icd
+	SET
+		adjustmentdetail_num = #{num},
+		proc_class = '처리'
+	WHERE 
+		num = #{icdnum}
+	</update>
+	<select id="selectinventoryadjustmentnum" resultType="int">
+	SELECT num
+	  FROM inventoryadjustmentdetail
+	 WHERE inventoryadjustment_cod = #{inventoryadjustmentCod}
+	 <choose>
+	  <when test="invCod == null or invCod.equals('')">
+	   AND product_cod = #{productCod}
+	  </when>
+	  <when test="productCod == null or productCod.equals('')">
+	   AND inv_cod = #{invCod}
+	  </when>
+	 </choose>
+	   
+	</select>
+	
 </mapper>

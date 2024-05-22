@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import co.second.easyrp.inventorycount.InventoryAdjustmentDetailVO;
 import co.second.easyrp.inventorycount.mapper.InventoryCountMapper;
+import co.second.easyrp.inventorycount.service.InventoryAdjustmentDetailVO;
 import co.second.easyrp.inventorycount.service.InventoryAdjustmentVO;
 import co.second.easyrp.inventorycount.service.InventoryCountDetailVO;
 import co.second.easyrp.inventorycount.service.InventoryCountService;
@@ -167,6 +167,30 @@ public class InventoryCountSerivceImpl implements InventoryCountService {
 	public int selectMaxinvadjCod() {
 		// TODO Auto-generated method stub
 		return inventorycountmapper.selectMaxinvadjCod();
+	}
+
+	@Override
+	public int updateinventoryadjustment(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.updateinventoryadjustment(inventoryadjustmentdetailvo);
+	}
+
+	@Override
+	public int updateproductadjustment(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.updateproductadjustment(inventoryadjustmentdetailvo);
+	}
+
+	@Override
+	public int updateinventorycountdetailprocclass(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.updateinventorycountdetailprocclass(inventoryadjustmentdetailvo);
+	}
+
+	@Override
+	public Integer selectinventoryadjustmentnum(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.selectinventoryadjustmentnum(inventoryadjustmentdetailvo);
 	}
 
 }

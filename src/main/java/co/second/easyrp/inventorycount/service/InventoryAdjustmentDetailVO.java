@@ -1,4 +1,4 @@
-package co.second.easyrp.inventorycount;
+package co.second.easyrp.inventorycount.service;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,4 +23,5 @@ public class InventoryAdjustmentDetailVO {
 		private int countQty;
 		private int computingQty;
 		private int unitPrice;
+		private int icdnum;
 	}
