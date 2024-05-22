@@ -2,6 +2,7 @@ package co.second.easyrp.inventorycount.web;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -137,6 +138,9 @@ public class InventoryCountController {
 			for(int i=0; i<prodinvcod.length; i++) {
 				int computingqty = inventorycountservice.getcomputingqty(prodinvcod[i]);
 				int countingqty = Integer.parseInt(countqty[i]);
+				int diffqty = computingqty-countingqty;
+				int unitprice =inventorycountservice.getprice(prodinvcod[i]);
+
 				
 				System.out.println(computingqty);
 				boolean prodinvcods = prodinvcod[i].contains("prd");
@@ -158,6 +162,8 @@ public class InventoryCountController {
 				inventorycountdetailvo.setNote(note[i]);
 				inventorycountdetailvo.setUnitCod(1);
 				inventorycountdetailvo.setDiffQty(computingqty-countingqty);
+				inventorycountdetailvo.setUnitprice(unitprice);
+				inventorycountdetailvo.setPrice(diffqty*unitprice);
 				
 				System.out.println(inventorycountdetailvo);
 				
@@ -208,7 +214,6 @@ public class InventoryCountController {
 		
 		prodinvvo.setWarehouse(warehouse);
 		System.out.println(prodinv);
-	//System.out.println(inventorycountservice.getProdInvAccount(prodinvvo));
 		
 		
 			
@@ -225,10 +230,7 @@ public class InventoryCountController {
 		inventoryCountDetailList = inventorycountservice.selectedInventoryCountDetailList(countdetail);
 		List<InventoryCountVO> inventoryCountList = new ArrayList<InventoryCountVO>();
 		inventoryCountList = inventorycountservice.selectInventoryCountList(countdetail);
-		
-		System.out.println(inventoryCountList);
-		System.out.println(inventoryCountDetailList);
-		
+
 		model.addAttribute("inventoryCountList", inventoryCountList);
 		model.addAttribute("inventoryCountDetailList", inventoryCountDetailList);
 		
@@ -266,6 +268,7 @@ public class InventoryCountController {
     			int computingqty = inventorycountservice.getcomputingqty(prodinvCod);
     			int countingqty = inventorycountservice.getcountqty(adjustnumber);
     			int unitprice =inventorycountservice.getprice(prodinvCod);
+    			System.out.println(adjust[i]);
     			int qty=Integer.parseInt(adjust[i]);
     			
     			inventoryadjustmentdetailvo.setInventoryadjustmentCod(inventoryadjustmentvo.getCod());
@@ -301,6 +304,7 @@ public class InventoryCountController {
     			System.out.println(inventoryadjustmentdetailvo);
     			
     			inventorycountservice.updateinventorycountdetailprocclass(inventoryadjustmentdetailvo);
+    			inventorycountservice.updateinventorycountprocclass(inventoryadjustmentdetailvo);
 	
     		}	
     		

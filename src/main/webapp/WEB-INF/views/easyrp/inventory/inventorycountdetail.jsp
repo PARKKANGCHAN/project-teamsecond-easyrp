@@ -96,9 +96,10 @@
 												<th>품목구분</th>
 												<th>전산재고</th>
 												<th>실사재고</th>
-												<th>차이수량</th>
-												<th>처리구분</th>
 												<th>조정수량</th>
+												<th>처리구분</th>
+												<th>단가</th>
+												<th>조정금액</th>
 												<th>비고</th>
 											</tr>
 											<tr/>
@@ -122,13 +123,15 @@
 													<td class="text-bold-500">${inventoryCountDetailList.account }</td>
 													<td>${inventoryCountDetailList.computingQty }</td>
 													<td>${inventoryCountDetailList.qty }</td>
-													<td>${inventoryCountDetailList.diffQty}
+													<td>${inventoryCountDetailList.diffQty}</td>
 													<td>${inventoryCountDetailList.procClass }</td>
-													<td>
-														<input type="number"  name="adjustmntqty" id="${inventoryCountDetailList.num}" class="adjustmntqtyinput form-control" placeholder="조정재고량을 입력해주세요." />
-													</td>
+													<td>${inventoryCountDetailList.unitprice }</td>
+													<td>${inventoryCountDetailList.price}</td>
 													<td>
 														<input type="text" id="note${inventoryCountDetailList.num }" name="note" class="form-control" placeholder="비고를 입력해주세요."/>
+													</td>
+													<td>
+														<input type="hidden"  name="adjustmntqty" id="${inventoryCountDetailList.num}" class="adjustmntqtyinput form-control" value="${inventoryCountDetailList.qty}" />
 													</td>
 											</tr>
 											</c:forEach>

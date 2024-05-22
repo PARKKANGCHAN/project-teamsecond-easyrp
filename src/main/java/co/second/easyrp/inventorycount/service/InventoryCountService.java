@@ -36,4 +36,8 @@ public interface InventoryCountService {
 	int updateproductadjustment(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo);
 	int updateinventorycountdetailprocclass(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo);
 	Integer selectinventoryadjustmentnum(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo);
+	Integer selectinventorycountmentnum(InventoryCountDetailVO inventorycountdetailvo);
+	InventoryCountVO selectInventoryCount(String countdetail);
+	InventoryCountDetailVO selectedInventoryCountDetail(String countdetail);
+	int updateinventorycountprocclass(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo);
 }

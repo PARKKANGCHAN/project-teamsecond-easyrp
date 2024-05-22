@@ -50,7 +50,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 					                  	<select id="warehouseBox" class="form-select" style="width: 150px">
 					                	  	<option value="">선택해주세요.</option>
 					                  		 <c:forEach var="warehouseinv" items="${warehouseinv }">
-					                  		 <option id="${warehouseinv.cod }" value="${warehouseinv.name}">${warehouseinv.name }</option>
+					                  		 	<option id="${warehouseinv.cod }" value="${warehouseinv.name}">${warehouseinv.name }</option>
 					                  		 </c:forEach>
 					                 	</select>
 				                 	</div>
@@ -94,7 +94,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 											<tr/>
 										</thead>
 										<tbody id="inventoryCountInsertBody">
-											<!-- 모달에서 선택한 데이터 Ajax로 html속성 삽입 -->
+											<!-- 선택한 데이터 Ajax로 html속성 삽입 -->
 										</tbody>
 									</table>
                               </div>

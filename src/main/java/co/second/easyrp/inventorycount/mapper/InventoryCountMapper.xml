@@ -50,7 +50,7 @@
 		LIMIT #{pageSize} OFFSET #{offset}
 	</select>
 	<select id="countInventoryCountLists">
-SELECT 
+		SELECT 
 			count(*)
 		FROM inventorycount ic
 		LEFT JOIN inventorycountdetail icd
@@ -101,7 +101,34 @@ SELECT
 		   AND ic.cod= #{cod}
 
 		</select>
+		<select id="selectInventoryCount">
+		SELECT ic.cod, ic.count_date, ic.inv_date, w.name as warehouse, l.name as location, countclass, e.name as employee
+		  FROM inventorycount ic
+		  LEFT JOIN employee e
+		    ON e.cod = ic.employee_cod
+		  LEFT JOIN warehouse w
+		 	ON w.cod = ic.warehouse_cod
+		  LEFT JOIN location l
+		    ON l.cod = ic.location_cod
+		 WHERE ic.deleteyn = 'N'
+		   AND ic.cod= #{cod}
+		</select>
 		<select id="selectedInventoryCountDetailList">
+		SELECT icd.num, icd.product_cod, icd.inventory_cod, icd.inventorycount_cod, p.prodname as product, i.name as inventory,icd.computing_qty, icd.qty, icd.diff_qty, icd.note, icd.proc_class, icd.price, icd.unitprice 
+		  FROM inventorycountdetail icd
+		LEFT JOIN inventorycount ic
+		  ON icd.inventorycount_cod = ic.cod
+		LEFT JOIN product p
+		  ON icd.product_cod = p.cod
+		LEFT JOIN inventory i
+		  ON icd.inventory_cod = i.cod
+		LEFT JOIN unit u
+		  ON icd.unit_cod = u.cod
+		LEFT JOIN inventoryadjustmentdetail iad
+		  ON iad.num=icd.adjustmentdetail_num
+	   WHERE icd.inventorycount_cod=#{cod}
+		</select>
+		<select id="selectedInventoryCountDetail">
 		SELECT icd.num, icd.product_cod, icd.inventory_cod, icd.inventorycount_cod, p.prodname as product, i.name as inventory,icd.computing_qty, icd.qty, icd.diff_qty, icd.note, icd.proc_class 
 		  FROM inventorycountdetail icd
 		LEFT JOIN inventorycount ic
@@ -165,8 +192,8 @@ SELECT
 		Values(#{cod}, #{employeeCod}, #{warehouseCod}, #{countclass}, 'N')
 	</insert>
 	<insert id="insertCountDetailList">
-		INSERT INTO inventorycountdetail(inventorycount_cod, product_cod, inventory_cod, computing_qty, unit_cod, qty, note, diff_qty)
-		Values(#{inventorycountCod}, #{productCod}, #{inventoryCod}, #{computingQty}, #{unitCod}, #{qty}, #{note}, #{diffQty})
+		INSERT INTO inventorycountdetail(inventorycount_cod, product_cod, inventory_cod, computing_qty, unit_cod, qty, note, diff_qty, price, unitprice )
+		Values(#{inventorycountCod}, #{productCod}, #{inventoryCod}, #{computingQty}, #{unitCod}, #{qty}, #{note}, #{diffQty}, #{price}, #{unitprice})
 	</insert>
 	<insert id="insertAdjustmentList">
 		INSERT INTO inventoryadjustment(cod, employee_cod)
@@ -182,7 +209,7 @@ SELECT
 	   FROM warehouse
 	</select>
 	<select id="getAllProdInvWarehouse">
-		 SELECT  p.prodname as name, p.cod as cod, p.cur_inv_qty as computingQty, ia.procclass, p.account
+		 SELECT  p.prodname as name, p.cod as cod, p.cur_inv_qty as computingQty, p.account
 		 FROM product p
 		 LEFT JOIN inventorycountdetail icd
 		 ON icd.inventory_cod = p.cod
@@ -197,7 +224,7 @@ SELECT
 
 		 UNION 
 		 
-		 SELECT i.name as name, i.cod as cod, i.cur_inv_qty as computingQty, ia.procclass, i.account
+		 SELECT i.name as name, i.cod as cod, i.cur_inv_qty as computingQty, i.account
 		   FROM inventory i
 		 LEFT JOIN inventorycountdetail icd
 		 	 ON icd.inventory_cod = i.cod
@@ -219,7 +246,7 @@ SELECT
         SELECT cod FROM warehouse WHERE name = #{name}
     </select>
 	<select id="getProdInvAccount">
-		 SELECT  p.prodname as name, p.cod as cod, p.cur_inv_qty as computingQty, ia.procclass, p.account
+		 SELECT  p.prodname as name, p.cod as cod, p.cur_inv_qty as computingQty, p.account
 		 FROM product p
 		 LEFT JOIN inventorycountdetail icd
 		 ON icd.inventory_cod = p.cod
@@ -242,7 +269,7 @@ SELECT
 
 		 UNION 
 		 
-		 SELECT i.name as name, i.cod as cod, i.cur_inv_qty as computingQty, ia.procclass, i.account
+		 SELECT i.name as name, i.cod as cod, i.cur_inv_qty as computingQty, i.account
 		   FROM inventory i
 		 LEFT JOIN inventorycountdetail icd
 		 	 ON icd.inventory_cod = i.cod
@@ -343,22 +370,25 @@ SELECT
 	<select id="getprice">
 		 SELECT p.unitprice
 		 FROM product p
+		 LEFT JOIN inventorycountdetail icd
+		   ON p.cod = icd.product_cod
 		 WHERE p.cod = #{cod}
 
 		 UNION 
 		 
 		 SELECT i.unitprice
 		   FROM inventory i
+		   LEFT JOIN inventorycountdetail icd
+		 	ON i.cod = icd.inventory_cod
 		 WHERE i.cod = #{cod}
-
 	</select>
 	<update id="updateinventoryadjustment">
-	UPDATE 
+	UPDATE
 			inventory i
 	SET
 		i.cur_inv_qty = #{qty}
 	WHERE 
-		i.cod = #{inventoryCod}
+		i.cod = #{invCod}
 	</update>
 	
 		<update id="updateproductadjustment">
@@ -378,6 +408,14 @@ SELECT
 	WHERE 
 		num = #{icdnum}
 	</update>
+		<update id="updateinventorycountprocclass">
+	UPDATE 
+		inventorycount ic
+	SET
+		proc_class = '처리'
+	WHERE 
+		num = #{num}
+	</update>
 	<select id="selectinventoryadjustmentnum" resultType="int">
 	SELECT num
 	  FROM inventoryadjustmentdetail
@@ -390,7 +428,19 @@ SELECT
 	   AND inv_cod = #{invCod}
 	  </when>
 	 </choose>
-	   
 	</select>
-	
+	<select id="selectinventorycountmentnum" resultType="int">
+	SELECT num
+	  FROM inventorycountdetail
+	 WHERE inventorycount_cod = #{inventorycountCod}
+	 <choose>
+	  <when test="inventoryCod == null or inventoryCod.equals('')">
+	   AND product_cod = #{productCod}
+	  </when>
+	  <when test="productCod == null or productCod.equals('')">
+	   AND inventory_cod = #{inventoryCod}
+	  </when>
+	 </choose>
+	ORDER BY num DESC
+	 </select>
 </mapper>

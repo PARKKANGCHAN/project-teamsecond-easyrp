@@ -25,4 +25,5 @@ public class InventoryCountVO {
 	private String warehouse;
 	private String employee;
 	private String location;
+	private String prcclass;
 }

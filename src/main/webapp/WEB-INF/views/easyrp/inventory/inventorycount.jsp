@@ -108,6 +108,7 @@
 												<th>장소</th>
 												<th>실사구분</th>
 												<th>담당자</th>
+												<th>처리구분</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -121,18 +122,9 @@
 													<td>${inventoryCountList.location}</td>
 													<td>${inventoryCountList.countclass}</td>
 													<td>${inventoryCountList.employee}</td>
+													<td>${inventoryCountList.prcclass }</td>
 													<td>
-														<div class="btn-group">
-															<button type="button"
-																class="btn btn-primary dropdown-toggle"
-																data-bs-toggle="dropdown" aria-expanded="false">
-																<i class="fa-solid fa-gear"></i>
-															</button>
-															<ul class="dropdown-menu">
-																<li><a class="dropdown-item"
-																	href="deleteinventoryCount?cod=${inventoryCountList.cod}">삭제</a></li>
-															</ul>
-														</div>
+														
 													</td>
 												</tr>
 											</c:forEach>
