@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import co.second.easyrp.inventorycount.InventoryAdjustmentDetailVO;
 import co.second.easyrp.inventorycount.mapper.InventoryCountMapper;
+import co.second.easyrp.inventorycount.service.InventoryAdjustmentVO;
 import co.second.easyrp.inventorycount.service.InventoryCountDetailVO;
 import co.second.easyrp.inventorycount.service.InventoryCountService;
 import co.second.easyrp.inventorycount.service.InventoryCountVO;
@@ -53,16 +55,11 @@ public class InventoryCountSerivceImpl implements InventoryCountService {
 	}
 
 	@Override
-	public List<InventoryCountVO> selectInventoryCountList(InventoryCountVO vo) {
+	public List<InventoryCountVO> selectInventoryCountList(String countdetail) {
 		// TODO Auto-generated method stub
-		return inventorycountmapper.selectInventoryCountList(vo);
+		return inventorycountmapper.selectInventoryCountList(countdetail);
 	}
 
-	@Override
-	public List<InventoryCountDetailVO> selectedInventoryCountDetailList(InventoryCountVO vo) {
-		// TODO Auto-generated method stub
-		return inventorycountmapper.selectedInventoryCountDetailList(vo);
-	}
 
 	@Override
 	public List<ProductInventoryVO> getAllProductInventoryList() {
@@ -71,9 +68,9 @@ public class InventoryCountSerivceImpl implements InventoryCountService {
 	}
 
 	@Override
-	public List<ProductInventoryVO> getAllSelectedCountList(String itemList) {
+	public List<ProductInventoryVO> getAllSelectedCountList(String prodInvCod) {
 		// TODO Auto-generated method stub
-		return inventorycountmapper.getAllSelectedCountList(itemList);
+		return inventorycountmapper.getAllSelectedCountList(prodInvCod);
 	}
 
 	@Override
@@ -100,5 +97,76 @@ public class InventoryCountSerivceImpl implements InventoryCountService {
 		return inventorycountmapper.selectedWarehouseList(warehousevo);
 	}
 
+	@Override
+	public List<ProductInventoryVO> getProdInvAccount(ProductInventoryVO productinventoryvo) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.getProdInvAccount(productinventoryvo);
+	}
+
+	@Override
+	public int selectMaxCod() {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.selectMaxCod();
+	}
+
+	@Override
+	public String wareHouseCod(String warehouse) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.wareHouseCod(warehouse);
+	}
+
+	@Override
+	public Integer getcomputingqty(String prodinvcod) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.getcomputingqty(prodinvcod);
+	}
+
+	@Override
+	public List<InventoryCountDetailVO> selectedInventoryCountDetailList(String countdetail) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.selectedInventoryCountDetailList(countdetail);
+	}
+
+	@Override
+	public String selectinventoryadjustmentdetail(int adjustmentnum) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.selectinventoryadjustmentdetail(adjustmentnum);
+	}
+
+	@Override
+	public String selectedInventoryCountDetailName(int adjustmentnum) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.selectedInventoryCountDetailName(adjustmentnum);
+	}
+
+	@Override
+	public Integer getcountqty(int adjustmentnum) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.getcountqty(adjustmentnum);
+	}
+
+	@Override
+	public Integer getprice(String prodinvcod) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.getprice(prodinvcod);
+	}
+
+	@Override
+	public int insertAdjustmentList(InventoryAdjustmentVO inventoryadjustmentvo) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.insertAdjustmentList(inventoryadjustmentvo);
+	}
+
+	@Override
+	public int insertAdjustmentDetailList(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.insertAdjustmentDetailList(inventoryadjustmentdetailvo);
+	}
+
+	@Override
+	public int selectMaxinvadjCod() {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.selectMaxinvadjCod();
+	}
 
 }

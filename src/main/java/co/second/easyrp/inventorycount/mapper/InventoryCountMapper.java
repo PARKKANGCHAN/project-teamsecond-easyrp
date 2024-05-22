@@ -2,6 +2,8 @@ package co.second.easyrp.inventorycount.mapper;
 
 import java.util.List;
 
+import co.second.easyrp.inventorycount.InventoryAdjustmentDetailVO;
+import co.second.easyrp.inventorycount.service.InventoryAdjustmentVO;
 import co.second.easyrp.inventorycount.service.InventoryCountDetailVO;
 import co.second.easyrp.inventorycount.service.InventoryCountVO;
 import co.second.easyrp.inventorycount.service.ProductInventoryVO;
@@ -13,20 +15,24 @@ public interface InventoryCountMapper {
 	int insertInventoryCount(InventoryCountVO vo);
 	int updateInventoryCount(InventoryCountVO vo);
 	int deleteInventoryCount(InventoryCountVO vo);
-	List<InventoryCountVO> selectInventoryCountList(InventoryCountVO vo);
-	List<InventoryCountDetailVO> selectedInventoryCountDetailList(InventoryCountVO vo);
-//	List<KeyValueVO> getAllKeyValues();
-	
-//	List<PurchaseOrderDetailVO> getAllPurchaseOrderDatas();
-	
-//	CommonTableVO getCommonData(int postId);
-	
+	List<InventoryCountVO> selectInventoryCountList(String countdetail);
+	List<InventoryCountDetailVO> selectedInventoryCountDetailList(String countdetail);
 	int countInventoryCountLists(SearchVO searchVo);
 	List<ProductInventoryVO> getAllProductInventoryList();
-	List<ProductInventoryVO> getAllSelectedCountList(String itemList);
+	List<ProductInventoryVO> getAllSelectedCountList(String prodInvCod);
 	int insertCountDetailList(InventoryCountDetailVO inventorycountdetailvo);
 	List<WareHouseVO> warehouseList();
 	List<ProductInventoryVO> getAllProdInvWarehouse(WareHouseVO warehousevo);
 	List<WareHouseVO> selectedWarehouseList(WareHouseVO warehousevo);
-	
+	List<ProductInventoryVO> getProdInvAccount(ProductInventoryVO productinventoryvo);
+	int selectMaxCod();
+	String wareHouseCod(String warehouse);
+	Integer getcomputingqty(String prodinvcod);
+	String selectinventoryadjustmentdetail(int adjustmentnum);
+	String selectedInventoryCountDetailName(int adjustmentnum);
+	Integer getcountqty(int adjustmentnum);
+	Integer getprice(String prodinvcod);
+	int insertAdjustmentList(InventoryAdjustmentVO inventoryadjustmentvo);
+	int insertAdjustmentDetailList(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo);
+	int selectMaxinvadjCod();
 }

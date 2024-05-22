@@ -1,7 +1,5 @@
 package co.second.easyrp.inventorycount.service;
 
-import java.util.Date;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,15 +8,20 @@ import lombok.ToString;
 @Setter
 @ToString
 public class InventoryCountDetailVO {
-	private String cod;
-	private String employeeCod;
-	private Date countDate;
-	private Date invDate;
-	private String locationCod;
-	private String countclass;
+	private int num;
+	private String inventorycountCod; 
+	private String productCod;
+	private String inventoryCod;
+	private String spec;
+	private int unitCod;
+	private int qty;
+	private String procClass;
+	private int adjustmentdetailNum;
 	private String account;
 	private String deleteyn;
 	private String note;
 	private int diffQty;
-	
+	private int computingQty;
+	private String product;
+	private String inventory;
 }
