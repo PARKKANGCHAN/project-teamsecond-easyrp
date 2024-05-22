@@ -95,15 +95,15 @@ public class OrdersServiceImpl implements OrderService {
 	}
 
 	@Override
-	public int updateOrderDetailFull(int qty, String productCod, String cod) {
+	public int updateOrderDetailFull(int curRemainQty, String productCod, String cod) {
 		// TODO Auto-generated method stub
-		return ordersMapper.updateOrderDetailFull(qty, productCod, cod);
+		return ordersMapper.updateOrderDetailFull(curRemainQty, productCod, cod);
 	}
 
 	@Override
-	public int updateProductFull(int qty, String productCod) {
+	public int updateProductFull(int curRemainQty, String productCod) {
 		// TODO Auto-generated method stub
-		return ordersMapper.updateProductFull(qty, productCod);
+		return ordersMapper.updateProductFull(curRemainQty, productCod);
 	}
 
 	@Override

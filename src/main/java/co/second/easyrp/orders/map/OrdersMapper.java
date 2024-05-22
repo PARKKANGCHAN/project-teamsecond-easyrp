@@ -49,8 +49,8 @@ public interface OrdersMapper {
 	int ordersDelete(OrdersVO ordersVo); //삭제
 	
 	int checkProduct(String productCod);
-	int updateOrderDetailFull(@Param("qty") int qty, @Param("productCod") String productCod, @Param("cod") String cod);
-	int updateProductFull(@Param("qty") int qty, @Param("productCod") String productCod);
+	int updateOrderDetailFull(@Param("curRemainQty") int curRemainQty, @Param("productCod") String productCod, @Param("cod") String cod);
+	int updateProductFull(@Param("curRemainQty") int curRemainQty, @Param("productCod") String productCod);
 	int updateOrderDetailPartial(@Param("availableQty") int availableQty, @Param("productCod") String productCod, @Param("cod") String cod);
 	int updateProductPartial(@Param("availableQty") int availableQty, @Param("productCod") String productCod);
 	

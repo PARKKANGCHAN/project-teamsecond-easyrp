@@ -959,9 +959,9 @@
         			});	
     				
     				deliveryButton.on('click', function() {
-    					console.log("출고 버튼 클릭");
-    					console.log(item.qty);
      					deliveryButton.prop('disabled', true);
+     					
+     					console.log('item.curRemainQty : ' + item.curRemainQty);
     					
     					$.ajax({
     						url: 'deliveryFn',
@@ -969,7 +969,8 @@
     						data: {
     							cod: item.cod,
     							productCod: item.productCod,
-    							qty: item.qty
+    							qty: item.qty,
+    							curRemainQty: item.curRemainQty
     						},
     						dataType: 'text',
     						success: function(response){

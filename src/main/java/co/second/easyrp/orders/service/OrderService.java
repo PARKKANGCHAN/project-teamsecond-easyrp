@@ -49,8 +49,8 @@ public interface OrderService {
 	int ordersDelete(OrdersVO ordersVo); //삭제
 	
 	int checkProduct(String productCod);
-	int updateOrderDetailFull(int qty, String productCod, String cod);
-	int updateProductFull(int qty, String productCod);
+	int updateOrderDetailFull(int curRemainQty, String productCod, String cod);
+	int updateProductFull(int curRemainQty, String productCod);
 	int updateOrderDetailPartial(int availableQty, String productCod, String cod);
 	int updateProductPartial(int availableQty, String productCod);
 	

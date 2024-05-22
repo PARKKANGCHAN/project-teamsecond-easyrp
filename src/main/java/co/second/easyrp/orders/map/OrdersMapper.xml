@@ -116,7 +116,7 @@
     <update id="updateOrderDetailFull">
         UPDATE orderdetail
         SET 
-            cur_remain_qty = cur_remain_qty - #{qty},
+            cur_remain_qty = cur_remain_qty - #{curRemainQty},
             delivery_state = 102
         WHERE product_cod = #{productCod} and cod = #{cod}
     </update>
@@ -124,7 +124,7 @@
     <!-- product 업데이트 쿼리  -->
     <update id="updateProductFull">
         UPDATE product
-        SET cur_inv_qty = cur_inv_qty - #{qty}
+        SET cur_inv_qty = cur_inv_qty - #{curRemainQty}
         WHERE cod = #{productCod}
     </update>
 	

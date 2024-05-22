@@ -185,7 +185,8 @@ public class OrdersController {
     @ResponseBody
     public String deliveryFn(@RequestParam("cod") String cod,
     						 @RequestParam("productCod") String productCod,
-    						 @RequestParam("qty") int qty) {
+    						 @RequestParam("qty") int qty,
+    						 @RequestParam("curRemainQty") int curRemainQty) {
     	
         
             // 재고 검증
@@ -195,8 +196,8 @@ public class OrdersController {
             if (availableQty > 0) {
                 if (availableQty >= qty) {
                     // 가용재고량 >= 수주 수량
-                    orderService.updateProductFull(qty, productCod);
-                    orderService.updateOrderDetailFull(qty, productCod, cod);
+                    orderService.updateProductFull(curRemainQty, productCod);
+                    orderService.updateOrderDetailFull(curRemainQty, productCod, cod);
                 } else {
                     // 가용재고량 < 수주수량
                     orderService.updateProductPartial(availableQty, productCod);
