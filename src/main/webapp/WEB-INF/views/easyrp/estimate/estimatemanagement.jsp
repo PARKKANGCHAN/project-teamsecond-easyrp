@@ -21,7 +21,7 @@
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
 						<h3>
-							<a href="/easyrp/salesplanmanagement">견적 테이블</a>
+							<a href="/easyrp/estimatemanagement">견적 목록</a>
 						</h3>
 						<p class="text-subtitle text-muted">견적 목록</p>
 					</div>
@@ -49,29 +49,36 @@
 											<div class="col-12 col-md-6 order-md-1 order-last">
 												<h3>검색</h3>
 											</div>
-											<form id="searchForm" action="commontable" method="get">
+											<form id="searchForm" action="estimatemanagement" method="get">
 												<div class="mb-4" style="text-align: center">
 													<table class="table table-bordered" id="searchTable">
 														<tr>
-															<td width="100">글 번호</td>
-															<td><input type="text" id="searchNumber"
-																name="searchNumber" class="form-control"
-																value="${searchNumber}" placeholder="글 번호를 입력해주세요." /></td>
-															<td width="100">제 목</td>
-															<td><input type="text" id="searchTitle"
-																name="searchTitle" class="form-control"
-																value="${searchTitle}" placeholder="제목을 입력해주세요." /></td>
-															<td width="100">내 용</td>
-															<td><input type="text" id="searchContent"
-																name="searchContent" class="form-control"
-																value="${searchContent}" placeholder="내용을 입력해주세요." /></td>
+															<td width="100">견적번호</td>
+															<td><input type="text" id="searchCod"
+																name="cod" class="form-control"
+																value="${cod}" placeholder="글 번호를 입력해주세요." /></td>
+															<td width="100">고객번호</td>
+															<td><input type="text" id="searchClientCod"
+																name="clientCod" class="form-control"
+																value="${clientCod}" placeholder="제목을 입력해주세요." /></td>
+															<td width="100">담당자번호</td>
+															<td><input type="text" id="searchEmployeeCod"
+																name="employeeCod" class="form-control"
+																value="${employeeCod}" placeholder="내용을 입력해주세요." /></td>
 															<td width="100">작성자</td>
-															<td><input type="text" id="searchAuthor"
-																name="searchAuthor" class="form-control"
-																value="${searchAuthor}" placeholder="작성자를 입력해주세요." /></td>
+															<td><input type="text" id="searchEmployeeName"
+																name="employeeName" class="form-control"
+																value="${employeeName}" placeholder="작성자를 입력해주세요." /></td>
+															<td width="100">수주 여부</td>	
+															<td width="200">
+																<select id="orderyn" name="orderyn" class="form-select" placeholder="수주여부를 선택해주세요.">
+																	<option value="Y">수주 O</option>
+																	<option value="N">수주 X</option>
+																</select> 
+															</td>
 														</tr>
 														<tr>
-															<td width="100">검색 날짜</td>
+															<td width="100">등록 날짜</td>
 															<td colspan="2"><input type="date"
 																id="preSearchDate" name="preSearchDate"
 																value="${preSearchDate}" class="form-control"
@@ -102,8 +109,9 @@
 												<th width="10%">등록일자</th>
 												<th width="10%">고객번호</th>
 												<th width="10%">담당자번호</th>
+												<th width="10%">담당자명</th>
 												<th width="15%">금액</th>
-												<th width="15%">부가세</th>
+												<th width="10%">부가세</th>
 												<th width="15%">총액</th>
 												<th width="7.5%">수주여부</th>
 												<th width="7.5%">설 정</th>
@@ -120,6 +128,7 @@
 															pattern="yyyy-MM-dd" /></td>
 													<td>${estimate.clientCod }</td>
 													<td class="text-bold-500">${estimate.employeeCod }</td>
+													<td class="text-bold-500">${estimate.employeeName }</td>
 													<td><fmt:formatNumber value="${estimate.subtotal}"
 															pattern="###,###"></fmt:formatNumber></td>
 													<td>10%</td>
@@ -440,7 +449,7 @@
     		console.log("registeraddRow");
     		var uniqueId = generateUniqueId();
     		
-			var newRow = $('<tr class="generatedRow">');
+			var newRow = $('<tr class="RegisterGeneratedRow">');
 			
 			newRow.append($('<td>').attr({
 				'id': 'productCod',
@@ -449,7 +458,7 @@
 			newRow.append($('<td>').append($('<input>').attr({
 			    'type': 'text',
 			    'readonly': 'readonly',
-			    'class': 'form-control',
+			    'class': 'form-control RegisterProductName',
 			    'name': 'RegisterProductName' + uniqueId, 
  			    'id': 'RegisterProductName' + uniqueId, 
 			    'placeholder': '상품 선택',
@@ -498,6 +507,7 @@
 
 		// 견적 처음 등록하는 모달 끄기
 		function registerModalclose() {
+			$('.RegisterGeneratedRow').remove();
 			$('#registeraddRowButton').prop('disabled', false);
 		}
 		
@@ -517,10 +527,23 @@
         // 견적 처음 등록시 완제품 목록을 보여주는 모달 오픈
         function setRegisterProductValue(uniqueId, cod, productName) {
         	var inputId = '#RegisterProductName' + uniqueId; 
+        	var isDuplicate = false;
         	
-        	$(inputId).val(productName);
-        	$('#kvModal').modal('hide');
-            $('.modal-backdrop').remove();
+        	// 클래스가 RegisterProductName인 요소를 모두 확인합니다.
+        	$('.RegisterProductName').each(function() {
+        		if($(this).val() === productName) {
+        			isDuplicate = true; 
+        			return false; // 중복값이 발견되면 each 루프를 중단합니다.
+        		}
+        	});
+        	
+        	if(!isDuplicate) { //
+        		$(inputId).val(productName);
+	        	$('#kvModal').modal('hide');
+	            $('.modal-backdrop').remove();
+        	} else {
+        		alert('이미 같은 제품이 존재합니다.');
+        	}
         }
         
         // 거래처 목록을 보여주는 모달 오픈
@@ -594,7 +617,7 @@
         function estimateRegister() {
         	console.log('estimateRegister 함수 실행');
         	
-            var rows = $('.generatedRow');
+            var rows = $('.RegisterGeneratedRow');
             
             // 서버로 전송할 데이터를 저장할 배열을 생성합니다.
             var dataToSend = [];
@@ -944,30 +967,13 @@
                   data.forEach(function (item, index) {
                       
 //  					console.log(item);
-                        rows +=
-                           '<tr onclick="setValue(\'' +
-                           item.cod +
-                           "', '" +
-                           item.prodName +
-                           '\')" ' +
-                           'class="searchValue" data-cod="' +
-                           item.cod +
-                           '" data-value="' +
-                           item.prodName +
-                           '" style= "' +
-                           'cursor: pointer' +
-                           '">' +
-                           '<td>' +
-                           (index + 1) +
-                           '</td>' +
-                           '<td>' +
-                           item.cod +
-                           '</td>' +
-                           '<td>' +
-                           item.prodName +
-                           '</td>' +
-                           '</tr>';
-
+                	  rows += `
+                          <tr onclick="setValue('\${item.cod}','\${item.prodName}')" class="searchValue" data-cod="\${item.cod}" data-value="\${item.prodName}" style="cursor: pointer"> 
+	                           <td>\${(index + 1)}</td>
+	                           <td>\${item.cod}</td>
+	                           <td>\${item.prodName}</td>
+                          </tr> 
+                          `;
                   });
                   $('#modalTableBody').html(rows);
                    $('#kvModal').modal('show');
@@ -993,6 +999,14 @@
    // 견적 상세 모달 관련 함수 끝
    
    
+   function resetSearchForm() {
+            $('#searchCod').val('');
+            $('#searchClientCod').val('');
+            $('#searchEmployeeCod').val('');
+            $('#searchEmployeeName').val('');
+            $('#preSearchDate').val('');
+            $('#postSearchDate').val('');
+        }
    
     </script>
 

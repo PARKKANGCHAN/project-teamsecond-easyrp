@@ -21,4 +21,47 @@
 			  i.inq_class = 'Y' AND
 			  i.deleteyn = 'N'
 	</select>
+	
+	<insert id="insertInvoicedetail">
+		INSERT INTO invoicedetail
+		(num, invoice_cod, mrp_cod, product_cod, inventory_cod, inv_qty, inv_mgmt_qty, unitprice, supprice, vax, total)
+		VALUES (#{num}, #{invoiceCod}, #{mrpCod}, #{productCod}, #{inventoryCod}, #{invQty}, #{invMgmtQty}, #{unitprice}, #{supprice}, #{vax}, #{total})
+	</insert>
+	
+	<select id="selectInvoicedetailByInvoiceCod">
+		SELECT i.num, i.invoice_cod, i.mrp_cod, i2.inv_class, i.product_cod, p.prodname, i3.name AS 'invname', i.inventory_cod, i3.name AS 'invProdname', p.spec, i3.spec AS 'invSpec', m.take_date, i.inv_qty, u.name AS 'unitName', u2.name AS 'invUnitName', u3.name AS 'mgmtUnitName', u4.name AS 'invMgmtUnitName', c.name AS 'clientName'
+		FROM invoicedetail i
+		JOIN invoice i2
+		ON i.invoice_cod = i2.cod 
+		JOIN product p 
+		ON i.product_cod = p.cod 
+		LEFT JOIN inventory i3 
+		ON i.inventory_cod = i3.cod 
+		JOIN mrp m 
+		ON i.mrp_cod = m.cod
+		JOIN unit u 
+		ON p.unit_cod = u.cod
+		LEFT JOIN unit u2  
+		ON i3.unit_cod = u2.cod 
+		LEFT JOIN unit u3
+		ON p.mgmt_unit_cod = u3.cod 
+		LEFT JOIN unit u4
+		ON i3.mgmt_unit_cod = u4.cod 
+		JOIN mps m2 
+		ON m.mps_cod = m2.cod 
+		JOIN orderdetail o 
+		ON m2.order_cod = o.cod 
+		JOIN orders o2 
+		ON o.cod = o2.cod 
+		JOIN client c 
+		ON o2.client_cod = c.cod 
+		WHERE i.invoice_cod = #{invoiceCod}
+	</select>
+	
+	<update id="deleteInvoicedetail">
+		UPDATE invoicedetail
+		SET
+		deleteyn = 'Y'
+		WHERE invoice_cod = #{invoiceCod}
+	</update>
 </mapper>

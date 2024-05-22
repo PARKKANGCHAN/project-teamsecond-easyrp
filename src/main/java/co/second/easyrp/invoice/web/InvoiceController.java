@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import co.second.easyrp.invoice.service.InvoiceService;
 import co.second.easyrp.invoice.service.InvoiceVO;
 import co.second.easyrp.invoice.service.SearchVO;
+import co.second.easyrp.invoicedetail.mapper.InvoicedetailMapper;
+import co.second.easyrp.invoicedetail.service.InvoicedetailService;
+import co.second.easyrp.invoicedetail.service.InvoicedetailVO;
 import co.second.easyrp.mrp.service.MrpService;
 import co.second.easyrp.mrp.service.MrpVO;
 
 @Controller
 public class InvoiceController {
 	@Autowired InvoiceService invoiceService;
+	@Autowired InvoicedetailService invoicedetailService;
 	@Autowired MrpService mrpService;
 	
 	@GetMapping("invoicemanagement")
@@ -47,27 +51,64 @@ public class InvoiceController {
 	}
 	
 	@RequestMapping("invoiceinsert")
-	public String invoiceInsert(InvoiceVO invoiceVo) {
-//		int maxNumber = invoiceService.selectMaxCod() + 1;
-//		String newCode = String.format("%03d", maxNumber);
-//		invoiceVo.setCod("inv" + newCode);
-//		
-//		invoiceService.insertInvoice(invoiceVo);
-//		invoiceService.mrpClosingUpdateToY(invoiceVo);
+	public String invoiceInsert() {
 		return "easyrp/invoice/invoiceinsert";
 	}
 	
 	@RequestMapping("invoiceinsertfn")
-	public String invoiceInsertfn() {
+	public String invoiceInsertfn(InvoiceVO invoiceVo, @RequestParam(value="mrpCod") String[] mrpCodList) {
+		int maxNumber = invoiceService.selectMaxCod() + 1;
+		String newCode = String.format("%03d", maxNumber);
+		String invoiceCode = "inv" + newCode;
+		invoiceVo.setCod(invoiceCode);
+		
+		List<InvoicedetailVO> invoicedetailList = new ArrayList<>();
+		for(int i=0; i<mrpCodList.length; i++) {
+			MrpVO mrpVo = new MrpVO();
+			mrpVo.setCod(mrpCodList[i]);
+			mrpVo = mrpService.mrpSelect(mrpVo);
+			
+			InvoicedetailVO invoicedetailVo = new InvoicedetailVO();
+			invoicedetailVo.setNum(i+1);
+			invoicedetailVo.setInvoiceCod(invoiceCode);
+			invoicedetailVo.setMrpCod(mrpVo.getCod());
+			invoicedetailVo.setInvQty(mrpVo.getQty());
+			invoicedetailVo.setUnitprice(mrpVo.getUnitprice());
+			invoicedetailVo.setSupprice((int)Math.ceil(mrpVo.getUnitprice()*1.1));
+			invoicedetailVo.setVax(10);
+			invoicedetailVo.setTotal(mrpVo.getQty() * (int)Math.ceil(mrpVo.getUnitprice()*1.1));
+			invoicedetailVo.setProductCod(mrpVo.getProductCod());
+			invoicedetailVo.setInventoryCod(mrpVo.getInventoryCod());
+			if(mrpVo.getInventoryCod() == null) {
+				invoicedetailVo.setInvMgmtQty(((int)Math.ceil(mrpVo.getQty() / mrpVo.getInvoiceAmount()))+1);
+			}else {
+				invoicedetailVo.setInvMgmtQty(((int)Math.ceil(mrpVo.getQty() / mrpVo.getInvoiceUnitAmount()))+1);
+			}
+			invoicedetailList.add(invoicedetailVo);
+		}
+		invoiceService.insertInvoice(invoiceVo);
+		
+		for(int i=0; i<invoicedetailList.size(); i++) {
+			invoicedetailService.insertInvoicedetail(invoicedetailList.get(i));
+			invoiceService.mrpClosingUpdateToY(invoicedetailList.get(i));
+		}
+		
 		return "redirect:/invoicemanagement";
 	}
 	
 	@GetMapping("invoicedeletefn")
 	public String invoiceDeleteFn(InvoiceVO invoiceVo, @RequestParam("cod") String cod) {
 		invoiceVo.setCod(cod);
-		invoiceVo = invoiceService.selectInvoice(invoiceVo);
-		invoiceService.mrpClosingUpdateToN(invoiceVo);
+		InvoicedetailVO invoicedetailVo = new InvoicedetailVO();
+		invoicedetailVo.setInvoiceCod(invoiceVo.getCod());
+		List<InvoicedetailVO> invoicedetailList = invoicedetailService.selectInvoicedetailByInvoiceCod(invoicedetailVo);
+		System.out.println(invoicedetailList);
+		
+		for(int i=0; i<invoicedetailList.size(); i++) {
+			invoiceService.mrpClosingUpdateToN(invoicedetailList.get(i));
+		}
 		invoiceService.deleteInvoice(invoiceVo);
+		invoicedetailService.deleteInvoicedetail(invoicedetailVo);
 		return "redirect:/invoicemanagement";
 	}
 	

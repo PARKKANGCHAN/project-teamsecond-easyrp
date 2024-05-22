@@ -34,18 +34,28 @@ public class EstimateController {
                               @RequestParam(required = false) String cod,
                               @RequestParam(required = false) String clientCod,
                               @RequestParam(required = false) String employeeCod,
+                              @RequestParam(required = false) String employeeName,
+                              @RequestParam(required = false) String orderyn,
                               @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date preSearchDate,
                               @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date postSearchDate,
                               Model model) { 
         
-    	List<EstimateVO> estimate = estimateService.EstimateSelectList(page, size, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
-        int totalRecords = estimateService.countSalesTables(page, size, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
+    	List<EstimateVO> estimate = estimateService.EstimateSelectList(page, size, cod, clientCod, employeeCod, employeeName, orderyn, preSearchDate, postSearchDate);
+        int totalRecords = estimateService.countSalesTables(page, size, cod, clientCod, employeeCod, employeeName, orderyn, preSearchDate, postSearchDate);
         int totalPages = (int) Math.ceil((double) totalRecords / size);
 
         int pageGroupSize = 10;
         int currentPageGroup = (page - 1) / pageGroupSize;
         int startPage = currentPageGroup * pageGroupSize + 1;
         int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
+        
+        model.addAttribute("cod", cod);
+        model.addAttribute("clientCod", clientCod);
+        model.addAttribute("employeeCod", employeeCod);
+        model.addAttribute("employeeName", employeeName);
+        model.addAttribute("orderyn", orderyn);
+        model.addAttribute("preSearchDate", preSearchDate);
+        model.addAttribute("postSearchDate", postSearchDate);
         
         model.addAttribute("estimate", estimate);
         model.addAttribute("currentPage", page);
@@ -99,7 +109,7 @@ public class EstimateController {
 	@RequestMapping(value = "/estimatedetaildelete", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<String> estimatedetailDelete(@RequestParam("productCod") String productCod,
-													   @RequestParam("") String cod) {
+													   @RequestParam("cod") String cod) {
 		
 //		System.out.println(productCod);
 		int result = estimateService.EstimateDetailDelete(productCod, cod);

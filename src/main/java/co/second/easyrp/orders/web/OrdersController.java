@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,10 +44,12 @@ public class OrdersController {
                               @RequestParam(required = false) String employeeCod,
                               @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date preSearchDate,
                               @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date postSearchDate,
+                              @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date ddaypreSearchDate,
+                              @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date ddaypostSearchDate,
                               Model model) { 
         
-    	List<OrdersVO> orders = orderService.OrdersSelectList(page, size, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
-        int totalRecords = orderService.countSalesTables(page, size, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
+    	List<OrdersVO> orders = orderService.OrdersSelectList(page, size, cod, clientCod, employeeCod, preSearchDate, postSearchDate, ddaypreSearchDate, ddaypostSearchDate);
+        int totalRecords = orderService.countSalesTables(page, size, cod, clientCod, employeeCod, preSearchDate, postSearchDate, ddaypreSearchDate, ddaypostSearchDate);
         int totalPages = (int) Math.ceil((double) totalRecords / size);
 
         int pageGroupSize = 10;
@@ -54,7 +57,14 @@ public class OrdersController {
         int startPage = currentPageGroup * pageGroupSize + 1;
         int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
         
-        System.out.println(orders);
+        model.addAttribute("cod", cod);
+        model.addAttribute("clientCod", clientCod);
+        model.addAttribute("employeeCod", employeeCod);
+        model.addAttribute("preSearchDate", preSearchDate);
+        model.addAttribute("postSearchDate", postSearchDate);
+        model.addAttribute("ddaypreSearchDate", ddaypreSearchDate);
+        model.addAttribute("ddaypostSearchDate", ddaypostSearchDate);
+        
         model.addAttribute("orders", orders);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
@@ -98,7 +108,6 @@ public class OrdersController {
 		
 		List<EstimateVO> estimatelist = new ArrayList<EstimateVO>();
 		estimatelist = estimateService.EstimateSelectList1();
-		System.out.println(estimatelist);
 		
 		
 		return estimatelist;
@@ -132,7 +141,85 @@ public class OrdersController {
     	
     }
 
-	
+    @RequestMapping(value = "/orderinsertFn", method = RequestMethod.POST)
+    @ResponseBody
+    public String orderInsertFn(@RequestBody List<OrdersVO> dataToSend) {
+    	
+    	System.out.println("dataToSend : " + dataToSend);
+    	
+    	String employeeCod = dataToSend.get(0).getEmployeeCod();
+    	String clientName = dataToSend.get(0).getClientName();
+    	Date dday = dataToSend.get(0).getDday();
+    	
+    	
+    	String estimateCod = dataToSend.get(0).getEstimateCod();
+    	
+    	
+    	OrdersVO ordervo = new OrdersVO();
+    	ordervo.setEmployeeCod(employeeCod);
+    	ordervo.setClientName(clientName);
+    	ordervo.setDday(dday);
+    	ordervo.setEstimateCod(estimateCod);
+    	
+    	orderService.ordersInsert(ordervo);
+    	
+    	String cod = ordervo.getCod();
+
+    	
+    	for (OrdersVO vo : dataToSend) {
+    		
+    		String prodname = vo.getProdname();
+    		int qty = vo.getQty();
+//    		System.out.println("prodname : " + prodname);
+//    		System.out.println("qty : " + qty);
+    		
+    		orderService.ordersInsert2(cod, prodname, qty);
+    	}
+    	
+
+    	
+    	return "redirect:/ordersmanagement";
+    }
+    
+    @RequestMapping(value = "/deliveryFn", method = RequestMethod.POST)
+    @ResponseBody
+    public String deliveryFn(@RequestParam("cod") String cod,
+    						 @RequestParam("productCod") String productCod,
+    						 @RequestParam("qty") int qty) {
+    	
+        
+            // 재고 검증
+            int availableQty = orderService.checkProduct(productCod);
+            System.out.println(availableQty);
+
+            if (availableQty > 0) {
+                if (availableQty >= qty) {
+                    // 가용재고량 >= 수주 수량
+                    orderService.updateProductFull(qty, productCod);
+                    orderService.updateOrderDetailFull(qty, productCod, cod);
+                } else {
+                    // 가용재고량 < 수주수량
+                    orderService.updateProductPartial(availableQty, productCod);
+                    orderService.updateOrderDetailPartial(availableQty, productCod, cod);
+                }
+            } else {
+                orderService.updateNoProuctQty(productCod, cod);
+            }
+
+            return "success";
+        
+    }
+    
+    @RequestMapping(value = "/ordersdeleteFn", method = RequestMethod.GET)
+    public String ordersDeleteFn(@RequestParam("cod") String cod,
+    							 OrdersVO vo) {
+    	
+    	vo.setCod(cod);
+    	
+    	int result = orderService.ordersDelete(vo);
+
+    	return "redirect:/ordersmanagement";
+    }
 	
 	
 }

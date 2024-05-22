@@ -19,17 +19,17 @@ public class EstimateServiceImpl implements EstimateService {
 	
 	@Override
 	public List<EstimateVO> EstimateSelectList(int page, int size, String cod, String clientCod,
-			String employeeCod, Date preSearchDate, Date postSearchDate) {
+			String employeeCod, String employeeName, String orderyn, Date preSearchDate, Date postSearchDate) {
 		int offset = (page - 1) * size;
 		// TODO Auto-generated method stub
-		return estimateMapper.EstimateSelectList(size, offset, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
+		return estimateMapper.EstimateSelectList(size, offset, cod, clientCod, employeeCod, employeeName, orderyn, preSearchDate, postSearchDate);
 	}
 	
 	@Override
-	public int countSalesTables(int pageSize, int offset, String cod, String clientCod, String employeeCod,
+	public int countSalesTables(int pageSize, int offset, String cod, String clientCod, String employeeCod, String employeeName, String orderyn,
 			Date preSearchDate, Date postSearchDate) {
 		// TODO Auto-generated method stub
-		return estimateMapper.countSalesTables(pageSize, offset, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
+		return estimateMapper.countSalesTables(pageSize, offset, cod, clientCod, employeeCod, employeeName, orderyn, preSearchDate, postSearchDate);
 	}
 
 	@Override

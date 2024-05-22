@@ -6,9 +6,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.second.easyrp.invoicedetail.service.InvoicedetailService;
+import co.second.easyrp.invoicedetail.service.InvoicedetailVO;
 
 @Controller
 public class InvoicedetailController {
@@ -22,6 +24,14 @@ public class InvoicedetailController {
 		List<Map<String, Object>> returnList = invoicedetailService.applyInvoice();
 		
 		return returnList;
+	}
+	
+	@GetMapping("/api/get-invoicedetail")
+	@ResponseBody
+	public List<InvoicedetailVO> getInvoicedetailValue(@RequestParam(value="invoiceCod") String invoiceCod){
+		InvoicedetailVO invoicedetailVo = new InvoicedetailVO();
+		invoicedetailVo.setInvoiceCod(invoiceCod);
+		return invoicedetailService.selectInvoicedetailByInvoiceCod(invoicedetailVo);
 	}
 }
 

@@ -2,6 +2,7 @@ package co.second.easyrp.orders.serviceImpl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -19,18 +20,18 @@ public class OrdersServiceImpl implements OrderService {
 	
 	@Override
 	public List<OrdersVO> OrdersSelectList(int page, int size, String cod, String clientCod, String employeeCod,
-			Date preSearchDate, Date postSearchDate) {
+			Date preSearchDate, Date postSearchDate, Date ddaypreSearchDate, Date ddaypostSearchDate) {
 		
 			int offset = (page - 1) * size;
 			
-		return ordersMapper.OrdersSelectList(size, offset, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
+		return ordersMapper.OrdersSelectList(size, offset, cod, clientCod, employeeCod, preSearchDate, postSearchDate, ddaypreSearchDate, ddaypostSearchDate);
 	}
 
 	@Override
 	public int countSalesTables(int pageSize, int offset, String cod, String clientCod, String employeeCod,
-			Date preSearchDate, Date postSearchDate) {
+			Date preSearchDate, Date postSearchDate , Date ddaypreSearchDate, Date ddaypostSearchDate) {
 		// TODO Auto-generated method stub
-		return ordersMapper.countSalesTables(pageSize, offset, cod, clientCod, employeeCod, preSearchDate, postSearchDate);
+		return ordersMapper.countSalesTables(pageSize, offset, cod, clientCod, employeeCod, preSearchDate, postSearchDate, ddaypreSearchDate, ddaypostSearchDate);
 	}
 	
 	@Override
@@ -58,6 +59,12 @@ public class OrdersServiceImpl implements OrderService {
 	}
 
 	@Override
+	public int ordersInsert2(String cod, String prodname, int qty) {
+		// TODO Auto-generated method stub
+		return ordersMapper.ordersInsert2(cod, prodname, qty);
+	}
+	
+	@Override
 	public int ordersUpdate(OrdersVO ordersVo) {
 		// TODO Auto-generated method stub
 		return ordersMapper.ordersUpdate(ordersVo);
@@ -80,6 +87,45 @@ public class OrdersServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return ordersMapper.OrderSelect(cod);
 	}
+
+	@Override
+	public int checkProduct(String productCod) {
+		// TODO Auto-generated method stub
+		return ordersMapper.checkProduct(productCod);
+	}
+
+	@Override
+	public int updateOrderDetailFull(int qty, String productCod, String cod) {
+		// TODO Auto-generated method stub
+		return ordersMapper.updateOrderDetailFull(qty, productCod, cod);
+	}
+
+	@Override
+	public int updateProductFull(int qty, String productCod) {
+		// TODO Auto-generated method stub
+		return ordersMapper.updateProductFull(qty, productCod);
+	}
+
+	@Override
+	public int updateOrderDetailPartial(int availableQty, String productCod, String cod) {
+		// TODO Auto-generated method stub
+		return ordersMapper.updateOrderDetailPartial(availableQty, productCod, cod);
+	}
+
+	@Override
+	public int updateProductPartial(int availableQty, String productCod) {
+		// TODO Auto-generated method stub
+		return ordersMapper.updateProductPartial(availableQty, productCod);
+	}
+
+	@Override
+	public int updateNoProuctQty(String productCod, String cod) {
+		// TODO Auto-generated method stub
+		return ordersMapper.updateNoProuctQty(productCod, cod);
+	}
+
+
+
 
 
 

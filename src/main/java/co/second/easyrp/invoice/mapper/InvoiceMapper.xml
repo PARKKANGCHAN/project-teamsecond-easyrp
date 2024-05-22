@@ -54,14 +54,18 @@
 	</select>
 	
 	<select id="selectInvoice">
-		SELECT i.cod, i.inv_date, i.inv_class, i.employee_cod, e.name AS 'employeeName', i.note, i.mrp_cod 
+		SELECT i.cod, i.inv_date, i.inv_class, i.employee_cod, e.name AS 'employeeName', i.note
 		FROM invoice i
 		JOIN employee e
 		ON i.employee_cod = e.cod
 		WHERE i.cod = #{cod}
 	</select>
 	
-	<insert id="insertInvoice"></insert>
+	<insert id="insertInvoice">
+		INSERT INTO easyrp.invoice
+		(cod, inv_date, inv_class, employee_cod, note)
+		VALUES(#{cod}, #{invDate}, #{invClass}, #{employeeCod}, #{note});
+	</insert>
 	<update id="updateInvoice"></update>
 	
 	<update id="deleteInvoice">
