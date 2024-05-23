@@ -389,79 +389,80 @@
 	<!-- 등록페이지 모달 END  -->
 
 	<!-- estimate Modal START  -->
-	<div class="modal fade" id="estimateModal" tabindex="-1"
-		aria-labelledby="kvModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="kvModalLabel">코드-상품 선택</h5>
-					<input type="text" id="searchInput" class="form-control"
-						placeholder="코드 또는 거래처명을 입력해주세요."
-						style="margin-left: 10px; width: auto; flex-grow: 1" />
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body overflow-y-auto" style="height: 70vh">
-					<table class="table">
-						<thead>
-							<tr>
-								<th scope="col">Index</th>
-								<th scope="col">Code</th>
-								<th scope="col">거래처명</th>
-								<th scope="col">견적날짜</th>
-								<th scope="col">담당자</th>
-							</tr>
-						</thead>
-						<tbody id="EstimatemodalTableBody">
-							<!--                         여기에 Ajax로 만든 html 속성이 들어감  -->
-						</tbody>
-					</table>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">닫기</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--       estimate Modal END  -->
+	 <div class="modal fade" id="estimateModal" tabindex="-1" aria-labelledby="kvModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="kvModalLabel">코드-상품 선택</h5>
+                  <input
+                     type="text"
+                     id="searchInput2"
+                     class="form-control"
+                     placeholder="코드, 거래처명, 견적날짜 , 담당자 검색"
+                     style="margin-left: 10px; width: auto; flex-grow: 1"
+                  />
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body overflow-y-auto" style="height: 70vh">
+                  <table class="table">
+                     <thead>
+                        <tr>
+                           <th scope="col">Index</th>
+                           <th scope="col">Code</th>
+                           <th scope="col">거래처명</th>
+                           <th scope="col">견적날짜</th>
+                           <th scope="col">담당자</th>
+                        </tr>
+                     </thead>
+                     <tbody id="EstimatemodalTableBody">
+<!--                         여기에 Ajax로 만든 html 속성이 들어감  -->
+                     </tbody>
+                  </table>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+               </div>
+            </div>
+         </div>
+      </div>
+<!--       estimate Modal END  -->
 
 	<!-- clientName Modal START  -->
-	<div class="modal fade" id="clientNameModal" tabindex="-1"
-		aria-labelledby="kvModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="kvModalLabel">코드-상품 선택</h5>
-					<input type="text" id="searchInput" class="form-control"
-						placeholder="코드 또는 거래처명을 입력해주세요."
-						style="margin-left: 10px; width: auto; flex-grow: 1" />
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body overflow-y-auto" style="height: 70vh">
-					<table class="table">
-						<thead>
-							<tr>
-								<th scope="col">Index</th>
-								<th scope="col">Code</th>
-								<th scope="col">거래처명</th>
-							</tr>
-						</thead>
-						<tbody id="ClientmodalTableBody">
-							<!--                         여기에 Ajax로 만든 html 속성이 들어감  -->
-						</tbody>
-					</table>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">닫기</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--       clientName Modal END  -->
-
+	 <div class="modal fade" id="clientNameModal" tabindex="-1" aria-labelledby="kvModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="kvModalLabel">코드-상품 선택</h5>
+                  <input
+                     type="text"
+                     id="searchInput1"
+                     class="form-control"
+                     placeholder="코드 또는 거래처명을 입력해주세요."
+                     style="margin-left: 10px; width: auto; flex-grow: 1"
+                  />
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body overflow-y-auto" style="height: 70vh">
+                  <table class="table">
+                     <thead>
+                        <tr>
+                           <th scope="col">Index</th>
+                           <th scope="col">Code</th>
+                           <th scope="col">거래처명</th>
+                        </tr>
+                     </thead>
+                     <tbody id="ClientmodalTableBody">
+<!--                         여기에 Ajax로 만든 html 속성이 들어감  -->
+                     </tbody>
+                  </table>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+               </div>
+            </div>
+         </div>
+      </div>
+<!--       clientName Modal END  -->
 	<!-- Value Modal START  -->
 	<div class="modal fade" id="kvModal" tabindex="-1"
 		aria-labelledby="kvModalLabel" aria-hidden="true">
@@ -686,12 +687,15 @@
         			console.log(data);
         			let rows = '';
         			data.forEach(function (item, index) {
+        				
+        				var formattedDate = formatDate(item.estDate);
+        				
         				rows += `
-        					<tr onclick="setEstimateValue('\${item.cod}', '\${item.clientName}')" class="searchValue" data-cod="'\${item.cod}'" data-value="'\${item.clientName}'" data-value1="'\${item.estDate}'" data-value2="'\${item.empName}'" style="cursor : pointer">
+        					<tr onclick="setEstimateValue('\${item.cod}', '\${item.clientName}')" class="searchValue" data-cod="'\${item.cod}'" data-value="'\${item.clientName}'" data-value1="'\${formattedDate}'" data-value2="'\${item.empName}'" style="cursor : pointer">
         					<td>\${(index + 1)}</td>
         					<td>\${item.cod}</td>
         					<td>\${item.clientName}</td>
-        					<td>\${item.estDate}</td>
+        					<td>\${formattedDate}</td>
         					<td>\${item.empName}</td>
         				`;
         			});
@@ -772,7 +776,30 @@
               });
            });
 
+            // 고객 리스트 모달에서 검색용
+           $('#searchInput1').on('keyup', function () {
+              var searchInputValue = $(this).val().toLowerCase();
+              $('.searchValue').each(function () {
+                 var cod = $(this).data('cod').toLowerCase();
+                 var clientName = $(this).data('value').toLowerCase();
+                 $(this).toggle(cod.includes(searchInputValue) || clientName.includes(searchInputValue));
+              });
+           });
         
+            // 견적 리스트 모달에서 검색용
+           $('#searchInput2').on('keyup', function () {
+              var searchInputValue = $(this).val().toLowerCase();
+              $('.searchValue').each(function () {
+                 var cod = $(this).data('cod').toLowerCase();
+                 var clientName = $(this).data('value').toLowerCase();
+                 var estDate = $(this).data('value1');
+                 var empName = $(this).data('value2').toLowerCase();
+                 $(this).toggle(cod.includes(searchInputValue) || clientName.includes(searchInputValue) || estDate.includes(searchInputValue) || empName.includes(searchInputValue));
+              });
+           });
+            
+           
+            
 		// 수주 등록 모달에서 '수주 등록' 버튼. 수주 내용을 새로 등록하는 함수
         function OrderRegister() {
         	
@@ -871,7 +898,11 @@
                 
                 
                 var orderDate = orderSelect.orderDate;
+                var formattedOrderDate = formatDate(orderDate);
+                
                 var dday = orderSelect.dday;
+                var formattedDday = formatDate(dday);
+                
                 var deptName = orderSelect.deptName;
                 var employeeCod = orderSelect.employeeCod;
                 var empName = orderSelect.empName;
@@ -879,8 +910,8 @@
                 // 수주 상세 모달 상단에 넣은 값입니다.
     			$('#orderCod').text(orderCod);
     			$('#clientName').text(clientName);
-     			$('#orderDate').text(orderDate);
-     			$('#dday').text(dday);
+     			$('#orderDate').text(formattedOrderDate);
+     			$('#dday').text(formattedDday);
     			$('#orderDept').text(deptName);
     			$('#orderEmpCod').text(employeeCod);
     			$('#orderEmpName').text(empName);
@@ -1180,6 +1211,15 @@
             $('#ddaypreSearchDate').val('');
             $('#ddaypostSearchDate').val('');
         }
+   
+// 날짜 변환 함수
+   function formatDate(dateString) {
+    var date = new Date(dateString);
+    var year = date.getFullYear();
+    var month = ('0' + (date.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 +1
+    var day = ('0' + date.getDate()).slice(-2);
+    return `\${year}-\${month}-\${day}`;
+}
    
    
     </script>

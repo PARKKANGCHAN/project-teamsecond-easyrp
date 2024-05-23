@@ -401,7 +401,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="kvModalLabel">코드-상품 선택</h5>
-					<input type="text" id="searchInput" class="form-control"
+					<input type="text" id="searchInput1" class="form-control"
 						placeholder="코드 또는 상품명을 입력해주세요."
 						style="margin-left: 10px; width: auto; flex-grow: 1" />
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -602,8 +602,18 @@
 		
 
 
-            // 제품 리스트 모달에서 검색용
+            // 고객 리스트 모달에서 검색용
            $('#searchInput').on('keyup', function () {
+              var searchInputValue = $(this).val().toLowerCase();
+              $('.searchValue').each(function () {
+                 var cod = $(this).data('cod').toLowerCase();
+                 var clientName = $(this).data('value').toLowerCase();
+                 $(this).toggle(cod.includes(searchInputValue) || clientName.includes(searchInputValue));
+              });
+           });
+            
+            // 제품 리스트 모달에서 검색용
+           $('#searchInput1').on('keyup', function () {
               var searchInputValue = $(this).val().toLowerCase();
               $('.searchValue').each(function () {
                  var cod = $(this).data('cod').toLowerCase();
@@ -701,10 +711,13 @@
                 var employeeCod = estimateSelect.employeeCod;
                 var empName = estimateSelect.empName;
     		    
+             // 변환된 날짜 값을 가져옴
+            	var formattedEstimateDate = formatDate(estDate);
+                
                 // 견적 상세 모달 상단에 넣은 값입니다.
     			$('#estimateCod').text(estimateCod);
     			$('#clientName').text(clientName);
-     			$('#estimateDate').text(estDate);
+     			$('#estimateDate').text(formattedEstimateDate);
     			$('#estimateDept').text(deptName);
     			$('#estimateEmp').text(employeeCod);
     			$('#estimateEmpName').text(empName);
@@ -1007,6 +1020,17 @@
             $('#preSearchDate').val('');
             $('#postSearchDate').val('');
         }
+   
+   // 날짜 변환 함수
+   function formatDate(dateString) {
+    var date = new Date(dateString);
+    var year = date.getFullYear();
+    var month = ('0' + (date.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 +1
+    var day = ('0' + date.getDate()).slice(-2);
+    return `\${year}-\${month}-\${day}`;
+}
+
+	
    
     </script>
 

@@ -1,5 +1,6 @@
 package co.second.easyrp.chart.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,20 +44,32 @@ public class ChartController {
         return dataMap;
     }
     
-//    @GetMapping("/DonutChartUpdate")
-//    @ResponseBody
-//    public Map<String, List<ChartVO>> getSalesRatioByProduct(ChartVO vo) {
-//
-//    	int year = vo.getYear();
-//    	int month = vo.getMonth();
-//    	
-//    	System.out.println(year);
-//    	System.out.println(month);
-//    	
-//    	
-//    	
-//    	return ;
-//    	
-//    }
+    @GetMapping("/DonutChartUpdate")
+    @ResponseBody
+    public Map<String, Object> getSalesRatioByProduct(ChartVO vo) {
+
+    	int donut_year = vo.getDonut_year();
+    	int month = vo.getMonth();
+    	
+    	List<ChartVO> DonutData = chartService.getTop3Product(donut_year, month);
+    	
+    	List<String> labels = new ArrayList<>();
+    	List<Integer> data = new ArrayList<>();
+    	
+    	for (ChartVO chartVO : DonutData) {
+    		labels.add(chartVO.getProdname());
+    		data.add(chartVO.getProductSales());
+    	}
+    	
+    	Map<String, Object> response = new HashMap<>();
+    	response.put("labels", labels);
+    	response.put("data", data);
+    	
+    	System.out.println(response);
+    	
+    	
+    	return response;
+    	
+    }
 
 }
