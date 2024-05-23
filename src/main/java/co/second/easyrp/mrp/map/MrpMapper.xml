@@ -113,6 +113,7 @@
 		ON i.unit_cod = u2.cod 
 		WHERE m.deleteyn = 'N'
 		AND m.closing = 'N'
+		ORDER BY m.cod desc
 	</select>
 	
 	<insert id="mrpInsert">

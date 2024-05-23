@@ -52,7 +52,7 @@
 		ON o.client_cod = c.cod 
 		WHERE m.deleteyn = 'N'
 		AND m.closing = 'N'
-		ORDER BY m.plan_date
+		ORDER BY m.cod desc
 	</select>
 	
 	<select id="countMpsTables" resultType="int">
