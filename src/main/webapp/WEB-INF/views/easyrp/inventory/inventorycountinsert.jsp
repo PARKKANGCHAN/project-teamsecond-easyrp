@@ -120,8 +120,23 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
       
      
       <script type="text/javascript">
-         /*Product&InventoryModalTable START */
-         
+         const checkinput = (checkThis) => {
+		    const prodInvCod = document.getElementsByName("prodInvCod");
+		    const countqty = document.getElementsByName("countqty");
+	    	const note = document.getElementsByName("note");
+	    	
+	    	Array.from(prodInvCod).forEach((checkbox, index) => {
+	            if (checkbox !== checkThis) {
+	                countqty[index].disabled = true;
+	                note[index].disabled = true;
+	            } else {
+	                countqty[index].disabled = false;
+	                note[index].disabled = false;
+	            }
+	            console.log(index, checkbox.checked);
+	        });
+	    };
+		  
         function setCountDiff(countQtyInputId, computingQtyId){
         	let countQtyInputData = $('#'+countQtyInputId).val();
             if (countQtyInputData != null && countQtyInputData !== "") {
@@ -184,7 +199,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     	                                <td class="procclass">\${procclass}</td>
     	                                <td class="adjQty">\${item.adjQty}</td>
     	                                <td class="note">
-    	                                	<input type="text" id="note\${item.cod}" name="note" class="form-control" placeholder="비고를 입력해주세요."/>
+    	                                	<input type="text" id="note\${item.cod}" name="note" class="form-control" placeholder="비고를 입력해주세요." />
     	                                </td>
     	                                <tr/>
     	                            </tr>`;
@@ -237,7 +252,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
      	                                    <td class="account" id="\${items.account}\${num}" value="\${items.account}">\${items.account}</td>
      	                                    <td class="computingQty" id="\${items.cod}\${num}">\${items.computingQty}</td>
      	                                    <td width=100 class="countQty">
-     	                                        <input type="number" name="countqty" onkeyup="setCountDiff(this.id, '\${items.cod}\${num}')" id="\${items.cod}" class="countqtyinput form-control" placeholder="실사재고량을 입력해주세요." required/>
+     	                                        <input type="number" name="countqty" onkeyup="setCountDiff(this.id, '\${items.cod}\${num}')" id="\${items.cod}" class="countqtyinput form-control" placeholder="실사재고량을 입력해주세요." />
      	                                    </td>
      	                                    <td class="diffQty">\${diffQty}</td>
      	                                    <td class="procclass">\${procclass}</td>

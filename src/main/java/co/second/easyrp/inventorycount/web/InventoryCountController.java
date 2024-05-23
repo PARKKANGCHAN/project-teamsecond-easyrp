@@ -42,23 +42,25 @@ public class InventoryCountController {
 	ProductService productservice;
 	
 	@GetMapping("/inventorycount")
-	public String inventoryCount(SearchVO searchVO, Model model) {
+	public String inventoryCount(SearchVO searchVO, Model model, @RequestParam(defaultValue = "1") int page) {
+		
+		int size=searchVO.getPageSize();
+		
+		searchVO.setOffset((page - 1) * size);
+		
 		List<InventoryCountVO> inventoryCountList=inventorycountservice.inventoryCountList(searchVO);
 		
 		int totalRecords = inventorycountservice.countInventoryCountLists(searchVO);
-		int size = searchVO.getPageSize();
-		int page = searchVO.getOffset();
+
 		int totalPages = (int) Math.ceil((double) totalRecords / size);
 		int pageGroupSize = 10;
-		int currentPageGroup = (page - 1) / pageGroupSize;
+		int currentPageGroup = (size-1)/ pageGroupSize;
 		int startPage = currentPageGroup * pageGroupSize + 1;
 		int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
 		
 		model.addAttribute("searchVO", searchVO);
 		model.addAttribute("inventoryCountList", inventoryCountList);
-		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", totalPages);
-		model.addAttribute("pageSize", size);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("startPage", startPage);
 
@@ -124,10 +126,11 @@ public class InventoryCountController {
 				boolean prodinvcods = prodinvcod[i].contains("prd");
 				if(prodinvcods) {
 					
-							
+					inventorycountdetailvo.setAccount("완제품");
 					inventorycountdetailvo.setProductCod(prodinvcod[i]);
 					inventorycountdetailvo.setComputingQty(computingqty);
 				}else {
+					inventorycountdetailvo.setAccount("자재");
 					inventorycountdetailvo.setInventoryCod(prodinvcod[i]);
 					inventorycountdetailvo.setComputingQty(computingqty);
 				}

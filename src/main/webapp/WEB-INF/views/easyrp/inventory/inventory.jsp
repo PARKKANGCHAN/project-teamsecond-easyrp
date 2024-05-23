@@ -103,41 +103,25 @@
 												<th>품명</th>
 												<th>단위(재고)</th>
 												<th>단가</th>
-												<th>기초수량</th>
-												<th>기초재고금액</th>
 												<th>현재고수량</th>
 												<th>현재고금액</th>
 												<th>안전재고량</th>
+												<th>가용재고량</th>
 											</tr>
 										</thead>
 										<tbody>
 										<c:if test="${not empty inventoryList}">
 											<c:forEach var="inventoryList" items="${inventoryList }">
+												<c:set var="availableQty" value="${inventoryList.curInvQty-inventoryList.safetyInvQty}" />
 												<tr>
 													<td class="text-bold-500">${inventoryList.cod }</td>
 													<td>${inventoryList.name }</td>
 													<td class="text-bold-500">${inventoryList.unit }</td>
-													<td>${inventoryList.unitprice }
-													<td>${inventoryList.qty }</td>
-													<td>${inventoryList.price}
+													<td>${inventoryList.unitprice }</td>
 													<td>${inventoryList.curInvQty }</td>
 													<td>${inventoryList.curInvPrice }</td>
 													<td>${inventoryList.safetyInvQty }</td>
-													<td>
-														<div class="btn-group">
-															<button type="button"
-																class="btn btn-primary dropdown-toggle"
-																data-bs-toggle="dropdown" aria-expanded="false">
-																<i class="fa-solid fa-gear"></i>
-															</button>
-															<ul class="dropdown-menu">
-																<li><a class="dropdown-item"
-																	href="updateInventory?cod=${inventoryList.cod}">수정</a></li>
-																<li><a class="dropdown-item"
-																	href="deletefnInventory?cod=${inventoryList.cod}">삭제</a></li>
-															</ul>
-														</div>
-													</td>
+													<td class="availableQty">${availableQty }</td>
 												</tr>
 											</c:forEach>
 											</c:if>
@@ -267,16 +251,16 @@
 										<tbody>
 										<c:if test="${not empty productList}">
 											<c:forEach var="productList" items="${productList }">
+												<c:set var="availableQty" value="${productList.curInvQty-productList.safetyInvQty}" />
 												<tr>
 													<td class="text-bold-500">${productList .cod }</td>
 													<td>${productList .prodname }</td>
 													<td class="text-bold-500">${productList.unit }</td>
-													<td>${productList.unitprice }
-													<td>${productList.basicInvQty }</td>
-													<td>${productList.basicInvPrice}
+													<td>${productList.unitprice }</td>
 													<td>${productList.curInvQty }</td>
 													<td>${productList.curInvPrice }</td>
 													<td>${productList.safetyInvQty }</td>
+													<td class="availableQty">${availableQty }</td>
 													<td>
 														<div class="btn-group">
 															<button type="button"
