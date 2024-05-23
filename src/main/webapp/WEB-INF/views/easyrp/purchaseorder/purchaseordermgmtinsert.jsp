@@ -4,6 +4,11 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
    <head>
       <meta charset="UTF-8" />
+      <style type="text/css">
+      	.bigBox > * {
+      		margin-top: 10px;
+      	}
+      </style>
    </head>
    <body>
       <!-- 공통 사용 테이블 START -->
@@ -55,15 +60,15 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                     </tr>
                                     <tr>
                                        <td width="150">거래처</td>
-                                       <td>
+                                       <td class="bigBox">
                                             <input type="text"
                                             	   id="searchClientCod"
-									  			   name="clientCod"
 									  			   class="form-control"
 												   placeholder="거래처번호"
 												   required
 												   autocomplete="off"
-												   onkeypress="return false;" />
+												   onkeypress="return false;"
+												   disabled />
 											<input type="text"
 												   id="searchClientName"
 												   name="searchClientName"
@@ -71,19 +76,22 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 												   placeholder="거래처명"
 												   required
 												   autocomplete="off"
-												   onkeypress="return false;" />
+												   onkeypress="return false;"
+												   disabled/>
+											<input type="hidden" 
+												   name="clientCod" />
 											<button type="button"
 												class="btn btn-primary loadValues"
 												data-input-id1="searchClientCod"
 												data-input-id2="searchClientName"
 												data-key="client"
 												data-bs-toggle="modal"
-												data-bs-target="#searchModal">저장 값 가져오기</button>
+												data-bs-target="#searchModal">거래처 조회</button>
                         	           </td>
                                     </tr>
                                     <tr>
                                        <td width="150">발주담당자</td>
-                                       <td>
+                                       <td class="bigBox">
                                           <input type="text"
                                           		 id="searchEmpCodPo"
 												 name="employeeCodPo"
@@ -91,7 +99,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 												 placeholder="사원번호"
  											     required
  											     autocomplete="off"
-												 onkeypress="return false;" />
+												 onkeypress="return false;"
+												 disabled/>
 										  <input type="text"
 										  		 id="searchEmpNamePo"
 												 name="searchEmpNamePo"
@@ -99,19 +108,22 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 												 placeholder="사원명"
 												 required
 												 autocomplete="off"
-												 onkeypress="return false;" />
+												 onkeypress="return false;"
+												 disabled/>
+										  <input type="hidden" 
+											     name="employeeCodPo" />
 										  <button type="button"
 										  		  class="btn btn-primary loadValues"
 												  data-input-id1="searchEmpCodPo"
 												  data-input-id2="searchEmpNamePo"
 												  data-key="emp"
 												  data-bs-toggle="modal"
-												  data-bs-target="#searchModal">저장 값 가져오기</button>
+												  data-bs-target="#searchModal">사원 조회</button>
                                        </td>
                                     </tr>
                                     <tr>
                                        <td width="150">입고담당자</td>
-                                       <td>
+                                       <td class="bigBox">
                                           <input type="text" 
                                           		 id="searchEmpCodIbound"
 												 name="employeeCodIbound"
@@ -119,7 +131,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 												 placeholder="사원번호"
 												 required
 												 autocomplete="off"
-												 onkeypress="return false;" />
+												 onkeypress="return false;"
+												 disabled />
 										  <input type="text"
 										  		 id="searchEmpNameIbound"
 												 name="searchEmpNameIbound"
@@ -127,14 +140,17 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 												 placeholder="사원명"
 												 required
 												 autocomplete="off"
-												 onkeypress="return false;" />
+												 onkeypress="return false;"
+												 disabled />
+										  <input type="hidden" 
+											     name="employeeCodIbound" />
 										  <button type="button"
 										  		  class="btn btn-primary loadValues"
 												  data-input-id1="searchEmpCodIbound"
 												  data-input-id2="searchEmpNameIbound"
 												  data-key="emp"
 												  data-bs-toggle="modal"
-												  data-bs-target="#searchModal">저장 값 가져오기</button>
+												  data-bs-target="#searchModal">사원 조회</button>
                                        </td>
                                     </tr>
                                     <tr>
@@ -608,6 +624,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
              success: function (data) {
                 let rows = '';
                 data.forEach(function (item) {
+                	console.log(item);
                 	let checkedStr = '';
                 	$('.applyInvoiceProd').each((index, value) => {
               		  if($(value).data('key') == item.invoice_cod + item.num) {
@@ -617,12 +634,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                       rows +=
                          '<tr class="invoiceSearchValue" data-invoice-cod="' +
                          item.invoice_cod +
-                         '" data-product-cod="' +
-                         item.product_cod +
                          '" data-inventory-cod="' +
                          item.inventory_cod +
-                         '" data-prodname="' +
-                         item.prodname +
                          '" data-invname="' +
                          item.invname +
                          '" onClick="rowChk('+ "'" + item.invoice_cod + item.num + "'" + ')">' +
