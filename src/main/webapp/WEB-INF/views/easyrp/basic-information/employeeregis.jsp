@@ -35,39 +35,55 @@
 				</div>
 			</div>
 
-			<section class="section">
-				<div class="card">
-					<div class="card-header"
-						style="display: flex; justify-content: space-between;">
-						<h5 class="card-title">기본정보</h5>
-						<div>
+
+
+
+
+
 							<a href="employeelist">돌아가기</a>
 							<button type="button" onclick="employeeRegisSubmit()">등록</button>
-						</div>
-					</div>
+
+
+
+
+			<section class="section">
+				<div class="row" id="table-hover-row">
+					<div class="col-12">
+						<div class="card mb-4">
+							<div class="card-header py-3">
+								<div class="d-flex">
+									<h5 class="m-0">제품 등록</h5>
+								</div>
+							</div>
 					<div>모든항목은 필수항목입니다</div>
-					<div class="card-body">
-						<div>
-							<div>
-								<span>이름</span> <input type="text" id="empName" />
-							</div>
-						</div>
-						<div>
-							<div>
-								<span>생년월일</span> <input type="date" id="empBirthdate" />
-							</div>
-							<div>
-								<span>성별</span> <select id="empGender">
-									<option value="">선택</option>
-									<option value="M">여성</option>
-									<option value="F">남성</option>
-								</select>
-							</div>
-						</div>
-						<div>
-							<div>
+					<div class="card-body mb-3">
+						<form action="productmgmtinsertfn" method="post">
+							<div class="mb-4">
+								<table class="table table-bordered">
+									<tr>
+										<td width="150">사원명</td>
+										<td><input type="text" id="empName"
+													class="form-control"
+													placeholder="사원명을 입력해주세요."/></td>
+									</tr>
+									<tr>
+										<td width="150">생년월일</td>
+										<td><input type="date" id="empBirthdate"
+													class="form-control"
+													placeholder="사원명을 입력해주세요."/></td>
+									</tr>
+									<tr>
+										<td width="150">성별</td>
+										<td>
+											<select class="form-control" id="empGender">
+												<option value="">선택</option>
+												<option value="M">여성</option>
+												<option value="F">남성</option>
+											</select>
+										</td>
+									</tr>
+
 								<span>이메일</span> <input type="text" id="empEmail" />
-							</div>
 							<div>
 								<span>전화번호</span> <input type="text" id="empTel"
 									onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" />
@@ -140,6 +156,13 @@
 	<!-- 부서찾기 Modal END  -->
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
+	//모달 스크롤바
+	function modalScroll() {
+		$('.modal-body').addClass('overflow-y-auto');
+		$('.modal-body').css('height', '60vh');
+	};
+	modalScroll();
+
 		function checkNumber(event) {
 		  if(event.key >= 0 && event.key <= 9) {
 		    return true;

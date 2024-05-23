@@ -31,9 +31,8 @@
 			   i2.vax,
 			   i2.total
 		FROM invoice i
-		JOIN invoicedetail i2 ON i.cod = i2.invoice_cod
+		LEFT JOIN invoicedetail i2 ON i.cod = i2.invoice_cod AND i2.deleteyn = 'N' 
 		WHERE i.inv_class = '구매' AND
-			  i.inq_class = 'Y' AND
 			  i.deleteyn = 'N' AND
 		CONCAT(i2.invoice_cod, i2.num) not in(
 				SELECT CONCAT(p.invoice_cod, p.invoicedetail_num)

@@ -193,6 +193,13 @@
 	</div>
 	<!-- 부서찾기 Modal END  -->
 	<script type="text/javascript">
+	//모달 스크롤바
+	function modalScroll() {
+		$('.modal-body').addClass('overflow-y-auto');
+		$('.modal-body').css('height', '60vh');
+	};
+	modalScroll();
+
 		const finalChk = () => {
 			return true;
 		}
