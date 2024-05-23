@@ -40,9 +40,9 @@
 					<div class="col-12">
 						<div class="card mb-4">
 							<div class="card-header py-3">
-								<div>
-									<h5 class="m-0">사원수정</h5>
-								</div>
+								<div class="d-flex">
+										<h5 class="m-0">사원 수정</h5>
+									</div>
 							</div>
 							<div class="card-body mb-3">
 								<form action="empupdatefn" method="post" onsubmit="finalChk()">
@@ -60,12 +60,24 @@
 													value="${emp.name }" required /></td>
 											</tr>
 											<tr>
-												<td width="150">부서번호</td>
-												<td><input type="text" id="deptCod"
-													name="departmentCod" class="form-control" value="${emp.departmentCod }" readonly />
-													<button type="button" class="btn btn-primary"
-														id="loadValues" data-bs-toggle="modal"
-														data-bs-target="#kvModal">저장 값 가져오기</button></td>
+											<td width="150">부서번호</td>
+												<td>
+													<input type="text"
+														   id="deptCodPrint"
+														   class="form-control"
+														   style="width: 70%; float: left"
+														   value="${emp.departmentCod }"
+														   disabled
+														   readonly />
+													<input type="hidden" id="deptCod" name="departmentCod" />
+													<button type="button"
+														    class="btn btn-primary"
+														    id="loadValues"
+														    style="margin-left: 2rem; width: 15%"
+															data-bs-toggle="modal"
+															data-bs-target="#kvModal">
+													부서 조회</button>
+												</td>
 											</tr>
 											<tr>
 												<td width="150">직책</td>
@@ -106,12 +118,12 @@
 														<option value="">선택</option>
 														<c:choose>
 															<c:when test="${emp.gender eq 'M'}">
-																<option value="F" selected>남성</option>
-																<option value="M" >여성</option>
+																<option value="M" selected>남성</option>
+																<option value="F" >여성</option>
 															</c:when>
 															<c:otherwise>
-																<option value="F">남성</option>
-																<option value="M" selected>여성</option>
+																<option value="M">남성</option>
+																<option value="F" selected>여성</option>
 															</c:otherwise>
 														</c:choose>
 													</select>
@@ -203,114 +215,74 @@
 		const finalChk = () => {
 			return true;
 		}
-		/* 부서찾기 Modal START */
-		function setValue(cod) {
-			$('#deptCod').val(cod);
-			$('#kvModal').modal('hide');
-			$('.modal-backdrop').remove();
-		}
+		 /* 부서찾기 Modal START */
+	    function setValue(cod) {
+	       $('#deptCod').val(cod);
+	       $('#deptCodPrint').val(cod);
+	       $('#kvModal').modal('hide');
+	       $('.modal-backdrop').remove();
+	    }
 
-		$(document)
-				.ready(
-						function() {
-							$('#loadValues')
-									.on(
-											'click',
-											function() {
-												$
-														.ajax({
-															url : 'deptsearch',
-															method : 'GET',
-															dataType : "json",
-															success : function(
-																	data) {
-																let rows = '';
-																data
-																		.forEach(function(
-																				item) {
-																			rows += '<tr onclick="setValue(\''
-																					+ item.cod
-																					+ '\')" '
-																					+ 'class="searchValue" data-cod="'
-																					+ item.cod
-																					+ '" data-name="'
-																					+ item.name
-																					+ '" data-wrkname="'
-																					+ item.wrkname
-																					+ '" data-location="'
-																					+ item.location
-																					+ '" style= "'
-																					+ 'cursor: pointer'
-																					+ '">'
-																					+ '<td>'
-																					+ item.cod
-																					+ '</td>'
-																					+ '<td>'
-																					+ item.name
-																					+ '</td>'
-																					+ '<td>'
-																					+ item.wrkname
-																					+ '</td>'
-																					+ '<td>'
-																					+ item.location
-																					+ '</td>'
-																					+ '</tr>';
+	    $(document).ready(function () {
+	       $('#loadValues').on('click', function () {
+	          $.ajax({
+	             url: 'deptsearch',
+	             method: 'GET',
+	             dataType:"json",
+	             success: function (data) {
+	                let rows = '';
+	                data.forEach(function (item) {
+	                      rows +=
+	                         '<tr onclick="setValue(\'' +
+	                         item.cod + 
+	                         '\')" ' +
+	                         'class="searchValue" data-cod="' +
+	                         item.cod +
+	                         '" data-name="' +
+	                         item.name +
+	                         '" data-wrkname="' +
+	                         item.wrkname +
+	                         '" data-location="' +
+	                         item.location +
+	                         '" style= "' +
+	                         'cursor: pointer' +
+	                         '">' +
+	                         '<td>' +
+	                         item.cod +
+	                         '</td>' +
+	                         '<td>' +
+	                         item.name +
+	                         '</td>' +
+	                         '<td>' +
+	                         item.wrkname +
+	                         '</td>' +
+	                         '<td>' +
+	                         item.location +
+	                         '</td>' +
+	                         '</tr>';
+	                         
+	                });
+	                $('#modalTableBody').html(rows);
+	                $('#kvModal').modal('show');
+	             },
+	          });
+	       });
 
-																		});
-																$(
-																		'#modalTableBody')
-																		.html(
-																				rows);
-																$('#kvModal')
-																		.modal(
-																				'show');
-															},
-														});
-											});
-
-							$('#searchInput')
-									.on(
-											'keyup',
-											function() {
-												var searchInputVlaue = $(this)
-														.val().toLowerCase()
-												$('.searchValue')
-														.each(
-																function() {
-																	var cod = $(
-																			this)
-																			.data(
-																					'cod')
-																			.toLowerCase()
-																	var name = $(
-																			this)
-																			.data(
-																					'name')
-																			.toLowerCase()
-																	var wrkname = $(
-																			this)
-																			.data(
-																					'wrkname')
-																			.toLowerCase()
-																	var location = $(
-																			this)
-																			.data(
-																					'location')
-																			.toLowerCase()
-																	$(this)
-																			.toggle(
-																					cod
-																							.includes(searchInputVlaue)
-																							|| name
-																									.includes(searchInputVlaue)
-																							|| wrkname
-																									.includes(searchInputVlaue)
-																							|| location
-																									.includes(searchInputVlaue));
-																});
-											});
-						});
-		/* 부서찾기 Modal END */
+	       $('#searchInput').on('keyup', function () {
+	          var searchInputVlaue = $(this).val().toLowerCase()
+	          $('.searchValue').each(function () {
+	             var cod = $(this).data('cod').toLowerCase()
+	             var name = $(this).data('name').toLowerCase()
+	             var wrkname = $(this).data('wrkname').toLowerCase()
+	             var location = $(this).data('location').toLowerCase()
+	             $(this).toggle(cod.includes(searchInputVlaue) 
+	            		 		|| name.includes(searchInputVlaue)
+	            		 		|| wrkname.includes(searchInputVlaue)
+	            		 		|| location.includes(searchInputVlaue));
+	          });
+	       });
+	    });
+	    /* 부서찾기 Modal END */
 	</script>
 </body>
 
