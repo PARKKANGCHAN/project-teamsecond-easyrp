@@ -6,9 +6,25 @@
 <head>
 <meta charset="UTF-8" />
 <style type="text/css">
-.editBox {
+.editBox:not(button) {
 	width: 100px;
 }
+.delBtn {
+	width: 60px;
+}
+.inputBox {
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #607080;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #dce7f1;
+    border-radius: 0.25rem;
+]
 </style>
 </head>
 <body>
@@ -307,7 +323,7 @@
 	<div class="modal fade" id="detailModal" tabindex="-1"
 		aria-labelledby="detailModalLabel" aria-hidden="true"
 		data-bs-backdrop='static' data-bs-keyboard='false'>
-		<div class="modal-dialog modal-xl" style="width: 1400px;">
+		<div class="modal-dialog modal-xl" style="width: 1600px;">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="detailModalLabel">발주 상세 페이지</h5>
@@ -319,41 +335,41 @@
 						<tr>
 							<th scope="col">발주번호</th>
 							<td><span id="codPrint" class="printBox"></span> <input
-								style="display: none" id="cod" class="editBox" readonly /></td>
+								style="display: none" id="cod" class="editBox inputBox" readonly /></td>
 							<th scope="col">발주일자</th>
 							<td><span id="poDatePrint" class="printBox"></span> <input
-								type="date" style="display: none" id="poDate" class="editBox" />
+								type="date" style="display: none" id="poDate" class="editBox inputBox" />
 							</td>
 							<th scope="col">거래처 명</th>
 							<td>
 								<span style="display: none"></span>
 								<span id="clientNamePrint" class="printBox"></span>
-								<input id="clientCod" style="display: none" class="loadValues editBox"
+								<input id="clientCod" style="display: none" class="loadValues editBox inputBox"
 									data-input-id1="clientCod" data-input-id2="clientName" data-key="client" data-bs-toggle="modal"
 									data-bs-target="#searchModal" readonly/>
-								<input style="display: none" id="clientName" class="loadValues editBox"
+								<input style="display: none" id="clientName" class="loadValues editBox inputBox"
 									data-input-id1="clientCod" data-input-id2="clientName" data-key="client" data-bs-toggle="modal"
 									data-bs-target="#searchModal" readonly/>
 							</td>
 							<th scope="col">입고일자</th>
 							<td><span id="iboundDatePrint" class="printBox"></span> <input
 								type="date" style="display: none" id="iboundDate"
-								class="editBox" /></td>
+								class="editBox inputBox" /></td>
 							<th scope="col">마감일자</th>
 							<td><span id="closingDatePrint" class="printBox"></span> <input
 								type="date" style="display: none" id="closingDate"
-								class="editBox" /></td>
+								class="editBox inputBox" /></td>
 						</tr>
 						<tr>
 							<th scope="col">발주등록자</th>
 							<td><span id="employeeCodWriterPrint" class="printBox"></span>
 								<span id="employeeNameWriterPrint" class="printBox"></span> <input
 								style="display: none" id="employeeCodWriter"
-								class="loadValues editBox" data-input-id1="employeeCodWriter"
+								class="loadValues editBox inputBox" data-input-id1="employeeCodWriter"
 								data-input-id2="employeeNameWriter" data-key="emp"
 								data-bs-toggle="modal" data-bs-target="#searchModal" readonly />
 								<input style="display: none" id="employeeNameWriter"
-								class="loadValues editBox" data-input-id1="employeeCodWriter"
+								class="loadValues editBox inputBox" data-input-id1="employeeCodWriter"
 								data-input-id2="employeeNameWriter" data-key="emp"
 								data-bs-toggle="modal" data-bs-target="#searchModal" readonly />
 							</td>
@@ -361,11 +377,11 @@
 							<td><span id="employeeCodPoPrint" class="printBox"></span> <span
 								id="employeeNamePoPrint" class="printBox"></span> <input
 								style="display: none" id="employeeCodPo"
-								class="loadValues editBox" data-input-id1="employeeCodPo"
+								class="loadValues editBox inputBox" data-input-id1="employeeCodPo"
 								data-input-id2="employeeNamePo" data-key="emp"
 								data-bs-toggle="modal" data-bs-target="#searchModal" readonly />
 								<input style="display: none" id="employeeNamePo"
-								class="loadValues editBox" data-input-id1="employeeCodPo"
+								class="loadValues editBox inputBox" data-input-id1="employeeCodPo"
 								data-input-id2="employeeNamePo" data-key="emp"
 								data-bs-toggle="modal" data-bs-target="#searchModal" readonly />
 							</td>
@@ -373,24 +389,24 @@
 							<td><span id="employeeCodIboundPrint" class="printBox"></span>
 								<span id="employeeNameIboundPrint" class="printBox"></span> <input
 								style="display: none" id="employeeCodIbound"
-								class="loadValues editBox" data-input-id1="employeeCodIbound"
+								class="loadValues editBox inputBox" data-input-id1="employeeCodIbound"
 								data-input-id2="employeeNameIbound" data-key="emp"
 								data-bs-toggle="modal" data-bs-target="#searchModal" readonly />
 								<input style="display: none" id="employeeNameIbound"
-								class="loadValues editBox" data-input-id1="employeeCodIbound"
+								class="loadValues editBox inputBox" data-input-id1="employeeCodIbound"
 								data-input-id2="employeeNameIbound" data-key="emp"
 								data-bs-toggle="modal" data-bs-target="#searchModal" readonly />
 							</td>
 							<th scope="col">납기일</th>
 							<td><span id="ddayPrint" class="printBox"></span> <input
-								type="date" style="display: none" id="dday" class="editBox" /></td>
+								type="date" style="display: none" id="dday" class="editBox inputBox" /></td>
 							<th scope="col">상태</th>
 							<td><span id="stateNamePrint" class="printBox"></span> <select
-								id="stateCod" class="editBox" style="display: none">
+								id="stateCod" class="editBox inputBox" style="display: none">
 							</select></td>
 							<th scope="col">비고</th>
 							<td><span id="notePrint" class="printBox"></span> <input
-								style="display: none" id="note" class="editBox" /></td>
+								style="display: none" id="note" class="editBox inputBox" /></td>
 						</tr>
 					</table>
 					<table class="table">
@@ -408,7 +424,7 @@
 								<th colspan="1">공급가</th>
 								<th colspan="1">부가세</th>
 								<th colspan="1">합계액</th>
-								<th colspan="1">삭제</th>
+								<th colspan="1"></th>
 							</tr>
 						</thead>
 						<tbody id="detailList">
@@ -990,7 +1006,7 @@
  		            	 row += '<td name="invoicedetailNum">' + (item.invoicedetail_num == null ? '' : item.invoicedetail_num) + '</td>'; 
  		            	 row += '<td name='+ (item.product_cod == null ? "inventoryCod" : "productCod") +'>' + (item.product_cod == null ? item.inventory_cod : item.product_cod) + '</td>'; 
  		            	 row += '<td>' + (item.prodname == null ? item.invname : item.prodname) + '</td>'; 
- 		            	 row += '<td name="mgmtQty"><span>' + item.mgmt_qty + '</span><button type="button" style="display: none" class="editBox" onClick="amountChange(' + "'+'," + "'" + item.purchaseorder_cod + item.num + "'" + ')">+</button><button type="button" style="display: none" class="editBox" onClick="amountChange(' + "'-'," + "'" + item.purchaseorder_cod + item.num + "'" + ')">-</button></td>'; 
+ 		            	 row += '<td name="mgmtQty"><span>' + item.mgmt_qty + '</span><button type="button" style="display: none" class="editBox btn btn-primary" onClick="amountChange(' + "'+'," + "'" + item.purchaseorder_cod + item.num + "'" + ')">+</button><button type="button" style="display: none" class="editBox btn btn-primary" onClick="amountChange(' + "'-'," + "'" + item.purchaseorder_cod + item.num + "'" + ')">-</button></td>'; 
  		            	 row += '<td>' + item.unit_mgmt_name + '</td>'; 
  		            	 row += '<td name="invQty"><span>' + item.inv_qty + '</span></td>'; 
  		            	 row += '<td>' + item.unit_inv_name + '</td>'; 
@@ -1000,7 +1016,7 @@
  		            	 row += '<td name="total"><span>' + item.total + '</span></td>'; 
 	            		 row += '<input type="hidden" name="unitMgmt" value="'+ (item.product_cod == null ? item.inv_mgmt_unit_cod : item.prod_mgmt_unit_cod) +'">';
 	            		 row += '<input type="hidden" name="unitInv" value="'+ (item.product_cod == null ? item.inv_unit_cod : item.prod_unit_cod) +'">';
- 		            	 row += '<td><button type="button" style="display: none" class="btn-primary editBox" onClick="{delProd(event)}">삭제</button></td></tr>'
+ 		            	 row += '<td><button type="button" style="display: none" class="btn btn-primary editBox delBtn" onClick="{delProd(event)}">삭제</button></td></tr>'
 	            		 rows += row;
 	            	 });
 	            	 $('#detailList').html(rows);
@@ -1415,13 +1431,13 @@
     		if(item.name === 'unitMgmt' || item.name === 'unitInv') {
             	rows += '<input type="hidden" name="'+ item.name +'" value="'+ item.value +'">';
     		} else if(item.name === 'mgmtQty') {
-            	rows += '<td name="'+ item.name +'"><span>' + item.value + '</span><button type="button" class="editBox" onClick="amountChange(' + "'+'," + "'" + prodInputKey + "'" + ')">+</button><button type="button" class="editBox" onClick="amountChange(' + "'-'," + "'" + prodInputKey + "'" + ')">-</button></td>';
+            	rows += '<td name="'+ item.name +'"><span>' + item.value + '</span><button type="button" class="editBox btn btn-primary" onClick="amountChange(' + "'+'," + "'" + prodInputKey + "'" + ')">+</button><button type="button" class="btn btn-primary editBox" onClick="amountChange(' + "'-'," + "'" + prodInputKey + "'" + ')">-</button></td>';
     		} else {
             	rows += '<td name="'+ item.name +'"><span>' + item.value + '</span></td>';
     		}
     	})
     	prodInputKey++;
-    	rows += '<td><button class="editBox" type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
+    	rows += '<td><button class="btn btn-primary editBox delBtn" type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
     	$('#detailList').append(rows);
     	$('#prodInputModal').modal('hide');
     	$('#detailModal').modal('show');
@@ -1498,27 +1514,26 @@
                 var supprice = $(item).data('supprice');
                 var total = $(item).data('total');
                 var key = $(item).data('key');
-    		
-            	if(productCod == null) {
+            	if(productCod == 'undefined') {
             		amounts = 'data-prodmgmtunitamount="undefined" data-produnitamount="undefined" data-invmgmtunitamount="'+ invMgmtUnitAmount +'" data-invunitamount="' + invUnitAmount + '"';
             	} else {
             		amounts = 'data-prodmgmtunitamount="' + prodMgmtUnitAmount + '" data-produnitamount="' + prodUnitAmount + '" data-invmgmtunitamount="undefined" data-invunitamount="undefined"';
             	}
                     let row = '<tr id="'+ key +'" class="applyInvoiceProd prodList" data-key="'+ key +'" ' + amounts + '">';
                     row += '<td name="invoiceCod">'+ invoiceCod +'</td><td name="invoicedetailNum">'+ invoicedetailNum +'</td>';
-                    row += '<td name='+ (productCod == null ? "inventoryCod" : "productCod") +'>'+ (productCod == null ? inventoryCod : productCod) +'</td>';
-                    row += '<td name='+ (prodname == null ? "invname" : "prodname") +'>'+ (prodname == null ? invname : prodname) +'</td>';
-                    row += '<td name="mgmtQty"><span>'+ invMgmtQty +'</span><button type="button" class="editBox" onClick="amountChange(' + "'+'," + "'" + key + "'" + ')">+</button><button type="button" class="editBox" onClick="amountChange(' + "'-'," + "'" + key + "'" + ')">-</button></td>';
-                    row += '<td>'+ (productCod == null ? invMgmtUnitName : prodMgmtUnitName) +'</td>';
+                    row += '<td name='+ (productCod == 'undefined' ? "inventoryCod" : "productCod") +'>'+ (productCod == 'undefined' ? inventoryCod : productCod) +'</td>';
+                    row += '<td name='+ (prodname == 'undefined' ? "invname" : "prodname") +'>'+ (prodname == 'undefined' ? invname : prodname) +'</td>';
+                    row += '<td name="mgmtQty"><span>'+ invMgmtQty +'</span><button type="button" class="editBox btn btn-primary" onClick="amountChange(' + "'+'," + "'" + key + "'" + ')">+</button><button type="button" class="btn btn-primary editBox" onClick="amountChange(' + "'-'," + "'" + key + "'" + ')">-</button></td>';
+                    row += '<td>'+ (productCod == 'undefined' ? invMgmtUnitName : prodMgmtUnitName) +'</td>';
                     row += '<td name="invQty"><span>'+ invQty +'</span></td>';
-                    row += '<td>'+ (productCod == null ? invUnitName : prodUnitName) +'</td>';
+                    row += '<td>'+ (productCod == 'undefined' ? invUnitName : prodUnitName) +'</td>';
                     row += '<td name="unitprice"><span>'+ unitprice +'</span></td>';
                     row += '<td name="supprice"><span>'+ supprice +'</span></td>';
                     row += '<td name="vax"><span>'+ vax +'</span></td>';
                     row += '<td name="total"><span>'+ total +'</span></td>';
-                    row += '<input type="hidden" name="unitMgmt" value="'+ (productCod == null ? invMgmtUnitCod : prodMgmtUnitCod) +'">';
-                    row += '<input type="hidden" name="unitInv" value="'+ (productCod == null ? invUnitCod : prodUnitCod) +'">';
-                    row += '<td><button class="editBox" type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
+                    row += '<input type="hidden" name="unitMgmt" value="'+ (productCod == 'undefined' ? invMgmtUnitCod : prodMgmtUnitCod) +'">';
+                    row += '<input type="hidden" name="unitInv" value="'+ (productCod == 'undefined' ? invUnitCod : prodUnitCod) +'">';
+                    row += '<td><button class="btn btn-primary editBox delBtn" type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
                     rows += row;    			
     			}	
     		});
@@ -1567,9 +1582,9 @@
 	                            '" data-prodname="' +
 	                            item.prodname +
 	                            '" data-inventory-cod="' +
-	                            item.product_cod +
+	                            item.inventory_cod +
 	                            '" data-invname="' +
-	                            item.prodname +
+	                            item.invname +
 	                            '" data-unitprice="' +
 	                            item.unitprice +
 	                            '" data-vax="' +
