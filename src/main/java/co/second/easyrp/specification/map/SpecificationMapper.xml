@@ -25,5 +25,45 @@
 		WHERE o.cod = #{orderCod}
 	</select>
 	<!-- 테이블의 메인에 값을 깔기 위한 쿼리 END -->
+	
+		<!-- 완료 -->
+	<update id="updateOrderSpecificationState"
+		parameterType="co.second.easyrp.specification.service.SpecificationVO">
+		UPDATE orders
+		SET
+		is_specification = 'Y'
+		WHERE cod = #{orderCod}
+	</update>
+	
+	
+	<select id="getPurchaseDatas"
+		parameterType="co.second.easyrp.specification.service.SpecificationVO"
+		resultType="co.second.easyrp.specification.service.SpecificationVO">
+		SELECT  p.cod AS 'purchaseCod',
+			c.name AS 'clientName',
+			c.address AS 'clientAddress',
+			c.manager_tel AS 'clientTel',
+			p.po_date AS 'purchaseDate',
+			i.name AS 'inventoryName',
+			p2.mgmt_qty AS 'purchaseMgmtQty',
+			p2.inv_qty AS 'purchaseInvQty',
+			p.state_cod AS 'inboundState',
+			p.is_specification AS 'isSpecification',
+			p2.unitprice AS 'unitPrice'
+		FROM purchaseorder p
+		JOIN client c ON c.cod = p.client_cod
+		JOIN purchaseorderdetail p2 ON p.cod = p2.purchaseorder_cod
+		JOIN inventory i ON i.cod = p2.inventory_cod
+		WHERE p.cod = #{purchaseCod}
+	</select>
+	
+	
+	<!-- 완료 -->
+	<update id="updatePurchaseSpecificationState"
+		parameterType="co.second.easyrp.specification.service.SpecificationVO">
+		UPDATE purchaseorder
+		SET is_specification = 'Y'
+		WHERE cod = #{purchaseCod}
+	</update>
 
 </mapper>

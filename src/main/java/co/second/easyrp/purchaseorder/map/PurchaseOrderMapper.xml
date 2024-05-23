@@ -80,7 +80,8 @@
 			(SELECT e.name FROM employee e  WHERE p.employee_cod_ibound = e.cod) as 'empNameIbound',
 			p.printcnt,
 			p.note,
-			p.deleteyn
+			p.deleteyn,
+			p.is_specification
 		FROM purchaseorder p 
 	</sql>
 	

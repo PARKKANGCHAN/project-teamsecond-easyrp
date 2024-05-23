@@ -10,4 +10,12 @@ public interface SpecificationMapper {
 	// 명세서에 값을 담을 데이터 List
 	List<SpecificationVO> getOrderDatas(SpecificationVO specificationVO);
 	
+	// 명세서 상태 업데이트를 위한 기능 인터페이스
+	int updateOrderSpecificationState(SpecificationVO specificationVO);
+	
+	// 발주명세서 값을 담을 데이터 List
+	List<SpecificationVO> getPurchaseDatas(SpecificationVO specificationVO);
+	
+	// 발주명세서 상태 업데이트를 위한 기능 인터페이스
+	int updatePurchaseSpecificationState(SpecificationVO specificationVO);
 }

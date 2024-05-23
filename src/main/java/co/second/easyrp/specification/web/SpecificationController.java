@@ -24,7 +24,22 @@ public class SpecificationController {
 		List<SpecificationVO> getOrderDatas =  specificationService.getOrderDatas(specificationVO);
 		
 		model.addAttribute("getOrderDatas", getOrderDatas);
+		
+		specificationService.updateOrderSpecificationState(specificationVO);
 		return "easyrp/orders/orderspecification/orderspecification";
+	}
+	
+	// 발주명세서 페이지 이동
+	// 2024년 5월 22일 오전 11시 01분 추가 박현우
+	@GetMapping("/purchasespecification")
+	public String purchaseSpecification(SpecificationVO specificationVO, Model model) {
+		
+		List<SpecificationVO> getPurchaseDatas =  specificationService.getPurchaseDatas(specificationVO);
+		
+		model.addAttribute("getPurchaseDatas", getPurchaseDatas);
+		
+		specificationService.updatePurchaseSpecificationState(specificationVO);
+		return "easyrp/purchaseorder/purchasespecification/purchasespecification";
 	}
 	
 

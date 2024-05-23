@@ -6,9 +6,9 @@
 <head>
 <meta charset="UTF-8" />
 <style type="text/css">
-	.editBox {
-		width: 100px;
-	}
+.editBox {
+	width: 100px;
+}
 </style>
 </head>
 <body>
@@ -50,7 +50,8 @@
 											<div class="col-12 col-md-6 order-md-1 order-last">
 												<h3>검색</h3>
 											</div>
-											<form id="searchForm" name="searchForm" action="purchaseordermgmttable" method="post">
+											<form id="searchForm" name="searchForm"
+												action="purchaseordermgmttable" method="post">
 												<div class="mb-4" style="text-align: center">
 													<table class="table table-bordered" id="searchTable">
 														<tr>
@@ -69,31 +70,34 @@
 																id="searchToPoDate" name="searchToPoDate"
 																value="${vo.searchToPoDate}" class="form-control"
 																style="width: 47%; float: right" /></td>
-																
+
 															<td width="100">거래처</td>
-															<td colspan="2"><input type="text" id="searchClientCod"
-																name="searchClientCod" class="form-control"
-																value="${vo.searchClientCod}" placeholder="거래처번호" />
-																<input type="text" id="searchClientName"
-																name="searchClientName" class="form-control"
-																value="${vo.searchClientName}" placeholder="거래처명" />
+															<td colspan="2"><input type="text"
+																id="searchClientCod" name="searchClientCod"
+																class="form-control" value="${vo.searchClientCod}"
+																placeholder="거래처번호" /> <input type="text"
+																id="searchClientName" name="searchClientName"
+																class="form-control" value="${vo.searchClientName}"
+																placeholder="거래처명" />
 																<button type="button" class="btn btn-primary loadValues"
-																	data-input-id1="searchClientCod" data-input-id2="searchClientName" data-key="client" data-bs-toggle="modal"
-																	data-bs-target="#searchModal">저장 값 가져오기</button>
-															</td>
+																	data-input-id1="searchClientCod"
+																	data-input-id2="searchClientName" data-key="client"
+																	data-bs-toggle="modal" data-bs-target="#searchModal">저장
+																	값 가져오기</button></td>
 														</tr>
 														<tr>
 															<td width="100">발주담당자</td>
 															<td><input type="text" id="searchEmpCodPo"
 																name="searchEmpCodPo" class="form-control"
-																value="${vo.searchEmpCodPo}" placeholder="사원번호" />
-																<input type="text" id="searchEmpNamePo"
-																name="searchEmpNamePo" class="form-control"
-																value="${vo.searchEmpNamePo}" placeholder="사원명" />
+																value="${vo.searchEmpCodPo}" placeholder="사원번호" /> <input
+																type="text" id="searchEmpNamePo" name="searchEmpNamePo"
+																class="form-control" value="${vo.searchEmpNamePo}"
+																placeholder="사원명" />
 																<button type="button" class="btn btn-primary loadValues"
-																	data-input-id1="searchEmpCodPo" data-input-id2="searchEmpNamePo" data-key="emp" data-bs-toggle="modal"
-																	data-bs-target="#searchModal">저장 값 가져오기</button>
-															</td>
+																	data-input-id1="searchEmpCodPo"
+																	data-input-id2="searchEmpNamePo" data-key="emp"
+																	data-bs-toggle="modal" data-bs-target="#searchModal">저장
+																	값 가져오기</button></td>
 															<td width="100">입고담당자</td>
 															<td><input type="text" id="searchEmpCodIbound"
 																name="searchEmpCodIbound" class="form-control"
@@ -102,21 +106,25 @@
 																name="searchEmpNameIbound" class="form-control"
 																value="${vo.searchEmpNameIbound}" placeholder="사원명" />
 																<button type="button" class="btn btn-primary loadValues"
-																	data-input-id1="searchEmpCodIbound" data-input-id2="searchEmpNameIbound" data-key="emp" data-bs-toggle="modal"
-																	data-bs-target="#searchModal">저장 값 가져오기</button>
-															</td>
+																	data-input-id1="searchEmpCodIbound"
+																	data-input-id2="searchEmpNameIbound" data-key="emp"
+																	data-bs-toggle="modal" data-bs-target="#searchModal">저장
+																	값 가져오기</button></td>
 															<td width="100">상태</td>
-															<td>
-																<select name="searchStateCod">
+															<td><select name="searchStateCod">
 																	<option value="">전체</option>
-																	<option value="200" <c:if test="${vo.searchStateCod eq 200}">selected</c:if>>발주</option>
-																	<option value="201" <c:if test="${vo.searchStateCod eq 201}"> selected </c:if>>입고의뢰</option>
-																	<option value="202" <c:if test="${vo.searchStateCod eq 202}"> selected </c:if>>입고검사</option>
-																	<option value="203" <c:if test="${vo.searchStateCod eq 203}"> selected </c:if>>입고처리</option>
-																	<option value="204" <c:if test="${vo.searchStateCod eq 204}"> selected </c:if>>매입마감</option>
-																</select>
-															</td>
-															
+																	<option value="200"
+																		<c:if test="${vo.searchStateCod eq 200}">selected</c:if>>발주</option>
+																	<option value="201"
+																		<c:if test="${vo.searchStateCod eq 201}"> selected </c:if>>입고의뢰</option>
+																	<option value="202"
+																		<c:if test="${vo.searchStateCod eq 202}"> selected </c:if>>입고검사</option>
+																	<option value="203"
+																		<c:if test="${vo.searchStateCod eq 203}"> selected </c:if>>입고처리</option>
+																	<option value="204"
+																		<c:if test="${vo.searchStateCod eq 204}"> selected </c:if>>매입마감</option>
+															</select></td>
+
 															<td width="100">납기기간</td>
 															<td colspan="2"><input type="date"
 																id="searchFromDday" name="searchFromDday"
@@ -127,7 +135,7 @@
 																id="searchToDday" name="searchToDday"
 																value="${vo.searchToDday}" class="form-control"
 																style="width: 47%; float: right" /></td>
-															
+
 															<td width="100">입고기간</td>
 															<td colspan="2"><input type="date"
 																id="searchFromIboundDate" name="searchFromIboundDate"
@@ -138,7 +146,7 @@
 																id="searchToIboundDate" name="searchToIboundDate"
 																value="${vo.searchToIboundDate}" class="form-control"
 																style="width: 47%; float: right" /></td>
-															
+
 															<td width="100">마감기간</td>
 															<td colspan="2"><input type="date"
 																id="searchFromClosingDate" name="searchFromClosingDate"
@@ -153,7 +161,8 @@
 													</table>
 												</div>
 												<div style="text-align: end; margin-right: 0.5rem">
-													<button type="button" class="btn btn-primary" onclick="paging('1')">검색</button>
+													<button type="button" class="btn btn-primary"
+														onclick="paging('1')">검색</button>
 												</div>
 												<input type="hidden" id="page" name="page" value="1" />
 											</form>
@@ -166,16 +175,17 @@
 												<th>발주번호</th>
 												<th>발주일자</th>
 												<th>거래처</th>
-												<th colspan="2" style="text-align: center;">발주등록자</th>
-												<th colspan="2" style="text-align: center;">발주담당자</th>
-												<th colspan="2" style="text-align: center;">입고담당자</th>
-												<th>과세구분</th>
-												<th>출력회수</th>
+												<th>발주등록자</th>
+												<th>발주담당자</th>
+												<th>입고담당자</th>
 												<th>상태</th>
 												<th>납기일</th>
 												<th>입고일</th>
 												<th>매입마감일</th>
 												<th>비고</th>
+												<th></th>
+												<th>설 정</th>
+
 											</tr>
 										</thead>
 										<tbody>
@@ -184,19 +194,25 @@
 													<td class="text-bold-500">${p.cod }</td>
 													<td>${p.po_date }</td>
 													<td>${p.clientName }</td>
-													<td class="text-bold-500">${p.employee_cod_writer }</td>
 													<td>${p.empNameWriter }</td>
-													<td class="text-bold-500">${p.employee_cod_po }</td>
 													<td>${p.empNamePo }</td>
-													<td class="text-bold-500">${p.employee_cod_ibound }</td>
 													<td>${p.empNameIbound }</td>
-													<td class="text-bold-500">${p.taxDivName }</td>
-													<td>${p.printcnt }</td>
 													<td>${p.stateName }</td>
 													<td>${p.dday }</td>
 													<td>${p.ibound_date }</td>
 													<td>${p.closing_date }</td>
 													<td class="text-bold-500">${p.note }</td>
+													<td><c:if
+															test="${p.state_cod eq 203 and p.is_specification == 'N'}">
+															<a href="purchasespecification?purchaseCod=${p.cod}"
+																onclick="window.open(this.href, '_blank', 'width=1024, height=768'); return false;"><button
+																	type="button" class="btn btn-primary">발주명세서 발급</button></a>
+														</c:if> <c:if
+															test="${p.state_cod eq 203 and p.is_specification == 'Y'}">
+															<a href="purchasespecification?purchaseCod=${p.cod}"
+																onclick="window.open(this.href, '_blank', 'width=1024, height=768'); return false;"><button
+																	type="button" class="btn btn-success">발주명세서 재발급</button></a>
+														</c:if></td>
 													<td>
 														<div class="btn-group">
 															<button type="button"
@@ -206,18 +222,21 @@
 															</button>
 															<ul class="dropdown-menu">
 																<li>
-																	<button type="button" class="dropdown-item detailModalBtn"
+																	<button type="button"
+																		class="dropdown-item detailModalBtn"
 																		data-bs-toggle="modal" data-bs-target="#detailModal"
 																		onclick="selectCod('${p.cod }')">상세보기</button>
 																</li>
 																<li>
-																<button type="button" class="dropdown-item"
-																		data-bs-toggle="modal" data-bs-target="#iboundRegisModal"
+																	<button type="button" class="dropdown-item"
+																		data-bs-toggle="modal"
+																		data-bs-target="#iboundRegisModal"
 																		onclick="selectCod('${p.cod }')">입고처리</button>
 																</li>
 																<li>
 																	<button type="button" class="dropdown-item"
-																		data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="selectCod('${p.cod }')">삭제</button>
+																		data-bs-toggle="modal" data-bs-target="#deleteModal"
+																		onclick="selectCod('${p.cod }')">삭제</button>
 																</li>
 															</ul>
 														</div>
@@ -229,14 +248,15 @@
 								</div>
 							</div>
 						</div>
-					</div>					
+					</div>
 					<nav aria-label="Page navigation">
 						<ul class="pagination justify-content-center">
 							<!-- Previous 10 Pages -->
 							<li
 								class="page-item <c:if test='${startPage == 1}'>disabled</c:if>">
-								
-								<a class="page-link" href="<c:if test='${startPage > 1}'>
+
+								<a class="page-link"
+								href="<c:if test='${startPage > 1}'>
 									?page=${i}
 									<c:out value="${request }"/>
 									</c:if>">이전
@@ -244,8 +264,9 @@
 							</li>
 
 							<c:forEach begin="${startPage}" end="${endPage}" var="i">
-								<li class="page-item <c:if test='${i == page}'>active</c:if>">									
-									<button class="page-link" type="button" onclick="paging('${i}')">${i }</button>
+								<li class="page-item <c:if test='${i == page}'>active</c:if>">
+									<button class="page-link" type="button"
+										onclick="paging('${i}')">${i }</button>
 								</li>
 							</c:forEach>
 
@@ -274,9 +295,10 @@
 			</section>
 		</div>
 	</div>
-<!-- 상세페이지 모달 START -->
+	<!-- 상세페이지 모달 START -->
 	<div class="modal fade" id="detailModal" tabindex="-1"
-		aria-labelledby="detailModalLabel" aria-hidden="true" data-bs-backdrop='static' data-bs-keyboard='false'>
+		aria-labelledby="detailModalLabel" aria-hidden="true"
+		data-bs-backdrop='static' data-bs-keyboard='false'>
 		<div class="modal-dialog modal-xl" style="width: 1400px;">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -288,96 +310,86 @@
 					<table id="detailModalHead" class="table">
 						<tr>
 							<th scope="col">발주번호</th>
-							<td>
-								<span id="codPrint" class="printBox"></span>
-								<input style="display: none" id="cod" class="editBox" readonly/>
-							</td>
+							<td><span id="codPrint" class="printBox"></span> <input
+								style="display: none" id="cod" class="editBox" readonly /></td>
 							<th scope="col">발주일자</th>
-							<td>
-								<span id="poDatePrint" class="printBox"></span>
-								<input type="date" style="display: none" id="poDate" class="editBox"/>
+							<td><span id="poDatePrint" class="printBox"></span> <input
+								type="date" style="display: none" id="poDate" class="editBox" />
 							</td>
 							<th scope="col">거래처 명</th>
-							<td>
-								<span style="display: none"></span>
-								<span id="clientNamePrint" class="printBox"></span>
-								<input id="clientCod" style="display: none" class="loadValues editBox"
-									data-input-id1="clientCod" data-input-id2="clientName" data-key="client" data-bs-toggle="modal"
-									data-bs-target="#searchModal" readonly/>
-								<input style="display: none" id="clientName" class="loadValues editBox"
-									data-input-id1="clientCod" data-input-id2="clientName" data-key="client" data-bs-toggle="modal"
-									data-bs-target="#searchModal" readonly/>
-							</td>
+							<td><span style="display: none"></span> <span
+								id="clientNamePrint" class="printBox"></span> <input
+								id="clientCod" style="display: none" class="loadValues editBox"
+								data-input-id1="clientCod" data-input-id2="clientName"
+								data-key="client" data-bs-toggle="modal"
+								data-bs-target="#searchModal" readonly /> <input
+								style="display: none" id="clientName" class="loadValues editBox"
+								data-input-id1="clientCod" data-input-id2="clientName"
+								data-key="client" data-bs-toggle="modal"
+								data-bs-target="#searchModal" readonly /></td>
 							<th scope="col">과세구분</th>
-							<td>
-								<span id="taxDivPrint" class="printBox"></span>
-								<select id="taxdivisionCod" class="editBox" style="display: none">
-								</select>
-							</td>
+							<td><span id="taxDivPrint" class="printBox"></span> <select
+								id="taxdivisionCod" class="editBox" style="display: none">
+							</select></td>
 							<th scope="col">입고일자</th>
-							<td>
-								<span id="iboundDatePrint" class="printBox"></span>
-								<input type="date" style="display: none" id="iboundDate" class="editBox"/>
-							</td>
+							<td><span id="iboundDatePrint" class="printBox"></span> <input
+								type="date" style="display: none" id="iboundDate"
+								class="editBox" /></td>
 							<th scope="col">마감일자</th>
-							<td>
-								<span id="closingDatePrint" class="printBox"></span>
-								<input type="date" style="display: none" id="closingDate" class="editBox"/>
-							</td>
+							<td><span id="closingDatePrint" class="printBox"></span> <input
+								type="date" style="display: none" id="closingDate"
+								class="editBox" /></td>
 						</tr>
 						<tr>
 							<th scope="col">발주등록자</th>
-							<td>
-								<span id="employeeCodWriterPrint" class="printBox"></span>
-								<span id="employeeNameWriterPrint" class="printBox"></span>
-								<input  style="display: none" id="employeeCodWriter" class="loadValues editBox"
-									data-input-id1="employeeCodWriter" data-input-id2="employeeNameWriter" data-key="emp" data-bs-toggle="modal"
-									data-bs-target="#searchModal" readonly/>
-								<input style="display: none" id="employeeNameWriter" class="loadValues editBox"
-									data-input-id1="employeeCodWriter" data-input-id2="employeeNameWriter" data-key="emp" data-bs-toggle="modal"
-									data-bs-target="#searchModal" readonly/>
+							<td><span id="employeeCodWriterPrint" class="printBox"></span>
+								<span id="employeeNameWriterPrint" class="printBox"></span> <input
+								style="display: none" id="employeeCodWriter"
+								class="loadValues editBox" data-input-id1="employeeCodWriter"
+								data-input-id2="employeeNameWriter" data-key="emp"
+								data-bs-toggle="modal" data-bs-target="#searchModal" readonly />
+								<input style="display: none" id="employeeNameWriter"
+								class="loadValues editBox" data-input-id1="employeeCodWriter"
+								data-input-id2="employeeNameWriter" data-key="emp"
+								data-bs-toggle="modal" data-bs-target="#searchModal" readonly />
 							</td>
 							<th scope="col">발주담당자</th>
-							<td>
-								<span id="employeeCodPoPrint" class="printBox"></span>
-								<span id="employeeNamePoPrint" class="printBox"></span>
-								<input  style="display: none" id="employeeCodPo" class="loadValues editBox"
-									data-input-id1="employeeCodPo" data-input-id2="employeeNamePo" data-key="emp" data-bs-toggle="modal"
-									data-bs-target="#searchModal" readonly/>
-								<input style="display: none" id="employeeNamePo" class="loadValues editBox"
-									data-input-id1="employeeCodPo" data-input-id2="employeeNamePo" data-key="emp" data-bs-toggle="modal"
-									data-bs-target="#searchModal" readonly/>
+							<td><span id="employeeCodPoPrint" class="printBox"></span> <span
+								id="employeeNamePoPrint" class="printBox"></span> <input
+								style="display: none" id="employeeCodPo"
+								class="loadValues editBox" data-input-id1="employeeCodPo"
+								data-input-id2="employeeNamePo" data-key="emp"
+								data-bs-toggle="modal" data-bs-target="#searchModal" readonly />
+								<input style="display: none" id="employeeNamePo"
+								class="loadValues editBox" data-input-id1="employeeCodPo"
+								data-input-id2="employeeNamePo" data-key="emp"
+								data-bs-toggle="modal" data-bs-target="#searchModal" readonly />
 							</td>
 							<th scope="col">입고담당자</th>
-							<td>
-								<span id="employeeCodIboundPrint" class="printBox"></span>
-								<span id="employeeNameIboundPrint" class="printBox"></span>
-								<input style="display: none" id="employeeCodIbound" class="loadValues editBox"
-									data-input-id1="employeeCodIbound" data-input-id2="employeeNameIbound" data-key="emp" data-bs-toggle="modal"
-									data-bs-target="#searchModal" readonly/>
-								<input style="display: none" id="employeeNameIbound" class="loadValues editBox"
-									data-input-id1="employeeCodIbound" data-input-id2="employeeNameIbound" data-key="emp" data-bs-toggle="modal"
-									data-bs-target="#searchModal" readonly/>
+							<td><span id="employeeCodIboundPrint" class="printBox"></span>
+								<span id="employeeNameIboundPrint" class="printBox"></span> <input
+								style="display: none" id="employeeCodIbound"
+								class="loadValues editBox" data-input-id1="employeeCodIbound"
+								data-input-id2="employeeNameIbound" data-key="emp"
+								data-bs-toggle="modal" data-bs-target="#searchModal" readonly />
+								<input style="display: none" id="employeeNameIbound"
+								class="loadValues editBox" data-input-id1="employeeCodIbound"
+								data-input-id2="employeeNameIbound" data-key="emp"
+								data-bs-toggle="modal" data-bs-target="#searchModal" readonly />
 							</td>
 							<th scope="col">납기일</th>
-							<td>
-								<span id="ddayPrint" class="printBox"></span>
-								<input type="date" style="display: none" id="dday" class="editBox"/>
-							</td>
+							<td><span id="ddayPrint" class="printBox"></span> <input
+								type="date" style="display: none" id="dday" class="editBox" /></td>
 							<th scope="col">상태</th>
-							<td>
-								<span id="stateNamePrint" class="printBox"></span>
-								<select id="stateCod" class="editBox" style="display: none">
-								</select>
-							</td>
+							<td><span id="stateNamePrint" class="printBox"></span> <select
+								id="stateCod" class="editBox" style="display: none">
+							</select></td>
 							<th scope="col">비고</th>
-							<td>
-								<span id="notePrint" class="printBox"></span>
-								<input style="display: none" id="note" class="editBox"/>
-							</td>
+							<td><span id="notePrint" class="printBox"></span> <input
+								style="display: none" id="note" class="editBox" /></td>
 						</tr>
-						</table>
-						<table class="table">
+					</table>
+					<table class="table">
 						<thead>
 							<tr>
 								<th colspan="1">청구번호</th>
@@ -396,7 +408,7 @@
 							</tr>
 						</thead>
 						<tbody id="detailList">
-							
+
 						</tbody>
 						<tfoot>
 							<tr>
@@ -410,29 +422,27 @@
 							</tr>
 							<tr>
 								<td colspan="6" style="border-bottom-width: 0px">
-									<button type="button" class="btn btn-primary printBox" onClick="poChangeBtn()">수정</button>
-									<button type="button"
-										  		  class="btn btn-primary editBox"
-										  		  style="display: none"
-										  		  id="prodInputModalBtn"
-												  data-bs-toggle="modal"
-												  data-bs-target="#prodInputModal">직접입력</button>
-									<button type="button"
-										  		  class="btn btn-primary editBox"
-										  		  id="applyInvoice"
-												  data-bs-toggle="modal"
-												  data-bs-target="#applyInvoiceModal">청구적용</button>
-									<button type="button" style="display: none" class="btn btn-primary editBox" onClick="poUpdate()">수정완료</button>
-									<button type="button" style="display: none" class="btn btn-primary editBox" onClick="poChangeDel()">취소</button>
+									<button type="button" class="btn btn-primary printBox"
+										onClick="poChangeBtn()">수정</button>
+									<button type="button" class="btn btn-primary editBox"
+										style="display: none" id="prodInputModalBtn"
+										data-bs-toggle="modal" data-bs-target="#prodInputModal">직접입력</button>
+									<button type="button" class="btn btn-primary editBox"
+										id="applyInvoice" data-bs-toggle="modal"
+										data-bs-target="#applyInvoiceModal">청구적용</button>
+									<button type="button" style="display: none"
+										class="btn btn-primary editBox" onClick="poUpdate()">수정완료</button>
+									<button type="button" style="display: none"
+										class="btn btn-primary editBox" onClick="poChangeDel()">취소</button>
 								</td>
 							</tr>
 						</tfoot>
 					</table>
 				</div>
-				
-				     
-				
-				
+
+
+
+
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal" onClick="Modalclose()">닫기</button>
@@ -446,8 +456,7 @@
 		aria-labelledby="deleteModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header" style="border-bottom: 0">
-				</div>
+				<div class="modal-header" style="border-bottom: 0"></div>
 				<div class="modal-body">삭제하시겠습니까?</div>
 				<div class="modal-footer" style="border-top: 0">
 					<button type="button" class="btn btn-secondary"
@@ -492,7 +501,7 @@
 	<!-- 거래처.사원찾기 Modal END  -->
 	<!-- 청구적용 Modal START  -->
 	<div class="modal fade" id="applyInvoiceModal" tabindex="-1"
-		aria-labelledby="kvModalLabel" aria-hidden="true" >
+		aria-labelledby="kvModalLabel" aria-hidden="true">
 		<div class="modal-dialog" style="width: 1020px; max-width: none">
 			<div class="modal-content" style="width: 1020px">
 				<div class="modal-header">
@@ -550,34 +559,26 @@
 				</div>
 				<div class="modal-body">
 					<div>
-						<button type="button"
-							id="prodSearchModalBtn"
-							class="btn btn-primary"
-							data-input-cod="prodCod"
+						<button type="button" id="prodSearchModalBtn"
+							class="btn btn-primary" data-input-cod="prodCod"
 							data-input-name="prodName"
 							data-input-mgmtunitamount="prodMgmtUnitAmount"
 							data-input-mgmtunitname="prodMgmtUnitName"
 							data-input-unitamount="prodUnitAmount"
 							data-input-unitname="prodUnitName"
 							data-input-unitprice="prodUnitprice"
-							data-input-mgmtunitcod="mgmtUnitCod"
-							data-input-unitcod="unitCod"
-							data-bs-toggle="modal"
-							>제품찾기</button>
-						<button type="button"
-							id="invSearchModalBtn"
-							class="btn btn-primary"
-							data-input-cod="prodCod"
+							data-input-mgmtunitcod="mgmtUnitCod" data-input-unitcod="unitCod"
+							data-bs-toggle="modal">제품찾기</button>
+						<button type="button" id="invSearchModalBtn"
+							class="btn btn-primary" data-input-cod="prodCod"
 							data-input-name="prodName"
 							data-input-mgmtunitamount="prodMgmtUnitAmount"
 							data-input-mgmtunitname="prodMgmtUnitName"
 							data-input-unitamount="prodUnitAmount"
 							data-input-unitname="prodUnitName"
 							data-input-unitprice="prodUnitprice"
-							data-input-mgmtunitcod="mgmtUnitCod"
-							data-input-unitcod="unitCod"
-							data-bs-toggle="modal"
-							data-bs-target="#invSearchModal">자재찾기</button>
+							data-input-mgmtunitcod="mgmtUnitCod" data-input-unitcod="unitCod"
+							data-bs-toggle="modal" data-bs-target="#invSearchModal">자재찾기</button>
 					</div>
 					<div>
 						<span>품번</span> <input id="prodCod" type="text" readonly />
@@ -586,16 +587,18 @@
 						<span>품명</span> <input id="prodName" type="text" readonly />
 					</div>
 					<div>
-						<span>관리단위 수량</span> <input id="prodMgmtUnitAmount" type="number" readonly="readonly"/><span id="prodMgmtUnitName"></span>
-						<input id="mgmtUnitAmount" type="hidden" />
-						<input id="mgmtUnitCod" type="hidden" />
+						<span>관리단위 수량</span> <input id="prodMgmtUnitAmount" type="number"
+							readonly="readonly" /><span id="prodMgmtUnitName"></span> <input
+							id="mgmtUnitAmount" type="hidden" /> <input id="mgmtUnitCod"
+							type="hidden" />
 						<button type="button" onclick="prodInputAmountChange('+')">+</button>
 						<button type="button" onclick="prodInputAmountChange('-')">-</button>
 					</div>
 					<div>
-						<span>재고단위 수량</span> <input id="prodUnitAmount" type="number" disabled /><span id="prodUnitName"></span>
-						<input id="unitAmount" type="hidden" />
-						<input id="unitCod" type="hidden" />
+						<span>재고단위 수량</span> <input id="prodUnitAmount" type="number"
+							disabled /><span id="prodUnitName"></span> <input
+							id="unitAmount" type="hidden" /> <input id="unitCod"
+							type="hidden" />
 					</div>
 					<div>
 						<span>단가</span> <input id="prodUnitprice" type="number" readonly />
@@ -695,7 +698,7 @@
 		</div>
 	</div>
 	<!-- 자재찾기 Modal END  -->
-	
+
 	<!-- 입고처리 Modal -->
 	<div class="modal fade" id="iboundRegisModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true"
@@ -715,7 +718,8 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-primary" onClick="iboundRegis()">등록</button>
+					<button type="button" class="btn btn-primary"
+						onClick="iboundRegis()">등록</button>
 				</div>
 			</div>
 		</div>
@@ -726,8 +730,7 @@
 		aria-labelledby="deleteModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header" style="border-bottom: 0">
-				</div>
+				<div class="modal-header" style="border-bottom: 0"></div>
 				<div class="modal-body">삭제하시겠습니까?</div>
 				<div class="modal-footer" style="border-top: 0">
 					<button type="button" class="btn btn-secondary"

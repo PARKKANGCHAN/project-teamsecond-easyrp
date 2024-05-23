@@ -22,4 +22,19 @@ public class SpecificationServiceImpl implements SpecificationService {
 		return specificationMapper.getOrderDatas(specificationVO);
 	}
 
+	@Override
+	public int updateOrderSpecificationState(SpecificationVO specificationVO) {
+		return specificationMapper.updateOrderSpecificationState(specificationVO);
+	}
+
+	@Override
+	public List<SpecificationVO> getPurchaseDatas(SpecificationVO specificationVO) {
+		return specificationMapper.getPurchaseDatas(specificationVO);
+	}
+
+	@Override
+	public int updatePurchaseSpecificationState(SpecificationVO specificationVO) {
+		return specificationMapper.updatePurchaseSpecificationState(specificationVO);
+	}
+
 }
