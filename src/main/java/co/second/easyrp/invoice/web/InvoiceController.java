@@ -40,6 +40,70 @@ public class InvoiceController {
         int currentPageGroup = (page - 1) / pageGroupSize;
         int startPage = currentPageGroup * pageGroupSize + 1;
         int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
+        
+        //페이지 새로고침 할때마다 각 청구건에 대한 생산가능 여부를 계산한다.
+        //생산가능여부 시작
+        
+        //행의 수(청구건 수)만큼 계산한다.
+        for(int k=0; k<invoiceTable.size(); k++) { 
+        	InvoiceVO invoiceVo = new InvoiceVO();
+        	invoiceVo.setCod(invoiceTable.get(k).getCod());
+        	invoiceVo.setInvClass(invoiceTable.get(k).getInvClass());
+    		
+    		List<InvoicedetailVO> invoicedetailList = new ArrayList<>();
+    		InvoicedetailVO a = new InvoicedetailVO(); 
+    		a.setInvoiceCod(invoiceVo.getCod());
+    		invoicedetailList = invoicedetailService.selectInvoicedetailByInvoiceCod(a);
+    		//List<String> mrpCodList = new ArrayList<>();
+    		
+    		//하나의 청구에 대한 청구상세 수만큼 계산한다.
+    		for(int i=0; i<invoicedetailList.size(); i++) {
+    			MrpVO mrpVo = new MrpVO(); 
+    			List<MrpVO> bomList = new ArrayList<MrpVO>();
+    			mrpVo.setCod(invoicedetailList.get(i).getMrpCod());
+    			mrpVo = mrpService.mrpSelect(mrpVo);
+    			int count1 = 0, count2 = 0; 
+    			
+    			InvoicedetailVO invoicedetailVo = new InvoicedetailVO();
+    			invoicedetailVo.setNum(invoicedetailList.get(i).getNum());
+    			invoicedetailVo.setInvoiceCod(invoicedetailList.get(i).getInvoiceCod());
+    			invoicedetailVo.setProductCod(invoicedetailList.get(i).getProductCod());
+    			invoicedetailVo.setInvQty(invoicedetailList.get(i).getInvQty());
+    			
+    			//하나의 제품에 들어가는 자재가 충분한지 계산한다.
+    			if(invoiceVo.getInvClass().equals("생산")) {
+    				count2 = 0;
+    				System.out.println(invoiceVo.getCod());
+    				bomList = mrpService.selectBom(invoicedetailVo.getProductCod());
+    				System.out.println("bomlist: " + bomList);
+    				for(int j=0; j<bomList.size(); j++) {
+    					int requiredQty = bomList.get(j).getInvQty() * invoicedetailVo.getInvQty();
+    					System.out.println("필요수량: " + requiredQty);
+    					int availableQty = inventoryService.selectInventoryQty(bomList.get(j).getInvCod());
+    					System.out.println("가용재고: " + availableQty);
+    					if(requiredQty <= availableQty) { //필요수량보다 가용재고가 많거나 같으면
+    						count1++; //count를 증가시킨다.
+    						System.out.println("count1: " + count1);
+    					}
+    					if(bomList.size() == count1) {
+    						count2++;
+    						System.out.println("count2: " + count2);
+    					}
+    		    	}
+    				System.out.println("invoicedetailList.size: " + invoicedetailList.size());
+    				System.out.println("count2: " + count2);
+    			if(count2 == invoicedetailList.size()) {
+    				invoiceVo.setProdReady("Y");
+    				invoiceService.updateInvoice(invoiceVo);
+    			}else {
+    				invoiceVo.setProdReady("N");
+    				invoiceService.updateInvoice(invoiceVo);
+    				}
+    			}
+    		}
+        }
+        
+		//생산가능여부 끝 
 
         model.addAttribute("search", searchVo);
         model.addAttribute("invoiceTable", invoiceTable);

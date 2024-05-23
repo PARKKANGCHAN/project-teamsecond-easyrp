@@ -161,4 +161,6 @@ public class MrpController {
     	
         return mrpVoList;
     }
+    
+    //@RequestMapping("") mrp가져오기
 }

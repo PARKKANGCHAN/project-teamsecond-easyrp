@@ -66,7 +66,12 @@
 		(cod, inv_date, inv_class, employee_cod, note, prod_ready)
 		VALUES(#{cod}, #{invDate}, #{invClass}, #{employeeCod}, #{note}, #{prodReady});
 	</insert>
-	<update id="updateInvoice"></update>
+	
+	<update id="updateInvoice">
+		UPDATE invoice
+		SET prod_ready = #{prodReady}
+		WHERE cod = #{cod}
+	</update>
 	
 	<update id="deleteInvoice">
 		UPDATE invoice

@@ -8,6 +8,146 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+
+    <script>
+ // 견적 상세 모달 관련 함수 시작
+    
+    // estimateDetail(cod) 시작
+	// 견적 상세 모달에서 목록을 불러오는 함수입니다. 여기서 금액계산을 하고, 견적 상세 목록의 수정, 삭제하는 함수도 정의하였습니다. 함수안에 함수가 정의되어 있어서 헷갈릴 수 있습니다.
+    function estimateDetail(cod) {
+    	
+    	// estimatedetail ajax 통신 시작
+    	$.ajax({
+    		url: 'api/get-invoicedetail',
+    		type: 'GET',
+    		data: {invoiceCod : cod},
+    		dataType: 'JSON',
+    		success: function(response) {
+    			console.log(response);
+    			
+                var invoicedetailList = response.invoicedetailList;
+                
+                var invoiceCod = invoicedetailList[0].invoiceCod;
+                var clientName = invoicedetailList[0].clientName;
+                var invDate = invoicedetailList[0].invDate;
+                var employeeName = invoicedetailList[0].employeeName;
+                var note = invoicedetailList[0].note;
+    		    
+                // 견적 상세 모달 상단에 넣은 값입니다.
+    			$('#invoiceCod').text(invoiceCod);
+    			$('#clientName').text(clientName);
+     			$('#invDate').text(invDate);
+    			$('#employeeName').text(employeeName);
+    			$('#note').text(note);
+				
+    			// estimateDetialList.forEach 상세 리스트의 각 요소에 적용하는 함수 시작
+    			// 견적 상세 모달에서 각 상세 목록들에 들어가는 요소들 입니다.
+    			invoicedetailList.forEach(function(item) {
+    				
+    				var newRow = $('<tr class="generatedRow">');
+    				
+    				newRow.append($('<td>').text(item.num));
+    				if(item.invClass == '생산'){
+    					newRow.append($('<td>').text(item.productCod));
+    					newRow.append($('<td>').text(item.prodname));
+    					newRow.append($('<td>').text(item.spec));
+    					newRow.append($('<td>').text(item.unitName));
+    					newRow.append($('<td>').append($('<input>').attr({
+        					'id': 'qty_' + item.num,
+        				    'type': 'number',
+        				    'readonly': 'readonly',
+        				    'class': 'form-control',
+        				}).css('width', '120px').val(item.invQty)));
+    					newRow.append($('<td>').text(item.mgmtUnitName));
+    					newRow.append($('<td>').text(item.invMgmtQty));
+    				}else{
+    					newRow.append($('<td>').text(item.inventoryCod));
+    					newRow.append($('<td>').text(item.invname));
+    					newRow.append($('<td>').text(item.invSpec));
+    					newRow.append($('<td>').text(item.invUnitName));
+    					newRow.append($('<td>').text(item.invQty));
+    					newRow.append($('<td>').text(item.invMgmtUnitName));
+    					newRow.append($('<td>').append($('<input>').attr({
+        					'id': 'qty_' + item.num,
+        				    'type': 'number',
+        				    'readonly': 'readonly',
+        				    'class': 'form-control',
+        				}).css('width', '120px').val(item.invMgmtQty)));
+    				}
+    				newRow.append($('<td>').text(item.clientName));
+    				
+    				// 각 견적 상세 목록에 수정과 삭제 버튼을 달아주었고 onclick 함수를 바로 정의했습니다.
+    		        var editButton = $('<button>').text('수정').addClass('btn btn-primary').css('margin-right', '2px');
+    		        //var deleteButton = $('<button>').text('삭제').addClass('btn btn-primary');
+    		        //var buttonGroup = $('<div>').append(editButton).append(deleteButton);
+    		        var buttonGroup = $('<div>').append(editButton);
+    		        
+    			    newRow.append($('<td>').append(buttonGroup));
+    			    
+    				$('#detailList').after(newRow);
+    			    
+    			    editButton.on('click', function() {
+     				    var cod = item.invoiceCod;
+    				    var num = item.num;
+    				    var qty = $('#qty_' + item.num).val();
+    				    
+    				    
+    				    $.ajax({
+    				    	url: 'update-invoicedetail',
+    				    	type: 'POST',
+    				    	data: {
+    				    		cod : cod,
+    				    		qty : qty,
+    				    		num : num
+    				    	},
+    				    	success: function(response){
+    				    		console.log('성공');
+    				    		alert('수정이 완료되었습니다.');
+    				    		
+    				            // 성공 시 기존 데이터 삭제
+    				            $('.generatedRow').remove();
+    				            
+    				            // 수정 성공 시 해당 함수를 호출하여 전체적으로 다시 렌더링
+    				            estimateDetail(cod);
+    				            
+    				    	},
+    				    	error: function(xhr, status, error) {
+    							console.error('실패');
+    							console.log(xhr,status);
+    						}
+    				    });
+    				    
+    				});
+    				
+    				$('#detailModal').on('hidden.bs.modal', function () {
+    				    // 모달이 닫힐 때 생성된 tr 요소 제거
+    				    $('.generatedRow').remove();
+    				
+    				});	
+    			});
+    			// estimateDetialList.forEach 상세 리스트의 각 요소에 적용하는 함수 끝
+    		},
+    		error: function(xhr, status, error) {
+    			console.error('실패');
+    		}
+    	});
+    	// estimatedetail ajax 통신 끝
+    }
+ 	// estimateDetail(cod) 끝
+
+    	// readonly 없애는 함수
+		function estimateChange() {
+			$('input').removeAttr('readonly');
+		}
+ 	
+		// 견적 상세 모달 끄기
+		function Modalclose() {
+			$('#addRowButton').prop('disabled', false);
+		}
+   
+   // 견적 상세 모달 관련 함수 끝
+
+    </script>
 <body>
 <!-- 공통 사용 테이블 START -->
 	<div id="main">

@@ -79,6 +79,7 @@ public class MpsController {
 		mpsVo.setCod("mps" + newCode);
 		mpsService.mpsInsert(mpsVo);
 		mpsService.orderdetailMpsStateToY(mpsVo);
+		System.out.println("mpsVo : " + mpsVo);
 		return "redirect:/mpsmanagement";
 	}
 	
