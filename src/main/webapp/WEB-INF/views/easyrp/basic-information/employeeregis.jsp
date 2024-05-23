@@ -40,7 +40,7 @@
 							<div class="card mb-4">
 								<div class="card-header py-3">
 									<div class="d-flex">
-										<h5 class="m-0">제품 등록</h5>	<span style="padding-left: 15px">모든항목은 필수항목입니다</span>
+										<h5 class="m-0">사원 등록</h5>	<span style="padding-left: 15px">모든항목은 필수항목입니다</span>
 									</div>
 								</div>
 						<div class="card-body mb-3">

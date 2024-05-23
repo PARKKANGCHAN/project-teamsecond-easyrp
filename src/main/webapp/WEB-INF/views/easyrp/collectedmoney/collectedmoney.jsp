@@ -132,9 +132,14 @@
 													<!-- 잔액  -->
 													<td>${collectedMoney.stateName }</td>
 													<!-- 수금상태 -->
+													<c:if test="${collectedMoney.state != 301 or collectedMoney.state == 300}">
 													<td class="overdueDays"
 														data-collected-start-date="${collectedMoney.collectedStartDate}">여기
-														초과일수</td>
+														초과 일수</td>
+													</c:if>
+													<c:if test="${collectedMoney.state == 301}">
+													<td>수금 완료</td>
+													</c:if>
 													<!-- 초과일수 -->
 													<td>
 														<div class="btn-group">
