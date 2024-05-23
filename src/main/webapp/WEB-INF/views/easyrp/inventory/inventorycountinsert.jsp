@@ -242,7 +242,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
      	                                    <td class="diffQty">\${diffQty}</td>
      	                                    <td class="procclass">\${procclass}</td>
      	                                    <td class="adjQty">\${items.adjQty}</td>
-     	                                    <td class="note"><input type="text" name="note" class="form-control" placeholder="비고를 입력해주세요."/></td>
+     	                                    <td class="note"><input type="text" id="note\${items.cod}" name="note" class="form-control" placeholder="비고를 입력해주세요."/></td>
      	                                   <tr/>
      	                                    </tr>`;
      	                        };

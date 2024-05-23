@@ -54,41 +54,42 @@
 														<tr>
 															<td width="100">실사 번호</td>
 															<td>
-																<input type="text" id="searchCod" name="searchCod" class="form-control" value="${searchCod}" placeholder="실사 번호를 입력해주세요." />
+																<input type="text" id="searchCod" name="searchCod" class="form-control" value="${searchVO.searchCod}" placeholder="실사 번호를 입력해주세요." />
 															</td>
 															<td width="100">창고</td>
 															<td>
-																<input type="text" id="searchWarehouse" name="searchWarehouse" class="form-control" value="${searchWarehouse}" placeholder="창고를 입력해주세요." />
+																<input type="text" id="searchWarehouse" name="searchWarehouse" class="form-control" value="${searchVO.searchWarehouse}" placeholder="창고를 입력해주세요." />
 															</td>
 															<td width="100">품명</td>
 															<td>
-																<input type="text" id="searchProduct" name="searchProduct" class="form-control" value="${searchProduct}" placeholder="품명를 입력해주세요." />
-															</td>
-															<td width="100">담당자</td>
-															<td>
-																<input type="text" id="searchEmployee" name="searchEmployee" class="form-control" value="${searchEmployee}" placeholder="담당자명을 입력해주세요." />
+																<input type="text" id="searchProduct" name="searchProduct" class="form-control" value="${searchVO.searchProduct}" placeholder="품명를 입력해주세요." />
 															</td>
 															<td width="100">자재명</td>
 															<td>
-																<input type="text" id="searchInventory" name="searchInventory" class="form-control" value="${searchInventory}" placeholder="자재명을 입력해주세요." />
+																<input type="text" id="searchInventory" name="searchInventory" class="form-control" value="${searchVO.searchInventory}" placeholder="자재명을 입력해주세요." />
 															</td>
+															<td width="100">담당자</td>
+															<td>
+																<input type="text" id="searchEmployee" name="searchEmployee" class="form-control" value="${searchVO.searchEmployee}" placeholder="담당자명을 입력해주세요." />
+															</td>
+															
 														</tr>
 														<tr>
 															<td width="100">검색 날짜</td>
 															<td colspan="3"><input type="date"
 																id="preSearchDate" name="preSearchDate"
-																value="${preSearchDate}" class="form-control"
+																value="${searchVO.preSearchDate}" class="form-control"
 																style="width: 47%; float: left" /> <span><i
 																	class="fa-solid fa-arrow-right"
 																	style="margin-top: 10px"></i></span> <input type="date"
 																id="postSearchDate" name="postSearchDate"
-																value="${postSearchDate}" class="form-control"
+																value="${searchVO.postSearchDate}" class="form-control"
 																style="width: 47%; float: right" /></td>
 														</tr>
 													</table>
 												</div>
-												<input type="hidden" name="offset" value="${offset}" /> <input
-													type="hidden" name="size" value="${pageSize}" />
+												<input type="hidden" name="offset" value="${searchVO.offset}" /> <input
+													type="hidden" name="size" value="${searchVO.pageSize}" />
 												<div style="text-align: end; margin-right: 0.5rem">
 													<button type="submit" class="btn btn-primary">검색</button>
 													<button type="button" class="btn btn-primary"   onclick="resetSearchForm()">초기화</button>
@@ -122,7 +123,7 @@
 													<td>${inventoryCountList.location}</td>
 													<td>${inventoryCountList.countclass}</td>
 													<td>${inventoryCountList.employee}</td>
-													<td>${inventoryCountList.prcclass }</td>
+													<td>${inventoryCountList.prcClass }</td>
 													<td>
 														
 													</td>
@@ -143,11 +144,7 @@
 					<!-- 페이지네이션 START -->
 					<nav aria-label="Page navigation">
 						<ul class="pagination justify-content-center">
-							<!-- Previous 10 Pages -->
-							<c:if test="${empty inventoryCountList}">
-							<tr>
-							</c:if>
-							<c:if test="${not empty inventoryCountList}">						
+							<!-- Previous 10 Pages -->					
 							<li
 								class="page-item <c:if test='${startPage == 1}'>disabled</c:if>">
 								<a class="page-link"
@@ -162,14 +159,12 @@
 									href="?page=${i}&searchCod=${searchVO.searchCod}&searchWarehouse=${searchVO.searchWarehouse}&searchProduct=${searchVO.searchProduct}&searchLocation=${searchVO.searchLocation}&searchInventory=${searchVO.searchInventory}&searchCountClass=${searchVO.searchCountClass}&searchEmployee=${searchVO.searchEmployee}&searchAccount=${searchVO.searchAccount}&preSearchDate=${searchVO.preSearchDate}&postSearchDate=${searchVO.postSearchDate}">${i}</a>
 								</li>
 							</c:forEach>
-
 							<li
 								class="page-item <c:if test='${endPage == totalPages}'>disabled</c:if>">
 								<a class="page-link"
 								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&searchCod=${searchVO.searchCod}&searchWarehouse=${searchVO.searchWarehouse}&searchProduct=${searchVO.searchProduct}&searchLocation=${searchVO.searchLocation}&searchInventory=${searchVO.searchInventory}&searchCountClass=${searchVO.searchCountClass}&searchEmployee=${searchVO.searchEmployee}&searchAccount=${searchVO.searchAccount}&preSearchDate=${searchVO.preSearchDate}&postSearchDate=${searchVO.postSearchDate}</c:if>">다음
 									10 페이지</a>
 							</li>
-							</c:if>		
 						</ul>
 					</nav>
 
@@ -192,14 +187,11 @@
 	<!-- 공통 사용 테이블 END -->
 	    <script type="text/javascript">
         function resetSearchForm() {
-            $('#cod').val('');
+            $('#searchCod').val('');
             $('#searchWarehouse').val('');
             $('#searchProduct').val('');
-            $('#searchLocation').val('');
             $('#searchInventory').val('');
-            $('#searchCountClass').val('');
             $('#searchEmployee').val('');
-            $('#searchAccount').val('');
             $('#preSearchDate').val('');
             $('#postSearchDate').val('');
             

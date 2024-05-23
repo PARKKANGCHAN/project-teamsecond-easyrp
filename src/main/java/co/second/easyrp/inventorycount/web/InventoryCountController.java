@@ -2,7 +2,6 @@ package co.second.easyrp.inventorycount.web;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -43,44 +42,23 @@ public class InventoryCountController {
 	ProductService productservice;
 	
 	@GetMapping("/inventorycount")
-	public String inventoryCount(SearchVO searchVO, Model model, 
-								 @RequestParam(defaultValue="1") int page,
-								 @RequestParam(defaultValue="10") int pageSize,
-								 @RequestParam(required = false) String searchCod,
-								 @RequestParam(required = false) String searchLocation,
-								 @RequestParam(required = false) String searchWarehouse,
-								 @RequestParam(required = false) String searchProduct,
-								 @RequestParam(required = false) String searchInventory,
-								 @RequestParam(required = false) String searchCountClass,
-								 @RequestParam(required = false) String searchEmployee,
-								 @RequestParam(required = false) String searchAccount,
-								 @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date preSearchDate,
-						         @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date postSearchDate) {
-		
-		searchVO.setSearchCod(searchCod);
-		searchVO.setSearchWarehouse(searchWarehouse);
-		searchVO.setSearchProduct(searchProduct);
-		searchVO.setSearchLocation(searchLocation);
-		searchVO.setSearchInventory(searchInventory);
-		searchVO.setSearchCountClass(searchCountClass);
-		searchVO.setSearchEmployee(searchEmployee);
-		searchVO.setSearchAccount(searchAccount);
-		searchVO.setOffset((page-1)*pageSize);
-		
+	public String inventoryCount(SearchVO searchVO, Model model) {
 		List<InventoryCountVO> inventoryCountList=inventorycountservice.inventoryCountList(searchVO);
 		
 		int totalRecords = inventorycountservice.countInventoryCountLists(searchVO);
-		
-		int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+		int size = searchVO.getPageSize();
+		int page = searchVO.getOffset();
+		int totalPages = (int) Math.ceil((double) totalRecords / size);
 		int pageGroupSize = 10;
-		
-		int currentPageGroup = (pageSize - 1) / pageGroupSize;
+		int currentPageGroup = (page - 1) / pageGroupSize;
 		int startPage = currentPageGroup * pageGroupSize + 1;
 		int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
 		
 		model.addAttribute("searchVO", searchVO);
 		model.addAttribute("inventoryCountList", inventoryCountList);
+		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("pageSize", size);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("startPage", startPage);
 
@@ -271,6 +249,7 @@ public class InventoryCountController {
     			System.out.println(adjust[i]);
     			int qty=Integer.parseInt(adjust[i]);
     			
+    			
     			inventoryadjustmentdetailvo.setInventoryadjustmentCod(inventoryadjustmentvo.getCod());
     			
     			boolean prodinvcods = prodinvCod.contains("prd");			
@@ -295,7 +274,7 @@ public class InventoryCountController {
     			int adjnum = inventorycountservice.selectinventoryadjustmentnum(inventoryadjustmentdetailvo);
     			
     			System.out.println("adjust:" + adjnum);
-    			inventoryadjustmentdetailvo.setNum(adjnum);
+    			inventoryadjustmentdetailvo.setIcdnum(adjustnumber);
     			if(prodinvcods) {
     				inventorycountservice.updateproductadjustment(inventoryadjustmentdetailvo);
 				}else {
@@ -303,8 +282,10 @@ public class InventoryCountController {
 				}
     			System.out.println(inventoryadjustmentdetailvo);
     			
-    			inventorycountservice.updateinventorycountdetailprocclass(inventoryadjustmentdetailvo);
-    			inventorycountservice.updateinventorycountprocclass(inventoryadjustmentdetailvo);
+    			inventorycountservice.updateinventorycountdetailprocclass(adjustnumber);
+    			String countcod=inventorycountservice.selectinventorycountcod(adjustnumber);
+    			System.out.println("countcod:"+countcod);
+    			inventorycountservice.updateinventorycountprocclass(countcod);
 	
     		}	
     		

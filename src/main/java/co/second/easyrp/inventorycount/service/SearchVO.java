@@ -2,6 +2,8 @@ package co.second.easyrp.inventorycount.service;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,7 +14,9 @@ import lombok.ToString;
 public class SearchVO {
 	private String searchCod;
 	private Date searchCountDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date preSearchDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date postSearchDate;
 	private String searchWarehouse;
 	private String searchLocation;

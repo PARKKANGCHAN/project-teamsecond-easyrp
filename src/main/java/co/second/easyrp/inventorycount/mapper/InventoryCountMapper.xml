@@ -10,7 +10,8 @@
 			l.name AS location,
 			ic.count_date,
 			ic.inv_date,
-			ic.countclass
+			ic.countclass,
+			ic.prcclass
 		FROM inventorycount ic
 		LEFT JOIN inventorycountdetail icd
 		ON ic.cod = icd.inventorycount_cod
@@ -89,7 +90,7 @@
 		</if>
 		</select>
 		<select id="selectInventoryCountList">
-		SELECT ic.cod, ic.count_date, ic.inv_date, w.name as warehouse, l.name as location, countclass, e.name as employee
+		SELECT ic.cod, ic.count_date, ic.inv_date, w.name as warehouse, l.name as location, countclass, e.name as employee, ic.prcclass
 		  FROM inventorycount ic
 		  LEFT JOIN employee e
 		    ON e.cod = ic.employee_cod
@@ -386,7 +387,7 @@
 	UPDATE
 			inventory i
 	SET
-		i.cur_inv_qty = #{qty}
+		i.cur_inv_qty = i.cur_inv_qty-#{qty}
 	WHERE 
 		i.cod = #{invCod}
 	</update>
@@ -395,26 +396,25 @@
 	UPDATE 
 			product p
 	SET
-		p.cur_inv_qty = #{qty}
+		p.cur_inv_qty = p.cur_inv_qty-#{qty}
 	WHERE 
 		p.cod = #{productCod}
 	</update>
 	<update id="updateinventorycountdetailprocclass">
 	UPDATE 
-		inventorycountdetail icd
+		inventorycountdetail
 	SET
-		adjustmentdetail_num = #{num},
 		proc_class = '처리'
 	WHERE 
-		num = #{icdnum}
+		num = #{adjnum}
 	</update>
 		<update id="updateinventorycountprocclass">
 	UPDATE 
-		inventorycount ic
+		inventorycount
 	SET
-		proc_class = '처리'
+		prcclass = '처리'
 	WHERE 
-		num = #{num}
+		cod = #{countcod}
 	</update>
 	<select id="selectinventoryadjustmentnum" resultType="int">
 	SELECT num
@@ -442,5 +442,10 @@
 	  </when>
 	 </choose>
 	ORDER BY num DESC
+	 </select>
+	 <select id="selectinventorycountcod">
+	 select inventorycount_cod
+	   from inventorycountdetail
+	  where num=#{num}
 	 </select>
 </mapper>

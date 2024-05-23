@@ -131,7 +131,7 @@
 														<input type="text" id="note${inventoryCountDetailList.num }" name="note" class="form-control" placeholder="비고를 입력해주세요."/>
 													</td>
 													<td>
-														<input type="hidden"  name="adjustmntqty" id="${inventoryCountDetailList.num}" class="adjustmntqtyinput form-control" value="${inventoryCountDetailList.qty}" />
+														<input type="hidden"  name="adjustmntqty" id="${inventoryCountDetailList.num}" class="adjustmntqtyinput form-control" value="${inventoryCountDetailList.diffQty}" />
 													</td>
 											</tr>
 											</c:forEach>

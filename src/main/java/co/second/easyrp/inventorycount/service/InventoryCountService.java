@@ -34,10 +34,11 @@ public interface InventoryCountService {
 	int selectMaxinvadjCod();
 	int updateinventoryadjustment(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo);
 	int updateproductadjustment(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo);
-	int updateinventorycountdetailprocclass(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo);
+	int updateinventorycountdetailprocclass(int adjnum);
 	Integer selectinventoryadjustmentnum(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo);
 	Integer selectinventorycountmentnum(InventoryCountDetailVO inventorycountdetailvo);
 	InventoryCountVO selectInventoryCount(String countdetail);
 	InventoryCountDetailVO selectedInventoryCountDetail(String countdetail);
-	int updateinventorycountprocclass(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo);
+	int updateinventorycountprocclass(String countcod);
+	String selectinventorycountcod(int adjnum);
 }
