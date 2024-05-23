@@ -144,6 +144,7 @@ public class EmployeeController {
 	// 2024년 5월 7일 오전 9시 45분 하서현
 	@PostMapping("/empupdatefn")
 	public String empUpdateFn(EmployeeVO vo) {
+		System.out.println(vo);
 		employeeService.updateEmployee(vo);
 		if(vo.getQuitdate() == null) {
 			employeeService.delQuitdate(vo);

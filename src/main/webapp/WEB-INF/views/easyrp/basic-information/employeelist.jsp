@@ -5,7 +5,19 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title>Insert title here</title>
+<style type="text/css">
+#quitRegistModalBody {
+	height: 130px;
+}
+#quitRegistModalBody > div {
+	margin: 15px 0 15px 20px;
+}
+#delModalBody {
+	height: 60px;
+	font-size: 18px;
+	padding: 20px 0 0 36px;
+}
+</style>
 </head>
 <body>
 	<div id="main">
@@ -204,7 +216,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<div class="modal-body">
+				<div id="quitRegistModalBody">
 					<div>
 						<span>퇴사일</span> <input id="quitDate" type="date" />
 					</div>
@@ -228,7 +240,7 @@
 			<div class="modal-content">
 				<div class="modal-header" style="border-bottom: 0">
 				</div>
-				<div class="modal-body">삭제하시겠습니까?</div>
+				<div id="delModalBody">삭제하시겠습니까?</div>
 				<div class="modal-footer" style="border-top: 0">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">취소</button>
