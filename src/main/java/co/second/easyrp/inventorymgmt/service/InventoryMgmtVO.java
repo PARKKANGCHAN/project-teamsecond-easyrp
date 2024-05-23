@@ -15,13 +15,13 @@ public class InventoryMgmtVO {
 	private String cod;
 	private String name;
 	private Date invDate;
-	private int unitprice;
+	private long unitprice;
 	private int qty;
-	private int price;
+	private long price;
 	private String spec;
 	private int safetyInvQty;
 	private int curInvQty;
-	private int curInvPrice;
+	private long curInvPrice;
 	private String warehouseCod;
 	private String productGroupCod;
 	private int unitCod;

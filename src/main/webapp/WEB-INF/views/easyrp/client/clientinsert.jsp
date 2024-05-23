@@ -57,7 +57,7 @@
 											<tr>
 												<td width="150">거래처명</td>
 												<td><input type="text" id="name" name="name"
-													class="form-control" placeholder="거래처명을 입력해주세요." required />
+													class="form-control" placeholder="거래처명을 입력해주세요." maxlength="100" required />
 												</td>
 											</tr>
 											<tr>

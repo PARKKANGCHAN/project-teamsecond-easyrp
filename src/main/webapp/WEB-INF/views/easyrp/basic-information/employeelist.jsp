@@ -19,7 +19,7 @@
 				<div class="row">
 					<div class="col-12 col-md-6 order-md-1 order-last">
 						<h3>
-							<a href="/easyrp/commontable">사원기초관리</a>
+							<a href="employeelist">사원기초관리</a>
 						</h3>
 						<p class="text-subtitle text-muted">사원을 조회.등록.수정.삭제 할수있는 페이지</p>
 					</div>

@@ -58,7 +58,7 @@
 												<td width="150">거래처명</td>
 												<td><input type="text" id="name" name="name"
 													value="${getClientData.name}" class="form-control"
-													placeholder="거래처명을 입력해주세요." required /></td>
+													placeholder="거래처명을 입력해주세요." maxlength="100" required /></td>
 											</tr>
 											<tr>
 												<td width="150">거래처 대표자명</td>
