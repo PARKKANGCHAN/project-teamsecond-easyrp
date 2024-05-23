@@ -147,6 +147,7 @@
 	// 견적 상세 모달 끄기
 	function Modalclose() {
 		$('#addRowButton').prop('disabled', false);
+		$('.generatedRow').remove();
 	}
    
    // 견적 상세 모달 관련 함수 끝
