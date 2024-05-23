@@ -113,29 +113,6 @@
 									<h6 class="text-muted mb-0">@johnducky</h6>
 								</div>
 							</div>
-							<div class="recent-message d-flex px-4 py-3">
-								<div class="avatar avatar-lg">
-									<img src="resources/easyrp/assets/compiled/jpg/5.jpg">
-								</div>
-								<div class="name ms-4">
-									<h5 class="mb-1">Dean Winchester</h5>
-									<h6 class="text-muted mb-0">@imdean</h6>
-								</div>
-							</div>
-							<div class="recent-message d-flex px-4 py-3">
-								<div class="avatar avatar-lg">
-									<img src="resources/easyrp/assets/compiled/jpg/1.jpg">
-								</div>
-								<div class="name ms-4">
-									<h5 class="mb-1">John Dodol</h5>
-									<h6 class="text-muted mb-0">@dodoljohn</h6>
-								</div>
-							</div>
-							<div class="px-4">
-								<button
-									class='btn btn-block btn-xl btn-outline-primary font-bold mt-3'>Start
-									Conversation</button>
-							</div>
 						</div>
 					</div>
 					
@@ -172,23 +149,61 @@
     		const year = $('#Donut_yearSelector').val();
     		const month = $('#Donut_monthSelector').val();
     		
-//     		$.ajax({
-//     			url: 'DonutChartUpdate',
-//     			data: {
-//     				year: year,
-//     				month: month
-//     			},
-//     			type: 'JSON',
-//     			method: 'GET',
-//     			success: function(data) {
+    		$.ajax({
+    			url: 'DonutChartUpdate',
+    			data: {
+    				donut_year: year,
+    				month: month
+    			},
+    			dataType: 'JSON',
+    			method: 'GET',
+    			success: function(DonutData) {
+    				console.log('도넛차트 ajax 통신 성공');
+    				console.log(DonutData);
     				
-//     			},
-//     			error: function(xhr, status, error) {
-//     				consloe.error('fetchDonutGraph 실패');
-//     			}
-//     		});
+    				
+    				const chartData = {
+    						labels: DonutData.labels,
+    						datasets: [{
+    							data: DonutData.data,
+    							backgroundColor: [
+    								'rgba(255, 99, 132, 0.5)',
+    	                            'rgba(54, 162, 235, 0.5)',
+    	                            'rgba(255, 206, 86, 0.5)'
+    							]
+    						}]
+    				};
+    				
+    				if (!SalesRatioByProduct) {
+    					
+                        createDonutChart(chartData);
+                        
+                    } else {
+                        SalesRatioByProduct.data = chartData;
+                        SalesRatioByProduct.update();
+                    }
+    				
+    				
+    			},
+    			error: function(xhr, status, error) {
+    				console.error('fetchDonutGraph 실패');
+    			}
+    		});
     		
     	}
+    	
+    	function createDonutChart(chartData) {
+    		 const ctx = document.getElementById('SalesRatioByProduct').getContext('2d');
+    		 SalesRatioByProduct = new Chart(ctx, {
+    			 type: 'doughnut',
+    			 data: chartData
+    		 });
+    	}
+    	
+    	function updateDonutChart() {
+    		
+    	}
+    	
     	
     	
     	
@@ -205,7 +220,6 @@
                     const orderData = data.orderData;
                     const planData = data.planData;
 					
-                    console.log(orderData);
                     
                     const orderSalesData = Array(12).fill(0);
                     orderData.forEach(item => {
@@ -283,6 +297,8 @@
         }
 
         $('#productSelector, #yearSelector').change(fetchData);
+        $('#Donut_yearSelector, #Donut_monthSelector').change(fetchDonutGraph);
+        fetchDonutGraph();
         fetchData();  // 초기 로드 시 데이터 가져오기
     });
     

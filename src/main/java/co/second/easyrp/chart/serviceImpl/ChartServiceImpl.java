@@ -33,6 +33,12 @@ public class ChartServiceImpl implements ChartService {
 		// TODO Auto-generated method stub
 		return chartMapper.getSalesPlanByProductAndYear(productCod, year);
 	}
+
+	@Override
+	public List<ChartVO> getTop3Product(int donut_year, int month) {
+		// TODO Auto-generated method stub
+		return chartMapper.getTop3Product(donut_year, month);
+	}
 	
 	
 }

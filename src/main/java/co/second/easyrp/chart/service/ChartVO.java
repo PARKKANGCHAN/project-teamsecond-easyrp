@@ -14,4 +14,13 @@ public class ChartVO {
 	private int month;
 	private int totalQty;
 	private String salesClosingState;
+	
+	private int ratio;
+	
+	private int orderYear;
+	private int orderMonth;
+	private int productSales;
+	private double salesPercentage;
+	
+	private int donut_year;
 }
