@@ -143,6 +143,7 @@
 		// 견적 상세 모달 끄기
 		function Modalclose() {
 			$('#addRowButton').prop('disabled', false);
+			$('.generatedRow').remove();
 		}
    
    // 견적 상세 모달 관련 함수 끝
@@ -309,7 +310,7 @@
 							<li
 								class="page-item <c:if test='${startPage == 1}'>disabled</c:if>">
 								<a class="page-link"
-								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&size=${pageSize}&searchPlan=${searchPlan }&searchProdCod=${param.searchProdCod}&searchProdName=${param.searchProdName}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">이전
+								href="<c:if test='${startPage > 1}'>?page=${startPage - 10}&size=${searchVo.pageSize}&searchPlan=${searchVo.searchPlan }&searchProdCod=${searchVo.searchProdCod}&searchProdName=${searchVo.searchProdName}&preSearchDate=${searchVo.preSearchDate}&postSearchDate=${searchVo.postSearchDate}</c:if>">이전
 									10 페이지</a>
 							</li>
 
@@ -317,14 +318,14 @@
 								<li
 									class="page-item <c:if test='${i == currentPage}'>active</c:if>">
 									<a class="page-link"
-									href="?page=${i}&size=${pageSize}&searchPlan=${searchPlan }&searchProdCod=${param.searchProdCod}&searchProdName=${param.searchProdName}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}">${i}</a>
+									href="?page=${i}&size=${searchVo.pageSize}&searchPlan=${searchVo.searchPlan }&searchProdCod=${searchVo.searchProdCod}&searchProdName=${searchVo.searchProdName}&preSearchDate=${searchVo.preSearchDate}&postSearchDate=${searchVo.postSearchDate}">${i}</a>
 								</li>
 							</c:forEach>
 
 							<li
 								class="page-item <c:if test='${endPage == totalPages}'>disabled</c:if>">
 								<a class="page-link"
-								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&size=${pageSize}&searchPlan=${searchPlan }&searchProdCod=${param.searchProdCod}&searchProdName=${param.searchProdName}&preSearchDate=${param.preSearchDate}&postSearchDate=${param.postSearchDate}</c:if>">다음
+								href="<c:if test='${endPage < totalPages}'>?page=${endPage + 1}&size=${searchVo.pageSize}&searchPlan=${searchVo.searchPlan }&searchProdCod=${searchVo.searchProdCod}&searchProdName=${searchVo.searchProdName}&preSearchDate=${searchVo.preSearchDate}&postSearchDate=${searchVo.postSearchDate}</c:if>">다음
 									10 페이지</a>
 							</li>
 						</ul>

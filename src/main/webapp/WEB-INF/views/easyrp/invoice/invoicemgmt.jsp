@@ -38,8 +38,8 @@
     		dataType: 'JSON',
     		success: function(response) {
     			console.log(response);
-    			
                 var invoicedetailList = response.invoicedetailList;
+                console.log(invoicedetailList);
                 
                 var invoiceCod = invoicedetailList[0].invoiceCod;
                 var clientName = invoicedetailList[0].clientName;
@@ -57,7 +57,7 @@
     			// estimateDetialList.forEach 상세 리스트의 각 요소에 적용하는 함수 시작
     			// 견적 상세 모달에서 각 상세 목록들에 들어가는 요소들 입니다.
     			invoicedetailList.forEach(function(item) {
-    				
+    				console.log("item: " + item);
     				var newRow = $('<tr class="generatedRow">');
     				
     				newRow.append($('<td>').text(item.num));
@@ -79,55 +79,9 @@
     					newRow.append($('<td>').text(item.invMgmtQty));
     				}
     				newRow.append($('<td>').text(item.clientName));
-    				
-    				// 각 견적 상세 목록에 수정과 삭제 버튼을 달아주었고 onclick 함수를 바로 정의했습니다.
-    		        //var editButton = $('<button>').text('수정').addClass('btn btn-primary').css('margin-right', '2px');
-    		        //var deleteButton = $('<button>').text('삭제').addClass('btn btn-primary');
-    		        //var buttonGroup = $('<div>').append(editButton).append(deleteButton);
-    		        //var buttonGroup = $('<div>').append(editButton);
-    		        
-    			    //newRow.append($('<td>').append(buttonGroup));
     			    
     				$('#detailList').after(newRow);
     			    
-    			    editButton.on('click', function() {
-     				    var cod = item.invoiceCod;
-    				    var num = item.num;
-    				    var qty = $('#qty_' + item.num).val();
-    				    
-    				    
-    				    $.ajax({
-    				    	url: 'update-invoicedetail',
-    				    	type: 'POST',
-    				    	data: {
-    				    		cod : cod,
-    				    		qty : qty,
-    				    		num : num
-    				    	},
-    				    	success: function(response){
-    				    		console.log('성공');
-    				    		alert('수정이 완료되었습니다.');
-    				    		
-    				            // 성공 시 기존 데이터 삭제
-    				            $('.generatedRow').remove();
-    				            
-    				            // 수정 성공 시 해당 함수를 호출하여 전체적으로 다시 렌더링
-    				            estimateDetail(cod);
-    				            
-    				    	},
-    				    	error: function(xhr, status, error) {
-    							console.error('실패');
-    							console.log(xhr,status);
-    						}
-    				    });
-    				    
-    				});
-    				
-    				$('#detailModal').on('hidden.bs.modal', function () {
-    				    // 모달이 닫힐 때 생성된 tr 요소 제거
-    				    $('.generatedRow').remove();
-    				
-    				});	
     			});
     			// estimateDetialList.forEach 상세 리스트의 각 요소에 적용하는 함수 끝
     		},
@@ -391,7 +345,6 @@
 							<th colspan="1">관리단위</th>
 							<th colspan="1">관리단위수량</th>
 							<th colspan="1">거래처</th>
-							<th colspan="1">수정</th>
 					</table>
 				</div>
 
