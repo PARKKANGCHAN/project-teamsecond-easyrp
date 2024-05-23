@@ -316,12 +316,6 @@
 									data-input-id1="clientCod" data-input-id2="clientName" data-key="client" data-bs-toggle="modal"
 									data-bs-target="#searchModal" readonly/>
 							</td>
-							<th scope="col">과세구분</th>
-							<td>
-								<span id="taxDivPrint" class="printBox"></span>
-								<select id="taxdivisionCod" class="editBox" style="display: none">
-								</select>
-							</td>
 							<th scope="col">입고일자</th>
 							<td>
 								<span id="iboundDatePrint" class="printBox"></span>
@@ -562,20 +556,6 @@
 				</div>
 				<div class="modal-body">
 					<div>
-						<button type="button"
-							id="prodSearchModalBtn"
-							class="btn btn-primary"
-							data-input-cod="prodCod"
-							data-input-name="prodName"
-							data-input-mgmtunitamount="prodMgmtUnitAmount"
-							data-input-mgmtunitname="prodMgmtUnitName"
-							data-input-unitamount="prodUnitAmount"
-							data-input-unitname="prodUnitName"
-							data-input-unitprice="prodUnitprice"
-							data-input-mgmtunitcod="mgmtUnitCod"
-							data-input-unitcod="unitCod"
-							data-bs-toggle="modal"
-							>제품찾기</button>
 						<button type="button"
 							id="invSearchModalBtn"
 							class="btn btn-primary"
@@ -932,16 +912,13 @@
 	             data: {key : cod},
 	             dataType:"json",
 	             success: function (data) {
+	            	 console.log(data);
 	            	 const poValues = [
 	            		 data.cod,
 	            		 data.po_date,
 	            		 {
 	            			 cod: data.client_cod,
 	            		 	 name: data.clientName
-	            		 },
-	            		 {
-		            		 cod: data.taxdivision_cod,
-		            		 name: data.taxDivName,
 	            		 },
 	            		 data.ibound_date,
 	            		 data.closing_date,
@@ -970,9 +947,6 @@
 		            		 $(item).children('span:nth-child(2)').text(poValues[index].name);
 		            		 $(item).children('input:nth-child(3)').val(poValues[index].cod);
 		            		 $(item).children('input:nth-child(4)').val(poValues[index].name);
-	            		 } else if($(item).children('#taxdivisionCod').length === 1) {
-		            		 $(item).children('span:nth-child(1)').text(poValues[index].name);
-	            			 taxDivList(poValues[index].cod); 
 	            		 } else if($(item).children('#stateCod').length === 1) {
 		            		 $(item).children('span:nth-child(1)').text(poValues[index].name);
 	            			 let options = '';
@@ -1537,7 +1511,6 @@
     		});
        $('#detailList').append(rows);    
        $('#applyInvoiceModal').modal('hide');
-       $('.modal-backdrop').remove();
        totalRowCal();
     }
 
@@ -1734,12 +1707,18 @@
 			traditional: true,
 			contentType: "application/json; charset=utf-8",
 			data: JSON.stringify(updateData),
-			success: async function(data) {
-				const res = await data;
+			success: function(data) {
+				const res = data;
 				if(data <= 0) {
 					alert('예상치못한 오류가 발생했습니다.');
 				} else {
-					poChangeDel();
+					const keys = Object.keys(updateData);
+					keys.map((key) => {
+						if(updateData[key] === '') {
+							$('#' + key).parent('td').children('span').text('');
+						}
+					})
+					poChangeDel();	
 				}
 			},
 			error: function(error) {

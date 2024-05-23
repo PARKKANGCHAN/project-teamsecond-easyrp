@@ -157,7 +157,6 @@
 			cod,
 			po_date,
 			client_cod,
-			taxdivision_cod,
 			employee_cod_writer,
 			employee_cod_po,
 			employee_cod_ibound
@@ -171,7 +170,6 @@
 			#{cod},
 			#{poDate},
 			#{clientCod},
-			#{taxdivisionCod},
 			#{employeeCodWriter},
 			#{employeeCodPo},
 			#{employeeCodIbound}

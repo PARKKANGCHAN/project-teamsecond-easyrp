@@ -82,17 +82,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                         	           </td>
                                     </tr>
                                     <tr>
-                                       <td width="150">과세구분</td>
-                                       <td>
-                                          <select id="taxdivisionCod" name="taxdivisionCod" required>
-											<option value="">선택</option>
-											<c:forEach items="${taxDivList }" var="t">
-												<option value="${t.cod }">${t.name }</option>
-											</c:forEach>
-										</select>
-                                       </td>
-                                    </tr>
-                                    <tr>
                                        <td width="150">발주담당자</td>
                                        <td>
                                           <input type="text"
@@ -596,6 +585,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                 row += '<td><input type="hidden" name="mgmtQty" value="'+ invMgmtQty + '">'+ invMgmtQty +'</td>';                	
                 row += '<td>' + (productCod == null ? invMgmtUnitName : prodMgmtUnitName) + '</td>';                	
                 row += '<td><input type="hidden" name="invQty" value="'+ invQty + '">'+ invQty +'</td>';                	
+                row += '<td>' + (productCod == null ? invUnitName : prodUnitName) + '</td>';                	
                 row += '<td><input type="hidden" name="unitprice" value="'+ unitprice + '">'+ unitprice +'</td>';                	
                 row += '<td><input type="hidden" name="vax" value="'+ vax + '">'+ vax +'</td>';                	
                 row += '<td><input type="hidden" name="supprice" value="'+ supprice + '">'+ supprice +'</td>';                	
