@@ -242,6 +242,7 @@
 					<table class="table">
 						<thead>
 							<tr>
+								<th scope="col">No.</th>
 								<th scope="col">품번</th>
 								<th scope="col">품명</th>
 								<th scope="col">계획일</th>
@@ -410,6 +411,9 @@
                               '" style= "' +
                               'cursor: pointer' +
                               '">' +
+                              '<td>' +
+	                          item.cod +
+	                          '</td>' +
                               '<td>' +
                               item.productCod +
                               '</td>' +

@@ -121,7 +121,10 @@
 														<td><fmt:formatNumber value="${purchaseClosing.total }"
 																pattern="#,###" />원</td>
 														<!-- 매출 마감 금액  -->
-														<td>${purchaseClosing.stateCod }</td>
+														<td>
+															<c:if test="${purchaseClosing.stateCod eq 204}">Y</c:if>
+															<c:if test="${purchaseClosing.stateCod eq 203}">N</c:if>
+														</td>
 														<!-- 매출 마감 완료 유무 -->
 														<td>${purchaseClosing.closingDate }</td>
 														<!-- 초과일수 -->
@@ -223,8 +226,8 @@
 		        var purchaseClosingState = $row.data('purchase-closing-state');
 		        var purchaseClosingDate = $row.data('purchase-closing-date');
 
-		        if (purchaseClosingState === 'Y' && purchaseClosingDate) {
-		            alert("이미 매출마감이 완료된 데이터 입니다.");
+		        if (purchaseClosingDate) {
+		            alert("이미 매입마감이 완료된 데이터 입니다.");
 		            $(this).prop('checked', false); // 체크 해제
 		        }
 
@@ -242,8 +245,8 @@
 		                var purchaseClosingState = $row.data('purchase-closing-state');
 		                var purchaseClosingDate = $row.data('purchase-closing-date');
 
-		                if (purchaseClosingState === 'Y' && purchaseClosingDate) {
-		                    alert("매출마감이 되지 않은 데이터만 체크합니다.");
+		                if (purchaseClosingDate) {
+		                    alert("매입마감이 되지 않은 데이터만 체크합니다.");
 		                    $(this).prop('checked', false); // 체크 해제
 		                } else {
 		                    $(this).prop('checked', true); // 체크 설정

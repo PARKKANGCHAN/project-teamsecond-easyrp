@@ -3,7 +3,7 @@
 <mapper namespace="co.second.easyrp.orderdetail.map.OrderdetailMapper">
 	<!-- 2024.05.14 14:53 손지은 / 셀렉트에 cur_remain_qty 추가 -->
 	<select id="orderdetailSelectListAll">
-		SELECT  od.cod, od.num, o.order_date, c.name as 'clientName', od.product_cod, p.prodname, u.name as 'unitName', od.qty, od.delivery_date, od.note, od.cur_remain_qty  
+		SELECT  od.cod, od.num, o.order_date, c.name as 'clientName', od.product_cod, p.prodname, u.name as 'unitName', od.qty, od.delivery_date, od.note, od.cur_remain_qty, o.dday  
 		FROM orderdetail od 
 		JOIN orders o
 		ON o.cod = od.cod 

@@ -90,12 +90,15 @@ public class InvoicedetailController {
 				inventoryQty = bomList.get(j).getInvQty() * productQty; // 한 제품을 만드는데 필요한 자재 수 * 청구된 제품 수량
 				
 				//product에서 완제품 증가
-				ProductMgmtVO productMgmtVo = new ProductMgmtVO();
-				productMgmtVo = productMgmtService.getData(productCod);
-				int curProductQty = productMgmtVo.getCurInvQty(); //현재고량
-				productQty += curProductQty; //생산예정량 + 현재고량
-				productMgmtVo.setCurInvQty(productQty);
-				productMgmtService.updateFn(productMgmtVo);
+				if(j==0) {
+					ProductMgmtVO productMgmtVo = new ProductMgmtVO();
+					productMgmtVo = productMgmtService.getData(productCod);
+					int curProductQty = productMgmtVo.getCurInvQty(); //현재고량
+					productQty += curProductQty; //생산예정량 + 현재고량
+					productMgmtVo.setCurInvQty(productQty);
+					productMgmtVo.setCurInvPrice(productQty * productMgmtVo.getUnitprice());
+					productMgmtService.updateFn(productMgmtVo);
+				}
 				
 				//orderdetail에 state를 생산완료(105)로 변경
 				OrderdetailVO orderdetailVo = invoicedetailService.selectOrderdetailByInvoice(invCod, invoicedetailList.get(i).getNum());

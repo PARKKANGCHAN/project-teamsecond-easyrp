@@ -234,6 +234,7 @@
 									<table class="table table-hover mb-0">
 										<thead>
 											<tr>
+												<th>소요량번호</th>
 												<th>품번</th>
 												<th>품명</th>
 												<th>규격</th>
@@ -250,6 +251,7 @@
 											<c:if test="${not empty mrpTable }">
 												<c:forEach var="mrpTable" items="${mrpTable }">
 													<tr>
+														<td>${mrpTable.cod}</td>
 														<td>
 															<c:if test="${mrpTable.account eq '완제'}">${mrpTable.productCod}</c:if>
 															<c:if test="${mrpTable.account eq '자재'}">${mrpTable.inventoryCod}</c:if>
