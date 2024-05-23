@@ -98,12 +98,12 @@
 									<table class="table table-hover mb-0">
 										<thead>
 											<tr>
+												<th>주계획번호</th>
 												<th>계획일</th>
 												<th>품번</th>
 												<th>품명</th>
 												<th>규격</th>
 												<th>단위</th>
-												<th>출고예정일</th>
 												<th>납기일</th>
 												<th>계획수량</th>
 												<th>고객</th>
@@ -115,9 +115,9 @@
 											<c:if test="${not empty mpsTable }">
 												<c:forEach var="mpsTable" items="${mpsTable }">
 													<tr>
+														<td>${mpsTable.cod }</td>
 														<td class="text-bold-500"><fmt:formatDate value="${mpsTable.planDate }" pattern="yyyy-MM-dd"/></td>
-														<td>${mpsTable.productCod}
-														</td>
+														<td>${mpsTable.productCod}</td>
 														<td class="text-bold-500">${mpsTable.prodname }</td>
 														<td>${mpsTable.spec }</td>
 														<td>${mpsTable.unitName }</td>
@@ -145,7 +145,7 @@
 											</c:if>
 											<c:if test="${empty mpsTable }">
 												<tr>
-													<td colspan="11" align="center">주계획 내역이 없습니다.</td>
+													<td colspan="12" align="center">주계획 내역이 없습니다.</td>
 												</tr>
 											</c:if>
 										</tbody>

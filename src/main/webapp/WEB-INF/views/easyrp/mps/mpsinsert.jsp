@@ -143,11 +143,11 @@
 														data-bs-target="#kvModal"
 														style="margin-left: 2rem; width: 10%">
 														단위 불러오기</button></td>  -->
-											<!-- 출고예정일 INPUT -->
+											<!-- 납기일 INPUT -->
 											<tr>
-												<td width="150">출고예정일</td>
-												<td><input type="text" id="deliveryDate" name="deliveryDate"
-													class="form-control" placeholder="출고예정일을 입력해주세요." required readonly/>
+												<td width="150">납기일</td>
+												<td><input type="text" id="dday" name="dday"
+													class="form-control" placeholder="납기일을 불러오세요." required readonly/>
 												</td>
 											</tr>
 											<!-- 계획일 INPUT -->
@@ -268,7 +268,7 @@
 								<th scope="col">수량</th>
 								<th scope="col">단위</th>
 								<th scope="col">고객</th>
-								<th scope="col">출고예정일</th>
+								<th scope="col">납기일</th>
 							</tr>
 						</thead>
 						<tbody id="modalDataTableBody">
@@ -341,7 +341,7 @@
          /* valueModal END */
 
          /* DataModal START */
-          function setData(cod, num, orderDate, productCod, clientName, prodname, qty, curRemainQty, unitName, deliveryDate, note) {
+          function setData(cod, num, orderDate, productCod, clientName, prodname, qty, curRemainQty, unitName, dday, note) {
             $('#orderCod').val(cod);
             $('#orderdetailNum').val(num);
             $('#orderDate').val(orderDate);
@@ -351,7 +351,7 @@
             $('#orderQty').val(qty);
             $('#remainQty').val(curRemainQty);
             $('#unitName').val(unitName);
-            $('#deliveryDate').val(deliveryDate);
+            $('#dday').val(dday);
             $('#note').val(note);
             $('#dataModal').modal('hide');
             $('.modal-backdrop').remove();
@@ -386,7 +386,7 @@
                               "', '" +
                               item.unitName +
                               "', '" +
-                              item.deliveryDate +
+                              item.dday +
                               "', '" +
                               item.note +
                               '\')" ' +
@@ -426,7 +426,7 @@
                               item.clientName +
                               '</td>' +
                               '<td>' +
-                              item.deliveryDate +
+                              item.dday +
                               '</td>' +
                               '</tr>';
                         }

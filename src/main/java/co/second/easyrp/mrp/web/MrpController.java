@@ -161,6 +161,10 @@ public class MrpController {
     	
         return mrpVoList;
     }
-    
-    //@RequestMapping("") mrp가져오기
+   
+//    @RequestMapping("/api/get-mrpvalues")
+//    @ResponseBody
+//    public List<MrpVO> getMrpValues(@RequestParam(value="mpsCod") String mpsCod){
+//    	return 
+//    }
 }

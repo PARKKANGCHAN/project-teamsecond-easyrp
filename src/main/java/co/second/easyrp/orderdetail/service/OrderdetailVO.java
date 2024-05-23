@@ -41,4 +41,9 @@ public class OrderdetailVO {
 	private String deptName;
 	private int productPrice;
 	private int availableQty;
+	
+	//2024.05.23 13:13 손지은 추가
+	//출고예정일 대신 납기일 가져오기로 수정해서 변수 추가
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+	private Date dday;
 }
