@@ -66,12 +66,7 @@
     					newRow.append($('<td>').text(item.prodname));
     					newRow.append($('<td>').text(item.spec));
     					newRow.append($('<td>').text(item.unitName));
-    					newRow.append($('<td>').append($('<input>').attr({
-        					'id': 'qty_' + item.num,
-        				    'type': 'number',
-        				    'readonly': 'readonly',
-        				    'class': 'form-control',
-        				}).css('width', '120px').val(item.invQty)));
+    					newRow.append($('<td>').text(item.invQty));
     					newRow.append($('<td>').text("-"));
     					newRow.append($('<td>').text("-"));
     				}else{
@@ -81,22 +76,17 @@
     					newRow.append($('<td>').text(item.invUnitName));
     					newRow.append($('<td>').text(item.invQty));
     					newRow.append($('<td>').text(item.invMgmtUnitName));
-    					newRow.append($('<td>').append($('<input>').attr({
-        					'id': 'qty_' + item.num,
-        				    'type': 'number',
-        				    'readonly': 'readonly',
-        				    'class': 'form-control',
-        				}).css('width', '120px').val(item.invMgmtQty)));
+    					newRow.append($('<td>').text(item.invMgmtQty));
     				}
     				newRow.append($('<td>').text(item.clientName));
     				
     				// 각 견적 상세 목록에 수정과 삭제 버튼을 달아주었고 onclick 함수를 바로 정의했습니다.
-    		        var editButton = $('<button>').text('수정').addClass('btn btn-primary').css('margin-right', '2px');
+    		        //var editButton = $('<button>').text('수정').addClass('btn btn-primary').css('margin-right', '2px');
     		        //var deleteButton = $('<button>').text('삭제').addClass('btn btn-primary');
     		        //var buttonGroup = $('<div>').append(editButton).append(deleteButton);
-    		        var buttonGroup = $('<div>').append(editButton);
+    		        //var buttonGroup = $('<div>').append(editButton);
     		        
-    			    newRow.append($('<td>').append(buttonGroup));
+    			    //newRow.append($('<td>').append(buttonGroup));
     			    
     				$('#detailList').after(newRow);
     			    
@@ -401,12 +391,6 @@
 							<th colspan="1">관리단위수량</th>
 							<th colspan="1">거래처</th>
 							<th colspan="1">수정</th>
-						<tr>
-							<td colspan="6" style="border-bottom-width: 0px">
-								<button type="button" class="btn btn-primary"
-									onClick="estimateChange()">수량 수정</button>
-							</td>
-						</tr>
 					</table>
 				</div>
 

@@ -136,7 +136,8 @@
 																	<li><a class="dropdown-item"
 																		href="mpsupdate?cod=${mpsTable.cod}">수정</a></li>
 																	<li><a class="dropdown-item"
-																		href="mpsdeletefn?cod=${mpsTable.cod}">삭제</a></li>
+																		href="mpsdeletefn?cod=${mpsTable.cod}"
+																		onclick="return confirmDeleteAction();">삭제</a></li>
 																</ul>
 															</div>
 														</td>
@@ -203,6 +204,10 @@
             $('#searchProdCod').val('');
             $('#searchProdName').val('');
             $('#searchClient').val('');
+        }
+        
+        function confirmDeleteAction() {
+            return confirm("한번 삭제 처리를 하면 되돌릴 수 없습니다. 정말 삭제 처리를 하시겠습니까?");
         }
     </script>
     
