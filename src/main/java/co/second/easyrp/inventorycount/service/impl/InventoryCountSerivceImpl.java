@@ -182,15 +182,45 @@ public class InventoryCountSerivceImpl implements InventoryCountService {
 	}
 
 	@Override
-	public int updateinventorycountdetailprocclass(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo) {
+	public int updateinventorycountdetailprocclass(int adjnum) {
 		// TODO Auto-generated method stub
-		return inventorycountmapper.updateinventorycountdetailprocclass(inventoryadjustmentdetailvo);
+		return inventorycountmapper.updateinventorycountdetailprocclass(adjnum);
 	}
 
 	@Override
 	public Integer selectinventoryadjustmentnum(InventoryAdjustmentDetailVO inventoryadjustmentdetailvo) {
 		// TODO Auto-generated method stub
 		return inventorycountmapper.selectinventoryadjustmentnum(inventoryadjustmentdetailvo);
+	}
+
+	@Override
+	public Integer selectinventorycountmentnum(InventoryCountDetailVO inventorycountdetailvo) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.selectinventorycountmentnum(inventorycountdetailvo);
+	}
+
+	@Override
+	public InventoryCountVO selectInventoryCount(String countdetail) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.selectInventoryCount(countdetail);
+	}
+
+	@Override
+	public InventoryCountDetailVO selectedInventoryCountDetail(String countdetail) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.selectedInventoryCountDetail(countdetail);
+	}
+
+	@Override
+	public int updateinventorycountprocclass(String countcod) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.updateinventorycountprocclass(countcod);
+	}
+
+	@Override
+	public String selectinventorycountcod(int adjnum) {
+		// TODO Auto-generated method stub
+		return inventorycountmapper.selectinventorycountcod(adjnum);
 	}
 
 }

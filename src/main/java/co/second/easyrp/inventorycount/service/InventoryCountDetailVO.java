@@ -24,4 +24,6 @@ public class InventoryCountDetailVO {
 	private int computingQty;
 	private String product;
 	private String inventory;
+	private int price;
+	private int unitprice;
 }

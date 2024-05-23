@@ -42,44 +42,23 @@ public class InventoryCountController {
 	ProductService productservice;
 	
 	@GetMapping("/inventorycount")
-	public String inventoryCount(SearchVO searchVO, Model model, 
-								 @RequestParam(defaultValue="1") int page,
-								 @RequestParam(defaultValue="10") int pageSize,
-								 @RequestParam(required = false) String searchCod,
-								 @RequestParam(required = false) String searchLocation,
-								 @RequestParam(required = false) String searchWarehouse,
-								 @RequestParam(required = false) String searchProduct,
-								 @RequestParam(required = false) String searchInventory,
-								 @RequestParam(required = false) String searchCountClass,
-								 @RequestParam(required = false) String searchEmployee,
-								 @RequestParam(required = false) String searchAccount,
-								 @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date preSearchDate,
-						         @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date postSearchDate) {
-		
-		searchVO.setSearchCod(searchCod);
-		searchVO.setSearchWarehouse(searchWarehouse);
-		searchVO.setSearchProduct(searchProduct);
-		searchVO.setSearchLocation(searchLocation);
-		searchVO.setSearchInventory(searchInventory);
-		searchVO.setSearchCountClass(searchCountClass);
-		searchVO.setSearchEmployee(searchEmployee);
-		searchVO.setSearchAccount(searchAccount);
-		searchVO.setOffset((page-1)*pageSize);
-		
+	public String inventoryCount(SearchVO searchVO, Model model) {
 		List<InventoryCountVO> inventoryCountList=inventorycountservice.inventoryCountList(searchVO);
 		
 		int totalRecords = inventorycountservice.countInventoryCountLists(searchVO);
-		
-		int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+		int size = searchVO.getPageSize();
+		int page = searchVO.getOffset();
+		int totalPages = (int) Math.ceil((double) totalRecords / size);
 		int pageGroupSize = 10;
-		
-		int currentPageGroup = (pageSize - 1) / pageGroupSize;
+		int currentPageGroup = (page - 1) / pageGroupSize;
 		int startPage = currentPageGroup * pageGroupSize + 1;
 		int endPage = Math.min(totalPages, (currentPageGroup + 1) * pageGroupSize);
 		
 		model.addAttribute("searchVO", searchVO);
 		model.addAttribute("inventoryCountList", inventoryCountList);
+		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("pageSize", size);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("startPage", startPage);
 
@@ -137,6 +116,9 @@ public class InventoryCountController {
 			for(int i=0; i<prodinvcod.length; i++) {
 				int computingqty = inventorycountservice.getcomputingqty(prodinvcod[i]);
 				int countingqty = Integer.parseInt(countqty[i]);
+				int diffqty = computingqty-countingqty;
+				int unitprice =inventorycountservice.getprice(prodinvcod[i]);
+
 				
 				System.out.println(computingqty);
 				boolean prodinvcods = prodinvcod[i].contains("prd");
@@ -158,6 +140,8 @@ public class InventoryCountController {
 				inventorycountdetailvo.setNote(note[i]);
 				inventorycountdetailvo.setUnitCod(1);
 				inventorycountdetailvo.setDiffQty(computingqty-countingqty);
+				inventorycountdetailvo.setUnitprice(unitprice);
+				inventorycountdetailvo.setPrice(diffqty*unitprice);
 				
 				System.out.println(inventorycountdetailvo);
 				
@@ -208,7 +192,6 @@ public class InventoryCountController {
 		
 		prodinvvo.setWarehouse(warehouse);
 		System.out.println(prodinv);
-	//System.out.println(inventorycountservice.getProdInvAccount(prodinvvo));
 		
 		
 			
@@ -225,10 +208,7 @@ public class InventoryCountController {
 		inventoryCountDetailList = inventorycountservice.selectedInventoryCountDetailList(countdetail);
 		List<InventoryCountVO> inventoryCountList = new ArrayList<InventoryCountVO>();
 		inventoryCountList = inventorycountservice.selectInventoryCountList(countdetail);
-		
-		System.out.println(inventoryCountList);
-		System.out.println(inventoryCountDetailList);
-		
+
 		model.addAttribute("inventoryCountList", inventoryCountList);
 		model.addAttribute("inventoryCountDetailList", inventoryCountDetailList);
 		
@@ -266,7 +246,9 @@ public class InventoryCountController {
     			int computingqty = inventorycountservice.getcomputingqty(prodinvCod);
     			int countingqty = inventorycountservice.getcountqty(adjustnumber);
     			int unitprice =inventorycountservice.getprice(prodinvCod);
+    			System.out.println(adjust[i]);
     			int qty=Integer.parseInt(adjust[i]);
+    			
     			
     			inventoryadjustmentdetailvo.setInventoryadjustmentCod(inventoryadjustmentvo.getCod());
     			
@@ -292,7 +274,7 @@ public class InventoryCountController {
     			int adjnum = inventorycountservice.selectinventoryadjustmentnum(inventoryadjustmentdetailvo);
     			
     			System.out.println("adjust:" + adjnum);
-    			inventoryadjustmentdetailvo.setNum(adjnum);
+    			inventoryadjustmentdetailvo.setIcdnum(adjustnumber);
     			if(prodinvcods) {
     				inventorycountservice.updateproductadjustment(inventoryadjustmentdetailvo);
 				}else {
@@ -300,7 +282,10 @@ public class InventoryCountController {
 				}
     			System.out.println(inventoryadjustmentdetailvo);
     			
-    			inventorycountservice.updateinventorycountdetailprocclass(inventoryadjustmentdetailvo);
+    			inventorycountservice.updateinventorycountdetailprocclass(adjustnumber);
+    			String countcod=inventorycountservice.selectinventorycountcod(adjustnumber);
+    			System.out.println("countcod:"+countcod);
+    			inventorycountservice.updateinventorycountprocclass(countcod);
 	
     		}	
     		
