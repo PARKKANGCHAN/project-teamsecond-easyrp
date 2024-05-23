@@ -39,7 +39,7 @@
 								</div>
 								<div class="card-body">
 									<div>
-										<div class="selector-constainer">
+										<div class="selector-container">
 											<select class="chosen-select" id="yearSelector" style="width : 100px">
 												<option value="2024">2024</option>
 												<option value="2023">2023</option>
@@ -69,7 +69,8 @@
 							<h4>제품별 매출 비율</h4>
 						</div>
 						<div class="card-body">
-							<div class="selector-constainer">
+						
+							<div class="selector-container2">
 								<select class="chosen-select" id="Donut_yearSelector"
 									style="width: 70px">
 									<option value="2024">2024</option>
@@ -94,8 +95,8 @@
 									<option value="11">11월</option>
 									<option value="12">12월</option>
 								</select>
-								<canvas id="SalesRatioByProduct"></canvas>
 							</div>
+								<canvas id="SalesRatioByProduct"></canvas>
 						</div>
 					</div>
 					
@@ -158,8 +159,8 @@
     			dataType: 'JSON',
     			method: 'GET',
     			success: function(DonutData) {
-    				console.log('도넛차트 ajax 통신 성공');
-    				console.log(DonutData);
+    				
+    				console.log('DonutData : ' + DonutData);
     				
     				
     				const chartData = {
@@ -173,6 +174,8 @@
     							]
     						}]
     				};
+    				
+    				console.log('chartData : ' + chartData);
     				
     				if (!SalesRatioByProduct) {
     					
@@ -194,17 +197,13 @@
     	
     	function createDonutChart(chartData) {
     		 const ctx = document.getElementById('SalesRatioByProduct').getContext('2d');
+    		 
+    		 
     		 SalesRatioByProduct = new Chart(ctx, {
     			 type: 'doughnut',
-    			 data: chartData
+    			 data: chartData,
     		 });
     	}
-    	
-    	function updateDonutChart() {
-    		
-    	}
-    	
-    	
     	
     	
         function fetchData() {

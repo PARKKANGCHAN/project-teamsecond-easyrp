@@ -194,12 +194,12 @@ public class OrdersController {
             System.out.println(availableQty);
 
             if (availableQty > 0) {
-                if (availableQty >= qty) {
-                    // 가용재고량 >= 수주 수량
+                if (availableQty >= curRemainQty) {
+                    // 가용재고량 >= 남은 수주 수량
                     orderService.updateProductFull(curRemainQty, productCod);
                     orderService.updateOrderDetailFull(curRemainQty, productCod, cod);
                 } else {
-                    // 가용재고량 < 수주수량
+                    // 가용재고량 < 남은 수주 수량
                     orderService.updateProductPartial(availableQty, productCod);
                     orderService.updateOrderDetailPartial(availableQty, productCod, cod);
                 }

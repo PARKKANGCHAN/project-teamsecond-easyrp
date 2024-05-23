@@ -54,7 +54,7 @@ public class ChartController {
     	List<ChartVO> DonutData = chartService.getTop3Product(donut_year, month);
     	
     	List<String> labels = new ArrayList<>();
-    	List<Integer> data = new ArrayList<>();
+    	List<Long> data = new ArrayList<>();
     	
     	for (ChartVO chartVO : DonutData) {
     		labels.add(chartVO.getProdname());
