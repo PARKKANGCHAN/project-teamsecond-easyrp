@@ -44,6 +44,8 @@ public class InventoryController {
 			List<ProductVO> productList=productservice.productList(page, size, cod, warehouse, employee, account, preSearchDate, postSearchDate);
 			int totalProductRecords = productservice.countProductLists(cod, warehouse, employee, account, preSearchDate, postSearchDate);
 			int totalProductPages = (int) Math.ceil((double) totalProductRecords / size);	
+			
+			System.out.println(productList);
 		
 		int pageGroupSize = 10;
 		int currentPageGroup = (page - 1) / pageGroupSize;

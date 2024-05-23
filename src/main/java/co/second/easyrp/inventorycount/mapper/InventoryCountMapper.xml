@@ -35,14 +35,11 @@
 		<if test="searchWarehouse != null and searchWarehouse != ''">
 			AND w.name LIKE CONCAT('%', #{searchWarehouse}, '%')
 		</if>
-		<if test="searchLocation != null and searchLocation != ''">
-			AND l.name LIKE CONCAT('%', #{searchLocation}, '%')
-		</if>
 		<if test="searchInventory != null and searchInventory != ''">
-			AND i.name = #{searchInventory}
+			AND i.name = LIKE CONCAT('%',#{searchInventory}, '%')
 		</if>
 				<if test="searchProduct!= null and searchProduct != ''">
-			AND p.name = #{searchProduct}
+			AND p.name = LIKE CONCAT('%',#{searchProduct}, '%')
 		</if>
 		<if test="preSearchDate != null and postSearchDate != null">
 			AND ic.count_date BETWEEN #{preSearchDate} AND #{postSearchDate}
@@ -80,10 +77,10 @@
 			AND location LIKE CONCAT('%', #{searchLocation}, '%')
 		</if>
 		<if test="searchInventory != null and searchInventory != ''">
-			AND i.name = #{searchInventory}
+			AND i.name = LIKE CONCAT('%',#{searchInventory}, '%')
 		</if>
 				<if test="searchProduct!= null and searchProduct != ''">
-			AND p.name = #{searchProduct}
+			AND p.name = LIKE CONCAT('%',#{searchProduct}, '%')
 		</if>
 		<if test="preSearchDate != null and postSearchDate != null">
 			AND ic.count_date BETWEEN #{preSearchDate} AND #{postSearchDate}
@@ -115,7 +112,7 @@
 		   AND ic.cod= #{cod}
 		</select>
 		<select id="selectedInventoryCountDetailList">
-		SELECT icd.num, icd.product_cod, icd.inventory_cod, icd.inventorycount_cod, p.prodname as product, i.name as inventory,icd.computing_qty, icd.qty, icd.diff_qty, icd.note, icd.proc_class, icd.price, icd.unitprice 
+		SELECT icd.num, icd.product_cod, icd.inventory_cod, icd.inventorycount_cod, p.prodname as product, i.name as inventory,icd.computing_qty, icd.qty, icd.diff_qty, icd.note, icd.proc_class, icd.price, icd.unitprice, icd.account
 		  FROM inventorycountdetail icd
 		LEFT JOIN inventorycount ic
 		  ON icd.inventorycount_cod = ic.cod
@@ -130,7 +127,7 @@
 	   WHERE icd.inventorycount_cod=#{cod}
 		</select>
 		<select id="selectedInventoryCountDetail">
-		SELECT icd.num, icd.product_cod, icd.inventory_cod, icd.inventorycount_cod, p.prodname as product, i.name as inventory,icd.computing_qty, icd.qty, icd.diff_qty, icd.note, icd.proc_class 
+		SELECT icd.num, icd.product_cod, icd.inventory_cod, icd.inventorycount_cod, p.prodname as product, i.name as inventory,icd.computing_qty, icd.qty, icd.diff_qty, icd.note, icd.proc_class, icd.account 
 		  FROM inventorycountdetail icd
 		LEFT JOIN inventorycount ic
 		  ON icd.inventorycount_cod = ic.cod
@@ -193,8 +190,8 @@
 		Values(#{cod}, #{employeeCod}, #{warehouseCod}, #{countclass}, 'N')
 	</insert>
 	<insert id="insertCountDetailList">
-		INSERT INTO inventorycountdetail(inventorycount_cod, product_cod, inventory_cod, computing_qty, unit_cod, qty, note, diff_qty, price, unitprice )
-		Values(#{inventorycountCod}, #{productCod}, #{inventoryCod}, #{computingQty}, #{unitCod}, #{qty}, #{note}, #{diffQty}, #{price}, #{unitprice})
+		INSERT INTO inventorycountdetail(inventorycount_cod, product_cod, inventory_cod, computing_qty, unit_cod, qty, note, diff_qty, price, unitprice, account )
+		Values(#{inventorycountCod}, #{productCod}, #{inventoryCod}, #{computingQty}, #{unitCod}, #{qty}, #{note}, #{diffQty}, #{price}, #{unitprice}, #{account})
 	</insert>
 	<insert id="insertAdjustmentList">
 		INSERT INTO inventoryadjustment(cod, employee_cod)

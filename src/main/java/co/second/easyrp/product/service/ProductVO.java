@@ -15,7 +15,7 @@ public class ProductVO {
 	private int basicInvQty;
 	private int basicInvPrice;
 	private String spec;
-	private int safetyInvQty;
+	private int safteyInvQty;
 	private int curInvQty;
 	private int curInvPrice;
 	private String warehouseCod;
