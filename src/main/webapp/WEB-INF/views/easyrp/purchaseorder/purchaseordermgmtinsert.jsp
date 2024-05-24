@@ -71,7 +71,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                               <div class="mb-4">
                                  <table class="table table-bordered">
                                     <tr>
-                                       <td style="width: 1000px">발주일자</td>
+                                       <td>발주일자</td>
                                        <td>
                                           <input
                                              type="date"

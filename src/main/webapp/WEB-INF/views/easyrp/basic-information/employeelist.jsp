@@ -13,9 +13,21 @@
 	margin: 15px 0 15px 20px;
 }
 #delModalBody {
-	height: 60px;
-	font-size: 18px;
-	padding: 20px 0 0 36px;
+	font-size: 17px;
+	padding: 10px 0 10px 36px;
+}
+.inputBox {
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #607080;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #dce7f1;
+    border-radius: 0.25rem;
 }
 </style>
 </head>
@@ -218,10 +230,10 @@
 				</div>
 				<div id="quitRegistModalBody">
 					<div>
-						<span>퇴사일</span> <input id="quitDate" type="date" />
+						<span>퇴사일</span> <input class="inputBox" id="quitDate" type="date" />
 					</div>
 					<div>
-						<span>퇴사사유</span> <input id="quitReason" type="text" />
+						<span>퇴사사유</span> <input class="inputBox" id="quitReason" type="text" />
 					</div>
 				</div>
 				<div class="modal-footer">
