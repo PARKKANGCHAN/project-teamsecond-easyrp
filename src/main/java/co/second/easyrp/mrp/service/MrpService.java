@@ -23,4 +23,5 @@ public interface MrpService {
 	int selectMaxCod(); //숫자가 제일 높은 코드의 숫자를 구한다.
 	
 	List<MrpVO> selectBom(String productCod); //제품번호를 통해서 자품목의 코드와 수량을 가져온다.
+	List<MrpVO> selectByMpsCod(String mpsCod); //mps번호를 통해 mrp를 불러온다.
 }

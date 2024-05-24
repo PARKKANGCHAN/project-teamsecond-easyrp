@@ -53,11 +53,12 @@
 												<div class="mb-4" style="text-align: center">
 													<table class="table table-bordered" id="searchTable">
 														<tr>
+															<!-- 
 															<td width="100">계획구분</td>
 															<td><select id="searchPlan" name="searchPlan" class="form-select">
 																<option value="수주">수주정보 기반</option>
 																<option value="계획">생산계획 기반</option>
-															</select></td>
+															</select></td> -->
 															<td width="100">품 번</td>
 															<td><input type="text" id="searchProdCod"
 																name="searchProdCod" class="form-control"

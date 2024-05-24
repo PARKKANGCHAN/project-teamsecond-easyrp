@@ -76,7 +76,7 @@
 												<td width="150">등록자</td>
 												<td><input type="text" id="author" name="author"
 													class="form-control readonly" value="${empName }"
-													placeholder="로그인을 하면 자동으로 입력됩니다." required  />
+													placeholder="로그인을 하면 자동으로 입력됩니다." required readonly />
 												</td>
 											</tr>
 											<!-- 수주일자 INPUT -->
@@ -165,7 +165,7 @@
 		                                       </td>
 		                                    </tr>
 		                                    <!-- 조달구분 INPUT -->
-											<tr>
+											<tr style="display:none">
 												<td width="150">조달구분</td>
 												<td><select id="procurement" name="procurement" class="form-select">
 													<option value="구매">구매</option>
@@ -222,7 +222,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body overflow-y-auto" style="height: 60vh">
 					<table class="table">
 						<thead>
 							<tr>
@@ -352,7 +352,9 @@
             $('#remainQty').val(curRemainQty);
             $('#unitName').val(unitName);
             $('#dday').val(dday);
-            $('#note').val(note);
+            if(note != "null"){
+            	$('#note').val(note);
+            }
             $('#dataModal').modal('hide');
             $('.modal-backdrop').remove();
          }
