@@ -6,8 +6,39 @@
 <head>
 <meta charset="UTF-8" />
 <style type="text/css">
-.editBox {
+.editBox:not(button) {
 	width: 100px;
+}
+.delBtn {
+	width: 60px;
+}
+.inputBox {
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #607080;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #dce7f1;
+    border-radius: 0.25rem;
+}
+
+.amountChangeBtn {
+	padding: 2px 8px;
+	margin: 0 0 0 7px;
+}
+#prodInputModalBody > div {
+    margin: 10px 0;
+}
+#iboundRegisModalBody > div {
+	margin: 15px 0 15px 20px;
+}
+#delModalBody {
+	font-size: 17px;
+	padding: 10px 0 10px 36px;
 }
 </style>
 </head>
@@ -61,7 +92,7 @@
 																value="${vo.searchCod}" placeholder="발주번호" /></td>
 
 															<td width="100">발주기간</td>
-															<td colspan="2"><input type="date"
+															<td><input type="date"
 																id="searchFromPoDate" name="searchFromPoDate"
 																value="${vo.searchFromPoDate}" class="form-control"
 																style="width: 47%; float: left" /> <span><i
@@ -70,9 +101,30 @@
 																id="searchToPoDate" name="searchToPoDate"
 																value="${vo.searchToPoDate}" class="form-control"
 																style="width: 47%; float: right" /></td>
-
+															<td width="100">입고기간</td>
+															<td colspan="2"><input type="date"
+																id="searchFromIboundDate" name="searchFromIboundDate"
+																value="${vo.searchFromIboundDate}" class="form-control"
+																style="width: 47%; float: left" /> <span><i
+																	class="fa-solid fa-arrow-right"
+																	style="margin-top: 10px"></i></span> <input type="date"
+																id="searchToIboundDate" name="searchToIboundDate"
+																value="${vo.searchToIboundDate}" class="form-control"
+																style="width: 47%; float: right" /></td>
+															<td width="100">마감기간</td>
+															<td colspan="2"><input type="date"
+																id="searchFromClosingDate" name="searchFromClosingDate"
+																value="${vo.searchFromClosingDate}" class="form-control"
+																style="width: 47%; float: left" /> <span><i
+																	class="fa-solid fa-arrow-right"
+																	style="margin-top: 10px"></i></span> <input type="date"
+																id="searchToClosingDate" name="searchToClosingDate"
+																value="${vo.searchToClosingDate}" class="form-control"
+																style="width: 47%; float: right" /></td>
+														</tr>
+														<tr>
 															<td width="100">거래처</td>
-															<td colspan="2"><input type="text"
+															<td width="200"><input type="text"
 																id="searchClientCod" name="searchClientCod"
 																class="form-control" value="${vo.searchClientCod}"
 																placeholder="거래처번호" /> <input type="text"
@@ -82,10 +134,7 @@
 																<button type="button" class="btn btn-primary loadValues"
 																	data-input-id1="searchClientCod"
 																	data-input-id2="searchClientName" data-key="client"
-																	data-bs-toggle="modal" data-bs-target="#searchModal">저장
-																	값 가져오기</button></td>
-														</tr>
-														<tr>
+																	data-bs-toggle="modal" data-bs-target="#searchModal">거래처조회</button></td>
 															<td width="100">발주담당자</td>
 															<td><input type="text" id="searchEmpCodPo"
 																name="searchEmpCodPo" class="form-control"
@@ -96,10 +145,9 @@
 																<button type="button" class="btn btn-primary loadValues"
 																	data-input-id1="searchEmpCodPo"
 																	data-input-id2="searchEmpNamePo" data-key="emp"
-																	data-bs-toggle="modal" data-bs-target="#searchModal">저장
-																	값 가져오기</button></td>
+																	data-bs-toggle="modal" data-bs-target="#searchModal">사원조회</button></td>
 															<td width="100">입고담당자</td>
-															<td><input type="text" id="searchEmpCodIbound"
+															<td width="200"><input type="text" id="searchEmpCodIbound"
 																name="searchEmpCodIbound" class="form-control"
 																value="${vo.searchEmpCodIbound}" placeholder="사원번호" />
 																<input type="text" id="searchEmpNameIbound"
@@ -108,10 +156,9 @@
 																<button type="button" class="btn btn-primary loadValues"
 																	data-input-id1="searchEmpCodIbound"
 																	data-input-id2="searchEmpNameIbound" data-key="emp"
-																	data-bs-toggle="modal" data-bs-target="#searchModal">저장
-																	값 가져오기</button></td>
+																	data-bs-toggle="modal" data-bs-target="#searchModal">사원조회</button></td>
 															<td width="100">상태</td>
-															<td><select name="searchStateCod">
+															<td><select class="inputBox" name="searchStateCod">
 																	<option value="">전체</option>
 																	<option value="200"
 																		<c:if test="${vo.searchStateCod eq 200}">selected</c:if>>발주</option>
@@ -124,7 +171,6 @@
 																	<option value="204"
 																		<c:if test="${vo.searchStateCod eq 204}"> selected </c:if>>매입마감</option>
 															</select></td>
-
 															<td width="100">납기기간</td>
 															<td colspan="2"><input type="date"
 																id="searchFromDday" name="searchFromDday"
@@ -134,28 +180,6 @@
 																	style="margin-top: 10px"></i></span> <input type="date"
 																id="searchToDday" name="searchToDday"
 																value="${vo.searchToDday}" class="form-control"
-																style="width: 47%; float: right" /></td>
-
-															<td width="100">입고기간</td>
-															<td colspan="2"><input type="date"
-																id="searchFromIboundDate" name="searchFromIboundDate"
-																value="${vo.searchFromIboundDate}" class="form-control"
-																style="width: 47%; float: left" /> <span><i
-																	class="fa-solid fa-arrow-right"
-																	style="margin-top: 10px"></i></span> <input type="date"
-																id="searchToIboundDate" name="searchToIboundDate"
-																value="${vo.searchToIboundDate}" class="form-control"
-																style="width: 47%; float: right" /></td>
-
-															<td width="100">마감기간</td>
-															<td colspan="2"><input type="date"
-																id="searchFromClosingDate" name="searchFromClosingDate"
-																value="${vo.searchFromClosingDate}" class="form-control"
-																style="width: 47%; float: left" /> <span><i
-																	class="fa-solid fa-arrow-right"
-																	style="margin-top: 10px"></i></span> <input type="date"
-																id="searchToClosingDate" name="searchToClosingDate"
-																value="${vo.searchToClosingDate}" class="form-control"
 																style="width: 47%; float: right" /></td>
 														</tr>
 													</table>
@@ -307,8 +331,8 @@
 	<div class="modal fade" id="detailModal" tabindex="-1"
 		aria-labelledby="detailModalLabel" aria-hidden="true"
 		data-bs-backdrop='static' data-bs-keyboard='false'>
-		<div class="modal-dialog modal-xl" style="width: 1400px;">
-			<div class="modal-content">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content" style="width: 1300px;">
 				<div class="modal-header">
 					<h5 class="modal-title" id="detailModalLabel">발주 상세 페이지</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -319,41 +343,41 @@
 						<tr>
 							<th scope="col">발주번호</th>
 							<td><span id="codPrint" class="printBox"></span> <input
-								style="display: none" id="cod" class="editBox" readonly /></td>
+								style="display: none" id="cod" class="editBox inputBox" readonly /></td>
 							<th scope="col">발주일자</th>
 							<td><span id="poDatePrint" class="printBox"></span> <input
-								type="date" style="display: none" id="poDate" class="editBox" />
+								type="date" style="display: none" id="poDate" class="editBox inputBox" />
 							</td>
 							<th scope="col">거래처 명</th>
 							<td>
 								<span style="display: none"></span>
 								<span id="clientNamePrint" class="printBox"></span>
-								<input id="clientCod" style="display: none" class="loadValues editBox"
+								<input id="clientCod" style="display: none" class="loadValues editBox inputBox"
 									data-input-id1="clientCod" data-input-id2="clientName" data-key="client" data-bs-toggle="modal"
 									data-bs-target="#searchModal" readonly/>
-								<input style="display: none" id="clientName" class="loadValues editBox"
+								<input style="display: none" id="clientName" class="loadValues editBox inputBox"
 									data-input-id1="clientCod" data-input-id2="clientName" data-key="client" data-bs-toggle="modal"
 									data-bs-target="#searchModal" readonly/>
 							</td>
 							<th scope="col">입고일자</th>
 							<td><span id="iboundDatePrint" class="printBox"></span> <input
 								type="date" style="display: none" id="iboundDate"
-								class="editBox" /></td>
+								class="editBox inputBox" /></td>
 							<th scope="col">마감일자</th>
 							<td><span id="closingDatePrint" class="printBox"></span> <input
 								type="date" style="display: none" id="closingDate"
-								class="editBox" /></td>
+								class="editBox inputBox" /></td>
 						</tr>
 						<tr>
 							<th scope="col">발주등록자</th>
 							<td><span id="employeeCodWriterPrint" class="printBox"></span>
 								<span id="employeeNameWriterPrint" class="printBox"></span> <input
 								style="display: none" id="employeeCodWriter"
-								class="loadValues editBox" data-input-id1="employeeCodWriter"
+								class="loadValues editBox inputBox" data-input-id1="employeeCodWriter"
 								data-input-id2="employeeNameWriter" data-key="emp"
 								data-bs-toggle="modal" data-bs-target="#searchModal" readonly />
 								<input style="display: none" id="employeeNameWriter"
-								class="loadValues editBox" data-input-id1="employeeCodWriter"
+								class="loadValues editBox inputBox" data-input-id1="employeeCodWriter"
 								data-input-id2="employeeNameWriter" data-key="emp"
 								data-bs-toggle="modal" data-bs-target="#searchModal" readonly />
 							</td>
@@ -361,11 +385,11 @@
 							<td><span id="employeeCodPoPrint" class="printBox"></span> <span
 								id="employeeNamePoPrint" class="printBox"></span> <input
 								style="display: none" id="employeeCodPo"
-								class="loadValues editBox" data-input-id1="employeeCodPo"
+								class="loadValues editBox inputBox" data-input-id1="employeeCodPo"
 								data-input-id2="employeeNamePo" data-key="emp"
 								data-bs-toggle="modal" data-bs-target="#searchModal" readonly />
 								<input style="display: none" id="employeeNamePo"
-								class="loadValues editBox" data-input-id1="employeeCodPo"
+								class="loadValues editBox inputBox" data-input-id1="employeeCodPo"
 								data-input-id2="employeeNamePo" data-key="emp"
 								data-bs-toggle="modal" data-bs-target="#searchModal" readonly />
 							</td>
@@ -373,24 +397,24 @@
 							<td><span id="employeeCodIboundPrint" class="printBox"></span>
 								<span id="employeeNameIboundPrint" class="printBox"></span> <input
 								style="display: none" id="employeeCodIbound"
-								class="loadValues editBox" data-input-id1="employeeCodIbound"
+								class="loadValues editBox inputBox" data-input-id1="employeeCodIbound"
 								data-input-id2="employeeNameIbound" data-key="emp"
 								data-bs-toggle="modal" data-bs-target="#searchModal" readonly />
 								<input style="display: none" id="employeeNameIbound"
-								class="loadValues editBox" data-input-id1="employeeCodIbound"
+								class="loadValues editBox inputBox" data-input-id1="employeeCodIbound"
 								data-input-id2="employeeNameIbound" data-key="emp"
 								data-bs-toggle="modal" data-bs-target="#searchModal" readonly />
 							</td>
 							<th scope="col">납기일</th>
 							<td><span id="ddayPrint" class="printBox"></span> <input
-								type="date" style="display: none" id="dday" class="editBox" /></td>
+								type="date" style="display: none" id="dday" class="editBox inputBox" /></td>
 							<th scope="col">상태</th>
 							<td><span id="stateNamePrint" class="printBox"></span> <select
-								id="stateCod" class="editBox" style="display: none">
+								id="stateCod" class="editBox inputBox" style="display: none">
 							</select></td>
 							<th scope="col">비고</th>
 							<td><span id="notePrint" class="printBox"></span> <input
-								style="display: none" id="note" class="editBox" /></td>
+								style="display: none" id="note" class="editBox inputBox" /></td>
 						</tr>
 					</table>
 					<table class="table">
@@ -408,7 +432,7 @@
 								<th colspan="1">공급가</th>
 								<th colspan="1">부가세</th>
 								<th colspan="1">합계액</th>
-								<th colspan="1">삭제</th>
+								<th colspan="1"></th>
 							</tr>
 						</thead>
 						<tbody id="detailList">
@@ -467,7 +491,7 @@
 			<div class="modal-content">
 				<div class="modal-header" style="border-bottom: 0">
 				</div>
-				<div>삭제하시겠습니까?</div>
+				<div id="delModalBody">삭제하시겠습니까?</div>
 				<div class="modal-footer" style="border-top: 0">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">취소</button>
@@ -513,13 +537,12 @@
 	<div class="modal fade" id="applyInvoiceModal" tabindex="-1"
 		aria-labelledby="kvModalLabel" aria-hidden="true">
 		<div class="modal-dialog" style="width: 1020px; max-width: none">
-			<div class="modal-content" style="width: 1020px">
+			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="kvModalLabel">검색</h5>
 					<input type="text" id="applyInvoiceInput" class="form-control"
 						placeholder="승인일자.청구번호.품번.품명"
 						style="margin-left: 10px; width: auto; flex-grow: 1" />
-					<button type="button" onClick="applyInvoiceSetValue()">등록</button>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
@@ -548,6 +571,7 @@
 					</table>
 				</div>
 				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" onClick="applyInvoiceSetValue()">선택</button>
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">닫기</button>
 				</div>
@@ -566,7 +590,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<div class="modal-body">
+				<div id='prodInputModalBody' class="modal-body">
 					<div>
 						<button type="button"
 							id="invSearchModalBtn"
@@ -582,36 +606,36 @@
 							data-bs-toggle="modal" data-bs-target="#invSearchModal">자재찾기</button>
 					</div>
 					<div>
-						<span>품번</span> <input id="prodCod" type="text" readonly />
+						<span>품번</span> <input id="prodCod" class="inputBox" type="text" readonly />
 					</div>
 					<div>
-						<span>품명</span> <input id="prodName" type="text" readonly />
+						<span>품명</span> <input id="prodName" class="inputBox" type="text" readonly />
 					</div>
 					<div>
-						<span>관리단위 수량</span> <input id="prodMgmtUnitAmount" type="number"
+						<span>관리단위 수량</span> <input id="prodMgmtUnitAmount" class="inputBox" type="number"
 							readonly="readonly" /><span id="prodMgmtUnitName"></span> <input
 							id="mgmtUnitAmount" type="hidden" /> <input id="mgmtUnitCod"
 							type="hidden" />
-						<button type="button" onclick="prodInputAmountChange('+')">+</button>
-						<button type="button" onclick="prodInputAmountChange('-')">-</button>
+						<button type="button" class="btn btn-primary" style="padding: 2px 8px" onclick="prodInputAmountChange('+')">+</button>
+						<button type="button" class="btn btn-primary" style="padding: 2px 8px" onclick="prodInputAmountChange('-')">-</button>
 					</div>
 					<div>
-						<span>재고단위 수량</span> <input id="prodUnitAmount" type="number"
+						<span>재고단위 수량</span> <input id="prodUnitAmount" class="inputBox" type="number"
 							disabled /><span id="prodUnitName"></span> <input
 							id="unitAmount" type="hidden" /> <input id="unitCod"
 							type="hidden" />
 					</div>
 					<div>
-						<span>단가</span> <input id="prodUnitprice" type="number" readonly />
+						<span>단가</span> <input id="prodUnitprice" class="inputBox" type="number" readonly />
 					</div>
 					<div>
-						<span>부가세</span> <input id="prodVax" type="number" readonly />
+						<span>부가세</span> <input id="prodVax" class="inputBox" type="number" readonly />
 					</div>
 					<div>
-						<span>공급가</span> <input id="prodSupprice" type="number" readonly />
+						<span>공급가</span> <input id="prodSupprice" class="inputBox" type="number" readonly />
 					</div>
 					<div>
-						<span>합계액</span> <input id="prodTotal" type="number" readonly />
+						<span>합계액</span> <input id="prodTotal" class="inputBox" type="number" readonly />
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -711,9 +735,9 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<div class="">
+				<div id="iboundRegisModalBody">
 					<div>
-						<span>입고일</span> <input id="iboundDateInput" type="date" />
+						<span>입고일</span> <input id="iboundDateInput" class="inputBox" type="date" />
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -733,7 +757,7 @@
 			<div class="modal-content">
 				<div class="modal-header" style="border-bottom: 0">
 				</div>
-				<div>삭제하시겠습니까?</div>
+				<div style="padding-left: 20px">삭제하시겠습니까?</div>
 				<div class="modal-footer" style="border-top: 0">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">취소</button>
@@ -990,7 +1014,7 @@
  		            	 row += '<td name="invoicedetailNum">' + (item.invoicedetail_num == null ? '' : item.invoicedetail_num) + '</td>'; 
  		            	 row += '<td name='+ (item.product_cod == null ? "inventoryCod" : "productCod") +'>' + (item.product_cod == null ? item.inventory_cod : item.product_cod) + '</td>'; 
  		            	 row += '<td>' + (item.prodname == null ? item.invname : item.prodname) + '</td>'; 
- 		            	 row += '<td name="mgmtQty"><span>' + item.mgmt_qty + '</span><button type="button" style="display: none" class="editBox" onClick="amountChange(' + "'+'," + "'" + item.purchaseorder_cod + item.num + "'" + ')">+</button><button type="button" style="display: none" class="editBox" onClick="amountChange(' + "'-'," + "'" + item.purchaseorder_cod + item.num + "'" + ')">-</button></td>'; 
+ 		            	 row += '<td name="mgmtQty"><span>' + item.mgmt_qty + '</span><button type="button" style="display: none" class="editBox btn btn-primary amountChangeBtn" onClick="amountChange(' + "'+'," + "'" + item.purchaseorder_cod + item.num + "'" + ')">+</button><button type="button" style="display: none" class="editBox btn btn-primary amountChangeBtn" onClick="amountChange(' + "'-'," + "'" + item.purchaseorder_cod + item.num + "'" + ')">-</button></td>'; 
  		            	 row += '<td>' + item.unit_mgmt_name + '</td>'; 
  		            	 row += '<td name="invQty"><span>' + item.inv_qty + '</span></td>'; 
  		            	 row += '<td>' + item.unit_inv_name + '</td>'; 
@@ -1000,7 +1024,7 @@
  		            	 row += '<td name="total"><span>' + item.total + '</span></td>'; 
 	            		 row += '<input type="hidden" name="unitMgmt" value="'+ (item.product_cod == null ? item.inv_mgmt_unit_cod : item.prod_mgmt_unit_cod) +'">';
 	            		 row += '<input type="hidden" name="unitInv" value="'+ (item.product_cod == null ? item.inv_unit_cod : item.prod_unit_cod) +'">';
- 		            	 row += '<td><button type="button" style="display: none" class="btn-primary editBox" onClick="{delProd(event)}">삭제</button></td></tr>'
+ 		            	 row += '<td><button type="button" style="display: none" class="btn btn-primary editBox delBtn" onClick="{delProd(event)}">삭제</button></td></tr>'
 	            		 rows += row;
 	            	 });
 	            	 $('#detailList').html(rows);
@@ -1415,13 +1439,13 @@
     		if(item.name === 'unitMgmt' || item.name === 'unitInv') {
             	rows += '<input type="hidden" name="'+ item.name +'" value="'+ item.value +'">';
     		} else if(item.name === 'mgmtQty') {
-            	rows += '<td name="'+ item.name +'"><span>' + item.value + '</span><button type="button" class="editBox" onClick="amountChange(' + "'+'," + "'" + prodInputKey + "'" + ')">+</button><button type="button" class="editBox" onClick="amountChange(' + "'-'," + "'" + prodInputKey + "'" + ')">-</button></td>';
+            	rows += '<td name="'+ item.name +'"><span>' + item.value + '</span><button type="button" class="editBox btn btn-primary amountChangeBtn" onClick="amountChange(' + "'+'," + "'" + prodInputKey + "'" + ')">+</button><button type="button" class="btn btn-primary editBox amountChangeBtn" onClick="amountChange(' + "'-'," + "'" + prodInputKey + "'" + ')">-</button></td>';
     		} else {
             	rows += '<td name="'+ item.name +'"><span>' + item.value + '</span></td>';
     		}
     	})
     	prodInputKey++;
-    	rows += '<td><button class="editBox" type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
+    	rows += '<td><button class="btn btn-primary editBox delBtn" type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
     	$('#detailList').append(rows);
     	$('#prodInputModal').modal('hide');
     	$('#detailModal').modal('show');
@@ -1498,27 +1522,26 @@
                 var supprice = $(item).data('supprice');
                 var total = $(item).data('total');
                 var key = $(item).data('key');
-    		
-            	if(productCod == null) {
+            	if(productCod == 'undefined') {
             		amounts = 'data-prodmgmtunitamount="undefined" data-produnitamount="undefined" data-invmgmtunitamount="'+ invMgmtUnitAmount +'" data-invunitamount="' + invUnitAmount + '"';
             	} else {
             		amounts = 'data-prodmgmtunitamount="' + prodMgmtUnitAmount + '" data-produnitamount="' + prodUnitAmount + '" data-invmgmtunitamount="undefined" data-invunitamount="undefined"';
             	}
                     let row = '<tr id="'+ key +'" class="applyInvoiceProd prodList" data-key="'+ key +'" ' + amounts + '">';
                     row += '<td name="invoiceCod">'+ invoiceCod +'</td><td name="invoicedetailNum">'+ invoicedetailNum +'</td>';
-                    row += '<td name='+ (productCod == null ? "inventoryCod" : "productCod") +'>'+ (productCod == null ? inventoryCod : productCod) +'</td>';
-                    row += '<td name='+ (prodname == null ? "invname" : "prodname") +'>'+ (prodname == null ? invname : prodname) +'</td>';
-                    row += '<td name="mgmtQty"><span>'+ invMgmtQty +'</span><button type="button" class="editBox" onClick="amountChange(' + "'+'," + "'" + key + "'" + ')">+</button><button type="button" class="editBox" onClick="amountChange(' + "'-'," + "'" + key + "'" + ')">-</button></td>';
-                    row += '<td>'+ (productCod == null ? invMgmtUnitName : prodMgmtUnitName) +'</td>';
+                    row += '<td name='+ (productCod == 'undefined' ? "inventoryCod" : "productCod") +'>'+ (productCod == 'undefined' ? inventoryCod : productCod) +'</td>';
+                    row += '<td name='+ (prodname == 'undefined' ? "invname" : "prodname") +'>'+ (prodname == 'undefined' ? invname : prodname) +'</td>';
+                    row += '<td name="mgmtQty"><span>'+ invMgmtQty +'</span><button type="button" class="editBox btn btn-primary amountChangeBtn" onClick="amountChange(' + "'+'," + "'" + key + "'" + ')">+</button><button type="button" class="btn btn-primary editBox amountChangeBtn" onClick="amountChange(' + "'-'," + "'" + key + "'" + ')">-</button></td>';
+                    row += '<td>'+ (productCod == 'undefined' ? invMgmtUnitName : prodMgmtUnitName) +'</td>';
                     row += '<td name="invQty"><span>'+ invQty +'</span></td>';
-                    row += '<td>'+ (productCod == null ? invUnitName : prodUnitName) +'</td>';
+                    row += '<td>'+ (productCod == 'undefined' ? invUnitName : prodUnitName) +'</td>';
                     row += '<td name="unitprice"><span>'+ unitprice +'</span></td>';
                     row += '<td name="supprice"><span>'+ supprice +'</span></td>';
                     row += '<td name="vax"><span>'+ vax +'</span></td>';
                     row += '<td name="total"><span>'+ total +'</span></td>';
-                    row += '<input type="hidden" name="unitMgmt" value="'+ (productCod == null ? invMgmtUnitCod : prodMgmtUnitCod) +'">';
-                    row += '<input type="hidden" name="unitInv" value="'+ (productCod == null ? invUnitCod : prodUnitCod) +'">';
-                    row += '<td><button class="editBox" type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
+                    row += '<input type="hidden" name="unitMgmt" value="'+ (productCod == 'undefined' ? invMgmtUnitCod : prodMgmtUnitCod) +'">';
+                    row += '<input type="hidden" name="unitInv" value="'+ (productCod == 'undefined' ? invUnitCod : prodUnitCod) +'">';
+                    row += '<td><button class="btn btn-primary editBox delBtn" type="button" aria-label="Close" onClick="{delProd(event)}">삭제</button></td></tr>';
                     rows += row;    			
     			}	
     		});
@@ -1555,7 +1578,7 @@
 	                            '" data-invname="' +
 	                            item.invname +
 	                            '" onClick="rowChk('+ "'" + item.invoice_cod + item.num + "'" + ')">' +
-	                            '<td><input type="checkbox" class="applyInvoiceChkBox"' +
+	                            '<td><input type="checkbox" class="applyInvoiceChkBox form-check-input"' +
 	                            'id="' +
 	                            item.invoice_cod + item.num +
 	                            '" data-invoice-cod="' +
@@ -1567,9 +1590,9 @@
 	                            '" data-prodname="' +
 	                            item.prodname +
 	                            '" data-inventory-cod="' +
-	                            item.product_cod +
+	                            item.inventory_cod +
 	                            '" data-invname="' +
-	                            item.prodname +
+	                            item.invname +
 	                            '" data-unitprice="' +
 	                            item.unitprice +
 	                            '" data-vax="' +
@@ -1603,7 +1626,7 @@
 	                            '" data-inv-mgmt-unit-amount="' +
 	                            item.inv_mgmt_unit_amount +
 	                            '" data-inv-unit-amount="' +
-	                            item.inv_mgmt_unit_name +
+	                            item.inv_unit_amount +
 	                            '" data-inv-mgmt-qty="' +
 	                            item.inv_mgmt_qty +
 	                            '" data-key="' +

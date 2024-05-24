@@ -4,6 +4,35 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
    <head>
       <meta charset="UTF-8" />
+      <style type="text/css">
+      	.bigBox > * {
+      		margin-top: 10px;
+      	}
+      	.readonlyBox {
+      		background-color: #e9ecef;
+      	}
+      	.delOrCalBtn {
+      		border: 0;
+      		background-color: transparent;
+      		color: #dee2e6;	
+      	}
+      	.inputBox {
+      	    padding: 0.375rem 0.75rem;
+		    font-size: 1rem;
+		    font-weight: 400;
+		    line-height: 1.5;
+		    color: #607080;
+		    -webkit-appearance: none;
+		    appearance: none;
+		    background-color: #fff;
+		    background-clip: padding-box;
+		    border: 1px solid #dce7f1;
+		    border-radius: 0.25rem;
+      	}
+      	#prodInputModalBody > div {
+      		margin: 10px 0;
+      	}
+      </style>
    </head>
    <body>
       <!-- 공통 사용 테이블 START -->
@@ -42,7 +71,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                               <div class="mb-4">
                                  <table class="table table-bordered">
                                     <tr>
-                                       <td width="150">발주일자</td>
+                                       <td>발주일자</td>
                                        <td>
                                           <input
                                              type="date"
@@ -55,19 +84,19 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                     </tr>
                                     <tr>
                                        <td width="150">거래처</td>
-                                       <td>
+                                       <td class="bigBox">
                                             <input type="text"
                                             	   id="searchClientCod"
-									  			   name="clientCod"
-									  			   class="form-control"
+									  			   class="form-control readonlyBox"
 												   placeholder="거래처번호"
+												   name="clientCod"
 												   required
 												   autocomplete="off"
 												   onkeypress="return false;" />
 											<input type="text"
 												   id="searchClientName"
 												   name="searchClientName"
-												   class="form-control"
+												   class="form-control readonlyBox"
 												   placeholder="거래처명"
 												   required
 												   autocomplete="off"
@@ -78,16 +107,16 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 												data-input-id2="searchClientName"
 												data-key="client"
 												data-bs-toggle="modal"
-												data-bs-target="#searchModal">저장 값 가져오기</button>
+												data-bs-target="#searchModal">거래처 조회</button>
                         	           </td>
                                     </tr>
                                     <tr>
                                        <td width="150">발주담당자</td>
-                                       <td>
+                                       <td class="bigBox">
                                           <input type="text"
                                           		 id="searchEmpCodPo"
 												 name="employeeCodPo"
-												 class="form-control"
+												 class="form-control readonlyBox" 
 												 placeholder="사원번호"
  											     required
  											     autocomplete="off"
@@ -95,7 +124,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 										  <input type="text"
 										  		 id="searchEmpNamePo"
 												 name="searchEmpNamePo"
-												 class="form-control"
+												 class="form-control readonlyBox"
 												 placeholder="사원명"
 												 required
 												 autocomplete="off"
@@ -106,16 +135,16 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 												  data-input-id2="searchEmpNamePo"
 												  data-key="emp"
 												  data-bs-toggle="modal"
-												  data-bs-target="#searchModal">저장 값 가져오기</button>
+												  data-bs-target="#searchModal">사원 조회</button>
                                        </td>
                                     </tr>
                                     <tr>
                                        <td width="150">입고담당자</td>
-                                       <td>
+                                       <td class="bigBox">
                                           <input type="text" 
                                           		 id="searchEmpCodIbound"
 												 name="employeeCodIbound"
-												 class="form-control"
+												 class="form-control readonlyBox"
 												 placeholder="사원번호"
 												 required
 												 autocomplete="off"
@@ -123,7 +152,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 										  <input type="text"
 										  		 id="searchEmpNameIbound"
 												 name="searchEmpNameIbound"
-												 class="form-control"
+												 class="form-control readonlyBox"
 												 placeholder="사원명"
 												 required
 												 autocomplete="off"
@@ -134,7 +163,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 												  data-input-id2="searchEmpNameIbound"
 												  data-key="emp"
 												  data-bs-toggle="modal"
-												  data-bs-target="#searchModal">저장 값 가져오기</button>
+												  data-bs-target="#searchModal">사원 조회</button>
                                        </td>
                                     </tr>
                                     <tr>
@@ -162,19 +191,9 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                     <input type="hidden" name="employeeCodWriter" value="${sessionScope.empCode }" />
                                     <tr>
                                        <td width="150">주문 제품
-                                          <button type="button"
-										  		  class="btn btn-primary"
-										  		  id="prodInputModalBtn"
-												  data-bs-toggle="modal"
-												  data-bs-target="#prodInputModal">직접입력</button>
-										  <button type="button"
-										  		  class="btn btn-primary"
-										  		  id="applyInvoice"
-												  data-bs-toggle="modal"
-												  data-bs-target="#applyInvoiceModal">청구적용</button>
                                        </td>
                                        <td>
-                                          <table style="width: 1000px">
+                                          <table style="width: 1000px" class="table table-hover mb-0">
                                           	<thead>
                                           		<tr>
                                           			<th>품번</th>
@@ -191,7 +210,28 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                                           		</tr>
                                           	</thead>
                                           	<tbody id="prodList">
+                                          	<tr id="message">
+	                                          	<td colspan="11" align="center">발주 제품을 등록해주세요.</td>
+                                          	</tr>
                                           	</tbody>
+											<tfoot>
+		                                       	<tr>
+		                                       		<td width="105px">
+			                                       	  <button type="button"
+													  		  class="btn btn-primary"
+													  		  id="prodInputModalBtn"
+															  data-bs-toggle="modal"
+															  data-bs-target="#prodInputModal">직접입력</button>
+		                                       		</td>
+		                                       		<td width="105px" style="padding-left: 0">
+			                                          <button type="button"
+													  		  class="btn btn-primary"
+													  		  id="applyInvoice"
+															  data-bs-toggle="modal"
+															  data-bs-target="#applyInvoiceModal">청구적용</button>
+		                                       		</td>
+												</tr>	                                          	
+											</tfoot>
                                           </table>
                                        </td>
                                     </tr>
@@ -263,7 +303,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 					<input type="text" id="applyInvoiceInput" class="form-control"
 						placeholder="승인일자.청구번호.품번.품명"
 						style="margin-left: 10px; width: auto; flex-grow: 1" />
-					<button type="button" onClick="applyInvoiceSetValue()">등록</button>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
@@ -292,6 +331,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 					</table>
 				</div>
 				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" onClick="applyInvoiceSetValue()">선택</button>
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">닫기</button>
 				</div>
@@ -310,7 +350,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<div class="modal-body">
+				<div id="prodInputModalBody" class="modal-body">
 					<div>
 						<button type="button"
 							id="invSearchModalBtn"
@@ -328,34 +368,34 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 							data-bs-target="#invSearchModal">자재찾기</button>
 					</div>
 					<div>
-						<span>품번</span> <input id="prodCod" type="text" readonly />
+						<span>품번</span> <input id="prodCod" class="inputBox" type="text" readonly />
 					</div>
 					<div>
-						<span>품명</span> <input id="prodName" type="text" readonly />
+						<span>품명</span> <input id="prodName" class="inputBox" type="text" readonly />
 					</div>
 					<div>
-						<span>관리단위 수량</span> <input id="prodMgmtUnitAmount" type="number" readonly="readonly"/><span id="prodMgmtUnitName"></span>
+						<span>관리단위 수량</span> <input id="prodMgmtUnitAmount" class="inputBox" type="number" readonly="readonly"/><span id="prodMgmtUnitName"></span>
 						<input id="mgmtUnitAmount" type="hidden" />
 						<input id="mgmtUnitCod" type="hidden" />
-						<button type="button" onclick="amountChange('+')">+</button>
-						<button type="button" onclick="amountChange('-')">-</button>
+						<button type="button" class="btn btn-primary" style="padding: 2px 8px" onclick="amountChange('+')">+</button>
+						<button type="button" class="btn btn-primary" style="padding: 2px 8px" onclick="amountChange('-')">-</button>
 					</div>
 					<div>
-						<span>재고단위 수량</span> <input id="prodUnitAmount" type="number" disabled /><span id="prodUnitName"></span>
+						<span>재고단위 수량</span> <input id="prodUnitAmount" class="inputBox" type="number" disabled /><span id="prodUnitName"></span>
 						<input id="unitAmount" type="hidden" />
 						<input id="unitCod" type="hidden" />
 					</div>
 					<div>
-						<span>단가</span> <input id="prodUnitprice" type="number" readonly />
+						<span>단가</span> <input id="prodUnitprice" class="inputBox" type="number" readonly />
 					</div>
 					<div>
-						<span>부가세</span> <input id="prodVax" type="number" readonly />
+						<span>부가세</span> <input id="prodVax" class="inputBox" type="number" readonly />
 					</div>
 					<div>
-						<span>공급가</span> <input id="prodSupprice" type="number" readonly />
+						<span>공급가</span> <input id="prodSupprice" class="inputBox" type="number" readonly />
 					</div>
 					<div>
-						<span>합계액</span> <input id="prodTotal" type="number" readonly />
+						<span>합계액</span> <input id="prodTotal" class="inputBox" type="number" readonly />
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -567,7 +607,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             var supprice = $(item).data('supprice');
             var total = $(item).data('total');
             var key = $(item).data('key');
-            
+
     		if(item.checked === true && keyList.indexOf(key) !== -1) {
     			return true;
     		} 
@@ -578,25 +618,26 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                 let row = '<tr class="applyInvoiceProd prodList" data-key="'+ key +'">';
                 row += '<input type="hidden" name="invoiceCod" value="'+ invoiceCod +'">';                	
                 row += '<input type="hidden" name="invoicedetailNum" value="'+ invoicedetailNum +'">';                	
-                row += '<input type="hidden" name="unitInv" value="'+ (productCod == null ? invUnitCod : prodUnitCod) +'">';                	
-                row += '<input type="hidden" name="unitMgmt" value="'+ (productCod == null ? invMgmtUnitCod : prodMgmtUnitCod) +'">';                	
-                row += '<td><input type="hidden" name='+ (productCod == null ? "inventoryCod" : "productCod") +' value="'+ (productCod == null ? inventoryCod : productCod) +'">' + (productCod == null ? inventoryCod : productCod) + '</td>';                	
-                row += '<td>' + (productCod == null ? invname : prodname) + '</td>';                	
+                row += '<input type="hidden" name="unitInv" value="'+ (productCod == 'undefined' ? invUnitCod : prodUnitCod) +'">';                	
+                row += '<input type="hidden" name="unitMgmt" value="'+ (productCod == 'undefined' ? invMgmtUnitCod : prodMgmtUnitCod) +'">';                	
+                row += '<td><input type="hidden" name='+ (productCod == 'undefined' ? "inventoryCod" : "productCod") +' value="'+ (productCod == 'undefined' ? inventoryCod : productCod) +'">' + (productCod == 'undefined' ? inventoryCod : productCod) + '</td>';                	
+                row += '<td>' + (productCod == 'undefined' ? invname : prodname) + '</td>';                	
                 row += '<td><input type="hidden" name="mgmtQty" value="'+ invMgmtQty + '">'+ invMgmtQty +'</td>';                	
-                row += '<td>' + (productCod == null ? invMgmtUnitName : prodMgmtUnitName) + '</td>';                	
+                row += '<td>' + (productCod == 'undefined' ? invMgmtUnitName : prodMgmtUnitName) + '</td>';                	
                 row += '<td><input type="hidden" name="invQty" value="'+ invQty + '">'+ invQty +'</td>';                	
-                row += '<td>' + (productCod == null ? invUnitName : prodUnitName) + '</td>';                	
+                row += '<td>' + (productCod == 'undefined' ? invUnitName : prodUnitName) + '</td>';                	
                 row += '<td><input type="hidden" name="unitprice" value="'+ unitprice + '">'+ unitprice +'</td>';                	
                 row += '<td><input type="hidden" name="vax" value="'+ vax + '">'+ vax +'</td>';                	
                 row += '<td><input type="hidden" name="supprice" value="'+ supprice + '">'+ supprice +'</td>';                	
                 row += '<td><input type="hidden" name="total" value="'+ total + '">'+ total +'</td>';                	
-                row += '<td><button type="button" aria-label="Close" onClick="{delProd(event)}">X</button></td></tr>';
+                row += '<td><button type="button" class="delOrCalBtn" aria-label="Close" onClick="{delProd(event)}">X</button></td></tr>';
                 rows += row;    			
     		}
     	});
        $('#prodList').append(rows);    
        $('#applyInvoiceModal').modal('hide');
        $('.modal-backdrop').remove();
+       switchMessage();
     }
 
     function applyInvoiceModal() {
@@ -608,6 +649,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
              success: function (data) {
                 let rows = '';
                 data.forEach(function (item) {
+                	console.log(item);
                 	let checkedStr = '';
                 	$('.applyInvoiceProd').each((index, value) => {
               		  if($(value).data('key') == item.invoice_cod + item.num) {
@@ -617,16 +659,13 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
                       rows +=
                          '<tr class="invoiceSearchValue" data-invoice-cod="' +
                          item.invoice_cod +
-                         '" data-product-cod="' +
-                         item.product_cod +
                          '" data-inventory-cod="' +
                          item.inventory_cod +
-                         '" data-prodname="' +
-                         item.prodname +
                          '" data-invname="' +
                          item.invname +
                          '" onClick="rowChk('+ "'" + item.invoice_cod + item.num + "'" + ')">' +
-                         '<td><input type="checkbox" class="applyInvoiceChkBox"' +
+                         '<td><input type="checkbox" class="applyInvoiceChkBox form-check-input" ' +
+                         'onClick="rowChk('+ "'" + item.invoice_cod + item.num + "'" + ')" ' +
                          'id="' +
                          item.invoice_cod + item.num +
                          '" data-invoice-cod="' +
@@ -723,11 +762,11 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
           var searchInputVlaue = $(this).val().toLowerCase()
           $('.invoiceSearchValue').each(function (index,item) {
              const invoiceCod = $(this).data('invoice-cod').toLowerCase()
-             const productCod = $(this).data('product-cod').toLowerCase()
-             const prodname = $(this).data('prodname').toLowerCase()
+             const inventoryCod = $(this).data('inventory-cod').toLowerCase()
+             const invname = $(this).data('invname').toLowerCase()
              $(this).toggle(invoiceCod.includes(searchInputVlaue)
-            		 		|| productCod.includes(searchInputVlaue)
-            		 		|| prodname.includes(searchInputVlaue))
+            		 		|| inventoryCod.includes(searchInputVlaue)
+            		 		|| invname.includes(searchInputVlaue))
           });
        });
     };
@@ -1063,13 +1102,15 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             	rows += '<td><input type="hidden" name="'+ item.name +'" value="'+ item.value +'">' + item.value + '</td>';
     		}
     	})
-    	rows += '<td><button type="button" aria-label="Close" onClick="{delProd(event)}">X</button></td></tr>';
+    	rows += '<td><button type="button" class="delOrCalBtn" aria-label="Close" onClick="{delProd(event)}">X</button></td></tr>';
     	$('#prodList').append(rows);
+    	switchMessage();
     }
     
     /* 주문제품목록에 있는 항목을 삭제하는 함수 */
     function delProd(e) {
     	e.target.parentElement.parentElement.remove();
+    	switchMessage();
     }
     
     /* 주문제품목록에 값이 들어있는지 확인하는 함수 */
@@ -1118,7 +1159,15 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     	}
     }
     
-    
+    //발주제품을 등록해주세요 메세지를 띄우는 함수
+    function switchMessage() {
+		if($('#prodList').children().length === 0) {
+    		let row = '<tr id="message"><td colspan="11" align="center">발주 제품을 등록해주세요.</td></tr>'
+        		$('#prodList').html(row)
+    	} else {
+    		$('#message').remove();
+    	}
+    }
     
       </script>
    </body>
