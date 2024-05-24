@@ -10,14 +10,14 @@ import lombok.ToString;
 public class ProductVO {
 	private String cod;
 	private String prodname;
-	private int stdprice;
-	private int unitprice;
+	private long stdprice;
+	private long unitprice;
 	private int basicInvQty;
-	private int basicInvPrice;
+	private long basicInvPrice;
 	private String spec;
 	private int safteyInvQty;
 	private int curInvQty;
-	private int curInvPrice;
+	private long curInvPrice;
 	private String warehouseCod;
 	private String ProductgroupCod;
 	private int unitCod;

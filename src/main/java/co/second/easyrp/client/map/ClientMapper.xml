@@ -63,7 +63,6 @@
 		SELECT max(cod) as 'cod'
 		FROM
 		client
-		WHERE deleteyn = 'N';
 	</select>
 
 	<insert id="clientInsertFn"

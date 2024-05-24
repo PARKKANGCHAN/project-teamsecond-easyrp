@@ -16,10 +16,10 @@ public class InventoryVO {
 	private String employeeCod;
 	private Date invDate;
 	private int qty;
-	private int unitprice;
-	private int price;
+	private long unitprice;
+	private long price;
 	private int curInvQty;
-	private int curInvPrice;
+	private long curInvPrice;
 	private String spec;
 	private int unitcod;
 	private int safetyInvQty;

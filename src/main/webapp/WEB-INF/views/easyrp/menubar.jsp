@@ -176,7 +176,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                      </a>
                      <ul class="submenu">
                         <li class="submenu-item"><a href="estimatemanagement" class="submenu-link">견적 관리</a></li>
-                        <li class="submenu-item"><a href="estimatenonorder" class="submenu-link">견적 대비 미주문 현황</a></li>
                      </ul>
                   </li>
                   <!-- 영업 관리 / 견적 관리 END -->
@@ -188,8 +187,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                      </a>
                      <ul class="submenu">
                         <li class="submenu-item"><a href="ordersmanagement" class="submenu-link">수주 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">수주 마감</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">견적 대비 수주 현황</a></li>
                      </ul>
                   </li>
                   <!-- 영업 관리 / 수주 관리 END -->
@@ -251,8 +248,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                      </a>
                      <ul class="submenu">
                         <li class="submenu-item"><a href="purchaseordermgmttable" class="submenu-link">발주 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">발주 마감 관리</a></li>
-                        <li class="submenu-item"><a href="#" class="submenu-link">발주 현황 조회</a></li>
                      </ul>
                   </li>
                   <!-- 구매 관리 / 발주 관리 END -->
