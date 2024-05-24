@@ -209,21 +209,10 @@
 
 	<script type="text/javascript">
 		$(document).ready(function() {
-			/* input type=text에 숫자만 들어가게 하는 이벤트 START */
-			$('#unitprice, #safteyInvQty').on('input', function() {
-	            // 숫자 이외의 문자 제거
-	            this.value = this.value.replace(/[^0-9]/g, '');
-	            
-	            // 천 단위 콤마 추가
-	            let value = $(this).val();
-	            $(this).val(Number(value.replace(/,/g, '')).toLocaleString());
-			});
-			/* input type=text에 숫자만 들어가게 하는 이벤트 END */
-			
 			$('#unitprice, #basicInvQty').on('input', function() {
 				let unitPrice = $('#unitprice').val();
 				let qty = $('#basicInvQty').val();
-				let price = unitPrice * qty;
+				let price = parseInt(unitPrice) * qty;
 
 				$('#basicInvPrice').val(price);
 				$('#curInvQty').val(qty);
