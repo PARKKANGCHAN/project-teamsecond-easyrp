@@ -82,4 +82,10 @@ public class MrpServiceImpl implements MrpService {
 		return mrpMapper.mrpSelectListAllModal();
 	}
 
+	@Override
+	public List<MrpVO> selectByMpsCod(String mpsCod) {
+		// TODO Auto-generated method stub
+		return mrpMapper.selectByMpsCod(mpsCod);
+	}
+
 }

@@ -162,9 +162,9 @@ public class MrpController {
         return mrpVoList;
     }
    
-//    @RequestMapping("/api/get-mrpvalues")
-//    @ResponseBody
-//    public List<MrpVO> getMrpValues(@RequestParam(value="mpsCod") String mpsCod){
-//    	return 
-//    }
+    @RequestMapping("/api/get-mrpvalues")
+    @ResponseBody
+    public List<MrpVO> getMrpValues(@RequestParam(value="mpsCod") String mpsCod){
+    	return mrpService.selectByMpsCod(mpsCod);
+    }
 }
