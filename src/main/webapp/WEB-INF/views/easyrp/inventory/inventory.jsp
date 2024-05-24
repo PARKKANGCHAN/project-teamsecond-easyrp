@@ -169,14 +169,6 @@
 						</ul>
 					</nav>
 					<!-- 페이지네이션 END -->
-					<div class="d-flex"
-						style="padding-bottom: 0.5rem; padding-top: 0.5rem;">
-						<div class="col-md-6">
-							<button type="button" class="btn btn-primary">
-								<a href="easyrp/inventory/inventoryinsert" style="color: white">등록</a>
-							</button>
-						</div>
-					</div>
 					</div>
 					<div id="productSection" style="display:none">
 										<div class="col-12">
@@ -307,14 +299,6 @@
 						</ul>
 					</nav>
 					<!-- 페이지네이션 END -->
-					<div class="d-flex"
-						style="padding-bottom: 0.5rem; padding-top: 0.5rem;">
-						<div class="col-md-6">
-							<button type="button" class="btn btn-primary">
-								<a href="easyrp/inventory/inventoryinsert" style="color: white">등록</a>
-							</button>
-						</div>
-					</div>
 					</div>
 				</div>
 			</section>

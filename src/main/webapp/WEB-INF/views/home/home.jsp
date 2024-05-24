@@ -102,7 +102,7 @@
 					
 					<div class="card">
 						<div class="card-header">
-							<h4>Recent Messages</h4>
+							<h4>회사 정보</h4>
 						</div>
 						<div class="card-content pb-4">
 							<div class="recent-message d-flex px-4 py-3">
@@ -110,8 +110,8 @@
 									<img src="resources/easyrp/assets/compiled/jpg/4.jpg">
 								</div>
 								<div class="name ms-4">
-									<h5 class="mb-1">Hank Schrader</h5>
-									<h6 class="text-muted mb-0">@johnducky</h6>
+									<h5 class="mb-1">(주)영남쉬운ERP</h5>
+									<h6 class="text-muted mb-0">대표명 : 김이지</h6>
 								</div>
 							</div>
 						</div>
@@ -125,13 +125,6 @@
 			<div class="footer clearfix mb-0 text-muted">
 				<div class="float-start">
 					<p>2024 &copy; EasyRP</p>
-				</div>
-				<div class="float-end">
-					<p>
-						Crafted with <span class="text-danger"><i
-							class="bi bi-heart-fill icon-mid"></i></span> by <a
-							href="https://saugi.me">Saugi</a>
-					</p>
 				</div>
 			</div>
 		</footer>
