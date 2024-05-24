@@ -804,6 +804,17 @@
         function OrderRegister() {
         	
             var rows = $('.RegisterGeneratedRow');
+            var dday = $('#ddayInput').val();
+            
+            if (rows.length === 0) {
+                alert('수주 내용을 작성해주세요.');
+                return; 
+            }
+            
+            if (!dday) {
+                alert('납기일을 입력해주세요.');
+                return; 
+            }
             
             // 서버로 전송할 데이터를 저장할 배열을 생성합니다.
             var dataToSend = [];
@@ -812,7 +823,8 @@
             var employeeCod = $('#orderEmp1').text();
             var dday = $('#ddayInput').val();
             var estimateCod = $('#registerEstimate').val();
-            console.log("dday : " + dday);
+            
+            var hasEmptyFields = false;
             
             rows.each(function(index) {
             	
@@ -821,7 +833,12 @@
             var productCod = $(this).find('td[id="RegisterProductCod' + index + '"]').text();
             var productName = $(this).find('.RegisterProductName').val();
         	var productQty = $(this).find('.RegisterProductQty').val();
-        	console.log(productName);
+        	
+        	if (!productName || !productQty) {
+                hasEmptyFields = true;
+                return false; // break out of the loop
+            }
+        	
                 
                 var rowData = {
                 	estimateCod: estimateCod,
@@ -834,6 +851,12 @@
 
                 dataToSend.push(rowData);
             });
+            
+            if (hasEmptyFields) {
+                alert('모든 수주 제품의 이름과 수량을 입력해주세요.');
+                return; // 필수 필드가 비어있으면 함수를 종료합니다.
+            }
+            
 
             $.ajax({
                 url: 'orderinsertFn',

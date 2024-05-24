@@ -19,7 +19,7 @@ public class ChartVO {
 	
 	private int orderYear;
 	private int orderMonth;
-	private int productSales;
+	private Long productSales;
 	private double salesPercentage;
 	
 	private int donut_year;

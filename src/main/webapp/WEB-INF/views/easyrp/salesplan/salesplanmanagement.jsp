@@ -101,8 +101,6 @@
 												<th width="10%">고객번호</th>
 												<th width="10%">제품번호</th>
 												<th width="15%">기초계획수량</th>
-												<th width="15%">수정계획수량</th>
-												<th width="15%">주계획작성여부</th>
 												<th width="15%">설 정</th>
 											</tr>
 										</thead>
@@ -114,8 +112,6 @@
 													<td>${salesplan.clientCod }</td>
 													<td class="text-bold-500">${salesplan.productCod }</td>
 													<td>${salesplan.basicplnQty }</td>
-													<td>${salesplan.modplnQty }</td>
-													<td>${salesplan.closing }</td>
 													<td>
 														<div class="btn-group">
 															<button type="button"
