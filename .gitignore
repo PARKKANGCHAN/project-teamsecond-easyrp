@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Created by https://www.toptal.com/developers/gitignore/api/windows,eclipse,java,maven
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,eclipse,java,maven
 
@@ -97,6 +98,8 @@ hs_err_pid*
 replay_pid*
 
 ### Maven ###
+=======
+>>>>>>> origin/main
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -114,6 +117,7 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+<<<<<<< HEAD
 
 ### Windows ###
 # Windows thumbnail cache files
@@ -142,3 +146,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,eclipse,java,maven
+=======
+>>>>>>> origin/main
