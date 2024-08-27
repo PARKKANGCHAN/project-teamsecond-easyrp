@@ -1,4 +1,4 @@
-# <img src="image.png" alt="Alt text" width="2.5%"/> EasyRP Project
+# <img src="https://github.com/user-attachments/assets/9fb6c505-58cb-4229-93ed-fda3b3b2087e" alt="Alt text" width="2.5%"/> EasyRP Project
 
 -  ERP 시스템은 회사 및 가게 운영의 모든 부분을 한 곳에서 관리할 수 있게 해주는 비서 시스템이라고 생각하면 됩니다.
 -  이 비서 시스템은 인사 관리, 각 물품(완제품, 원자재)의 재고, 자금, 생산 과정을 효율적으로 운영하게 도와줍니다.
@@ -95,7 +95,7 @@
 -  대표적인 ERP 프로그램(더존 ERP, Ecount ERP, 우리장부 등)을 설치하고, 팀원들과 함께 사용해보며 핵심 기능과 흐름을 직접 체험했습니다.
 -  프로젝트 진행 중 이해가 되지 않는 부분이 있을 때마다, 짧은 스프린트 회의를 자주 열어 각자의 이해도를 맞추고, 역할 분담을 명확히 하였습니다.
 -  특히, 복잡한 기능을 시각적으로 이해할 수 있도록 화이트보드와 온라인 협업 도구를 활용하여 흐름도를 그리며 토론했습니다.
-   <img src="https://github.com/user-attachments/assets/1a3f8a52-f570-4842-88e5-564513d9ab5a" alt="화이트보드 흐름도"  width="50%">
+   <div><img src="https://github.com/user-attachments/assets/1a3f8a52-f570-4842-88e5-564513d9ab5a" alt="화이트보드 흐름도"  width="50%"></div>
 
 ### 결과 및 교훈
 
