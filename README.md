@@ -66,8 +66,8 @@
 -  화면정의서
    -  화면정의서를 정리 함에 따라, 팀원들이 어떤 목표를 향해 프로젝트 구현을 할 지 방향성 제시
    -  <details> <summary style="font-size: 1rem;">화면정의서 구체적 예시 사진</summary><div markdown="1"><img src="https://github.com/user-attachments/assets/51339153-b08d-4162-b43c-579b299fe273" alt="화면정의서"></div></details>
--  전반적인 Front-end 관리 및 공통 CRUD 화면 및 모달 생성
-   -  테마 및 레이아웃 설정 및 전반적인 Front-End 역할 수행
+-  전반적인 Front-end & Back-end 관리 및 공통 CRUD 디자인 및 기능 + 공통 CRUD 모달 디자인 및 기능 구현
+   -  테마 및 레이아웃 설정 및 전반적인 Front-End & Back-end 역할 수행
    -  UI/UX 편의성을 위하여, 팀 공통으로 사용할 테이블(게시판,등록화면 등) 및 모달 디자인 생성
    -  <details> <summary style="font-size: 1rem;">공통 사용 CRUD 및 모달 시연 사진</summary><div markdown="1"><h4>등록</h4><img src="https://github.com/user-attachments/assets/8abe4bd6-0f5c-4112-9766-a6a3d9f8fa5e" alt="BOM등록"> <h4>상세페이지 및 수정(수정버튼 누를 시 해당 페이지에서 바로 수정가능하도록, disalbe 부분 삭제 및 각종 버튼 활성화)</h4><img src="https://github.com/user-attachments/assets/5720230b-b3b3-490c-bd3e-e749a94b5ddc" alt="BOM상세페이지"><h4>수정 버튼 활성화 예시</h4><img src="https://github.com/user-attachments/assets/fca24bb3-a359-4611-b205-4f944427ab5b" alt="수정버튼활성화"><h4>공통 모달 예시(이 모달안에서 CRUD 전체 가능하도록 구현)</h4><img src="https://github.com/user-attachments/assets/dbc3cf4e-8f0d-4475-96d9-08930818662e" alt="공통모달"></div></details>
 -  이번 프로젝트는 `기초 정보 등록 -> 영업 관리 -> 구매 관리 -> 자재 관리` 의 순으로 진행되고, 저는 기초 정보 등록 및 영업 관리 일부분을 담당하였습니다.
